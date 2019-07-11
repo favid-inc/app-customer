@@ -28,3 +28,5 @@ config/index.js
 .expo
 .expo-shared/
 dist
+
+src/firebaseConfig\.ts
