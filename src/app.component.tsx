@@ -1,4 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import AuthReducer from './store/reducers/AuthReducer';
+
 import { ImageRequireSource } from 'react-native';
 import { NavigationState } from 'react-navigation';
 import { mapping } from '@eva-design/eva';
@@ -8,7 +14,7 @@ import {
   ApplicationLoader,
   Assets,
 } from './core/appLoader/applicationLoader.component';
-import { Router } from './core/navigation/routes';
+import Router from './core/navigation/routes';
 import { trackScreenTransition } from './core/utils/analytics';
 import { getCurrentStateName } from './core/navigation/util';
 import {
@@ -49,7 +55,7 @@ interface State {
   theme: ThemeKey;
 }
 
-export default class App extends React.Component<{}, State> {
+class App extends React.Component<{}, State> {
 
   public state: State = {
     theme: 'Eva Light',
@@ -75,6 +81,14 @@ export default class App extends React.Component<{}, State> {
     });
   };
 
+  private rootReducer = combineReducers({
+    auth: AuthReducer,
+  });
+
+  private store = createStore(this.rootReducer, /* preloadedState, */ compose(
+    applyMiddleware(thunk),
+  ));
+
   public render(): React.ReactNode {
     const contextValue: ThemeContextType = {
       currentTheme: this.state.theme,
@@ -84,14 +98,18 @@ export default class App extends React.Component<{}, State> {
     return (
       <ApplicationLoader assets={assets}>
         <ThemeContext.Provider value={contextValue}>
-          <ApplicationProvider
-            mapping={mapping}
-            theme={themes[this.state.theme]}>
-            <DynamicStatusBar currentTheme={this.state.theme}/>
-            <Router onNavigationStateChange={this.onNavigationStateChange}/>
-          </ApplicationProvider>
+          <Provider store={this.store}>
+            <ApplicationProvider
+              mapping={mapping}
+              theme={themes[this.state.theme]}>
+              <DynamicStatusBar currentTheme={this.state.theme}/>
+              <Router onNavigationStateChange={this.onNavigationStateChange} />
+            </ApplicationProvider>
+          </Provider>
         </ThemeContext.Provider>
       </ApplicationLoader>
     );
   }
 }
+
+export default App;
