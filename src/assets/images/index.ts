@@ -440,3 +440,12 @@ export const movieImage4: ImageSource = new RemoteImage(
 export const movieImage5: ImageSource = new RemoteImage(
   'https://www.iamag.co/wp-content/uploads/2018/10/HOW-TO-TRAIN-YOUR-DRAGON-THE-HIDDEN-WORLD-4-1-1024x430.jpg',
 );
+
+export const googleImage: ImageSource = {
+  imageSource: require('./source/google.png'),
+};
+
+export const favidImage: ImageSource = {
+  imageSource: require('./source/favid-logo.png'),
+};
+
