@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import { useScreens } from 'react-native-screens';
 import {
   createAppContainer,
@@ -6,6 +8,7 @@ import {
   createStackNavigator,
   NavigationContainer,
   NavigationRouteConfigMap,
+  NavigationState,
 } from 'react-navigation';
 import {
   ComponentsContainer,
@@ -14,6 +17,9 @@ import {
   ThemesContainer,
   ArtistsContainer,
 } from '@src/containers/menu';
+import AccountContainer from '@src/containers/menu/account/AccountCointainer';
+import SignInContainer from '../../containers/signin/SignInContainer';
+
 import {
   Article1Container,
   Article2Container,
@@ -100,6 +106,7 @@ import {
   MenuNavigationOptions,
   SocialNavigationOptions,
 } from './options';
+import { NavigationAction } from 'react-navigation';
 
 const EcommerceNavigationMap: NavigationRouteConfigMap = {
   ['Add New Card']: {
@@ -264,6 +271,22 @@ const ThemesNavigator: NavigationContainer = createStackNavigator(
   },
 );
 
+const AccountNavigator: NavigationContainer = createStackNavigator(
+  {
+    ['Account']: AccountContainer,
+  }, {
+    defaultNavigationOptions: MenuNavigationOptions,
+  },
+);
+
+const SignInNavigator: NavigationContainer = createStackNavigator(
+  {
+    ['Sign In']: SignInContainer,
+  }, {
+    defaultNavigationOptions: MenuNavigationOptions,
+  },
+);
+
 const ArtistsNavigator: NavigationContainer = createStackNavigator(
   {
     ['Artists']: ArtistsContainer,
@@ -313,8 +336,9 @@ const LayoutsNavigator: NavigationContainer = createStackNavigator(
 
 const MenuNavigator: NavigationContainer = createBottomTabNavigator({
   ['Artists']: ArtistsNavigator,
-  ['Layouts']: LayoutsNavigator,
-  ['Components']: ComponentsNavigator,
+  // ['Layouts']: LayoutsNavigator,
+  ['Account']: AccountNavigator,
+  // ['Components']: ComponentsNavigator,
   // ['Themes']: ThemesNavigator,
 }, {
   tabBarComponent: MenuContainer,
@@ -340,5 +364,27 @@ const createAppRouter = (container: NavigationContainer): NavigationContainer =>
   return createAppContainer(container);
 };
 
+const NavigationRouter: NavigationContainer = createAppRouter(AppNavigator);
+const AuthNavigationRouter: NavigationContainer = createAppRouter(SignInNavigator);
+interface ComponentProps {
+  isAuth: boolean;
+  onNavigationStateChange: (
+    prevNavigationState: NavigationState,
+    nextNavigationState: NavigationState,
+    action: NavigationAction) => void;
+}
 
-export const Router: NavigationContainer = createAppRouter(AppNavigator);
+class Router extends React.Component<ComponentProps> {
+
+  public render() {
+    let navigation = <AuthNavigationRouter onNavigationStateChange={this.props.onNavigationStateChange} />;
+    if (this.props.isAuth) {
+      navigation = <NavigationRouter onNavigationStateChange={this.props.onNavigationStateChange} />;
+    }
+    return navigation;
+  }
+}
+
+const mapStateToProps = ({ auth }) => ({ isAuth: auth.uid !== null });
+
+export default connect(mapStateToProps)(Router);
