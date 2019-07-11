@@ -275,7 +275,10 @@ const AccountNavigator: NavigationContainer = createStackNavigator(
   {
     ['Account']: AccountContainer,
   }, {
-    defaultNavigationOptions: MenuNavigationOptions,
+    headerMode: 'screen',
+    defaultNavigationOptions: {
+      header: null,
+    },
   },
 );
 
@@ -283,7 +286,10 @@ const SignInNavigator: NavigationContainer = createStackNavigator(
   {
     ['Sign In']: SignInContainer,
   }, {
-    defaultNavigationOptions: MenuNavigationOptions,
+    headerMode: 'screen',
+    defaultNavigationOptions: {
+      header: null,
+    },
   },
 );
 
@@ -291,7 +297,10 @@ const ArtistsNavigator: NavigationContainer = createStackNavigator(
   {
     ['Artists']: ArtistsContainer,
   }, {
-    defaultNavigationOptions: MenuNavigationOptions,
+    headerMode: 'screen',
+    defaultNavigationOptions: {
+      header: null,
+    },
   },
 );
 
