@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 
 import { useScreens } from 'react-native-screens';
 import { createAppContainer, createBottomTabNavigator, createStackNavigator, NavigationContainer, NavigationRouteConfigMap, NavigationState } from 'react-navigation';
-import { ComponentsContainer, LayoutsContainer, MenuContainer, ThemesContainer, ArtistsContainer } from '@src/containers/menu';
+import { ComponentsContainer, LayoutsContainer, MenuContainer, ThemesContainer } from '@src/containers/menu';
 import AccountContainer from '@src/containers/menu/account/AccountCointainer';
-import SignInContainer from '../../containers/signin/SignInContainer';
-
+import SignInContainer from '@src/containers/signin/SignInContainer';
+import ArtistDetailsContainer from '@src/containers/artistDetails/ArtistDetailsContainer';
+import ArtistsContainer from '@src/containers/menu/artists/artists.container';
 import { Article1Container, Article2Container, Article3Container, ArticleList1Container, ArticleList2Container, ArticleList3Container, ArticleList4Container, ArticlesContainer } from '@src/containers/layouts/articles';
 import { AuthContainer, ForgotPasswordContainer, SignIn1Container, SignIn2Container, SignIn3Container, SignIn4Container, SignIn5Container, SignUp1Container, SignUp2Container, SignUp3Container, SignUp4Container } from '@src/containers/layouts/auth';
 import { DashboardsContainer, Trainings1Container, Trainings2Container } from '@src/containers/layouts/dashboards';
@@ -193,6 +194,13 @@ const AccountNavigator: NavigationContainer = createStackNavigator(
 	}
 );
 
+const ArtistNavigationMap: NavigationRouteConfigMap = {
+	['Artist Details']: {
+		screen: ArtistDetailsContainer,
+		navigationOptions: SocialNavigationOptions,
+	},
+};
+
 const SignInNavigator: NavigationContainer = createStackNavigator(
 	{
 		['Sign In']: SignInContainer,
@@ -259,7 +267,7 @@ const LayoutsNavigator: NavigationContainer = createStackNavigator(
 const MenuNavigator: NavigationContainer = createBottomTabNavigator(
 	{
 		['Artists']: ArtistsNavigator,
-		['Layouts']: LayoutsNavigator,
+		// ['Layouts']: LayoutsNavigator,
 		['Account']: AccountNavigator,
 		// ['Components']: ComponentsNavigator,
 		// ['Themes']: ThemesNavigator,
@@ -278,6 +286,7 @@ const AppNavigator: NavigationContainer = createStackNavigator(
 		...MessagingNavigationMap,
 		...DarhboardsNavigationMap,
 		...EcommerceNavigationMap,
+		...ArtistNavigationMap,
 	},
 	{
 		headerMode: 'screen',

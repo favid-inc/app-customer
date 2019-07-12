@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../store/actions/Index';
+import * as actions from '../../store/actions';
 import { NavigationScreenProps } from 'react-navigation';
 import { Profile } from '@src/core/model';
 import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
