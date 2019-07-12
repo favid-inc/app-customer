@@ -11,9 +11,9 @@ export const signIn = (authState) => {
 };
 
 export const loadAuthState = () => {
-	return async dispatch => {
-    const authState = await AsyncStorage.getItem(storageKey)
-    dispatch(signIn(JSON.parse(authState)));
+	return async (dispatch) => {
+		const authState = await AsyncStorage.getItem(storageKey);
+		dispatch(signIn(JSON.parse(authState)));
 	};
 };
 

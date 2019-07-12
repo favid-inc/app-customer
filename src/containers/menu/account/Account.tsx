@@ -80,11 +80,6 @@ class Accountomponent extends React.Component<AccountProps> {
             hint='Email'
             value={profile.email}
           />
-          <ProfileSetting
-            style={themedStyle.profileSetting}
-            hint='Phone Number'
-            value={profile.phoneNumber}
-          />
         </View>
         <Button
           style={themedStyle.button}
