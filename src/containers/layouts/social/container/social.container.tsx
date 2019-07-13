@@ -4,31 +4,31 @@ import { Social } from './social.component';
 import { routes } from './routes';
 
 interface State {
-	selectedLayoutIndex: number;
+  selectedLayoutIndex: number;
 }
 
 export class SocialContainer extends React.Component<NavigationScreenProps, State> {
-	public state: State = {
-		selectedLayoutIndex: 0,
-	};
+  public state: State = {
+    selectedLayoutIndex: 0,
+  };
 
-	private data = routes;
-	private navigationKey: string = 'SocialContainer';
+  private data = routes;
+  private navigationKey: string = 'SocialContainer';
 
-	private onCategorySelect = (selectedLayoutIndex: number) => {
-		this.setState({ selectedLayoutIndex });
-	};
+  private onCategorySelect = (selectedLayoutIndex: number) => {
+    this.setState({ selectedLayoutIndex });
+  };
 
-	private onItemSelect = (index: number) => {
-		const { [index]: selectedItem } = this.data;
-		console.log(selectedItem.route);
-		this.props.navigation.navigate({
-			key: this.navigationKey,
-			routeName: selectedItem.route,
-		});
-	};
+  private onItemSelect = (index: number) => {
+    const { [index]: selectedItem } = this.data;
+    console.log(selectedItem.route);
+    this.props.navigation.navigate({
+      key: this.navigationKey,
+      routeName: selectedItem.route,
+    });
+  };
 
-	public render(): React.ReactNode {
-		return <Social data={this.data} selectedLayoutIndex={this.state.selectedLayoutIndex} onItemSelect={this.onItemSelect} onLayoutSelect={this.onCategorySelect} />;
-	}
+  public render(): React.ReactNode {
+    return <Social data={this.data} selectedLayoutIndex={this.state.selectedLayoutIndex} onItemSelect={this.onItemSelect} onLayoutSelect={this.onCategorySelect} />;
+  }
 }

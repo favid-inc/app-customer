@@ -12,37 +12,37 @@ import { artists } from '@src/core/data/artists';
 // console.log(database);
 
 interface State {
-	selectedLevelIndex: number;
-	artists: Artist[];
+  selectedLevelIndex: number;
+  artists: Artist[];
 }
 interface ArtistContainerProps {
-	onSetArtist: (artist: Artist) => void;
+  onSetArtist: (artist: Artist) => void;
 }
 
 type props = NavigationScreenProps & ArtistContainerProps;
 class ArtistsContainer extends Component<props, State> {
-	public state: State = {
-		selectedLevelIndex: 0,
-		artists: artists,
-	};
-	private navigationKey: string = 'SocialContainer';
+  public state: State = {
+    selectedLevelIndex: 0,
+    artists: artists,
+  };
+  private navigationKey: string = 'SocialContainer';
 
-	private onTrainingDetails = (artistId: string): void => {
-		const [ artist ] = this.state.artists.filter((a: Artist) => a.id === artistId);
-		this.props.onSetArtist(artist);
-		this.props.navigation.navigate({
-			key: this.navigationKey,
-			routeName: 'Artist Details',
-		});
-	};
+  private onTrainingDetails = (artistId: string): void => {
+    const [ artist ] = this.state.artists.filter((a: Artist) => a.id === artistId);
+    this.props.onSetArtist(artist);
+    this.props.navigation.navigate({
+      key: this.navigationKey,
+      routeName: 'Artist Details',
+    });
+  };
 
-	public render(): React.ReactNode {
-		return <Artists artists={this.state.artists} onTrainingDetails={this.onTrainingDetails} />;
-	}
+  public render(): React.ReactNode {
+    return <Artists artists={this.state.artists} onTrainingDetails={this.onTrainingDetails} />;
+  }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	onSetArtist: (artist) => dispatch(actions.setArtist(artist)),
+  onSetArtist: (artist) => dispatch(actions.setArtist(artist)),
 });
 
 export default connect(null, mapDispatchToProps)(ArtistsContainer);
