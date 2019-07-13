@@ -33,7 +33,7 @@ class ArtistDetailsComponent extends React.Component<Profile7Props, State> {
   private backgroundImage: ImageSource = imageProfile7Bg;
 
   public state: State = {
-    name: ''
+    name: '',
   };
 
   public async componentDidMount() {
@@ -90,21 +90,21 @@ class ArtistDetailsComponent extends React.Component<Profile7Props, State> {
           </View>
           <ProfileSocials style={themedStyle.profileSocials} textStyle={themedStyle.socialsLabel} followers={socials.followers} following={socials.following} posts={socials.posts} onFollowersPress={this.onFollowersPress} onFollowingPress={this.onFollowingPress} onPostsPress={this.onPostsPress} />
         </ImageOverlay>
-        <View style={[ themedStyle.profileSection, themedStyle.aboutSection ]}>
+        <View style={[themedStyle.profileSection, themedStyle.aboutSection]}>
           <Text style={themedStyle.profileSectionLabel} category='s1'>
             About
           </Text>
-          <Text style={[ themedStyle.profileSectionContent, themedStyle.profileAboutLabel ]} appearance='hint'>
+          <Text style={[themedStyle.profileSectionContent, themedStyle.profileAboutLabel]} appearance='hint'>
             {artist.about}
           </Text>
         </View>
-        <View style={[ themedStyle.profileSection, themedStyle.friendsSection ]}>
-          <Text style={[ themedStyle.profileSectionLabel, themedStyle.friendsSectionLabel ]}>Friends</Text>
+        <View style={[themedStyle.profileSection, themedStyle.friendsSection]}>
+          <Text style={[themedStyle.profileSectionLabel, themedStyle.friendsSectionLabel]}>Friends</Text>
           {/* <ProfileFriendList contentContainerStyle={[ themedStyle.profileSectionContent, themedStyle.friendsList ]} data={artist.friends} onItemPress={this.onFriendPress} /> */}
         </View>
         <View style={themedStyle.profileSection}>
           <Text style={themedStyle.profileSectionLabel}>Shots</Text>
-          <ProfileActivityList3 contentContainerStyle={[ themedStyle.profileSectionContent ]} data={activities.map(this.createActivitySource)} onItemPress={this.onPhotoPress} />
+          <ProfileActivityList3 contentContainerStyle={[themedStyle.profileSectionContent]} data={activities.map(this.createActivitySource)} onItemPress={this.onPhotoPress} />
         </View>
       </ContainerView>
     );
