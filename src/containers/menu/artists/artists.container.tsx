@@ -8,7 +8,7 @@ import { Artists } from './artists.component';
 import { Artist } from '@src/core/model/artist.model';
 import { artists } from '@src/core/data/artists';
 // import database from '@favid-inc/core';
-// tslint:disable-next-line:no-console
+
 // console.log(database);
 
 interface State {
@@ -28,7 +28,7 @@ class ArtistsContainer extends Component<props, State> {
   private navigationKey: string = 'SocialContainer';
 
   private onTrainingDetails = (artistId: string): void => {
-    const [ artist ] = this.state.artists.filter((a: Artist) => a.id === artistId);
+    const [artist] = this.state.artists.filter((a: Artist) => a.id === artistId);
     this.props.onSetArtist(artist);
     this.props.navigation.navigate({
       key: this.navigationKey,
@@ -41,8 +41,11 @@ class ArtistsContainer extends Component<props, State> {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  onSetArtist: (artist) => dispatch(actions.setArtist(artist)),
+const mapDispatchToProps = dispatch => ({
+  onSetArtist: artist => dispatch(actions.setArtist(artist)),
 });
 
-export default connect(null, mapDispatchToProps)(ArtistsContainer);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ArtistsContainer);

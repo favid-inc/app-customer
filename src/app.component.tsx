@@ -1,6 +1,6 @@
 import * as config from './core/config';
 import * as firebase from 'firebase';
-import * as core from '@favid-inc/core';
+import { App as core } from '@favid-inc/core/lib/app';
 
 import React from 'react';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
@@ -22,7 +22,8 @@ import { getCurrentStateName } from './core/navigation/util';
 import { ThemeContext, ThemeContextType, ThemeKey, themes, ThemeStore } from '@src/core/themes';
 
 firebase.initializeApp(config.firebase);
-core.initializeApp(config.core, firebase.firestore());
+console.log(Object.keys(core));
+// core.initializeApp(config.core, firebase.firestore);
 
 const images: ImageRequireSource[] = [
   require('./assets/images/source/image-profile-1.jpg'),

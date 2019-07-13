@@ -5,7 +5,6 @@ const INITIAL_STATE = {
 };
 
 const storeArtist = (state, action) => {
-  // tslint:disable-next-line:no-console
   console.log('[ArtistReducer.tsx] storeArtist() called: ' + action.payload.id);
   return {
     artist: {

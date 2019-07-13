@@ -46,11 +46,9 @@ class SignInContainer extends React.Component<props, State> {
       };
 
       this.props.onSignIn(authState);
-      // tslint:disable-next-line:no-console
       console.log(authState);
     } catch (e) {
-      // tslint:disable-next-line:no-console
-      console.log(e);
+      console.error(e);
     }
   };
 
