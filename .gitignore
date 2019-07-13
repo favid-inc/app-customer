@@ -24,9 +24,9 @@ docs/output.json
 
 # config
 config/index.js
+config/*.json
 
 .expo
 .expo-shared/
 dist
 
-src/firebaseConfig\.ts
