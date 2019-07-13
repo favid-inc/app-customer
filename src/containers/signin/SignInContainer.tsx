@@ -9,7 +9,6 @@ import * as firebase from 'firebase';
 import * as AppAuth from 'expo-app-auth';
 import { googleImage, favidImage } from '@src/assets/images';
 
-firebase.initializeApp(firebaseConfig);
 interface State {
   profile: Profile;
 }
@@ -71,12 +70,15 @@ class SignInContainer extends React.Component<props, State> {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  onSignIn: (authState) => dispatch(actions.signIn(authState)),
+const mapDispatchToProps = dispatch => ({
+  onSignIn: authState => dispatch(actions.signIn(authState)),
   onLoadAuthState: () => dispatch(actions.loadAuthState()),
 });
 
-export default connect(null, mapDispatchToProps)(SignInContainer);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SignInContainer);
 
 const styles = StyleSheet.create({
   container: {

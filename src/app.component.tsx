@@ -21,9 +21,8 @@ import { trackScreenTransition } from './core/utils/analytics';
 import { getCurrentStateName } from './core/navigation/util';
 import { ThemeContext, ThemeContextType, ThemeKey, themes, ThemeStore } from '@src/core/themes';
 
-
 firebase.initializeApp(config.firebase);
-core.initializeApp(config.core);
+core.initializeApp(config.core, firebase.firestore());
 
 const images: ImageRequireSource[] = [
   require('./assets/images/source/image-profile-1.jpg'),
