@@ -9,6 +9,7 @@ import { ContainerView, ImageOverlay, textStyle } from '@src/components/common';
 import { imageProfile7Bg, ImageSource } from '@src/assets/images';
 
 import * as Artist from '@favid-inc/core/lib/entities/artist';
+import * as firebase from 'firebase';
 
 interface ComponentProps {
   artist: ArtistModel;
@@ -37,7 +38,11 @@ class ArtistDetailsComponent extends React.Component<Profile7Props, State> {
   };
 
   public async componentDidMount() {
-    const { name } = await Artist.db.read('AT2ci0HO5hEevuayPSDI');
+    // const document = await firebase.firestore().collection('artist').doc('AT2ci0HO5hEevuayPSDI');
+
+    // const snapshot = await document.get();
+    const snapshot = await Artist.db.read('AT2ci0HO5hEevuayPSDI');
+    const { name } = snapshot.data();
     this.setState({ name });
   }
 
@@ -82,7 +87,7 @@ class ArtistDetailsComponent extends React.Component<Profile7Props, State> {
           <ProfileInfo3 photo={artist.photo.imageSource} name={this.state.name} location={artist.location} />
           <View style={themedStyle.actionContainer}>
             <Button style={themedStyle.followButton} textStyle={textStyle.button} icon={PersonAddIconFill} onPress={this.onFollowPress}>
-              FOLLOW
+              {this.state.name}
             </Button>
             <Button style={themedStyle.messageButton} textStyle={textStyle.button} status='white' icon={MessageCircleIconFill} onPress={this.onMessagePress}>
               MESSAGE
