@@ -8,6 +8,8 @@ import { Artist as ArtistModel, ProfileSocials as ProfileSocialsModel, ProfileAc
 import { ContainerView, ImageOverlay, textStyle } from '@src/components/common';
 import { imageProfile7Bg, ImageSource } from '@src/assets/images';
 
+import * as Artist from '@favid-inc/core/lib/entities/artist';
+
 interface ComponentProps {
   artist: ArtistModel;
   socials: ProfileSocialsModel;
@@ -23,8 +25,21 @@ interface ComponentProps {
 
 export type Profile7Props = ThemedComponentProps & ComponentProps;
 
-class ArtistDetailsComponent extends React.Component<Profile7Props> {
+interface State {
+  name: string;
+}
+
+class ArtistDetailsComponent extends React.Component<Profile7Props, State> {
   private backgroundImage: ImageSource = imageProfile7Bg;
+
+  public state: State = {
+    name: ''
+  };
+
+  public async componentDidMount() {
+    const { name } = await Artist.db.read('AT2ci0HO5hEevuayPSDI');
+    this.setState({ name });
+  }
 
   private onFollowPress = () => {
     this.props.onFollowPress();
@@ -64,7 +79,7 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
     return (
       <ContainerView style={themedStyle.container}>
         <ImageOverlay style={themedStyle.profileInfoContainer} source={this.backgroundImage.imageSource}>
-          <ProfileInfo3 photo={artist.photo.imageSource} name={`${artist.firstName} ${artist.lastName}`} location={artist.location} />
+          <ProfileInfo3 photo={artist.photo.imageSource} name={this.state.name} location={artist.location} />
           <View style={themedStyle.actionContainer}>
             <Button style={themedStyle.followButton} textStyle={textStyle.button} icon={PersonAddIconFill} onPress={this.onFollowPress}>
               FOLLOW

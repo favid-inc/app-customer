@@ -1,6 +1,8 @@
 import * as config from './core/config';
+import * as core from '@favid-inc/core/lib/app';
 import * as firebase from 'firebase';
-import { App as core } from '@favid-inc/core/lib/app';
+import 'firebase/firestore';
+import { Firestore } from '@google-cloud/firestore';
 
 import React from 'react';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
@@ -21,9 +23,16 @@ import { trackScreenTransition } from './core/utils/analytics';
 import { getCurrentStateName } from './core/navigation/util';
 import { ThemeContext, ThemeContextType, ThemeKey, themes, ThemeStore } from '@src/core/themes';
 
+
+
+if (!firebase.firestore) {
+  throw new Error(`
+    import * as firebase from 'firebase';
+    import 'firebase/firestore';
+  `);
+}
 firebase.initializeApp(config.firebase);
-console.log(Object.keys(core));
-// core.initializeApp(config.core, firebase.firestore);
+core.App.initialize(config.core, firebase.firestore() as unknown as Firestore);
 
 const images: ImageRequireSource[] = [
   require('./assets/images/source/image-profile-1.jpg'),
