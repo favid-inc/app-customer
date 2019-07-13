@@ -1,4 +1,4 @@
-import * as config from './config';
+import * as config from './core/config';
 import * as firebase from 'firebase';
 import * as core from '@favid-inc/core';
 

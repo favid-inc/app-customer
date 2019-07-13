@@ -4,7 +4,7 @@ import * as actions from '../../store/actions';
 import { NavigationScreenProps } from 'react-navigation';
 import { Profile } from '@src/core/model';
 import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import * as config from '@src/config';
+import * as config from '@src/core/config';
 import * as firebase from 'firebase';
 import * as AppAuth from 'expo-app-auth';
 import { googleImage, favidImage } from '@src/assets/images';
