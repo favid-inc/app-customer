@@ -1,8 +1,12 @@
+import * as config from './config';
+import * as firebase from 'firebase';
+import * as core from '@favid-inc/core';
+
 import React from 'react';
-import { connect } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+
 import AuthReducer from './store/reducers/AuthReducer';
 import ArtistReducer from './store/reducers/ArtistReducer';
 
@@ -16,6 +20,10 @@ import Router from './core/navigation/routes';
 import { trackScreenTransition } from './core/utils/analytics';
 import { getCurrentStateName } from './core/navigation/util';
 import { ThemeContext, ThemeContextType, ThemeKey, themes, ThemeStore } from '@src/core/themes';
+
+
+firebase.initializeApp(config.firebase);
+core.initializeApp(config.core);
 
 const images: ImageRequireSource[] = [
 	require('./assets/images/source/image-profile-1.jpg'),

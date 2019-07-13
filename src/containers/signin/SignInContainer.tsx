@@ -4,7 +4,7 @@ import * as actions from '../../store/actions';
 import { NavigationScreenProps } from 'react-navigation';
 import { Profile } from '@src/core/model';
 import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { firebaseConfig, authConfig } from '../../firebaseConfig';
+import * as config from '@src/config';
 import * as firebase from 'firebase';
 import * as AppAuth from 'expo-app-auth';
 import { googleImage, favidImage } from '@src/assets/images';
@@ -29,7 +29,7 @@ class SignInContainer extends React.Component<props, State> {
 	}
 	private auth = async () => {
 		try {
-			const result = await AppAuth.authAsync(authConfig);
+			const result = await AppAuth.authAsync(config.auth);
 			const credential = firebase.auth.GoogleAuthProvider.credential(result.idToken, result.accessToken);
 			const authData = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
 			const data = JSON.parse(JSON.stringify(authData)).user;

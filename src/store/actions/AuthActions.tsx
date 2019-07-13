@@ -1,6 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import { SIGNIN, SIGNOUT } from './ActionTypes';
-import { storageKey } from '../../firebaseConfig';
+
+const storageKey = 'auth-actions';
 
 export const signIn = (authState) => {
 	AsyncStorage.setItem(storageKey, JSON.stringify(authState));

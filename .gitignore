@@ -23,8 +23,8 @@ docs/docs.json
 docs/output.json
 
 # config
-config/index.js
-config/*.json
+**/config/index.js
+**/config/index.ts
 
 .expo
 .expo-shared/
