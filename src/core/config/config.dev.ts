@@ -9,10 +9,9 @@ export const firebase = {
 };
 
 export const auth = {
-  androidClientId: '',
   behavior: 'web',
-  clientId: '983263249595-dt4nicvqupdtci8k65akokn9lhle90m1.apps.googleusercontent.com',
-  iosClientId: '983263249595-dt4nicvqupdtci8k65akokn9lhle90m1.apps.googleusercontent.com',
+  androidClientId: '983263249595-p0tldp1tcmk4pmbuj6p42bvto8us7k4i.apps.googleusercontent.com',
+  iosClientId: '983263249595-2tclp7pj3b23h05l08v8v7af6mgbud1s.apps.googleusercontent.com',
   issuer: 'https://accounts.google.com',
   scopes: ['profile', 'email'],
 }
