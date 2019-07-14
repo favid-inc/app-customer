@@ -10,7 +10,7 @@ import { artist1, artists } from '@src/core/data/artists';
 
 interface ComponentProps {
   categoryOfArtists: [{ key: string; artists: [Artist] }];
-  onTrainingDetails: (artistId: string) => void;
+  onDetails: (Artist) => void;
 }
 
 interface State {
@@ -37,10 +37,6 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
     }
   };
 
-  private onTrainingDetails = (artistId: string): void => {
-    this.props.onTrainingDetails(artistId);
-  };
-
   private renderPagerIndicator = (index: number): React.ReactElement<ViewProps> => {
     const { themedStyle, categoryOfArtists } = this.props;
     const additionalStyle: StyleType = index === this.state.selectedExerciseIndex ? themedStyle.pagerIndicatorSelected : null;
@@ -54,7 +50,7 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
 
     const marginStyle: StyleType = info.index === categoryOfArtists[0].length - 1 ? null : themedStyle.pagerCardMargin;
 
-    return <ArtistCard index={info.index} style={[themedStyle.pagerCard, marginStyle]} artist={info.item} />;
+    return <ArtistCard index={info.index} style={[themedStyle.pagerCard, marginStyle]} artist={info.item} onDetails={this.props.onDetails} />;
   };
 
   private renderPager = (artistList: Artist[]): React.ReactElement<ViewProps> => {
@@ -68,7 +64,7 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
   };
 
   private renderListCard = (info: ListRenderItemInfo<Artist>): React.ReactElement<ArtistCardProps> => {
-    return <ArtistCard style={this.props.themedStyle.listCard} artist={info.item} index={info.index} />;
+    return <ArtistCard style={this.props.themedStyle.listCard} artist={info.item} index={info.index} onDetails={this.props.onDetails} />;
   };
 
   public render(): React.ReactNode {

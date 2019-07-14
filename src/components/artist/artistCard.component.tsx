@@ -1,32 +1,40 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Text } from '@kitten/ui';
 import { Chips, ImageOverlay, textStyle } from '@src/components/common';
 import { CartIconFill } from '@src/assets/icons';
 import { Artist } from '@src/core/model';
-
+import { ImageSource } from '@src/assets/images';
+import { NavigationScreenProps } from 'react-navigation';
+import * as actions from '../../store/actions';
 interface ComponentProps {
   artist: Artist;
   index?: number;
-  onDetails: (artistId: string) => void;
+  onDetails: (Artist) => void;
 }
 
-export type ArtistCardProps = ThemedComponentProps & ComponentProps & TouchableOpacityProps;
+export type ArtistCardProps = NavigationScreenProps & ThemedComponentProps & ComponentProps & TouchableOpacityProps;
 
 class ArtistCardComponent extends React.Component<ArtistCardProps> {
   public render(): React.ReactNode {
     const { themedStyle, artist, style } = this.props;
+    const artistImage = {
+      url: artist.photo,
+      height: 100,
+      width: 100,
+    };
 
     return (
-      <TouchableOpacity activeOpacity={0.95} onPress={() => this.props.onDetails(artist.id)}>
-        <ImageOverlay style={[ themedStyle.container, style ]} source={artist.photo.imageSource}>
+      <TouchableOpacity activeOpacity={0.95} onPress={() => this.props.onDetails(artist)}>
+        <ImageOverlay style={[themedStyle.container, style]} source={artistImage}>
           <View>
             <Text style={themedStyle.levelLabel} appearance='hint'>
-              {artist.type}
+              {artist.mainCategory}
             </Text>
             <Text style={themedStyle.titleLabel} category='h5'>
-              {artist.firstName}
+              {artist.artisticName}
             </Text>
           </View>
           <Chips style={themedStyle.chips}>

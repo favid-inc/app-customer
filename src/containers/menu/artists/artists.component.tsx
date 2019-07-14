@@ -5,13 +5,14 @@ import { Artist } from '@src/core/model';
 
 interface ComponentProps {
   categoryOfArtists: [{ key: string; artists: [Artist] }];
+  onDetails: (Artist) => void;
 }
 
 export type ArtistsComponentProps = ThemedComponentProps & ComponentProps;
 
 class ArtistsComponent extends React.Component<ArtistsComponentProps> {
   public render(): React.ReactNode {
-    return <ArtistList categoryOfArtists={this.props.categoryOfArtists} />;
+    return <ArtistList categoryOfArtists={this.props.categoryOfArtists} onDetails={this.props.onDetails} />;
   }
 }
 

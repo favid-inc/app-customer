@@ -26,25 +26,10 @@ interface ComponentProps {
 
 export type Profile7Props = ThemedComponentProps & ComponentProps;
 
-interface State {
-  name: string;
-}
-
-class ArtistDetailsComponent extends React.Component<Profile7Props, State> {
+class ArtistDetailsComponent extends React.Component<Profile7Props> {
   private backgroundImage: ImageSource = imageProfile7Bg;
 
-  public state: State = {
-    name: '',
-  };
-
-  public async componentDidMount() {
-    // const document = await firebase.firestore().collection('artist').doc('AT2ci0HO5hEevuayPSDI');
-
-    // const snapshot = await document.get();
-    const snapshot = await Artist.db.read('AT2ci0HO5hEevuayPSDI');
-    const { name } = snapshot.data();
-    this.setState({ name });
-  }
+  public async componentDidMount() {}
 
   private onFollowPress = () => {
     this.props.onFollowPress();
@@ -80,14 +65,18 @@ class ArtistDetailsComponent extends React.Component<Profile7Props, State> {
 
   public render(): React.ReactNode {
     const { themedStyle, artist, socials, activities } = this.props;
-
+    const artistImage = {
+      url: artist.photo,
+      height: 100,
+      width: 100,
+    };
     return (
       <ContainerView style={themedStyle.container}>
         <ImageOverlay style={themedStyle.profileInfoContainer} source={this.backgroundImage.imageSource}>
-          <ProfileInfo3 photo={artist.photo.imageSource} name={this.state.name} location={artist.location} />
+          <ProfileInfo3 photo={artistImage} name={artist.artisticName} location={artist.location} />
           <View style={themedStyle.actionContainer}>
             <Button style={themedStyle.followButton} textStyle={textStyle.button} icon={PersonAddIconFill} onPress={this.onFollowPress}>
-              {this.state.name}
+              {artist.artisticName}
             </Button>
             <Button style={themedStyle.messageButton} textStyle={textStyle.button} status='white' icon={MessageCircleIconFill} onPress={this.onMessagePress}>
               MESSAGE
