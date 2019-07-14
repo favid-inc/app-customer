@@ -1,4 +1,4 @@
-import { CategorisedProfileActivity, Gender, Artist, ArtistType, ProfileActivity, ProfileSocials } from '@src/core/model';
+import { CategorisedProfileActivity, Gender, Artist, ProfileActivity, ProfileSocials } from '@src/core/model';
 import { imageFeed1, imageFeed2, imageFeed3, imageFeed4, imageFeed5, imageFeed6, imageFeed7, imageFeed8, imageFeed9, imageProfile1, imageProfile10, imageProfile2, imageProfile3, imageProfile4, imageProfile5, imageProfile6, imageProfile7, imageProfile8, imageProfile9 } from '@src/assets/images';
 
 export const artist1: Artist = {
@@ -16,7 +16,7 @@ export const artist1: Artist = {
   phoneNumber: '+375 44 846 97 68',
   location: 'Berlin, Germany',
   onLine: true,
-  type: ArtistType.ARTISTS,
+  mainCategory: 'Artist',
   price: 20,
   responseTime: 2,
 };
@@ -36,7 +36,7 @@ export const artist2: Artist = {
   phoneNumber: '+375 44 123 12 12',
   location: 'Portland, USA',
   onLine: false,
-  type: ArtistType.ARTISTS,
+  mainCategory: 'Artist',
   price: 20,
   responseTime: 2,
 };
@@ -56,7 +56,7 @@ export const artist3: Artist = {
   phoneNumber: '+375 44 123 12 12',
   location: 'Cleveland, USA',
   onLine: true,
-  type: ArtistType.ARTISTS,
+  mainCategory: 'Artist',
   price: 20,
   responseTime: 2,
 };
@@ -76,7 +76,7 @@ export const artist4: Artist = {
   phoneNumber: '+375 44 123 12 12',
   location: 'Berlin, Germany',
   onLine: false,
-  type: ArtistType.ARTISTS,
+  mainCategory: 'Artist',
   price: 20,
   responseTime: 2,
 };
@@ -96,7 +96,7 @@ export const artist5: Artist = {
   phoneNumber: '+375 44 123 12 12',
   location: 'Australia',
   onLine: true,
-  type: ArtistType.ARTISTS,
+  mainCategory: 'Artist',
   price: 20,
   responseTime: 2,
 };
@@ -116,7 +116,7 @@ export const artist6: Artist = {
   phoneNumber: '+375 44 123 12 12',
   location: 'Germany',
   onLine: false,
-  type: ArtistType.ARTISTS,
+  mainCategory: 'Artist',
   price: 20,
   responseTime: 2,
 };
@@ -136,7 +136,7 @@ export const artist7: Artist = {
   phoneNumber: '+375 44 123 12 12',
   location: 'NY, USA',
   onLine: true,
-  type: ArtistType.ARTISTS,
+  mainCategory: 'Artist',
   price: 20,
   responseTime: 2,
 };
@@ -156,7 +156,7 @@ export const artist8: Artist = {
   phoneNumber: '+375 44 123 12 12',
   location: 'Oslo, Norway',
   onLine: false,
-  type: ArtistType.ARTISTS,
+  mainCategory: 'Artist',
   price: 20,
   responseTime: 2,
 };
@@ -176,7 +176,7 @@ export const artist9: Artist = {
   phoneNumber: '+375 44 123 12 12',
   location: 'Minsk, Belarus',
   onLine: false,
-  type: ArtistType.ARTISTS,
+  mainCategory: 'Artist',
   price: 20,
   responseTime: 2,
 };
@@ -196,12 +196,12 @@ export const artist10: Artist = {
   phoneNumber: '+375 44 123 12 12',
   location: 'Erlangen, Germany',
   onLine: false,
-  type: ArtistType.ARTISTS,
+  mainCategory: 'Artist',
   price: 20,
   responseTime: 2,
 };
 
-export const artists: Artist[] = [ artist1, artist2, artist3, artist4, artist5, artist6, artist7, artist8, artist9, artist10 ];
+export const artists: Artist[] = [artist1, artist2, artist3, artist4, artist5, artist6, artist7, artist8, artist9, artist10];
 
 export const profileSocials1: ProfileSocials = {
   followers: 1500,
