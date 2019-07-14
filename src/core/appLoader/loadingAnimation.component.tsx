@@ -1,6 +1,6 @@
 import React from 'react';
 import { Animated, Easing, StyleSheet } from 'react-native';
-import { favidImage } from '@src/assets/images';
+import { splash } from '@src/assets/images';
 
 interface Props {
   isLoaded: boolean;
@@ -52,7 +52,7 @@ export class LoadingAnimationComponent extends React.Component<Props, State> {
 
     return (
       <Animated.View style={[styles.container, { opacity }]}>
-        <Animated.Image source={favidImage.imageSource} style={[styles.image, { transform }]} />
+        <Animated.Image source={splash.imageSource} style={[styles.image, { transform }]} />
       </Animated.View>
     );
   }
@@ -71,11 +71,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   image: {
-    width: 100,
-    height: 100,
-    margin: 'auto',
-    position: 'absolute',
-    // ...StyleSheet.absoluteFillObject,
+    width: undefined,
+    height: undefined,
+    ...StyleSheet.absoluteFillObject,
     resizeMode: 'contain',
   },
 });
