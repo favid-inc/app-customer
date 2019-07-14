@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Artist, ProfileSocials, ProfileActivity } from '@src/core/model';
+import { Artist } from '@src/core/model';
 import { ArtistDetails } from './ArtistDetails.component';
 import { NavigationScreenProps } from 'react-navigation';
-import { profileActivity1, profileSocials1 } from '@src/core/data/profile';
-interface State {
-  socials: ProfileSocials;
-  activity: ProfileActivity[];
-}
 
 interface ArtistContainerProps {
   artist: Artist;
@@ -15,16 +10,12 @@ interface ArtistContainerProps {
 
 type props = NavigationScreenProps & ArtistContainerProps;
 
-class ArtistContainer extends Component<props, State> {
-  public state: State = {
-    socials: profileSocials1,
-    activity: profileActivity1,
-  };
+class ArtistContainer extends Component<props> {
   private onFollowPress = () => {};
 
   private onMessagePress = () => {
     this.props.navigation.navigate({
-      key: this.navigationKey,
+      key: 'ArtistDetails',
       routeName: 'Chat 1',
     });
   };
@@ -39,20 +30,7 @@ class ArtistContainer extends Component<props, State> {
   private onPhotoPress = (index: number) => {};
 
   public render(): React.ReactNode {
-    return (
-      <ArtistDetails
-        artist={this.props.artist}
-        socials={this.state.socials}
-        activities={this.state.activity}
-        onFollowPress={this.onFollowPress}
-        onMessagePress={this.onMessagePress}
-        onFollowersPress={this.onFollowersPress}
-        onFollowingPress={this.onFollowingPress}
-        onPostsPress={this.onPostsPress}
-        onFriendPress={this.onFriendPress}
-        onPhotoPress={this.onPhotoPress}
-      />
-    );
+    return <ArtistDetails artist={this.props.artist} onFollowPress={this.onFollowPress} onMessagePress={this.onMessagePress} onFollowersPress={this.onFollowersPress} onFollowingPress={this.onFollowingPress} onPostsPress={this.onPostsPress} onFriendPress={this.onFriendPress} onPhotoPress={this.onPhotoPress} />;
   }
 }
 

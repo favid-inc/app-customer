@@ -37,47 +37,25 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
     }
   };
 
-  private renderPagerIndicator = (index: number): React.ReactElement<ViewProps> => {
-    const { themedStyle, categoryOfArtists } = this.props;
-    const additionalStyle: StyleType = index === this.state.selectedExerciseIndex ? themedStyle.pagerIndicatorSelected : null;
-    const marginStyle: StyleType = index === artists.length - 1 ? null : themedStyle.indicatorMarginRight;
-
-    return <View style={[themedStyle.pagerIndicator, additionalStyle, marginStyle]} key={index} />;
-  };
-
   private renderPagerCard = (info: ListRenderItemInfo<Artist>): React.ReactElement<ArtistCardProps> => {
     const { themedStyle, categoryOfArtists } = this.props;
 
-    const marginStyle: StyleType = info.index === categoryOfArtists[0].length - 1 ? null : themedStyle.pagerCardMargin;
+    const marginStyle: StyleType = info.index === categoryOfArtists[0].artists[0].length - 1 ? null : themedStyle.pagerCardMargin;
 
     return <ArtistCard index={info.index} style={[themedStyle.pagerCard, marginStyle]} artist={info.item} onDetails={this.props.onDetails} />;
   };
 
-  private renderPager = (artistList: Artist[]): React.ReactElement<ViewProps> => {
-    const { themedStyle } = this.props;
-
-    return (
-      <View>
-        <List style={themedStyle.pagerContainer} horizontal={true} renderItem={this.renderPagerCard} data={artistList} showsHorizontalScrollIndicator={false} onScroll={this.onExerciseListScroll} />
-      </View>
-    );
-  };
-
-  private renderListCard = (info: ListRenderItemInfo<Artist>): React.ReactElement<ArtistCardProps> => {
-    return <ArtistCard style={this.props.themedStyle.listCard} artist={info.item} index={info.index} onDetails={this.props.onDetails} />;
-  };
-
   public render(): React.ReactNode {
     const { themedStyle } = this.props;
-    let categoryList = <Text>Loading...</Text>;
+    let categoryList: React.ReactNode = <Text>Loading...</Text>;
     if (this.props.categoryOfArtists) {
       categoryList = this.props.categoryOfArtists.map(artistsList => {
         return (
-          <View>
+          <View key={artistsList.key}>
             <Text style={themedStyle.pagerLabel} appearance='hint'>
               {artistsList.key}
             </Text>
-            {this.renderPager(artistsList.artists)}
+            <List style={themedStyle.pagerContainer} horizontal={true} renderItem={this.renderPagerCard} data={artistsList.artists} showsHorizontalScrollIndicator={false} onScroll={this.onExerciseListScroll} />
           </View>
         );
       });
@@ -112,12 +90,6 @@ export const ArtistList = withStyles(ArtistListComponent, (theme: ThemeType) => 
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 8,
-  },
-  pagerIndicator: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: theme['background-basic-color-3'],
   },
   pagerIndicatorSelected: {
     backgroundColor: theme['background-basic-color-4'],

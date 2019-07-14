@@ -1,18 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavigationScreenProps } from 'react-navigation';
-
 import * as actions from '../../../store/actions';
-
-import { Artists } from './artists.component';
 import { Artist } from '@src/core/model/artist.model';
-import { artists } from '@src/core/data/artists';
-import { Text } from 'react-native';
-
-// import database from '@favid-inc/core';
-
-// console.log(database);
-
+import { ArtistList } from './artistsList.component';
 interface State {
   selectedLevelIndex: number;
 }
@@ -28,7 +19,7 @@ class ArtistsContainer extends Component<Props, State> {
     selectedLevelIndex: 0,
   };
 
-  private navigationKey: string = 'SocialContainer';
+  private navigationKey: string = 'Artists';
 
   public componentWillMount() {
     this.props.onListArtists();
@@ -43,7 +34,7 @@ class ArtistsContainer extends Component<Props, State> {
   }
 
   public render(): React.ReactNode {
-    return <Artists categoryOfArtists={this.props.categoryOfArtists} onDetails={artist => this.onDetails(artist)} />;
+    return <ArtistList categoryOfArtists={this.props.categoryOfArtists} onDetails={artist => this.onDetails(artist)} />;
   }
 }
 

@@ -18,6 +18,14 @@ export const getArtist = () => {
 
 export const listArtists = () => {
   return async dispatch => {
+    const storeArtists = await AsyncStorage.getItem('categoryOfArtists');
+    if (storeArtists) {
+      dispatch({
+        type: STOREARTISTS,
+        payload: JSON.parse(storeArtists),
+      });
+    }
+
     const response = await fetch(`https://us-central1-onyx-harmony-239219.cloudfunctions.net/api/artists-by-main-category-search`);
     const data = await response.json();
     const categoryOfArtists = data.aggregations.mainCategory.buckets.map(b => {
@@ -25,13 +33,13 @@ export const listArtists = () => {
         const artist: Artist = { ...a._source };
         return artist;
       });
-
       const category: { key: string; artists: [Artist] } = {
         key: b.key,
         artists,
       };
       return category;
     });
+    AsyncStorage.setItem('categoryOfArtists', JSON.stringify(categoryOfArtists));
 
     dispatch({
       type: STOREARTISTS,

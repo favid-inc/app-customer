@@ -2,23 +2,29 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavigationScreenProps } from 'react-navigation';
 import { Profile } from '@src/core/model';
-import { profile1 } from '@src/core/data/profile';
+
 import { Account } from '@src/containers/menu/account/Account';
 import * as actions from '../../../store/actions';
+import { ImageSource } from '@src/assets/images';
+import { Text } from 'react-native';
 
 interface State {
   profile: Profile;
 }
 
 interface AccountContainerProps {
-  auth: object;
+  auth: {
+    photoURL: string;
+    displayName: string;
+    email: string;
+  };
 }
 
 type Props = NavigationScreenProps & AccountContainerProps;
 
 class AccountContainer extends Component<Props, State> {
   public state: State = {
-    profile: profile1,
+    profile: null,
   };
 
   private onUploadPhotoButtonPress = () => {};
@@ -28,18 +34,19 @@ class AccountContainer extends Component<Props, State> {
   };
 
   public componentDidMount() {
-    this.setState((prevState) => {
-      const profile: Profile = {
-        ...prevState.profile,
-        photo: {
-          ...prevState.profile.photo,
-        },
+    this.setState(prevState => {
+      const imageSource = {
+        uri: this.props.auth.photoURL,
+        height: 100,
+        width: 100,
       };
-      profile.firstName = this.props.auth.displayName.split(' ')[0];
-      profile.lastName = this.props.auth.displayName.split(' ')[1];
-      const imageSource = { height: 80, width: 80, uri: this.props.auth.photoURL };
-      profile.photo.imageSource = imageSource;
-      profile.email = this.props.auth.email;
+      const profile: Profile = {
+        firstName: this.props.auth.displayName.split(' ')[0],
+        lastName: this.props.auth.displayName.split(' ')[1],
+        photo: { imageSource },
+        email: this.props.auth.email,
+      };
+
       return {
         profile,
       };
@@ -47,13 +54,20 @@ class AccountContainer extends Component<Props, State> {
   }
 
   public render(): React.ReactNode {
-    return <Account profile={this.state.profile} onUploadPhotoButtonPress={this.onUploadPhotoButtonPress} onButtonPress={this.props.onSignOut} />;
+    let account = <Text>Loading...</Text>;
+    if (this.state.profile) {
+      account = <Account profile={this.state.profile} onUploadPhotoButtonPress={this.onUploadPhotoButtonPress} onButtonPress={this.props.onSignOut} />;
+    }
+    return account;
   }
 }
 
 const mapStateToProps = ({ auth }) => ({ auth: auth });
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   onSignOut: () => dispatch(actions.signOut()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AccountContainer);

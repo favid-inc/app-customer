@@ -1,10 +1,10 @@
 import React from 'react';
-import { ImageSourcePropType, View } from 'react-native';
+import { View } from 'react-native';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
-import { ProfileActivityList3, ProfileFriendList, ProfileInfo3, ProfileSocials } from '@src/components/social';
+import { ProfileInfo3 } from '@src/components/social';
 import { MessageCircleIconFill, PersonAddIconFill } from '@src/assets/icons';
-import { Artist as ArtistModel, ProfileSocials as ProfileSocialsModel, ProfileActivity as ProfileActivityModel } from '@src/core/model';
+import { Artist as ArtistModel } from '@src/core/model';
 import { ContainerView, ImageOverlay, textStyle } from '@src/components/common';
 import { imageProfile7Bg, ImageSource } from '@src/assets/images';
 
@@ -13,8 +13,6 @@ import * as firebase from 'firebase';
 
 interface ComponentProps {
   artist: ArtistModel;
-  socials: ProfileSocialsModel;
-  activities: ProfileActivityModel[];
   onFollowPress: () => void;
   onMessagePress: () => void;
   onFollowersPress: () => void;
@@ -59,12 +57,8 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
     this.props.onPhotoPress(index);
   };
 
-  private createActivitySource = (activity: ProfileActivityModel): ImageSourcePropType => {
-    return activity.source.imageSource;
-  };
-
   public render(): React.ReactNode {
-    const { themedStyle, artist, socials, activities } = this.props;
+    const { themedStyle, artist } = this.props;
     const artistImage = {
       uri: artist.photo,
       height: 100,
@@ -82,7 +76,6 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
               MESSAGE
             </Button>
           </View>
-          <ProfileSocials style={themedStyle.profileSocials} textStyle={themedStyle.socialsLabel} followers={socials.followers} following={socials.following} posts={socials.posts} onFollowersPress={this.onFollowersPress} onFollowingPress={this.onFollowingPress} onPostsPress={this.onPostsPress} />
         </ImageOverlay>
         <View style={[themedStyle.profileSection, themedStyle.aboutSection]}>
           <Text style={themedStyle.profileSectionLabel} category='s1'>
@@ -91,14 +84,6 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
           <Text style={[themedStyle.profileSectionContent, themedStyle.profileAboutLabel]} appearance='hint'>
             {artist.about}
           </Text>
-        </View>
-        <View style={[themedStyle.profileSection, themedStyle.friendsSection]}>
-          <Text style={[themedStyle.profileSectionLabel, themedStyle.friendsSectionLabel]}>Friends</Text>
-          {/* <ProfileFriendList contentContainerStyle={[ themedStyle.profileSectionContent, themedStyle.friendsList ]} data={artist.friends} onItemPress={this.onFriendPress} /> */}
-        </View>
-        <View style={themedStyle.profileSection}>
-          <Text style={themedStyle.profileSectionLabel}>Shots</Text>
-          <ProfileActivityList3 contentContainerStyle={[themedStyle.profileSectionContent]} data={activities.map(this.createActivitySource)} onItemPress={this.onPhotoPress} />
         </View>
       </ContainerView>
     );
