@@ -7,45 +7,46 @@ import * as actions from '../../../store/actions';
 import { Artists } from './artists.component';
 import { Artist } from '@src/core/model/artist.model';
 import { artists } from '@src/core/data/artists';
+import { Text } from 'react-native';
 // import database from '@favid-inc/core';
 
 // console.log(database);
 
 interface State {
   selectedLevelIndex: number;
-  artists: Artist[];
 }
 interface ArtistContainerProps {
-  onSetArtist: (artist: Artist) => void;
+  onListArtists: () => void;
+  categoryOfArtists: [{ key: string; artists: [Artist] }];
 }
 
-type props = NavigationScreenProps & ArtistContainerProps;
-class ArtistsContainer extends Component<props, State> {
+type Props = NavigationScreenProps & ArtistContainerProps;
+class ArtistsContainer extends Component<Props, State> {
   public state: State = {
     selectedLevelIndex: 0,
-    artists: artists,
   };
   private navigationKey: string = 'SocialContainer';
 
-  private onTrainingDetails = (artistId: string): void => {
-    const [artist] = this.state.artists.filter((a: Artist) => a.id === artistId);
-    this.props.onSetArtist(artist);
-    this.props.navigation.navigate({
-      key: this.navigationKey,
-      routeName: 'Artist Details',
-    });
-  };
+  componentWillMount() {
+    this.props.onListArtists();
+  }
 
   public render(): React.ReactNode {
-    return <Artists artists={this.state.artists} onTrainingDetails={this.onTrainingDetails} />;
+    return <Artists categoryOfArtists={this.props.categoryOfArtists} />;
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    categoryOfArtists: state.artist.categoryOfArtists,
+  };
+};
+
 const mapDispatchToProps = dispatch => ({
-  onSetArtist: artist => dispatch(actions.setArtist(artist)),
+  onListArtists: () => dispatch(actions.listArtists()),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(ArtistsContainer);

@@ -5,9 +5,11 @@ import { Artist } from '@src/core/model';
 import { ArtistCard, ArtistCardProps } from '@src/components/artist/artistCard.component';
 import { List, Text } from '@kitten/ui';
 import { textStyle } from '@src/components/common';
+import { ArtistsByMainCategorySearch } from '@favid-inc/api';
+import { artist1, artists } from '@src/core/data/artists';
 
 interface ComponentProps {
-  artists: Artist[];
+  categoryOfArtists: [{ key: string; artists: [Artist] }];
   onTrainingDetails: (artistId: string) => void;
 }
 
@@ -15,9 +17,9 @@ interface State {
   selectedExerciseIndex: number;
 }
 
-export type Easy1ComponentProps = ThemedComponentProps & ComponentProps;
+export type ArtistsListComponentProps = ThemedComponentProps & ComponentProps;
 
-class Easy1Component extends React.Component<Easy1ComponentProps, State> {
+class ArtistListComponent extends React.Component<ArtistsListComponentProps, State> {
   public state: State = {
     selectedExerciseIndex: 0,
   };
@@ -40,62 +42,55 @@ class Easy1Component extends React.Component<Easy1ComponentProps, State> {
   };
 
   private renderPagerIndicator = (index: number): React.ReactElement<ViewProps> => {
-    const { themedStyle, artists } = this.props;
+    const { themedStyle, categoryOfArtists } = this.props;
     const additionalStyle: StyleType = index === this.state.selectedExerciseIndex ? themedStyle.pagerIndicatorSelected : null;
     const marginStyle: StyleType = index === artists.length - 1 ? null : themedStyle.indicatorMarginRight;
 
-    return <View style={[ themedStyle.pagerIndicator, additionalStyle, marginStyle ]} key={index} />;
+    return <View style={[themedStyle.pagerIndicator, additionalStyle, marginStyle]} key={index} />;
   };
 
   private renderPagerCard = (info: ListRenderItemInfo<Artist>): React.ReactElement<ArtistCardProps> => {
-    const { themedStyle, artists } = this.props;
+    const { themedStyle, categoryOfArtists } = this.props;
 
-    const marginStyle: StyleType = info.index === artists.length - 1 ? null : themedStyle.pagerCardMargin;
+    const marginStyle: StyleType = info.index === categoryOfArtists[0].length - 1 ? null : themedStyle.pagerCardMargin;
 
-    return <ArtistCard index={info.index} style={[ themedStyle.pagerCard, marginStyle ]} artist={info.item} onDetails={this.onTrainingDetails} />;
+    return <ArtistCard index={info.index} style={[themedStyle.pagerCard, marginStyle]} artist={info.item} />;
   };
 
-  private renderPager = (): React.ReactElement<ViewProps> => {
+  private renderPager = (artistList: Artist[]): React.ReactElement<ViewProps> => {
     const { themedStyle } = this.props;
 
     return (
       <View>
-        <List style={themedStyle.pagerContainer} horizontal={true} renderItem={this.renderPagerCard} data={this.props.artists} showsHorizontalScrollIndicator={false} onScroll={this.onExerciseListScroll} />
-        {/* <View style={themedStyle.pagerIndicatorContainer}>
-          {this.props.artists
-               .map((item: Artist, i: number) => this.renderPagerIndicator(i))}
-        </View> */}
+        <List style={themedStyle.pagerContainer} horizontal={true} renderItem={this.renderPagerCard} data={artistList} showsHorizontalScrollIndicator={false} onScroll={this.onExerciseListScroll} />
       </View>
     );
   };
 
   private renderListCard = (info: ListRenderItemInfo<Artist>): React.ReactElement<ArtistCardProps> => {
-    return <ArtistCard style={this.props.themedStyle.listCard} artist={info.item} index={info.index} onDetails={this.onTrainingDetails} />;
+    return <ArtistCard style={this.props.themedStyle.listCard} artist={info.item} index={info.index} />;
   };
 
   public render(): React.ReactNode {
     const { themedStyle } = this.props;
-
-    return (
-      <ScrollView contentContainerStyle={themedStyle.container}>
-        <Text style={themedStyle.pagerLabel} appearance='hint'>
-          Artists
-        </Text>
-        {this.renderPager()}
-        <Text style={themedStyle.pagerLabel} appearance='hint'>
-          Youtubers
-        </Text>
-        {this.renderPager()}
-        <Text style={themedStyle.pagerLabel} appearance='hint'>
-          Comedians
-        </Text>
-        {this.renderPager()}
-      </ScrollView>
-    );
+    let categoryList = <Text>Loading...</Text>;
+    if (this.props.categoryOfArtists) {
+      categoryList = this.props.categoryOfArtists.map(artistsList => {
+        return (
+          <View>
+            <Text style={themedStyle.pagerLabel} appearance='hint'>
+              {artistsList.key}
+            </Text>
+            {this.renderPager(artistsList.artists)}
+          </View>
+        );
+      });
+    }
+    return <ScrollView contentContainerStyle={themedStyle.container}>{categoryList}</ScrollView>;
   }
 }
 
-export const Easy1 = withStyles(Easy1Component, (theme: ThemeType) => ({
+export const ArtistList = withStyles(ArtistListComponent, (theme: ThemeType) => ({
   container: {
     paddingHorizontal: 16,
     paddingVertical: 8,
