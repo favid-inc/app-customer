@@ -2,20 +2,110 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { useScreens } from 'react-native-screens';
-import { createAppContainer, createBottomTabNavigator, createStackNavigator, NavigationContainer, NavigationRouteConfigMap, NavigationState } from 'react-navigation';
-import { ComponentsContainer, LayoutsContainer, MenuContainer, ThemesContainer } from '@src/containers/menu';
+import {
+  createAppContainer,
+  createBottomTabNavigator,
+  createStackNavigator,
+  NavigationContainer,
+  NavigationRouteConfigMap,
+  NavigationState,
+} from 'react-navigation';
+import {
+  ComponentsContainer,
+  LayoutsContainer,
+  MenuContainer,
+  ThemesContainer,
+} from '@src/containers/menu';
 import AccountContainer from '@src/containers/menu/account/AccountCointainer';
 import SignInContainer from '@src/containers/signin/SignInContainer';
 import ArtistDetailsContainer from '@src/containers/artistDetails/ArtistDetailsContainer';
 import ArtistsContainer from '@src/containers/menu/artists/artists.container';
-import { Article1Container, Article2Container, Article3Container, ArticleList1Container, ArticleList2Container, ArticleList3Container, ArticleList4Container, ArticlesContainer } from '@src/containers/layouts/articles';
-import { AuthContainer, ForgotPasswordContainer, SignIn1Container, SignIn2Container, SignIn3Container, SignIn4Container, SignIn5Container, SignUp1Container, SignUp2Container, SignUp3Container, SignUp4Container } from '@src/containers/layouts/auth';
-import { DashboardsContainer, Trainings1Container, Trainings2Container } from '@src/containers/layouts/dashboards';
-import { AddNewCardContainer, BookDetailsContainer, EcommerceContainer, MovieDetailsContainer, PaymentContainer, ProductDetailsContainer, ProductsListContainer, RentApartmentContainer, ShoppingCartContainer } from '@src/containers/layouts/ecommerce';
-import { Chat1Container, Chat2Container, Chat3Container, ConversationsListContainer, MessagingContainer } from '@src/containers/layouts/messaging';
-import { Feed1Container, Feed2Container, Profile1Container, Profile2Container, Profile3Container, Profile4Container, Profile5Container, Profile6Container, Profile7Container, ProfileSettings1Container, ProfileSettings2Container, ProfileSettings3Container, SettingsContainer, SocialContainer } from '@src/containers/layouts/social';
-import { AvatarContainer, BottomNavigationContainer, ButtonContainer, ButtonGroupContainer, CheckBoxContainer, InputContainer, ListContainer, OverflowMenuContainer, PopoverContainer, RadioContainer, TabViewContainer, TextContainer, ToggleContainer, TooltipContainer, TopNavigationContainer } from '@src/containers/components';
-import { ArticlesNavigationOptions, DashboardNavigationOptions, EcommerceNavigationOptions, MenuNavigationOptions, SocialNavigationOptions } from './options';
+import {
+  Article1Container,
+  Article2Container,
+  Article3Container,
+  ArticleList1Container,
+  ArticleList2Container,
+  ArticleList3Container,
+  ArticleList4Container,
+  ArticlesContainer,
+} from '@src/containers/layouts/articles';
+import {
+  AuthContainer,
+  ForgotPasswordContainer,
+  SignIn1Container,
+  SignIn2Container,
+  SignIn3Container,
+  SignIn4Container,
+  SignIn5Container,
+  SignUp1Container,
+  SignUp2Container,
+  SignUp3Container,
+  SignUp4Container,
+} from '@src/containers/layouts/auth';
+import {
+  DashboardsContainer,
+  Trainings1Container,
+  Trainings2Container,
+} from '@src/containers/layouts/dashboards';
+import {
+  AddNewCardContainer,
+  BookDetailsContainer,
+  EcommerceContainer,
+  MovieDetailsContainer,
+  PaymentContainer,
+  ProductDetailsContainer,
+  ProductsListContainer,
+  RentApartmentContainer,
+  ShoppingCartContainer,
+} from '@src/containers/layouts/ecommerce';
+import {
+  Chat1Container,
+  Chat2Container,
+  Chat3Container,
+  ConversationsListContainer,
+  MessagingContainer,
+} from '@src/containers/layouts/messaging';
+import {
+  Feed1Container,
+  Feed2Container,
+  Profile1Container,
+  Profile2Container,
+  Profile3Container,
+  Profile4Container,
+  Profile5Container,
+  Profile6Container,
+  Profile7Container,
+  ProfileSettings1Container,
+  ProfileSettings2Container,
+  ProfileSettings3Container,
+  SettingsContainer,
+  SocialContainer,
+} from '@src/containers/layouts/social';
+import {
+  AvatarContainer,
+  BottomNavigationContainer,
+  ButtonContainer,
+  ButtonGroupContainer,
+  CheckBoxContainer,
+  InputContainer,
+  ListContainer,
+  OverflowMenuContainer,
+  PopoverContainer,
+  RadioContainer,
+  TabViewContainer,
+  TextContainer,
+  ToggleContainer,
+  TooltipContainer,
+  TopNavigationContainer,
+} from '@src/containers/components';
+import {
+  ArticlesNavigationOptions,
+  DashboardNavigationOptions,
+  EcommerceNavigationOptions,
+  MenuNavigationOptions,
+  SocialNavigationOptions,
+} from './options';
 import { NavigationAction } from 'react-navigation';
 
 const EcommerceNavigationMap: NavigationRouteConfigMap = {

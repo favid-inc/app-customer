@@ -21,7 +21,7 @@ export class SocialContainer extends React.Component<NavigationScreenProps, Stat
 
   private onItemSelect = (index: number) => {
     const { [index]: selectedItem } = this.data;
-    console.log(selectedItem.route);
+    // console.log(selectedItem.route);
     this.props.navigation.navigate({
       key: this.navigationKey,
       routeName: selectedItem.route,

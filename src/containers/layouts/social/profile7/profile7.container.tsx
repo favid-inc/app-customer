@@ -39,6 +39,19 @@ export class Profile7Container extends React.Component<NavigationScreenProps, St
   private onPhotoPress = (index: number) => {};
 
   public render(): React.ReactNode {
-    return <Profile7 profile={this.state.profile} socials={this.state.socials} activities={this.state.activity} onFollowPress={this.onFollowPress} onMessagePress={this.onMessagePress} onFollowersPress={this.onFollowersPress} onFollowingPress={this.onFollowingPress} onPostsPress={this.onPostsPress} onFriendPress={this.onFriendPress} onPhotoPress={this.onPhotoPress} />;
+    return (
+      <Profile7
+        profile={this.state.profile}
+        socials={this.state.socials}
+        activities={this.state.activity}
+        onFollowPress={this.onFollowPress}
+        onMessagePress={this.onMessagePress}
+        onFollowersPress={this.onFollowersPress}
+        onFollowingPress={this.onFollowingPress}
+        onPostsPress={this.onPostsPress}
+        onFriendPress={this.onFriendPress}
+        onPhotoPress={this.onPhotoPress}
+      />
+    );
   }
 }

@@ -47,7 +47,7 @@ class SignInContainer extends React.Component<props, State> {
       };
 
       this.props.onSignIn(authState);
-      console.log(authState);
+      // console.log(authState);
     } catch (e) {
       console.error(e);
     }
