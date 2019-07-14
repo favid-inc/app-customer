@@ -31,6 +31,7 @@ class SignInContainer extends React.Component<props, State> {
       const result = await AppAuth.authAsync(config.auth);
       const credential = firebase.auth.GoogleAuthProvider.credential(result.idToken, result.accessToken);
       const authData = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+      // todo: refactor straction of stsTokenManager
       const data = JSON.parse(JSON.stringify(authData)).user;
       const authState = {
         uid: data.uid,
