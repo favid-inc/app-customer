@@ -1,2 +1,2 @@
 export { signIn, loadAuthState, signOut } from './AuthActions';
-export { setArtist, getArtist, removeArtist } from './ArtistActions';
+export { setArtist, getArtist, removeArtist, listArtists } from './ArtistActions';
