@@ -66,7 +66,7 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
   public render(): React.ReactNode {
     const { themedStyle, artist, socials, activities } = this.props;
     const artistImage = {
-      url: artist.photo,
+      uri: artist.photo,
       height: 100,
       width: 100,
     };

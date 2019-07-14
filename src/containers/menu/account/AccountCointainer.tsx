@@ -37,7 +37,7 @@ class AccountContainer extends Component<Props, State> {
       };
       profile.firstName = this.props.auth.displayName.split(' ')[0];
       profile.lastName = this.props.auth.displayName.split(' ')[1];
-      const imageSource = { height: 80, width: 80, url: this.props.auth.photoURL };
+      const imageSource = { height: 80, width: 80, uri: this.props.auth.photoURL };
       profile.photo.imageSource = imageSource;
       profile.email = this.props.auth.email;
       return {

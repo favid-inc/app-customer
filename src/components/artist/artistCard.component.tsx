@@ -21,7 +21,7 @@ class ArtistCardComponent extends React.Component<ArtistCardProps> {
   public render(): React.ReactNode {
     const { themedStyle, artist, style } = this.props;
     const artistImage = {
-      url: artist.photo,
+      uri: artist.photo,
       height: 100,
       width: 100,
     };
