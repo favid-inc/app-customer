@@ -8,6 +8,10 @@ export {
   RemoteImage,
 } from './type';
 
+export const imageProfile7Bg: ImageSource = {
+  imageSource: require('./source/image-background-profile-7.jpg'),
+};
+
 export const splashImage: ImageSource = {
   imageSource: require('./source/splash.png'),
 };

@@ -61,7 +61,7 @@ export const ArtistCard = withStyles(ArtistCardComponent, (theme: ThemeType) => 
   },
   chips: {
     width: 110,
-    display: 'block',
+    // display: 'block',
     textAlign: 'center',
   },
   chipsText: {
