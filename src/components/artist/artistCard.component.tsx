@@ -4,7 +4,6 @@ import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Text } from '@kitten/ui';
 import { Chips, ImageOverlay, textStyle } from '@src/components/common';
 import { Artist } from '@src/core/model';
-import NumberFormat from 'react-number-format';
 
 interface ComponentProps {
   artist: Artist;

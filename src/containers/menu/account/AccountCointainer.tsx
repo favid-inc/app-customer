@@ -18,6 +18,7 @@ interface AccountContainerProps {
     displayName: string;
     email: string;
   };
+  onSignOut: () => void;
 }
 
 type Props = NavigationScreenProps & AccountContainerProps;
@@ -56,7 +57,13 @@ class AccountContainer extends Component<Props, State> {
   public render(): React.ReactNode {
     let account = <Text>Loading...</Text>;
     if (this.state.profile) {
-      account = <Account profile={this.state.profile} onUploadPhotoButtonPress={this.onUploadPhotoButtonPress} onButtonPress={this.props.onSignOut} />;
+      account = (
+        <Account
+          profile={this.state.profile}
+          onUploadPhotoButtonPress={this.onUploadPhotoButtonPress}
+          onButtonPress={this.props.onSignOut}
+        />
+      );
     }
     return account;
   }
