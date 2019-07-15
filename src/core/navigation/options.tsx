@@ -1,19 +1,11 @@
 import React from 'react';
 import { Alert } from 'react-native';
-import {
-  NavigationParams,
-  NavigationScreenProps,
-} from 'react-navigation';
-import { EcommerceHeader } from '@src/components/ecommerce';
+import { NavigationParams, NavigationScreenProps } from 'react-navigation';
+
 import { MenuContainer } from '@src/containers/menu';
 import { ArrowIosBackFill } from '@src/assets/icons';
 import { TopNavigationBar } from './components/topNavigationBar.component';
-import {
-  getCurrentRouteState,
-  isRootRoute,
-  NavigationRouteState,
-  getCurrentRouteIndex,
-} from './util';
+import { getCurrentRouteState, isRootRoute, NavigationRouteState, getCurrentRouteIndex } from './util';
 import { KEY_NAVIGATION_BACK } from './constants';
 
 export type TopNavigationElement = React.ReactElement<any>;
@@ -46,41 +38,9 @@ const MenuTopNavigationParams: TopNavigationParams = {
   },
 };
 
-const EcommerceMenuTopNavigationParams: TopNavigationParams = {
-  header: (props: NavigationScreenProps): TopNavigationElement => {
-    const state: NavigationRouteState = getCurrentRouteState(props.navigation);
-
-    const onBackPress = () => {
-      props.navigation.goBack(KEY_NAVIGATION_BACK);
-    };
-
-    const onSearchPress = () => {
-      Alert.alert('Search...');
-    };
-
-    const onShoppingCartPress = () => {
-      props.navigation.navigate({
-        key: state.routeName,
-        routeName: 'Shopping Cart',
-      });
-    };
-
-    return (
-      <EcommerceHeader
-        title={state.routeName}
-        onBack={onBackPress}
-        onSearch={onSearchPress}
-        onShoppingCart={onShoppingCartPress}
-      />
-    );
-  },
-};
-
 const MenuBottomNavigationParams: BottomNavigationParams = {
   bottomNavigation: (props: NavigationScreenProps): BottomNavigationElement => {
-    return (
-      <MenuContainer {...props} />
-    );
+    return <MenuContainer {...props} />;
   },
 };
 
@@ -94,5 +54,3 @@ export const SocialNavigationOptions: NavigationParams = MenuTopNavigationParams
 export const ArticlesNavigationOptions: NavigationParams = MenuTopNavigationParams;
 
 export const DashboardNavigationOptions: NavigationParams = MenuTopNavigationParams;
-
-export const EcommerceNavigationOptions: NavigationParams = EcommerceMenuTopNavigationParams;

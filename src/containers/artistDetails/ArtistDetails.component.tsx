@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
-import { ProfileInfo3 } from '@src/components/social';
+import { ProfileInfo } from './profileInfo.component';
 import { MessageCircleIconFill, PersonAddIconFill } from '@src/assets/icons';
 import { Artist as ArtistModel } from '@src/core/model';
 import { ContainerView, ImageOverlay, textStyle } from '@src/components/common';
@@ -67,7 +67,7 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
     return (
       <ContainerView style={themedStyle.container}>
         <ImageOverlay style={themedStyle.profileInfoContainer} source={this.backgroundImage.imageSource}>
-          <ProfileInfo3 photo={artistImage} name={artist.artisticName} location={artist.location} />
+          <ProfileInfo photo={artistImage} name={artist.artisticName} location={artist.location} />
           <View style={themedStyle.actionContainer}>
             <Button style={themedStyle.followButton} textStyle={textStyle.button} icon={PersonAddIconFill} onPress={this.onFollowPress}>
               {artist.artisticName}
