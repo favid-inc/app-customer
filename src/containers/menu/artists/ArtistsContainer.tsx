@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { NavigationScreenProps } from 'react-navigation';
 import * as actions from '../../../store/actions';
 import { Artist } from '@src/core/model/artist.model';
-import { ArtistList } from './artistsList.component';
+import { ArtistList } from './ArtistsList';
 interface State {
   selectedLevelIndex: number;
 }

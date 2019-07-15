@@ -7,7 +7,7 @@ import { MenuContainer } from '@src/containers/menu';
 import AccountContainer from '@src/containers/menu/account/AccountCointainer';
 import SignInContainer from '@src/containers/signin/SignInContainer';
 import ArtistDetailsContainer from '@src/containers/artistDetails/ArtistDetailsContainer';
-import ArtistsContainer from '@src/containers/menu/artists/artists.container';
+import ArtistsContainer from '@src/containers/menu/artists/ArtistsContainer';
 import { SocialNavigationOptions } from './options';
 import { NavigationAction } from 'react-navigation';
 

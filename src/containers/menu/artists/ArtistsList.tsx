@@ -5,8 +5,6 @@ import { Artist } from '@src/core/model';
 import { ArtistCard, ArtistCardProps } from '@src/components/artist/artistCard.component';
 import { List, Text } from '@kitten/ui';
 import { textStyle } from '@src/components/common';
-import { ArtistsByMainCategorySearch } from '@favid-inc/api';
-import { artist1, artists } from '@src/core/data/artists';
 
 interface ComponentProps {
   categoryOfArtists: [{ key: string; artists: [Artist] }];
