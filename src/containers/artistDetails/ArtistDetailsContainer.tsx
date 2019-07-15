@@ -41,7 +41,20 @@ class ArtistContainer extends Component<Props, State> {
   private onPhotoPress = (index: number) => {};
 
   public render(): React.ReactNode {
-    return <ArtistDetails follow={this.state.follow} cameoOrdered={this.state.cameoOrdered} artist={this.props.artist} onFollowPress={this.onFollowPress} onOrderPress={this.onOrderPress} onFollowersPress={this.onFollowersPress} onFollowingPress={this.onFollowingPress} onPostsPress={this.onPostsPress} onFriendPress={this.onFriendPress} onPhotoPress={this.onPhotoPress} />;
+    return (
+      <ArtistDetails
+        follow={this.state.follow}
+        cameoOrdered={this.state.cameoOrdered}
+        artist={this.props.artist}
+        onFollowPress={this.onFollowPress}
+        onOrderPress={this.onOrderPress}
+        onFollowersPress={this.onFollowersPress}
+        onFollowingPress={this.onFollowingPress}
+        onPostsPress={this.onPostsPress}
+        onFriendPress={this.onFriendPress}
+        onPhotoPress={this.onPhotoPress}
+      />
+    );
   }
 }
 
