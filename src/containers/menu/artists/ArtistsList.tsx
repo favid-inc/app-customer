@@ -38,9 +38,17 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
   private renderPagerCard = (info: ListRenderItemInfo<Artist>): React.ReactElement<ArtistCardProps> => {
     const { themedStyle, categoryOfArtists } = this.props;
 
-    const marginStyle: StyleType = info.index === categoryOfArtists[0].artists[0].length - 1 ? null : themedStyle.pagerCardMargin;
+    const marginStyle: StyleType =
+      info.index === categoryOfArtists[0].artists[0].length - 1 ? null : themedStyle.pagerCardMargin;
 
-    return <ArtistCard index={info.index} style={[themedStyle.pagerCard, marginStyle]} artist={info.item} onDetails={this.props.onDetails} />;
+    return (
+      <ArtistCard
+        index={info.index}
+        style={[themedStyle.pagerCard, marginStyle]}
+        artist={info.item}
+        onDetails={this.props.onDetails}
+      />
+    );
   };
 
   public render(): React.ReactNode {
@@ -53,7 +61,14 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
             <Text style={themedStyle.pagerLabel} appearance='hint'>
               {artistsList.key}
             </Text>
-            <List style={themedStyle.pagerContainer} horizontal={true} renderItem={this.renderPagerCard} data={artistsList.artists} showsHorizontalScrollIndicator={false} onScroll={this.onExerciseListScroll} />
+            <List
+              style={themedStyle.pagerContainer}
+              horizontal={true}
+              renderItem={this.renderPagerCard}
+              data={artistsList.artists}
+              showsHorizontalScrollIndicator={false}
+              onScroll={this.onExerciseListScroll}
+            />
           </View>
         );
       });
