@@ -55,6 +55,8 @@
     "no-unnecessary-initializer": true,
     "no-var-keyword": true,
     "object-literal-sort-keys": false,
+    "max-attributes-per-line": 4,
+
     "one-line": [
       true,
       "check-catch",
@@ -63,6 +65,11 @@
       "check-open-brace",
       "check-whitespace"
     ],
+    "react/jsx-wrap-multilines": ["error", {
+      "declaration": false,
+      "assignment": false
+    }],
+
     "prefer-const": true,
     "quotemark": [
       true,

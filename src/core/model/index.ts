@@ -1,2 +1,2 @@
 export { Artist, CategoryOfArtistModel } from './artist.model';
-export { Profile } from './profile.model';
+export { Profile, ProfileSocials, ProfileActivity } from './profile.model';

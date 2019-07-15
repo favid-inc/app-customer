@@ -1,23 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Artist } from '@src/core/model';
-import { ArtistDetails } from './ArtistDetails.component';
+import { ArtistDetails } from './ArtistDetails';
 import { NavigationScreenProps } from 'react-navigation';
 
 interface ArtistContainerProps {
   artist: Artist;
 }
 
-type props = NavigationScreenProps & ArtistContainerProps;
+interface State {
+  cameoOrdered: boolean;
+  follow: boolean;
+}
 
-class ArtistContainer extends Component<props> {
-  private onFollowPress = () => {};
+type Props = NavigationScreenProps & ArtistContainerProps;
 
-  private onMessagePress = () => {
-    this.props.navigation.navigate({
-      key: 'ArtistDetails',
-      routeName: 'Chat 1',
-    });
+class ArtistContainer extends Component<Props, State> {
+  public state: State = {
+    cameoOrdered: false,
+    follow: false,
+  };
+
+  private onFollowPress = () => {
+    console.log('follow: ' + this.state.follow);
+    this.setState({ follow: true });
+    console.log('follow: ' + this.state.follow);
+  };
+
+  private onOrderPress = () => {
+    this.setState({ cameoOrdered: true });
   };
   private onFollowersPress = () => {};
 
@@ -30,18 +41,7 @@ class ArtistContainer extends Component<props> {
   private onPhotoPress = (index: number) => {};
 
   public render(): React.ReactNode {
-    return (
-      <ArtistDetails
-        artist={this.props.artist}
-        onFollowPress={this.onFollowPress}
-        onMessagePress={this.onMessagePress}
-        onFollowersPress={this.onFollowersPress}
-        onFollowingPress={this.onFollowingPress}
-        onPostsPress={this.onPostsPress}
-        onFriendPress={this.onFriendPress}
-        onPhotoPress={this.onPhotoPress}
-      />
-    );
+    return <ArtistDetails follow={this.state.follow} cameoOrdered={this.state.cameoOrdered} artist={this.props.artist} onFollowPress={this.onFollowPress} onOrderPress={this.onOrderPress} onFollowersPress={this.onFollowersPress} onFollowingPress={this.onFollowingPress} onPostsPress={this.onPostsPress} onFriendPress={this.onFriendPress} onPhotoPress={this.onPhotoPress} />;
   }
 }
 

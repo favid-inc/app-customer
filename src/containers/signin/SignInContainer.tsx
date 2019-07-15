@@ -23,9 +23,11 @@ class SignInContainer extends React.Component<props, State> {
   public state: State = {
     profile: null,
   };
+
   public componentWillMount() {
     this.props.onLoadAuthState();
   }
+
   private auth = async () => {
     try {
       const result = await AppAuth.authAsync(config.auth);

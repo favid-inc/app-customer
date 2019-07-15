@@ -1,13 +1,5 @@
-import {
-  ImageStyle,
-  StyleProp,
-} from 'react-native';
-import {
-  Icon,
-  IconElement,
-  IconSource,
-  RemoteIcon,
-} from './icon.component';
+import { ImageStyle, StyleProp } from 'react-native';
+import { Icon, IconElement, IconSource, RemoteIcon } from './icon.component';
 
 export const MenuIconAuth = (style: StyleProp<ImageStyle>): IconElement => {
   const source: IconSource = {
@@ -713,8 +705,12 @@ export const TwitterIconFill = (style: StyleProp<ImageStyle>): IconElement => {
   return Icon(source, style);
 };
 
-export {
-  Icon,
-  IconSource,
-  RemoteIcon,
-} from './icon.component';
+export const EvaCheckmarkOutline = (style: StyleProp<ImageStyle>): IconElement => {
+  const source: IconSource = {
+    imageSource: require('./eva/checkmark-outline.png'),
+  };
+
+  return Icon(source, style);
+};
+
+export { Icon, IconSource, RemoteIcon } from './icon.component';
