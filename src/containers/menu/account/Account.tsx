@@ -2,7 +2,8 @@ import React from 'react';
 import { ButtonProps, View } from 'react-native';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button } from '@kitten/ui';
-import { ProfileSetting, ProfilePhoto } from '@src/components/social';
+import { ProfileSetting } from './profileSetting.component';
+import { ProfilePhoto } from './profilePhoto.component';
 import { CameraIconFill } from '@src/assets/icons';
 import { Profile } from '@src/core/model';
 import { ContainerView, textStyle } from '@src/components/common';
@@ -81,7 +82,7 @@ export const Account = withStyles(Accountomponent, (theme: ThemeType) => ({
     width: 48,
     height: 48,
     borderRadius: 24,
-    transform: [ { translateY: 82 } ],
+    transform: [{ translateY: 82 }],
     borderColor: theme['border-basic-color-4'],
     backgroundColor: theme['background-basic-color-4'],
   },
