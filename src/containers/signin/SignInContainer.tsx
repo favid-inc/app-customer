@@ -7,7 +7,7 @@ import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import * as config from '@src/core/config';
 import * as firebase from 'firebase';
 import * as AppAuth from 'expo-app-auth';
-import { splashImage, favidImage } from '@src/assets/images';
+import { googleImage, favidImage } from '@src/assets/images';
 
 interface State {
   profile: Profile;
@@ -60,7 +60,7 @@ class SignInContainer extends React.Component<props, State> {
         <Text style={styles.WelcomeText}>Bem vindo ao Favid!</Text>
         <View style={styles.contentContainer}>
           <TouchableOpacity style={styles.GooglePlusStyle} onPress={() => this.auth()}>
-            <Image source={splashImage.imageSource} style={styles.ImageIconStyle} />
+            <Image source={googleImage.imageSource} style={styles.ImageIconStyle} />
             <Text style={styles.TextStyle}> Continue com Google </Text>
           </TouchableOpacity>
         </View>
