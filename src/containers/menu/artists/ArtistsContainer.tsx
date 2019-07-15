@@ -2,21 +2,28 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavigationScreenProps } from 'react-navigation';
 import * as actions from '../../../store/actions';
-import { Artist } from '@src/core/model/artist.model';
+import { Artist, CategoryOfArtistModel } from '@src/core/model';
 import { ArtistList } from './ArtistsList';
+
 interface State {
   selectedLevelIndex: number;
+  searchString: string;
 }
 interface ArtistContainerProps {
   onListArtists: () => void;
-  categoryOfArtists: [{ key: string; artists: [Artist] }];
+  categoryOfArtists: CategoryOfArtistModel[];
   onSetArtist: (Artist) => void;
+}
+
+interface ArtistsContainerNavigationStateParams {
+  onSearchPress: () => void;
 }
 
 type Props = NavigationScreenProps & ArtistContainerProps;
 class ArtistsContainer extends Component<Props, State> {
   public state: State = {
     selectedLevelIndex: 0,
+    searchString: '',
   };
 
   private navigationKey: string = 'Artists';
@@ -33,8 +40,35 @@ class ArtistsContainer extends Component<Props, State> {
     });
   }
 
+  private onSearchStringChange = (searchString: string): void => {
+    this.setState({ searchString });
+  };
+
+  public filteredArtists(): CategoryOfArtistModel[] {
+    const { searchString } = this.state;
+    if (!searchString) {
+      return this.props.categoryOfArtists;
+    }
+    const categoryOfArtists: CategoryOfArtistModel[] = [...this.props.categoryOfArtists];
+    const filtered: CategoryOfArtistModel[] = categoryOfArtists
+      .map(
+        (category): CategoryOfArtistModel => {
+          const artists: Artist[] = category.artists.filter((artist: Artist) => {
+            const term = new RegExp(searchString.toUpperCase());
+            return term.test(artist.artisticName.toUpperCase());
+          });
+          return {
+            ...category,
+            artists,
+          };
+        },
+      )
+      .filter(category => category.artists.length);
+    return filtered;
+  }
+
   public render(): React.ReactNode {
-    return <ArtistList categoryOfArtists={this.props.categoryOfArtists} onDetails={artist => this.onDetails(artist)} />;
+    return <ArtistList onSearchStringChange={this.onSearchStringChange} categoryOfArtists={this.filteredArtists()} onDetails={artist => this.onDetails(artist)} />;
   }
 }
 
