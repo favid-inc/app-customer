@@ -1,6 +1,6 @@
 import React from 'react';
 import { Animated, Easing, StyleSheet } from 'react-native';
-import { splash } from '@src/assets/images';
+import { splashImage } from '@src/assets/images';
 
 interface Props {
   isLoaded: boolean;
@@ -52,7 +52,7 @@ export class LoadingAnimationComponent extends React.Component<Props, State> {
 
     return (
       <Animated.View style={[styles.container, { opacity }]}>
-        <Animated.Image source={splash.imageSource} style={[styles.image, { transform }]} />
+        <Animated.Image source={splashImage.imageSource} style={[styles.image, { transform }]} />
       </Animated.View>
     );
   }

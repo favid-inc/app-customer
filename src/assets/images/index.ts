@@ -8,6 +8,10 @@ export {
   RemoteImage,
 } from './type';
 
+export const splashImage: ImageSource = {
+  imageSource: require('./source/splash.png'),
+};
+
 export const googleImage: ImageSource = {
   imageSource: require('./source/google.png'),
 };
