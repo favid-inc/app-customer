@@ -32,7 +32,7 @@
     "member-access": false,
     "no-arg": true,
     "no-console": [
-      true,
+      "warning",
       "debug",
       "log",
       "time",
