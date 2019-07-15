@@ -1,14 +1,16 @@
 import React from 'react';
 import { ListRenderItemInfo, NativeScrollEvent, NativeSyntheticEvent, ScrollView, View, ViewProps } from 'react-native';
 import { withStyles, ThemeType, ThemedComponentProps, StyleType } from '@kitten/theme';
-import { Artist } from '@src/core/model';
+import { Artist, CategoryOfArtistModel } from '@src/core/model';
 import { ArtistCard, ArtistCardProps } from '@src/components/artist/artistCard.component';
-import { List, Text } from '@kitten/ui';
+import { List, Text, InputProps, Input } from '@kitten/ui';
 import { textStyle } from '@src/components/common';
+import { SearchIconOutline } from '@src/assets/icons';
 
 interface ComponentProps {
-  categoryOfArtists: [{ key: string; artists: [Artist] }];
+  categoryOfArtists: CategoryOfArtistModel[];
   onDetails: (Artist) => void;
+  onSearchStringChange: (text: string) => void;
 }
 
 interface State {
@@ -38,17 +40,19 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
   private renderPagerCard = (info: ListRenderItemInfo<Artist>): React.ReactElement<ArtistCardProps> => {
     const { themedStyle, categoryOfArtists } = this.props;
 
-    const marginStyle: StyleType =
-      info.index === categoryOfArtists[0].artists[0].length - 1 ? null : themedStyle.pagerCardMargin;
+    const marginStyle: StyleType = info.index === categoryOfArtists[0].artists[0].length - 1 ? null : themedStyle.pagerCardMargin;
 
-    return (
-      <ArtistCard
-        index={info.index}
-        style={[themedStyle.pagerCard, marginStyle]}
-        artist={info.item}
-        onDetails={this.props.onDetails}
-      />
-    );
+    return <ArtistCard index={info.index} style={[themedStyle.pagerCard, marginStyle]} artist={info.item} onDetails={this.props.onDetails} />;
+  };
+
+  private onSearchStringChange = (text: string): void => {
+    this.props.onSearchStringChange(text);
+  };
+
+  private renderSearchInput = (): React.ReactElement<InputProps> | null => {
+    const { themedStyle } = this.props;
+
+    return <Input style={themedStyle.input} textStyle={textStyle.paragraph} icon={SearchIconOutline} placeholder='Search Artist...' onChangeText={this.onSearchStringChange} />;
   };
 
   public render(): React.ReactNode {
@@ -61,25 +65,23 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
             <Text style={themedStyle.pagerLabel} appearance='hint'>
               {artistsList.key}
             </Text>
-            <List
-              style={themedStyle.pagerContainer}
-              horizontal={true}
-              renderItem={this.renderPagerCard}
-              data={artistsList.artists}
-              showsHorizontalScrollIndicator={false}
-              onScroll={this.onExerciseListScroll}
-            />
+            <List style={themedStyle.pagerContainer} horizontal={true} renderItem={this.renderPagerCard} data={artistsList.artists} showsHorizontalScrollIndicator={false} onScroll={this.onExerciseListScroll} />
           </View>
         );
       });
     }
-    return <ScrollView contentContainerStyle={themedStyle.container}>{categoryList}</ScrollView>;
+    return (
+      <View style={themedStyle.container}>
+        {this.renderSearchInput()}
+        <ScrollView contentContainerStyle={themedStyle.container}>{categoryList}</ScrollView>
+      </View>
+    );
   }
 }
 
 export const ArtistList = withStyles(ArtistListComponent, (theme: ThemeType) => ({
   container: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 10,
     paddingVertical: 8,
   },
   pagerContainer: {
@@ -109,5 +111,8 @@ export const ArtistList = withStyles(ArtistListComponent, (theme: ThemeType) => 
   },
   indicatorMarginRight: {
     marginRight: 12,
+  },
+  input: {
+    marginHorizontal: 10,
   },
 }));
