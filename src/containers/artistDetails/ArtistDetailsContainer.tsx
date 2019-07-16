@@ -22,9 +22,7 @@ class ArtistContainer extends Component<Props, State> {
   };
 
   private onFollowPress = () => {
-    console.log('follow: ' + this.state.follow);
     this.setState({ follow: true });
-    console.log('follow: ' + this.state.follow);
   };
 
   private onOrderPress = () => {
