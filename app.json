@@ -14,7 +14,7 @@
     },
     "android": {
       "package": "br.com.favid.appcustomer",
-      "versionCode": 18,
+      "versionCode": 19,
       "playStoreUrl": "https://play.google.com/store/apps/details?id=br.com.favid.appcustomer"
     },
     "androidStatusBar": {
