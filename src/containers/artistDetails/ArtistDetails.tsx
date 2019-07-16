@@ -88,20 +88,23 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
         <ImageOverlay style={themedStyle.profileInfoContainer} source={this.backgroundImage.imageSource}>
           <ProfileInfo photo={artistImage} name={artist.artisticName} mainCategory={artist.mainCategory} location={artist.location} />
           <View style={themedStyle.actionContainer}>
-            <Button style={themedStyle.followButton} textStyle={textStyle.button} status={followStatus} icon={PersonAddIconFill} onPress={this.onFollowPress}>
-              {this.props.follow ? 'Following' : 'Follow'}
-            </Button>
-            <Button style={themedStyle.orderButton} textStyle={textStyle.button} status={cameoOrderedStatus} icon={EvaCheckmarkOutline} onPress={this.onOrderPress}>
-              {this.props.cameoOrdered ? 'Ordered' : 'Order'}
+            <View style={themedStyle.price}>
+              <Text category='h6' style={themedStyle.priceText}>{`R$ ${artist.price}`}</Text>
+              <Text appearance='hint' category='s2' style={themedStyle.priceDescription}>
+                {`Responde normalmente em até ${artist.responseTime === 1 ? 'artist.responseTime dia' : artist.responseTime + ' dias'}.`}
+              </Text>
+            </View>
+            <Button size='giant' style={themedStyle.orderButton} status={cameoOrderedStatus} onPress={this.onOrderPress}>
+              {this.props.cameoOrdered ? 'Pendente' : 'Pedir'}
             </Button>
           </View>
           <ProfileSocials style={themedStyle.profileSocials} textStyle={themedStyle.socialsLabel} followers={socials.followers} following={socials.following} posts={socials.posts} onFollowersPress={this.onFollowersPress} onFollowingPress={this.onFollowingPress} onPostsPress={this.onPostsPress} />
         </ImageOverlay>
         <View style={[themedStyle.profileSection, themedStyle.aboutSection]}>
-          <ShowcaseSection title='Categories' style={themedStyle.section}>
+          <ShowcaseSection title='Tags' style={themedStyle.section}>
             <View style={themedStyle.categories}>{categories}</View>
           </ShowcaseSection>
-          <ShowcaseSection title='About' style={themedStyle.section}>
+          <ShowcaseSection title='Sobre' style={themedStyle.section}>
             <Text style={[themedStyle.profileSectionContent, themedStyle.profileAboutLabel]} appearance='hint'>
               {artist.about}
             </Text>
@@ -123,11 +126,12 @@ export const ArtistDetails = withStyles(ArtistDetailsComponent, (theme: ThemeTyp
   },
   profileSocials: {
     justifyContent: 'space-evenly',
-    marginTop: 24,
-    paddingVertical: 16,
+    paddingVertical: 15,
   },
   actionContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     marginTop: 32,
   },
   profileSection: {
@@ -139,13 +143,27 @@ export const ArtistDetails = withStyles(ArtistDetailsComponent, (theme: ThemeTyp
   socialsLabel: {
     color: 'white',
   },
-  followButton: {
-    flex: 1,
-    marginRight: 4,
-  },
   orderButton: {
     flex: 1,
-    marginLeft: 15,
+  },
+  price: {
+    flex: 1,
+    color: 'white',
+    ...textStyle.subtitle,
+    paddingVertical: 5,
+    marginHorizontal: 5,
+  },
+  priceText: {
+    ...textStyle.subtitle,
+    fontFamily: 'opensans-bold',
+    color: 'white',
+    textAlign: 'center',
+  },
+  priceDescription: {
+    ...textStyle.paragraph,
+    color: 'white',
+    textAlign: 'center',
+    lineHeight: 14,
   },
   profileSectionLabel: {
     marginHorizontal: 16,
@@ -160,7 +178,7 @@ export const ArtistDetails = withStyles(ArtistDetailsComponent, (theme: ThemeTyp
     ...textStyle.paragraph,
   },
   shotsSection: {
-    marginBottom: 32,
+    marginBottom: 22,
   },
   friendsList: {
     paddingHorizontal: 12,

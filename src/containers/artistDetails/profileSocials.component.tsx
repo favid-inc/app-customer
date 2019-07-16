@@ -37,19 +37,13 @@ class ProfileSocialsComponent extends React.Component<ProfileSocialsProps> {
         <TouchableOpacity activeOpacity={0.65} style={themedStyle.parameterContainer} onPress={this.onFollowersButtonPress}>
           <Text style={[themedStyle.valueLabel, derivedTextStyle]}>{`${followers}`}</Text>
           <Text style={[themedStyle.hintLabel, derivedTextStyle]} appearance='hint' category='s2'>
-            Followers
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.65} style={themedStyle.parameterContainer} onPress={this.onFollowingButtonPress}>
-          <Text style={[themedStyle.valueLabel, derivedTextStyle]}>{`${following}`}</Text>
-          <Text style={[themedStyle.hintLabel, derivedTextStyle]} appearance='hint' category='s2'>
-            Following
+            Seguidores
           </Text>
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.65} style={themedStyle.parameterContainer} onPress={this.onPostsButtonPress}>
           <Text style={[themedStyle.valueLabel, derivedTextStyle]}>{`${posts}`}</Text>
           <Text style={[themedStyle.hintLabel, derivedTextStyle]} appearance='hint' category='s2'>
-            Cameos
+            Pedidos
           </Text>
         </TouchableOpacity>
       </View>
