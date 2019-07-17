@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import { REMOVEARTIST, STOREARTIST, STOREARTISTS } from './ActionTypes';
 import * as config from '@src/core/config';
-import { ARTIST, ArtistSearchByMainCategoryResult, ARTIST_SEARCH_BY_MAIN_CATEGORY } from '@favid-inc/api';
+import { ArtistSearchByMainCategoryResult, ARTIST_SEARCH_BY_MAIN_CATEGORY } from '@favid-inc/api';
 import { Artist, CategoryOfArtistModel } from '@src/core/model';
 
 export const setArtist = (artist: Artist) => {
@@ -17,16 +17,16 @@ export const getArtist = () => {
   };
 };
 
-const processArtistList = (artists: ArtistSearchByMainCategoryResult): CategoryOfArtistModel[] => {
-  const categoryOfArtists: CategoryOfArtistModel[] = artists.aggregations.mainCategory.buckets.map(b => {
-    const artists: Artist[] = b.by_top_hit.hits.hits.map(a => {
-      const artist: Artist = { ...a._source };
-      return artist;
-    });
+const processArtistList = (result: ArtistSearchByMainCategoryResult): CategoryOfArtistModel[] => {
+  const categoryOfArtists: CategoryOfArtistModel[] = result.aggregations.mainCategory.buckets.map(bucket => {
+
+    const artists: Artist[] = bucket.by_top_hit.hits.hits.map(a => a._source);
+
     const category: CategoryOfArtistModel = {
-      key: b.key,
+      key: bucket.key,
       artists,
     };
+
     return category;
   });
   return categoryOfArtists;

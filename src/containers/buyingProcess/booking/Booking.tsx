@@ -38,7 +38,16 @@ class BookingComponent extends Component<BookingProps, State> {
     if (this.state.gift) {
       giftFields = (
         <View style={themedStyle.middleContainer}>
-          <ValidationInput value={this.state.theirName} style={themedStyle.input} textStyle={textStyle.paragraph} labelStyle={textStyle.label} label='Nome Dele' placeholder='José' validator={NameValidator} onChangeText={theirName => this.setState({ theirName })} />
+          <ValidationInput
+            value={this.state.theirName}
+            style={themedStyle.input}
+            textStyle={textStyle.paragraph}
+            labelStyle={textStyle.label}
+            label='Nome Dele'
+            placeholder='José'
+            validator={NameValidator}
+            onChangeText={theirName => this.setState({ theirName })}
+          />
         </View>
       );
     }
@@ -53,11 +62,29 @@ class BookingComponent extends Component<BookingProps, State> {
             <Toggle checked={this.state.gift} style={themedStyle.gift} onChange={gift => this.setState({ gift })} />
           </View>
           <View style={themedStyle.middleContainer}>
-            <ValidationInput value={this.state.name} style={themedStyle.input} textStyle={textStyle.paragraph} labelStyle={textStyle.label} label='Meu Nome' placeholder='João' validator={NameValidator} onChangeText={name => this.setState({ name })} />
+            <ValidationInput
+              value={this.state.name}
+              style={themedStyle.input}
+              textStyle={textStyle.paragraph}
+              labelStyle={textStyle.label}
+              label='Meu Nome'
+              placeholder='João'
+              validator={NameValidator}
+              onChangeText={name => this.setState({ name })}
+            />
           </View>
           {giftFields}
           <View style={themedStyle.middleContainer}>
-            <ValidationInput value={this.state.message} style={themedStyle.input} textStyle={textStyle.paragraph} labelStyle={textStyle.label} label='Minha Menssagem' placeholder='Por favor deseje um feliz aniversário ao meu amigo Lucas Marques.' validator={NameValidator} onChangeText={message => this.setState({ message })} />
+            <ValidationInput
+              value={this.state.message}
+              style={themedStyle.input}
+              textStyle={textStyle.paragraph}
+              labelStyle={textStyle.label}
+              label='Minha Menssagem'
+              placeholder='Por favor deseje um feliz aniversário ao meu amigo Lucas Marques.'
+              validator={NameValidator}
+              onChangeText={message => this.setState({ message })}
+            />
           </View>
         </View>
         <Button status='success' size='giant' style={themedStyle.addButton} onPress={() => this.onSend}>

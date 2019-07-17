@@ -14,7 +14,7 @@ import * as firebase from 'firebase';
 
 interface ComponentProps {
   artist: ArtistModel;
-  socials: ProfileSocialsModel;
+  // socials: ProfileSocialsModel;
   cameoOrdered: boolean;
   follow: boolean;
   onFollowPress: () => void;
