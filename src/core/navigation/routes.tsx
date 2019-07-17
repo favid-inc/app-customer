@@ -53,8 +53,8 @@ const SignInNavigator: NavigationContainer = createStackNavigator(
 
 const ArtistsNavigator: NavigationContainer = createStackNavigator(
   {
-    // ['Artists']: ArtistsContainer,
-    ['Artists']: BookingContainer,
+    ['Artists']: ArtistsContainer,
+    // ['Artists']: BookingContainer,
   },
   {
     headerMode: 'screen',
