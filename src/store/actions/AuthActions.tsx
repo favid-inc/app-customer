@@ -1,20 +1,67 @@
 import { AsyncStorage } from 'react-native';
-import { SIGNIN, SIGNOUT } from './ActionTypes';
-
-import {storageKeys} from '@src/core/config';
-
+import { SIGNIN, SIGNOUT, SIGNINSTARTED, SIGNINENDED, SIGNINERROR } from './ActionTypes';
+import * as config from '@src/core/config';
+import { storageKeys } from '@src/core/config';
+import { Customer as CustomerModel } from '@src/core/model/customer.model';
+import { AuthState as AuthStateModel } from '@src/core/model/authState.model';
+import * as firebase from 'firebase';
 const storageKey = storageKeys.currentUser;
 
-export const signIn = (authState) => {
-  AsyncStorage.setItem(storageKey, JSON.stringify(authState));
+export const auth = authResult => {
+  return async dispatch => {
+    dispatch(signInStarted());
+    const credential = firebase.auth.GoogleAuthProvider.credential(authResult.idToken, authResult.accessToken);
+    const authData = await firebase.auth().signInWithCredential(credential);
+    const data = JSON.parse(JSON.stringify(authData)).user;
+    const customer: CustomerModel = {
+      uid: data.uid,
+      displayName: data.displayName,
+      photoURL: data.photoURL,
+      email: data.email,
+      lastLoginAt: data.lastLoginAt,
+      createdAt: data.createdAt,
+    };
+    const authState: AuthStateModel = {
+      ...customer,
+      redirectEventId: data.redirectEventId,
+      lastLoginAt: data.lastLoginAt,
+      createdAt: data.createdAt,
+    };
+    dispatch(verifyCustomer(customer));
+    await AsyncStorage.setItem(storageKey, JSON.stringify(authState));
+    dispatch(signIn(authState));
+    dispatch(signInFinished());
+  };
+};
+
+export const signIn = (authState: AuthStateModel) => {
   return {
     type: SIGNIN,
-    payload: authState,
+    authState,
+  };
+};
+
+export const signInStarted = () => {
+  return {
+    type: SIGNINSTARTED,
+  };
+};
+
+export const signInFinished = () => {
+  return {
+    type: SIGNINENDED,
+  };
+};
+
+export const signInError = error => {
+  return {
+    type: SIGNINERROR,
+    error,
   };
 };
 
 export const loadAuthState = () => {
-  return async (dispatch) => {
+  return async dispatch => {
     const authState = await AsyncStorage.getItem(storageKey);
     dispatch(signIn(JSON.parse(authState)));
   };
@@ -60,6 +107,7 @@ const registerCustomer = (customer: CustomerModel) => {
 
 export const signOut = () => {
   AsyncStorage.removeItem(storageKey);
+  console.log('[AuthActions.tsx] signOut');
   return {
     type: SIGNOUT,
   };
