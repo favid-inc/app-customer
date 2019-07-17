@@ -1,5 +1,8 @@
 export const SIGNIN = 'SIGNIN';
 export const SIGNOUT = 'SIGNOUT';
+export const SIGNINSTARTED = 'SIGNINSTARTED';
+export const SIGNINENDED = 'SIGNINENDED';
+export const SIGNINERROR = 'SIGNINERROR';
 
 export const REMOVEARTIST = 'REMOVEARTIST';
 export const STOREARTIST = 'STOREARTIST';
