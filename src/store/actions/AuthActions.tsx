@@ -5,6 +5,7 @@ import { storageKeys } from '@src/core/config';
 import { Customer as CustomerModel } from '@src/core/model/customer.model';
 import { AuthState as AuthStateModel } from '@src/core/model/authState.model';
 import * as firebase from 'firebase';
+
 const storageKey = storageKeys.currentUser;
 
 export const auth = authResult => {
@@ -27,7 +28,7 @@ export const auth = authResult => {
       lastLoginAt: data.lastLoginAt,
       createdAt: data.createdAt,
     };
-    dispatch(verifyCustomer(customer));
+    // dispatch(verifyCustomer(customer));
     await AsyncStorage.setItem(storageKey, JSON.stringify(authState));
     dispatch(signIn(authState));
     dispatch(signInFinished());
@@ -69,22 +70,16 @@ export const loadAuthState = () => {
 
 export const verifyCustomer = (customer: CustomerModel) => {
   return async dispatch => {
-    console.log('[AuthActions.tsx] verifyCustomer() => started');
-
-    const queryParams = `?orderBy="uid"&equalTo="${customer.uid}"`;
-    const response = await fetch(`${config.firebase.databaseURL}/customer.json${queryParams}`);
+    const response = await fetch(`${config.firebase.databaseURL}/customer.json/${customer.uid}`);
     const data: any = await response.json();
 
     if (Object.keys(data).length) {
       const customerID = Object.keys(data)[0];
       if (data[customerID].uid) {
-        console.log('[AuthActions.tsx] verifyCustomer() => finished: user already registred');
         return;
       }
-      console.log('[AuthActions.tsx] verifyCustomer() => finished: register user');
       dispatch(registerCustomer(customer));
     } else {
-      console.log('[AuthActions.tsx] verifyCustomer() => finished: register user');
       dispatch(registerCustomer(customer));
     }
   };
@@ -92,22 +87,20 @@ export const verifyCustomer = (customer: CustomerModel) => {
 
 const registerCustomer = (customer: CustomerModel) => {
   return async () => {
-    console.log('[AuthActions.tsx] registerCustomer() => started');
-    await fetch(`${config.firebase.databaseURL}/customer.json`, {
-      method: 'POST',
+    const response = await fetch(`${config.firebase.databaseURL}/customer.json/${customer.uid}`, {
+      method: 'PUT',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(customer),
     });
-    console.log('[AuthActions.tsx] registerCustomer() => finished');
+    console.log(response);
   };
 };
 
 export const signOut = () => {
   AsyncStorage.removeItem(storageKey);
-  console.log('[AuthActions.tsx] signOut');
   return {
     type: SIGNOUT,
   };
