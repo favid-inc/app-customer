@@ -33,7 +33,6 @@ class AccountContainer extends Component<Props, State> {
 
   public componentDidMount() {
     if (!this.props.auth.displayName) {
-      console.log('[AccountContainer.tsx] componentDidMount', this.props.auth);
       return this.props.onSignOut();
     }
     this.setState(prevState => {

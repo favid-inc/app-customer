@@ -6,7 +6,6 @@ const INITIAL_STATE = {
 };
 
 const storeArtist = (state, action) => {
-  // console.log('[ArtistReducer.tsx] storeArtist() called: ' + action.payload.id);
   return {
     ...state,
     artist: {
@@ -17,7 +16,6 @@ const storeArtist = (state, action) => {
 };
 
 const storeArtists = (state, action) => {
-  // console.log('[ArtistReducer.tsx] storeArtists() called: ' + action.payload);
   return {
     ...state,
     categoryOfArtists: [...action.payload],
