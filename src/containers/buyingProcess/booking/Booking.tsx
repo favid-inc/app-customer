@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { ThemedComponentProps, withStyles, ThemeType } from 'react-native-ui-kitten/theme';
 import { ContainerView, ValidationInput, textStyle } from '@src/components/common';
-import { View, ViewProps } from 'react-native';
+import { View, ViewProps, ActivityIndicator } from 'react-native';
 import { Toggle, Text, Button, Input } from 'react-native-ui-kitten/ui';
 import { NameValidator } from '@src/core/validators';
 
+
 interface ComponentProps {
-  onSend: (gift: boolean, name: string, message: string) => void;
+  loading: boolean;
+  onSend: (any) => void;
 }
 
 export type BookingProps = ThemedComponentProps & ViewProps & ComponentProps;
@@ -18,6 +20,8 @@ interface State {
   message: string;
 }
 
+
+
 class BookingComponent extends Component<BookingProps, State> {
   public state: State = {
     gift: false,
@@ -27,8 +31,7 @@ class BookingComponent extends Component<BookingProps, State> {
   };
 
   private onSend() {
-    const { gift, name, message } = this.state;
-    this.props.onSend(gift, name, message);
+    this.props.onSend(this.state);
   }
 
   public render() {
@@ -87,8 +90,8 @@ class BookingComponent extends Component<BookingProps, State> {
             />
           </View>
         </View>
-        <Button status='success' size='giant' style={themedStyle.addButton} onPress={() => this.onSend}>
-          Enviar Pedido
+        <Button status='success' disabled={this.props.loading} size='giant' style={themedStyle.addButton} onPress={() => this.onSend()}>
+          {this.props.loading ? 'Enviando Pedido...' : 'Enviar Pedido' }
         </Button>
       </ContainerView>
     );
