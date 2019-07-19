@@ -9,7 +9,6 @@ import { imageProfile7Bg, ImageSource } from '@src/assets/images';
 import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
 import { ProfileSocials } from './profileSocials.component';
 
-
 interface ComponentProps {
   artist: ArtistModel;
   // socials: ProfileSocialsModel;
@@ -72,41 +71,84 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
       following: 86,
       posts: 116,
     };
-    const categories = artist.categories.map((cat, i) => {
-      return (
-        <Chips style={themedStyle.chips} key={`${cat}-${i}`}>
-          <Text style={themedStyle.chipsText}>{cat}</Text>
-        </Chips>
+
+    let responseTime = null;
+    if (artist.responseTime) {
+      responseTime = (
+        <Text appearance='hint' category='s2' style={themedStyle.priceDescription}>
+          {`Responde em  ${artist.responseTime === 1 ? artist.responseTime + ' dia' : artist.responseTime + ' dias'}.`}
+        </Text>
       );
-    });
+    }
+
+    let categories = null;
+    if (artist.categories && artist.categories.length) {
+      categories = (
+        <ShowcaseSection title='Tags' style={themedStyle.section}>
+          <View style={themedStyle.categories}>
+            {artist.categories.map((cat, i) => {
+              return (
+                <Chips style={themedStyle.chips} key={`${cat}-${i}`}>
+                  <Text style={themedStyle.chipsText}>{cat}</Text>
+                </Chips>
+              );
+            })}
+          </View>
+        </ShowcaseSection>
+      );
+    }
+
+    let about = null;
+
+    if (artist.about && artist.about.length) {
+      about = (
+        <ShowcaseSection title='Sobre' style={themedStyle.section}>
+          <Text style={[themedStyle.profileSectionContent, themedStyle.profileAboutLabel]} appearance='hint'>
+            {artist.about}
+          </Text>
+        </ShowcaseSection>
+      );
+    }
+
     const followStatus = this.props.follow ? 'white' : 'info';
     const cameoOrderedStatus = this.props.cameoOrdered ? 'white' : 'success';
     return (
       <ContainerView style={themedStyle.container}>
         <ImageOverlay style={themedStyle.profileInfoContainer} source={this.backgroundImage.imageSource}>
-          <ProfileInfo photo={artistImage} name={artist.artisticName} mainCategory={artist.mainCategory} location={artist.location} />
+          <ProfileInfo
+            photo={artistImage}
+            name={artist.artisticName}
+            mainCategory={artist.mainCategory}
+            location={artist.location}
+          />
           <View style={themedStyle.actionContainer}>
             <View style={themedStyle.price}>
               <Text category='h6' style={themedStyle.priceText}>{`R$ ${artist.price}`}</Text>
-              <Text appearance='hint' category='s2' style={themedStyle.priceDescription}>
-                {`Responde em  ${artist.responseTime === 1 ? artist.responseTime + ' dia' : artist.responseTime + ' dias'}.`}
-              </Text>
+              {responseTime}
             </View>
-            <Button size='giant' style={themedStyle.orderButton} status={cameoOrderedStatus} onPress={this.onOrderPress}>
+            <Button
+              size='giant'
+              style={themedStyle.orderButton}
+              status={cameoOrderedStatus}
+              onPress={this.onOrderPress}
+            >
               {this.props.cameoOrdered ? 'Pendente' : 'Pedir'}
             </Button>
           </View>
-          <ProfileSocials style={themedStyle.profileSocials} textStyle={themedStyle.socialsLabel} followers={socials.followers} following={socials.following} posts={socials.posts} onFollowersPress={this.onFollowersPress} onFollowingPress={this.onFollowingPress} onPostsPress={this.onPostsPress} />
+          <ProfileSocials
+            style={themedStyle.profileSocials}
+            textStyle={themedStyle.socialsLabel}
+            followers={socials.followers}
+            following={socials.following}
+            posts={socials.posts}
+            onFollowersPress={this.onFollowersPress}
+            onFollowingPress={this.onFollowingPress}
+            onPostsPress={this.onPostsPress}
+          />
         </ImageOverlay>
         <View style={[themedStyle.profileSection, themedStyle.aboutSection]}>
-          <ShowcaseSection title='Tags' style={themedStyle.section}>
-            <View style={themedStyle.categories}>{categories}</View>
-          </ShowcaseSection>
-          <ShowcaseSection title='Sobre' style={themedStyle.section}>
-            <Text style={[themedStyle.profileSectionContent, themedStyle.profileAboutLabel]} appearance='hint'>
-              {artist.about}
-            </Text>
-          </ShowcaseSection>
+          {categories}
+          {about}
         </View>
       </ContainerView>
     );
