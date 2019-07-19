@@ -4,7 +4,7 @@ import { ContainerView, ValidationInput, textStyle } from '@src/components/commo
 import { View, ViewProps, ActivityIndicator } from 'react-native';
 import { Toggle, Text, Button, Input } from 'react-native-ui-kitten/ui';
 import { NameValidator } from '@src/core/validators';
-
+import { OrderModel as State } from '@favid-inc/api';
 
 interface ComponentProps {
   loading: boolean;
@@ -13,21 +13,14 @@ interface ComponentProps {
 
 export type BookingProps = ThemedComponentProps & ViewProps & ComponentProps;
 
-interface State {
-  gift: boolean;
-  name: string;
-  theirName?: string;
-  message: string;
-}
-
-
-
 class BookingComponent extends Component<BookingProps, State> {
   public state: State = {
-    gift: false,
-    name: '',
+    isGift: false,
+    myName: '',
     theirName: '',
-    message: '',
+    videoInstructions: '',
+    videoCreationDate: new Date().getTime(),
+    status: 'OP',
   };
 
   private onSend() {
@@ -38,7 +31,7 @@ class BookingComponent extends Component<BookingProps, State> {
     const { themedStyle } = this.props;
     let giftFields = null;
 
-    if (this.state.gift) {
+    if (this.state.isGift) {
       giftFields = (
         <View style={themedStyle.middleContainer}>
           <ValidationInput
@@ -62,36 +55,46 @@ class BookingComponent extends Component<BookingProps, State> {
             <Text appearance='hint' category='s2' style={themedStyle.tittleLabel}>
               Para Presente?
             </Text>
-            <Toggle checked={this.state.gift} style={themedStyle.gift} onChange={gift => this.setState({ gift })} />
+            <Toggle
+              checked={this.state.isGift}
+              style={themedStyle.isGift}
+              onChange={isGift => this.setState({ isGift })}
+            />
           </View>
           <View style={themedStyle.middleContainer}>
             <ValidationInput
-              value={this.state.name}
+              value={this.state.myName}
               style={themedStyle.input}
               textStyle={textStyle.paragraph}
               labelStyle={textStyle.label}
               label='Meu Nome'
               placeholder='João'
               validator={NameValidator}
-              onChangeText={name => this.setState({ name })}
+              onChangeText={myName => this.setState({ myName })}
             />
           </View>
           {giftFields}
           <View style={themedStyle.middleContainer}>
             <ValidationInput
-              value={this.state.message}
+              value={this.state.videoInstructions}
               style={themedStyle.input}
               textStyle={textStyle.paragraph}
               labelStyle={textStyle.label}
               label='Minha Menssagem'
               placeholder='Por favor deseje um feliz aniversário ao meu amigo Lucas Marques.'
               validator={NameValidator}
-              onChangeText={message => this.setState({ message })}
+              onChangeText={videoInstructions => this.setState({ videoInstructions })}
             />
           </View>
         </View>
-        <Button status='success' disabled={this.props.loading} size='giant' style={themedStyle.addButton} onPress={() => this.onSend()}>
-          {this.props.loading ? 'Enviando Pedido...' : 'Enviar Pedido' }
+        <Button
+          status='success'
+          disabled={this.props.loading}
+          size='giant'
+          style={themedStyle.addButton}
+          onPress={() => this.onSend()}
+        >
+          {this.props.loading ? 'Enviando Pedido...' : 'Enviar Pedido'}
         </Button>
       </ContainerView>
     );
