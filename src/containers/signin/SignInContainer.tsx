@@ -3,18 +3,20 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import { NavigationScreenProps } from 'react-navigation';
 import { Profile } from '@src/core/model';
-import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import * as config from '@src/core/config';
-import * as firebase from 'firebase';
 import * as AppAuth from 'expo-app-auth';
 import { googleImage, favidImage } from '@src/assets/images';
+import { AuthState as AuthStateModel } from '@src/core/model/authState.model';
 
 interface State {
   profile: Profile;
 }
 
 interface SignInContainerProps {
-  onSignIn: (any) => void;
+  auth: AuthStateModel;
+  loading: boolean;
+  onAuth: (any) => void;
   onLoadAuthState: () => void;
 }
 
@@ -29,34 +31,12 @@ class SignInContainer extends React.Component<props, State> {
   }
 
   private auth = async () => {
-    try {
-      const result = await AppAuth.authAsync(config.auth);
-      const credential = firebase.auth.GoogleAuthProvider.credential(result.idToken, result.accessToken);
-      const authData = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
-      // todo: refactor straction of stsTokenManager
-      const data = JSON.parse(JSON.stringify(authData)).user;
-      const authState = {
-        uid: data.uid,
-        displayName: data.displayName,
-        photoURL: data.photoURL,
-        email: data.email,
-        refreshToken: data.stsTokenManager.refreshToken,
-        accessToken: data.stsTokenManager.refreshToken,
-        expirationTime: data.stsTokenManager.refreshToken,
-        redirectEventId: data.redirectEventId,
-        lastLoginAt: data.lastLoginAt,
-        createdAt: data.createdAt,
-      };
-
-      this.props.onSignIn(authState);
-      // console.log(authState);
-    } catch (e) {
-      console.error(e);
-    }
+    const result = await AppAuth.authAsync(config.auth);
+    this.props.onAuth(result);
   };
 
   public render(): React.ReactNode {
-    return (
+    let signInContent = (
       <View style={styles.container}>
         <Image source={favidImage.imageSource} style={styles.ImageLogoStyle} />
         <Text style={styles.WelcomeText}>Bem vindo ao Favid!</Text>
@@ -68,16 +48,32 @@ class SignInContainer extends React.Component<props, State> {
         </View>
       </View>
     );
+
+    if (this.props.loading) {
+      signInContent = (
+        <View style={styles.container}>
+          <Text style={styles.TextStyle}>Autenticando usuário...</Text>
+          <ActivityIndicator size='large' />
+        </View>
+      );
+    }
+
+    return signInContent;
   }
 }
 
+const mapStateToProps = ({ auth }) => ({
+  auth: auth.authState,
+  loading: auth.loading,
+});
+
 const mapDispatchToProps = dispatch => ({
-  onSignIn: authState => dispatch(actions.signIn(authState)),
+  onAuth: authResult => dispatch(actions.auth(authResult)),
   onLoadAuthState: () => dispatch(actions.loadAuthState()),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(SignInContainer);
 

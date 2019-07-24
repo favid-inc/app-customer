@@ -1,5 +1,13 @@
 import React from 'react';
-import { ListRenderItemInfo, NativeScrollEvent, NativeSyntheticEvent, ScrollView, View, ViewProps } from 'react-native';
+import {
+  ListRenderItemInfo,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollView,
+  View,
+  ViewProps,
+  ActivityIndicator,
+} from 'react-native';
 import { withStyles, ThemeType, ThemedComponentProps, StyleType } from '@kitten/theme';
 import { Artist, CategoryOfArtistModel } from '@src/core/model';
 import { ArtistCard, ArtistCardProps } from '@src/components/artist/artistCard.component';
@@ -40,9 +48,17 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
   private renderPagerCard = (info: ListRenderItemInfo<Artist>): React.ReactElement<ArtistCardProps> => {
     const { themedStyle, categoryOfArtists } = this.props;
 
-    const marginStyle: StyleType = info.index === categoryOfArtists[0].artists.length - 1 ? null : themedStyle.pagerCardMargin;
+    const marginStyle: StyleType =
+      info.index === categoryOfArtists[0].artists.length - 1 ? null : themedStyle.pagerCardMargin;
 
-    return <ArtistCard index={info.index} style={[themedStyle.pagerCard, marginStyle]} artist={info.item} onDetails={this.props.onDetails} />;
+    return (
+      <ArtistCard
+        index={info.index}
+        style={[themedStyle.pagerCard, marginStyle]}
+        artist={info.item}
+        onDetails={this.props.onDetails}
+      />
+    );
   };
 
   private onSearchStringChange = (text: string): void => {
@@ -52,12 +68,20 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
   private renderSearchInput = (): React.ReactElement<InputProps> | null => {
     const { themedStyle } = this.props;
 
-    return <Input style={themedStyle.input} textStyle={textStyle.paragraph} icon={SearchIconOutline} placeholder='Search Artist...' onChangeText={this.onSearchStringChange} />;
+    return (
+      <Input
+        style={themedStyle.input}
+        textStyle={textStyle.paragraph}
+        icon={SearchIconOutline}
+        placeholder='Search Artist...'
+        onChangeText={this.onSearchStringChange}
+      />
+    );
   };
 
   public render(): React.ReactNode {
     const { themedStyle } = this.props;
-    let categoryList: React.ReactNode = <Text>Loading...</Text>;
+    let categoryList: React.ReactNode = <ActivityIndicator size='large' />;
     if (this.props.categoryOfArtists) {
       categoryList = this.props.categoryOfArtists.map(artistsList => {
         return (
@@ -65,7 +89,14 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
             <Text style={themedStyle.pagerLabel} appearance='hint'>
               {artistsList.key}
             </Text>
-            <List style={themedStyle.pagerContainer} horizontal={true} renderItem={this.renderPagerCard} data={artistsList.artists} showsHorizontalScrollIndicator={false} onScroll={this.onExerciseListScroll} />
+            <List
+              style={themedStyle.pagerContainer}
+              horizontal={true}
+              renderItem={this.renderPagerCard}
+              data={artistsList.artists}
+              showsHorizontalScrollIndicator={false}
+              onScroll={this.onExerciseListScroll}
+            />
           </View>
         );
       });

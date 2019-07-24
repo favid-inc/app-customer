@@ -26,7 +26,9 @@ class ArtistContainer extends Component<Props, State> {
   };
 
   private onOrderPress = () => {
-    this.setState({ cameoOrdered: true });
+    this.props.navigation.navigate({
+      routeName: 'Booking',
+    });
   };
   private onFollowersPress = () => {};
 
