@@ -1,11 +1,10 @@
-import { STOREORDERS, POSTORDER, POSTORDERSTARTED, POSTORDERENDED, POSTORDERERROR } from '../actions/ActionTypes';
+import { STOREORDERS, POSTORDER, LOADORDERSTARTED, LOADORDERENDED, ORDERERROR } from '../actions/ActionTypes';
 
 const INITIAL_STATE = {
   orders: null,
   loading: false,
   error: null,
 };
-
 
 const storeOrders = (state, action) => {
   return {
@@ -35,7 +34,7 @@ const postOrderEnded = state => {
   };
 };
 
-const postOrderError = (state, action) => {
+const orderError = (state, action) => {
   return {
     ...state,
     loading: false,
@@ -49,12 +48,12 @@ const orderReducer = (state = INITIAL_STATE, action) => {
       return storeOrders(state, action);
     case POSTORDER:
       return postOrder(state, action);
-    case POSTORDERSTARTED:
+    case LOADORDERSTARTED:
       return postOrderStarted(state);
-    case POSTORDERENDED:
+    case LOADORDERENDED:
       return postOrderEnded(state);
-    case POSTORDERERROR:
-      return postOrderError(state, action);
+    case ORDERERROR:
+      return orderError(state, action);
     default:
       return state;
   }

@@ -1,9 +1,9 @@
 import * as config from '@src/core/config';
-import { POSTORDERSTARTED, POSTORDERENDED } from './ActionTypes';
-import { OrderModel, ORDER } from '@favid-inc/api';
+import { LOADORDERSTARTED, LOADORDERENDED, ORDERERROR, STOREORDERS } from './ActionTypes';
+import { OrderModel } from '@favid-inc/api';
 export const postOrder = (order: OrderModel) => {
   return async dispatch => {
-    dispatch(postOrderStarted());
+    dispatch(loadOrderStarted());
     await fetch(`${config.firebase.databaseURL}/order.json`, {
       method: 'POST',
       headers: {
@@ -13,18 +13,37 @@ export const postOrder = (order: OrderModel) => {
       body: JSON.stringify(order),
     });
 
-    dispatch(postOrderEnded());
+    dispatch(loadOrderEnded());
   };
 };
 
-export const postOrderStarted = () => {
-  return {
-    type: POSTORDERSTARTED,
-  };
-};
+export const loadOrderStarted = () => ({
+  type: LOADORDERSTARTED,
+});
 
-export const postOrderEnded = () => {
-  return {
-    type: POSTORDERENDED,
+export const loadOrderEnded = () => ({
+  type: LOADORDERENDED,
+});
+
+export const orderError = error => ({
+  type: ORDERERROR,
+  error,
+});
+export const storeOrders = (orders: OrderModel[]) => ({ type: STOREORDERS, orders });
+
+export const getOrders = (userId: string) => {
+  return async dispatch => {
+    dispatch(loadOrderStarted());
+    const queryParams = `?orderBy="artistId"&equalTo="${userId}"`;
+    const response = await fetch(`${config.firebase.databaseURL}/order.json${queryParams}`);
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const orders: OrderModel[] = Object.keys(data).map(id => ({ id, ...data[id] }));
+      dispatch(storeOrders(orders));
+    } else {
+      dispatch(orderError({ status: response.status, message: 'Erro ao listar pedidos.' }));
+    }
+    dispatch(loadOrderEnded());
   };
 };
