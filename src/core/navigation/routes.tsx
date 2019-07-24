@@ -1,7 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { useScreens } from 'react-native-screens';
-import { NavigationAction, createAppContainer, createBottomTabNavigator, createStackNavigator, NavigationContainer, NavigationRouteConfigMap, NavigationState } from 'react-navigation';
+import {
+  NavigationAction,
+  createAppContainer,
+  createBottomTabNavigator,
+  createStackNavigator,
+  NavigationContainer,
+  NavigationRouteConfigMap,
+  NavigationState,
+} from 'react-navigation';
 import { SocialNavigationOptions } from './options';
 
 import { MenuContainer } from '@src/containers/menu';
@@ -12,6 +20,7 @@ import ArtistsContainer from '@src/containers/menu/artists/ArtistsContainer';
 import * as BuyingProcess from '@src/containers/buyingProcess/index';
 import BookingContainer from '@src/containers/buyingProcess/booking/BookingContainer';
 import { AuthState } from '../model/authState.model';
+import { OrderContainer } from '@src/containers/orders';
 
 const AccountNavigator: NavigationContainer = createStackNavigator(
   {
@@ -67,6 +76,7 @@ const ArtistsNavigator: NavigationContainer = createStackNavigator(
 const MenuNavigator: NavigationContainer = createBottomTabNavigator(
   {
     ['Artists']: ArtistsNavigator,
+    ['Orders']: OrderContainer,
     ['Account']: AccountNavigator,
   },
   {
@@ -98,7 +108,11 @@ const NavigationRouter: NavigationContainer = createAppRouter(AppNavigator);
 const AuthNavigationRouter: NavigationContainer = createAppRouter(SignInNavigator);
 interface ComponentProps {
   auth: any;
-  onNavigationStateChange: (prevNavigationState: NavigationState, nextNavigationState: NavigationState, action: NavigationAction) => void;
+  onNavigationStateChange: (
+    prevNavigationState: NavigationState,
+    nextNavigationState: NavigationState,
+    action: NavigationAction,
+  ) => void;
 }
 
 class Router extends React.Component<ComponentProps> {
