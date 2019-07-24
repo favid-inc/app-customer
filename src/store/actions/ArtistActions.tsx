@@ -19,7 +19,6 @@ export const getArtist = () => {
 
 const processArtistList = (result: ArtistSearchByMainCategoryResult): CategoryOfArtistModel[] => {
   const categoryOfArtists: CategoryOfArtistModel[] = result.aggregations.mainCategory.buckets.map(bucket => {
-
     const artists: Artist[] = bucket.by_top_hit.hits.hits.map(a => a._source);
 
     const category: CategoryOfArtistModel = {
@@ -43,13 +42,15 @@ export const listArtists = () => {
     }
 
     const response = await fetch(`${config.api.baseURL}/${ARTIST_SEARCH_BY_MAIN_CATEGORY}`);
-    const data: ArtistSearchByMainCategoryResult = await response.json();
-    const categoryOfArtists: CategoryOfArtistModel[] = processArtistList(data);
-    AsyncStorage.setItem('categoryOfArtists', JSON.stringify(categoryOfArtists));
-    dispatch({
-      type: STOREARTISTS,
-      payload: categoryOfArtists,
-    });
+    if (response.status === 200) {
+      const data: ArtistSearchByMainCategoryResult = await response.json();
+      const categoryOfArtists: CategoryOfArtistModel[] = processArtistList(data);
+      AsyncStorage.setItem('categoryOfArtists', JSON.stringify(categoryOfArtists));
+      dispatch({
+        type: STOREARTISTS,
+        payload: categoryOfArtists,
+      });
+    }
   };
 };
 
