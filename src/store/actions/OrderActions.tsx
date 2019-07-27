@@ -1,9 +1,11 @@
 import * as config from '@src/core/config';
-import { LOADORDERSTARTED, LOADORDERENDED, ORDERERROR, STOREORDERS } from './ActionTypes';
+import { LOADORDERSTARTED, LOADORDERENDED, ORDERERROR, STOREORDERS, SETORDER } from './ActionTypes';
 import { OrderModel } from '@favid-inc/api';
+
 export const postOrder = (order: OrderModel) => {
   return async dispatch => {
     dispatch(loadOrderStarted());
+
     await fetch(`${config.firebase.databaseURL}/order.json`, {
       method: 'POST',
       headers: {
@@ -29,6 +31,7 @@ export const orderError = error => ({
   type: ORDERERROR,
   error,
 });
+
 export const storeOrders = (orders: OrderModel[]) => ({ type: STOREORDERS, orders });
 
 export const getOrders = (userId: string) => {
@@ -47,3 +50,8 @@ export const getOrders = (userId: string) => {
     dispatch(loadOrderEnded());
   };
 };
+
+export const setOrder = (order: OrderModel) => ({
+  type: SETORDER,
+  order,
+});

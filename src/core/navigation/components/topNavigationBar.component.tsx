@@ -1,20 +1,12 @@
 import React from 'react';
-import {
-  StyleType,
-  ThemeType,
-  withStyles,
-} from '@kitten/theme';
-import { ImageProps } from 'react-native';
-import {
-  TopNavigation,
-  TopNavigationAction,
-  TopNavigationActionProps,
-  TopNavigationProps,
-} from '@kitten/ui';
+import { StyleType, ThemeType, withStyles } from '@kitten/theme';
+import { ImageProps, ViewStyle, StyleProp, Text } from 'react-native';
+import { TopNavigation, TopNavigationAction, TopNavigationActionProps, TopNavigationProps } from '@kitten/ui';
 import { textStyle } from '@src/components/common';
 import { SafeAreaView } from './safeAreaView.component';
 
 export interface ComponentProps {
+  style?: StyleProp<ViewStyle>;
   backIcon?: BackIconProp;
   onBackPress?: () => void;
 }
@@ -25,7 +17,6 @@ type BackIconProp = (style: StyleType) => React.ReactElement<ImageProps>;
 type BackButtonElement = React.ReactElement<TopNavigationActionProps>;
 
 class TopNavigationBarComponent extends React.Component<TopNavigationBarProps> {
-
   private onBackButtonPress = () => {
     if (this.props.onBackPress) {
       this.props.onBackPress();
@@ -33,22 +24,17 @@ class TopNavigationBarComponent extends React.Component<TopNavigationBarProps> {
   };
 
   private renderBackButton = (source: BackIconProp): BackButtonElement => {
-    return (
-      <TopNavigationAction
-        icon={source}
-        onPress={this.onBackButtonPress}
-      />
-    );
+    return <TopNavigationAction icon={source} onPress={this.onBackButtonPress} />;
   };
 
   public render(): React.ReactNode {
     const { themedStyle, title, backIcon } = this.props;
 
     const leftControlElement: BackButtonElement | null = backIcon ? this.renderBackButton(backIcon) : null;
-
     return (
       <SafeAreaView style={themedStyle.safeArea}>
         <TopNavigation
+          style={{ backgroundColor: 'rgba(52, 52, 52, 0)' }}
           alignment='center'
           title={title}
           titleStyle={textStyle.subtitle}

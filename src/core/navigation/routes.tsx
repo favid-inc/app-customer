@@ -18,9 +18,7 @@ import SignInContainer from '@src/containers/signin/SignInContainer';
 import ArtistDetailsContainer from '@src/containers/artistDetails/ArtistDetailsContainer';
 import ArtistsContainer from '@src/containers/menu/artists/ArtistsContainer';
 import * as BuyingProcess from '@src/containers/buyingProcess/index';
-import BookingContainer from '@src/containers/buyingProcess/booking/BookingContainer';
-import { AuthState } from '../model/authState.model';
-import { OrderContainer } from '@src/containers/orders';
+import { OrdersNavigator, OrderDetailsContainerNavigationMap } from '@src/containers/orders';
 
 const AccountNavigator: NavigationContainer = createStackNavigator(
   {
@@ -76,7 +74,7 @@ const ArtistsNavigator: NavigationContainer = createStackNavigator(
 const MenuNavigator: NavigationContainer = createBottomTabNavigator(
   {
     ['Artists']: ArtistsNavigator,
-    ['Orders']: OrderContainer,
+    ['Orders']: OrdersNavigator,
     ['Account']: AccountNavigator,
   },
   {
@@ -89,6 +87,8 @@ const AppNavigator: NavigationContainer = createStackNavigator(
     ['Home']: MenuNavigator,
     ...ArtistNavigationMap,
     ...BuyingProcessNavigationMap,
+    OrdersNavigator,
+    ...OrderDetailsContainerNavigationMap,
   },
   {
     headerMode: 'screen',

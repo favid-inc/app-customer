@@ -2,8 +2,8 @@ import React from 'react';
 import { ButtonProps, View } from 'react-native';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button } from '@kitten/ui';
-import { ProfileSetting } from './profileSetting.component';
-import { ProfilePhoto } from './profilePhoto.component';
+import { ProfileSetting } from '@src/components/common/profileSetting.component';
+import { ProfilePhoto } from '@src/components/common/profilePhoto.component';
 import { CameraIconFill } from '@src/assets/icons';
 import { Profile } from '@src/core/model';
 import { ContainerView, textStyle } from '@src/components/common';
@@ -27,7 +27,14 @@ class Accountomponent extends React.Component<AccountProps> {
   private renderPhotoButton = (): React.ReactElement<ButtonProps> => {
     const { themedStyle } = this.props;
 
-    return <Button style={themedStyle.photoButton} activeOpacity={0.95} icon={CameraIconFill} onPress={this.onPhotoButtonPress} />;
+    return (
+      <Button
+        style={themedStyle.photoButton}
+        activeOpacity={0.95}
+        icon={CameraIconFill}
+        onPress={this.onPhotoButtonPress}
+      />
+    );
   };
 
   public render(): React.ReactNode {

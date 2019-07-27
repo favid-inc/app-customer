@@ -8,6 +8,7 @@ import { OrderModel } from '@favid-inc/api';
 interface ComponentProps {
   userId: any;
   orders: OrderModel[];
+  onSetOrder: (order: OrderModel) => void;
   onGetOrders: (userId: string) => void;
 }
 
@@ -19,7 +20,8 @@ class OrdersContainerComponent extends Component<Props> {
   }
 
   public onDetails(order: OrderModel) {
-    console.log('[OrdersContainer.tsx] onDetails() order: ', order);
+    this.props.onSetOrder(order);
+    this.props.navigation.navigate('Detalhes do Pedido');
   }
 
   public render(): React.ReactNode {
@@ -33,9 +35,11 @@ const mapStateToProps = ({ order, auth }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  onSetOrder: (order: OrderModel) => dispatch(actions.setOrder(order)),
   onGetOrders: (userId: string) => dispatch(actions.getOrders(userId)),
 });
-export const OrderContainer = connect(
+
+export const OrdersContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(OrdersContainerComponent);

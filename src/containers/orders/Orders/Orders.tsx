@@ -16,6 +16,7 @@ class OrdersComponent extends Component<ThemedComponentProps & Props> {
 
     return (
       <ListItem
+        onPress={this.props.onDetails.bind(this, info.item)}
         style={themedStyle.listItem}
         title={`Artista: ${info.item.artistName}`}
         description={`Instruções: ${info.item.videoInstructions}`}

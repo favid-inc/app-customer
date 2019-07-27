@@ -1,7 +1,8 @@
-import { STOREORDERS, POSTORDER, LOADORDERSTARTED, LOADORDERENDED, ORDERERROR } from '../actions/ActionTypes';
+import { STOREORDERS, POSTORDER, LOADORDERSTARTED, LOADORDERENDED, ORDERERROR, SETORDER } from '../actions/ActionTypes';
 
 const INITIAL_STATE = {
   orders: null,
+  order: null,
   loading: false,
   error: null,
 };
@@ -42,6 +43,13 @@ const orderError = (state, action) => {
   };
 };
 
+const setOrder = (state, action) => {
+  return {
+    ...state,
+    order: action.order,
+  };
+};
+
 const orderReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case STOREORDERS:
@@ -54,6 +62,8 @@ const orderReducer = (state = INITIAL_STATE, action) => {
       return postOrderEnded(state);
     case ORDERERROR:
       return orderError(state, action);
+    case SETORDER:
+      return setOrder(state, action);
     default:
       return state;
   }
