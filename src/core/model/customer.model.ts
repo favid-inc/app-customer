@@ -5,4 +5,5 @@ export interface Customer {
   email?: string;
   lastLoginAt?: string;
   createdAt?: string;
+  idToken: string;
 }
