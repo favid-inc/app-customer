@@ -8,6 +8,10 @@ export const firebase = {
   storageBucket: 'onyx-harmony-239219.appspot.com',
 };
 
+export const api = {
+  baseURL: 'https://us-central1-onyx-harmony-239219.cloudfunctions.net/api',
+};
+
 export const auth = {
   behavior: 'web',
   clientId: '983263249595-anadgjdnado7mgh9o8eebpbeg4ki5c6m.apps.googleusercontent.com',
