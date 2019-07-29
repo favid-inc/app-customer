@@ -1,19 +1,29 @@
 import * as config from '@src/core/config';
 import { LOADORDERSTARTED, LOADORDERENDED, ORDERERROR, STOREORDERS, SETORDER } from './ActionTypes';
-import { OrderModel } from '@favid-inc/api';
+import { OrderModel, OrderFlow } from '@favid-inc/api';
 
-export const postOrder = (order: OrderModel) => {
+export const postOrder = (order: OrderModel, idToken: String) => {
   return async dispatch => {
     dispatch(loadOrderStarted());
 
-    await fetch(`${config.firebase.databaseURL}/order.json`, {
+    const response = await fetch(`${config.api.baseURL}/${OrderFlow.PLACE}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
       },
+
       body: JSON.stringify(order),
     });
+    console.log(response.status);
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+    } else {
+      const message = response.status === 403 ? 'Sua sessão expirou.' : 'Erro interno do servidor.';
+      dispatch(orderError({ status: response.status, message }));
+    }
 
     dispatch(loadOrderEnded());
   };
