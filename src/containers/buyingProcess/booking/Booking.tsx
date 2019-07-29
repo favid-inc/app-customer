@@ -8,7 +8,7 @@ import { OrderModel as State } from '@favid-inc/api';
 
 interface ComponentProps {
   loading: boolean;
-  onSend: (any) => void;
+  onSend: (order) => void;
 }
 
 export type BookingProps = ThemedComponentProps & ViewProps & ComponentProps;
@@ -16,11 +16,9 @@ export type BookingProps = ThemedComponentProps & ViewProps & ComponentProps;
 class BookingComponent extends Component<BookingProps, State> {
   public state: State = {
     isGift: false,
-    myName: '',
+    customerName: '',
     theirName: '',
     videoInstructions: '',
-    videoCreationDate: new Date().getTime(),
-    status: 'OP',
   };
 
   private onSend() {
@@ -63,14 +61,14 @@ class BookingComponent extends Component<BookingProps, State> {
           </View>
           <View style={themedStyle.middleContainer}>
             <ValidationInput
-              value={this.state.myName}
+              value={this.state.customerName}
               style={themedStyle.input}
               textStyle={textStyle.paragraph}
               labelStyle={textStyle.label}
               label='Meu Nome'
               placeholder='João'
               validator={NameValidator}
-              onChangeText={myName => this.setState({ myName })}
+              onChangeText={customerName => this.setState({ customerName })}
             />
           </View>
           {giftFields}

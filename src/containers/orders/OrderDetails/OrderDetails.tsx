@@ -13,9 +13,7 @@ interface Props {
 class OrderDetailsComponent extends Component<ThemedComponentProps & Props> {
   public render(): React.ReactNode {
     const { themedStyle, order } = this.props;
-    return (
-      <VideoPlayer uri='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4' />
-    );
+    return <VideoPlayer uri={order.video} />;
   }
 }
 

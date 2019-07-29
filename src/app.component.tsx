@@ -1,8 +1,6 @@
 import * as config from './core/config';
-import * as core from '@favid-inc/core/lib/app';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-import { Firestore } from '@google-cloud/firestore';
 
 import React from 'react';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
@@ -31,9 +29,11 @@ if (!firebase.firestore) {
   `);
 }
 firebase.initializeApp(config.firebase);
-core.App.initialize(config.core, (firebase.firestore() as unknown) as Firestore);
 
-const images: ImageRequireSource[] = [require('./assets/images/source/favid-logo.png'), require('./assets/images/source/google.png')];
+const images: ImageRequireSource[] = [
+  require('./assets/images/source/favid-logo.png'),
+  require('./assets/images/source/google.png'),
+];
 
 const fonts: { [key: string]: number } = {
   'opensans-semibold': require('./assets/fonts/opensans-semibold.ttf'),

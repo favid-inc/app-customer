@@ -14,6 +14,7 @@ export const auth = authResult => {
     const credential = firebase.auth.GoogleAuthProvider.credential(authResult.idToken, authResult.accessToken);
     const authData = await firebase.auth().signInWithCredential(credential);
     const data = JSON.parse(JSON.stringify(authData)).user;
+    const idToken = await firebase.auth().currentUser.getIdToken();
     const customer: CustomerModel = {
       uid: data.uid,
       displayName: data.displayName,
@@ -21,6 +22,7 @@ export const auth = authResult => {
       email: data.email,
       lastLoginAt: data.lastLoginAt,
       createdAt: data.createdAt,
+      idToken,
     };
     const authState: AuthStateModel = {
       ...customer,
@@ -28,7 +30,6 @@ export const auth = authResult => {
       lastLoginAt: data.lastLoginAt,
       createdAt: data.createdAt,
     };
-    // dispatch(verifyCustomer(customer));
     await AsyncStorage.setItem(storageKey, JSON.stringify(authState));
     dispatch(signIn(authState));
     dispatch(signInFinished());
