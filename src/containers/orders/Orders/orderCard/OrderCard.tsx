@@ -5,7 +5,7 @@ import { Text } from 'react-native-ui-kitten/ui';
 import { OrderCardBottom } from './OrderCardBottom';
 import { ActivityAuthoring, textStyle } from '@src/components/common';
 import { OrderModel } from '@favid-inc/api';
-
+import { OrderStatus } from './OrderStatus';
 // @ts-ignore (override `onPress` prop)
 interface ComponentProps extends TouchableOpacityProps {
   order: OrderModel;
@@ -16,7 +16,9 @@ export type OrderCardProps = ThemedComponentProps & ComponentProps;
 
 class OrderCardComponent extends React.Component<OrderCardProps> {
   private onPress = () => {
-    this.props.onPress(this.props.order);
+    if (this.props.order.video) {
+      this.props.onPress(this.props.order);
+    }
   };
 
   public render(): React.ReactNode {
@@ -29,7 +31,7 @@ class OrderCardComponent extends React.Component<OrderCardProps> {
         style={[themedStyle.container, style]}
         onPress={this.onPress}
       >
-        <ImageBackground style={themedStyle.image} source={{ uri: order.videoThumb }} />
+        {order.videoThumb ? <ImageBackground style={themedStyle.image} source={{ uri: order.videoThumb }} /> : null}
         <View style={themedStyle.infoContainer}>
           <Text style={themedStyle.descriptionLabel} appearance='hint' category='s1'>
             {order.videoInstructions}
@@ -39,8 +41,9 @@ class OrderCardComponent extends React.Component<OrderCardProps> {
           <ActivityAuthoring
             photo={{ uri: order.artistPhoto }}
             name={order.artistName}
-            date={new Date(order.videoCreationDate).toDateString()}
+            date={new Date(order.creationDate).toDateString()}
           />
+          <OrderStatus status={order.status} />
         </OrderCardBottom>
       </TouchableOpacity>
     );
