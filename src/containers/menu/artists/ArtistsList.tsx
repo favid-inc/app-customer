@@ -17,6 +17,7 @@ import { SearchIconOutline } from '@src/assets/icons';
 
 interface ComponentProps {
   categoryOfArtists: CategoryOfArtistModel[];
+  loading: boolean;
   onDetails: (Artist) => void;
   onSearchStringChange: (text: string) => void;
 }
@@ -80,10 +81,17 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
   };
 
   public render(): React.ReactNode {
-    const { themedStyle } = this.props;
-    let categoryList: React.ReactNode = <ActivityIndicator size='large' />;
-    if (this.props.categoryOfArtists) {
-      categoryList = this.props.categoryOfArtists.map(artistsList => {
+    const { themedStyle, categoryOfArtists, loading } = this.props;
+    let categoryList: React.ReactNode = loading ? (
+      <ActivityIndicator size='large' />
+    ) : (
+      <Text style={themedStyle.subtitle} appearance='hint'>
+        Nenhum artista.
+      </Text>
+    );
+
+    if (categoryOfArtists && categoryOfArtists.length) {
+      categoryList = categoryOfArtists.map(artistsList => {
         return (
           <View key={artistsList.key}>
             <Text style={themedStyle.pagerLabel} appearance='hint'>
@@ -101,6 +109,7 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
         );
       });
     }
+
     return (
       <View style={themedStyle.container}>
         {this.renderSearchInput()}
@@ -117,6 +126,11 @@ export const ArtistList = withStyles(ArtistListComponent, (theme: ThemeType) => 
   },
   pagerContainer: {
     marginVertical: 8,
+  },
+  subtitle: {
+    marginVertical: 16,
+    textAlign: 'center',
+    ...textStyle.subtitle,
   },
   pagerLabel: {
     marginVertical: 16,
