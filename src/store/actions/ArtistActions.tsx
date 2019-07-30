@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import { REMOVEARTIST, STOREARTIST, STOREARTISTS } from './ActionTypes';
 import * as config from '@src/core/config';
-import { ArtistSearchByMainCategoryResult, ARTIST_SEARCH_BY_MAIN_CATEGORY } from '@favid-inc/api';
+import { ArtistSearchByMainCategoryResult, ArtistSearch } from '@favid-inc/api';
 import { Artist, CategoryOfArtistModel } from '@src/core/model';
 
 export const setArtist = (artist: Artist) => {
@@ -41,7 +41,7 @@ export const listArtists = () => {
       });
     }
 
-    const response = await fetch(`${config.api.baseURL}/${ARTIST_SEARCH_BY_MAIN_CATEGORY}`);
+    const response = await fetch(`${config.api.baseURL}/${ArtistSearch.BY_MAIN_CATEGORY}`);
     if (response.status === 200) {
       const data: ArtistSearchByMainCategoryResult = await response.json();
       const categoryOfArtists: CategoryOfArtistModel[] = processArtistList(data);
