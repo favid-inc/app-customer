@@ -5,7 +5,6 @@ import { OrderModel, OrderFlow } from '@favid-inc/api';
 export const postOrder = (order: OrderModel, idToken: String) => {
   return async dispatch => {
     dispatch(loadOrderStarted());
-
     const response = await fetch(`${config.api.baseURL}/${OrderFlow.PLACE}`, {
       method: 'POST',
       headers: {
@@ -16,11 +15,7 @@ export const postOrder = (order: OrderModel, idToken: String) => {
 
       body: JSON.stringify(order),
     });
-    console.log(response.status);
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-    } else {
+    if (!response.ok) {
       const message = response.status === 403 ? 'Sua sessão expirou.' : 'Erro interno do servidor.';
       dispatch(orderError({ status: response.status, message }));
     }
@@ -38,6 +33,7 @@ export const loadOrderEnded = () => ({
 });
 
 export const orderError = error => ({
+  type: ORDERERROR,
   error,
 });
 
