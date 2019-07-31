@@ -44,6 +44,7 @@ export const listArtists = () => {
     const response = await fetch(`${config.api.baseURL}/${ArtistSearch.BY_MAIN_CATEGORY}`);
     if (response.status === 200) {
       const data: ArtistSearchByMainCategoryResult = await response.json();
+
       const categoryOfArtists: CategoryOfArtistModel[] = processArtistList(data);
       AsyncStorage.setItem('categoryOfArtists', JSON.stringify(categoryOfArtists));
       dispatch({

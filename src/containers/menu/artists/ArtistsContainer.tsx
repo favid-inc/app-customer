@@ -10,13 +10,10 @@ interface State {
   searchString: string;
 }
 interface ArtistContainerProps {
+  loading: boolean;
   onListArtists: () => void;
   categoryOfArtists: CategoryOfArtistModel[];
   onSetArtist: (Artist) => void;
-}
-
-interface ArtistsContainerNavigationStateParams {
-  onSearchPress: () => void;
 }
 
 type Props = NavigationScreenProps & ArtistContainerProps;
@@ -46,6 +43,7 @@ class ArtistsContainer extends Component<Props, State> {
 
   public filteredArtists(): CategoryOfArtistModel[] {
     const { searchString } = this.state;
+
     if (!searchString) {
       return this.props.categoryOfArtists;
     }
@@ -68,12 +66,20 @@ class ArtistsContainer extends Component<Props, State> {
   }
 
   public render(): React.ReactNode {
-    return <ArtistList onSearchStringChange={this.onSearchStringChange} categoryOfArtists={this.filteredArtists()} onDetails={artist => this.onDetails(artist)} />;
+    return (
+      <ArtistList
+        onSearchStringChange={this.onSearchStringChange}
+        loading={this.props.loading}
+        categoryOfArtists={this.filteredArtists()}
+        onDetails={artist => this.onDetails(artist)}
+      />
+    );
   }
 }
 
 const mapStateToProps = state => {
   return {
+    loading: state.loading,
     categoryOfArtists: state.artist.categoryOfArtists,
   };
 };

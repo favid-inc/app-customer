@@ -8,6 +8,7 @@ import { OrderModel } from '@favid-inc/api';
 interface ComponentProps {
   userId: any;
   orders: OrderModel[];
+  loading: boolean;
   onSetOrder: (order: OrderModel) => void;
   onGetOrders: (userId: string) => void;
 }
@@ -25,11 +26,12 @@ class OrdersContainerComponent extends Component<Props> {
   }
 
   public render(): React.ReactNode {
-    return <Orders orders={this.props.orders} onDetails={this.onDetails.bind(this)} />;
+    return <Orders orders={this.props.orders} loading={this.props.loading} onDetails={this.onDetails.bind(this)} />;
   }
 }
 
 const mapStateToProps = ({ order, auth }) => ({
+  loading: order.loading,
   userId: auth.authState.uid,
   orders: order.orders,
 });

@@ -38,7 +38,6 @@ export const loadOrderEnded = () => ({
 });
 
 export const orderError = error => ({
-  type: ORDERERROR,
   error,
 });
 
@@ -49,7 +48,6 @@ export const getOrders = (userId: string) => {
     dispatch(loadOrderStarted());
     const queryParams = `?orderBy="artistId"&equalTo="${userId}"`;
     const response = await fetch(`${config.firebase.databaseURL}/order.json${queryParams}`);
-
     if (response.status === 200) {
       const data = await response.json();
       const orders: OrderModel[] = Object.keys(data).map(id => ({ id, ...data[id] }));
