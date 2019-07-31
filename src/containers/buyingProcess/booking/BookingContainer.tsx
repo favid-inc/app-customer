@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import { OrderModel } from '@favid-inc/api';
 import { Alert } from 'react-native';
+import { NavigationScreenProps } from 'react-navigation';
 
 interface ComponentProps {
   loading: boolean;
@@ -17,7 +18,7 @@ interface ComponentProps {
   onError: (error: any) => void;
 }
 
-class BookingContainer extends Component<ComponentProps> {
+class BookingContainer extends Component<ComponentProps & NavigationScreenProps> {
   private onSend(orderInstructions) {
     const order: OrderModel = {
       ...orderInstructions,
@@ -25,6 +26,7 @@ class BookingContainer extends Component<ComponentProps> {
       userId: this.props.userId,
     };
     this.props.onPostOrder(order, this.props.idToken);
+    this.props.navigation.navigate('Orders');
   }
   public shouldComponentUpdate(nextProps) {
     if (this.props.error !== nextProps || this.props.loading !== this.props.loading) {
