@@ -46,7 +46,7 @@ export const storeOrders = (orders: OrderModel[]) => ({ type: STOREORDERS, order
 export const getOrders = (userId: string) => {
   return async dispatch => {
     dispatch(loadOrderStarted());
-    const queryParams = `?orderBy="artistId"&equalTo="${userId}"`;
+    const queryParams = `?orderBy="customerId"&equalTo="${userId}"`;
     const response = await fetch(`${config.firebase.databaseURL}/order.json${queryParams}`);
     if (response.status === 200) {
       const data = await response.json();
