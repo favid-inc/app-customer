@@ -74,7 +74,7 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
         style={themedStyle.input}
         textStyle={textStyle.paragraph}
         icon={SearchIconOutline}
-        placeholder='Search Artist...'
+        placeholder='Busque um artista...'
         onChangeText={this.onSearchStringChange}
       />
     );

@@ -33,6 +33,9 @@ class OrderCardComponent extends React.Component<OrderCardProps> {
       >
         {order.videoThumb ? <ImageBackground style={themedStyle.image} source={{ uri: order.videoThumb }} /> : null}
         <View style={themedStyle.infoContainer}>
+          <Text style={themedStyle.descriptionLabel} appearance='hint' category='s2'>
+            {order.isGift ? order.theirName : order.customerName}
+          </Text>
           <Text style={themedStyle.descriptionLabel} appearance='hint' category='s1'>
             {order.videoInstructions}
           </Text>
