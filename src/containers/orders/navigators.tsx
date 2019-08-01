@@ -1,6 +1,6 @@
 import { NavigationContainer, createStackNavigator, NavigationRouteConfigMap } from 'react-navigation';
-import { OrdersContainer } from './orders';
-import { OrderDetailsContainer } from './orderDetails';
+import { OrdersContainer } from './Orders';
+import { OrderDetailsContainer } from './OrderDetails';
 import { TopBarNavigationOptions } from '@src/core/navigation/options';
 
 export const OrderDetailsContainerNavigationMap: NavigationRouteConfigMap = {
