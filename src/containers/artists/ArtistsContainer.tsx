@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavigationScreenProps } from 'react-navigation';
-import * as actions from '../../../store/actions';
+import * as actions from '../../store/actions';
 import { Artist, CategoryOfArtistModel } from '@src/core/model';
 import { ArtistList } from './ArtistsList';
 
@@ -17,7 +17,7 @@ interface ArtistContainerProps {
 }
 
 type Props = NavigationScreenProps & ArtistContainerProps;
-class ArtistsContainer extends Component<Props, State> {
+class ArtistsContainerComponent extends Component<Props, State> {
   public state: State = {
     selectedLevelIndex: 0,
     searchString: '',
@@ -89,7 +89,7 @@ const mapDispatchToProps = dispatch => ({
   onSetArtist: (artist: Artist) => dispatch(actions.setArtist(artist)),
 });
 
-export default connect(
+export const ArtistsContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ArtistsContainer);
+)(ArtistsContainerComponent);

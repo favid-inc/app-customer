@@ -6,20 +6,15 @@ import { ProfileSetting } from '@src/components/common/profileSetting.component'
 import { ProfilePhoto } from '@src/components/common/profilePhoto.component';
 import { CameraIconFill } from '@src/assets/icons';
 import { Profile } from '@src/core/model';
-import { ContainerView, textStyle } from '@src/components/common';
+import { ContainerView } from '@src/components/common';
 interface ComponentProps {
   profile: Profile;
   onUploadPhotoButtonPress: () => void;
-  onButtonPress: () => void;
 }
 
 export type AccountProps = ThemedComponentProps & ComponentProps;
 
 class Accountomponent extends React.Component<AccountProps> {
-  private onButtonPress = () => {
-    this.props.onButtonPress();
-  };
-
   private onPhotoButtonPress = () => {
     this.props.onUploadPhotoButtonPress();
   };
@@ -52,9 +47,15 @@ class Accountomponent extends React.Component<AccountProps> {
         <View style={themedStyle.contactSection}>
           <ProfileSetting style={themedStyle.profileSetting} hint='Email' value={profile.email} />
         </View>
-        <Button style={themedStyle.button} textStyle={textStyle.button} size='large' onPress={this.onButtonPress}>
-          Logout
-        </Button>
+        <View style={themedStyle.contactSection}>
+          <ProfileSetting style={themedStyle.profileSetting} hint='Email' value={profile.email} />
+        </View>
+        <View style={themedStyle.contactSection}>
+          <ProfileSetting style={themedStyle.profileSetting} hint='Email' value={profile.email} />
+        </View>
+        <View style={themedStyle.contactSection}>
+          <ProfileSetting style={themedStyle.profileSetting} hint='Email' value={profile.email} />
+        </View>
       </ContainerView>
     );
   }
@@ -66,7 +67,7 @@ export const Account = withStyles(Accountomponent, (theme: ThemeType) => ({
     backgroundColor: theme['background-basic-color-2'],
   },
   photoSection: {
-    marginVertical: 40,
+    marginVertical: 20,
   },
   infoSection: {
     marginTop: 24,

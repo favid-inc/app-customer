@@ -465,6 +465,14 @@ export const LockIconFill = (style: StyleProp<ImageStyle>): IconElement => {
   return Icon(source, style);
 };
 
+export const LogOutIconFill = (style: StyleProp<ImageStyle>): IconElement => {
+  const source: IconSource = {
+    imageSource: require('./eva/log-out-outline.png'),
+  };
+
+  return Icon(source, style);
+};
+
 export const MessageCircleIconFill = (style: StyleProp<ImageStyle>): IconElement => {
   const source: IconSource = {
     imageSource: require('./eva/message-circle.png'),
@@ -668,6 +676,22 @@ export const PlayCircleIconFill = (style: StyleProp<ImageStyle>): IconElement =>
 export const ShareIconOutline = (style: StyleProp<ImageStyle>): IconElement => {
   const source: IconSource = {
     imageSource: require('./eva/share-outline.png'),
+  };
+
+  return Icon(source, style);
+};
+
+export const SettingsIconOutline = (style: StyleProp<ImageStyle>): IconElement => {
+  const source: IconSource = {
+    imageSource: require('./eva/settings-outline.png'),
+  };
+
+  return Icon(source, style);
+};
+
+export const TvIconOutline = (style: StyleProp<ImageStyle>): IconElement => {
+  const source: IconSource = {
+    imageSource: require('./eva/tv.png'),
   };
 
   return Icon(source, style);

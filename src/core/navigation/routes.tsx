@@ -4,33 +4,18 @@ import { useScreens } from 'react-native-screens';
 import {
   NavigationAction,
   createAppContainer,
-  createBottomTabNavigator,
   createStackNavigator,
   NavigationContainer,
   NavigationRouteConfigMap,
   NavigationState,
 } from 'react-navigation';
 import { SocialNavigationOptions } from './options';
-
-import { MenuContainer } from '@src/containers/menu';
-import AccountContainer from '@src/containers/menu/account/AccountCointainer';
 import SignInContainer from '@src/containers/signin/SignInContainer';
 import ArtistDetailsContainer from '@src/containers/artistDetails/ArtistDetailsContainer';
-import ArtistsContainer from '@src/containers/menu/artists/ArtistsContainer';
 import * as BuyingProcess from '@src/containers/buyingProcess/index';
 import { OrdersNavigator, OrderDetailsContainerNavigationMap } from '@src/containers/orders';
-
-const AccountNavigator: NavigationContainer = createStackNavigator(
-  {
-    ['Account']: AccountContainer,
-  },
-  {
-    headerMode: 'screen',
-    defaultNavigationOptions: {
-      header: null,
-    },
-  },
-);
+import { MenuNavigator } from '../../containers/menu';
+import { SettingsNavigationMap } from '../../containers/settings';
 
 const BuyingProcessNavigationMap: NavigationRouteConfigMap = {
   ['Booking']: {
@@ -58,37 +43,14 @@ const SignInNavigator: NavigationContainer = createStackNavigator(
   },
 );
 
-const ArtistsNavigator: NavigationContainer = createStackNavigator(
-  {
-    ['Artists']: ArtistsContainer,
-    // ['Artists']: BookingContainer,
-  },
-  {
-    headerMode: 'screen',
-    defaultNavigationOptions: {
-      header: null,
-    },
-  },
-);
-
-const MenuNavigator: NavigationContainer = createBottomTabNavigator(
-  {
-    ['Artists']: ArtistsNavigator,
-    ['Orders']: OrdersNavigator,
-    ['Account']: AccountNavigator,
-  },
-  {
-    tabBarComponent: MenuContainer,
-  },
-);
-
 const AppNavigator: NavigationContainer = createStackNavigator(
   {
     ['Home']: MenuNavigator,
     ...ArtistNavigationMap,
     ...BuyingProcessNavigationMap,
-    OrdersNavigator,
     ...OrderDetailsContainerNavigationMap,
+    ...SettingsNavigationMap,
+    OrdersNavigator,
   },
   {
     headerMode: 'screen',
@@ -103,7 +65,6 @@ const createAppRouter = (container: NavigationContainer): NavigationContainer =>
   return createAppContainer(container);
 };
 
-// const NavigationRouter: NavigationContainer = createAppRouter(AppNavigator);
 const NavigationRouter: NavigationContainer = createAppRouter(AppNavigator);
 const AuthNavigationRouter: NavigationContainer = createAppRouter(SignInNavigator);
 interface ComponentProps {

@@ -1,6 +1,6 @@
 import * as config from '@src/core/config';
 import { LOADORDERSTARTED, LOADORDERENDED, ORDERERROR, STOREORDERS, SETORDER } from './ActionTypes';
-import { OrderModel, OrderFlow } from '@favid-inc/api';
+import { OrderModel, OrderFlow, OrderStatus } from '@favid-inc/api';
 
 export const postOrder = (order: OrderModel, idToken: String) => {
   return async dispatch => {

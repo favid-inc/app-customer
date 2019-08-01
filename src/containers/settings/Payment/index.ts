@@ -1,0 +1,1 @@
+export { CreditCardNavigator } from './navigators';

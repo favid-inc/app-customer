@@ -34,7 +34,7 @@ class TopNavigationBarComponent extends React.Component<TopNavigationBarProps> {
     return (
       <SafeAreaView style={themedStyle.safeArea}>
         <TopNavigation
-          style={{ backgroundColor: 'rgba(52, 52, 52, 0)' }}
+          style={themedStyle.safeArea}
           alignment='center'
           title={title}
           titleStyle={textStyle.subtitle}
@@ -48,6 +48,7 @@ class TopNavigationBarComponent extends React.Component<TopNavigationBarProps> {
 
 export const TopNavigationBar = withStyles(TopNavigationBarComponent, (theme: ThemeType) => ({
   safeArea: {
-    backgroundColor: theme['background-basic-color-1'],
+    height: 50,
+    backgroundColor: theme['background-basic-color-3'],
   },
 }));

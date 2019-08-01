@@ -2,7 +2,7 @@ import React from 'react';
 import { SafeAreaView } from '@src/core/navigation';
 import { ThemeProvider, ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { BottomNavigation, BottomNavigationTab } from '@kitten/ui';
-import { StarIconOutline, PersonIconFill, ListIconFill } from '@src/assets/icons';
+import { TvIconOutline, SettingsIconOutline, ListIconFill } from '@src/assets/icons';
 import { themes } from '@src/core/themes';
 
 interface ComponentProps {
@@ -24,9 +24,9 @@ class MenuComponent extends React.Component<Props> {
       <SafeAreaView style={themedStyle.safeAreaContainer}>
         <ThemeProvider theme={{ ...this.props.theme, ...themes['App Theme'] }}>
           <BottomNavigation appearance='noIndicator' selectedIndex={selectedIndex} onSelect={this.onTabSelect}>
-            <BottomNavigationTab title='Artistas' icon={StarIconOutline} />
+            <BottomNavigationTab title='Artistas' icon={TvIconOutline} />
             <BottomNavigationTab title='Pedidos' icon={ListIconFill} />
-            <BottomNavigationTab title='Conta' icon={PersonIconFill} />
+            <BottomNavigationTab title='Configurações' icon={SettingsIconOutline} />
           </BottomNavigation>
         </ThemeProvider>
       </SafeAreaView>
