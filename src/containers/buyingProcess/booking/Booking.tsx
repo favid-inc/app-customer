@@ -8,7 +8,7 @@ import { OrderModel as State } from '@favid-inc/api';
 
 interface ComponentProps {
   loading: boolean;
-  onSend: (order) => void;
+  onSend: (order: State) => void;
 }
 
 export type BookingProps = ThemedComponentProps & ViewProps & ComponentProps;

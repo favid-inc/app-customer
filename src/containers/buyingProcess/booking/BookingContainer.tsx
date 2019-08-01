@@ -19,7 +19,7 @@ interface ComponentProps {
 }
 
 class BookingContainer extends Component<ComponentProps & NavigationScreenProps> {
-  private onSend(orderInstructions) {
+  private onSend = (orderInstructions) => {
     const order: OrderModel = {
       ...orderInstructions,
       artistId: this.props.artistId,
@@ -49,7 +49,7 @@ class BookingContainer extends Component<ComponentProps & NavigationScreenProps>
       Alert.alert(this.props.error.message, null, action, { cancelable: false });
       this.props.onError(null);
     }
-    return <Booking onSend={(order: OrderModel) => this.onSend(order)} loading={this.props.loading} />;
+    return <Booking onSend={this.onSend} loading={this.props.loading} />;
   }
 }
 
@@ -63,7 +63,7 @@ const mapStateToProps = ({ order, artist, auth }) => ({
 
 const mapDispatchToProps = dispatch => ({
   onError: error => dispatch(actions.orderError(error)),
-  onPostOrder: (order: OrderModel, idToken: string) => dispatch(actions.postOrder(order, idToken)),
+  onPostOrder: (orderInstructions, idToken) => dispatch(actions.postOrder(orderInstructions, idToken)),
   onSignOut: () => dispatch(actions.signOut()),
 });
 

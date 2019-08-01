@@ -1,8 +1,8 @@
 import * as config from '@src/core/config';
 import { LOAD_ORDER_STARTED, LOAD_ORDER_ENDED, ORDER_ERROR, STORE_ORDERS, SET_ORDER } from './ActionTypes';
-import { OrderModel, OrderFlow, OrderStatus } from '@favid-inc/api';
+import { OrderModel, OrderFlow, OrderFlowPlaceOrderArguments, OrderFlowPlaceOrderResponse } from '@favid-inc/api';
 
-export const postOrder = (order: OrderModel, idToken: String) => {
+export const postOrder = (options: OrderFlowPlaceOrderArguments, idToken: String) => {
   return async dispatch => {
     dispatch(loadOrderStarted());
 
@@ -14,8 +14,10 @@ export const postOrder = (order: OrderModel, idToken: String) => {
         Authorization: `Bearer ${idToken}`,
       },
 
-      body: JSON.stringify(order),
+      body: JSON.stringify({ order: options }),
     });
+
+    const { order }: OrderFlowPlaceOrderResponse = await response.json();
 
     if (!response.ok) {
       const message = response.status === 403 ? 'Sua sessão expirou.' : 'Erro interno do servidor.';
