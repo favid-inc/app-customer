@@ -1,5 +1,5 @@
 import * as config from '@src/core/config';
-import { LOADORDERSTARTED, LOADORDERENDED, ORDERERROR, STOREORDERS, SETORDER } from './ActionTypes';
+import { LOAD_ORDER_STARTED, LOAD_ORDER_ENDED, ORDER_ERROR, STORE_ORDERS, SET_ORDER } from './ActionTypes';
 import { OrderModel, OrderFlow, OrderStatus } from '@favid-inc/api';
 
 export const postOrder = (order: OrderModel, idToken: String) => {
@@ -27,19 +27,19 @@ export const postOrder = (order: OrderModel, idToken: String) => {
 };
 
 export const loadOrderStarted = () => ({
-  type: LOADORDERSTARTED,
+  type: LOAD_ORDER_STARTED,
 });
 
 export const loadOrderEnded = () => ({
-  type: LOADORDERENDED,
+  type: LOAD_ORDER_ENDED,
 });
 
 export const orderError = error => ({
-  type: ORDERERROR,
+  type: ORDER_ERROR,
   error,
 });
 
-export const storeOrders = (orders: OrderModel[]) => ({ type: STOREORDERS, orders });
+export const storeOrders = (orders: OrderModel[]) => ({ type: STORE_ORDERS, orders });
 
 export const getOrders = (userId: string) => {
   return async dispatch => {
@@ -58,6 +58,6 @@ export const getOrders = (userId: string) => {
 };
 
 export const setOrder = (order: OrderModel) => ({
-  type: SETORDER,
+  type: SET_ORDER,
   order,
 });

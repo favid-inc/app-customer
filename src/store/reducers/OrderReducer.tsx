@@ -1,4 +1,4 @@
-import { STOREORDERS, POSTORDER, LOADORDERSTARTED, LOADORDERENDED, ORDERERROR, SETORDER } from '../actions/ActionTypes';
+import { STORE_ORDERS, POST_ORDER, LOAD_ORDER_STARTED, LOAD_ORDER_ENDED, ORDER_ERROR, SET_ORDER } from '../actions/ActionTypes';
 
 const INITIAL_STATE = {
   orders: null,
@@ -52,17 +52,17 @@ const setOrder = (state, action) => {
 
 const orderReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case STOREORDERS:
+    case STORE_ORDERS:
       return storeOrders(state, action);
-    case POSTORDER:
+    case POST_ORDER:
       return postOrder(state, action);
-    case LOADORDERSTARTED:
+    case LOAD_ORDER_STARTED:
       return postOrderStarted(state);
-    case LOADORDERENDED:
+    case LOAD_ORDER_ENDED:
       return postOrderEnded(state);
-    case ORDERERROR:
+    case ORDER_ERROR:
       return orderError(state, action);
-    case SETORDER:
+    case SET_ORDER:
       return setOrder(state, action);
     default:
       return state;

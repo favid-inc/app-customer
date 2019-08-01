@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import { SIGNIN, SIGNOUT, SIGNINSTARTED, SIGNINENDED, SIGNINERROR } from './ActionTypes';
+import { SIGN_IN, SIGN_OUT, SIGN_IN_STARTED, SIGN_IN_ENDED, SIGN_IN_ERROR } from './ActionTypes';
 import * as config from '@src/core/config';
 import { storageKeys } from '@src/core/config';
 import { Customer as CustomerModel } from '@src/core/model/customer.model';
@@ -38,26 +38,26 @@ export const auth = authResult => {
 
 export const signIn = (authState: AuthStateModel) => {
   return {
-    type: SIGNIN,
+    type: SIGN_IN,
     authState,
   };
 };
 
 export const signInStarted = () => {
   return {
-    type: SIGNINSTARTED,
+    type: SIGN_IN_STARTED,
   };
 };
 
 export const signInFinished = () => {
   return {
-    type: SIGNINENDED,
+    type: SIGN_IN_ENDED,
   };
 };
 
 export const signInError = error => {
   return {
-    type: SIGNINERROR,
+    type: SIGN_IN_ERROR,
     error,
   };
 };
@@ -103,6 +103,6 @@ const registerCustomer = (customer: CustomerModel) => {
 export const signOut = () => {
   AsyncStorage.removeItem(storageKey);
   return {
-    type: SIGNOUT,
+    type: SIGN_OUT,
   };
 };
