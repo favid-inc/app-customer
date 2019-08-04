@@ -41,16 +41,28 @@ export const listArtists = () => {
       });
     }
 
-    const response = await fetch(`${config.api.baseURL}/${ArtistSearch.BY_MAIN_CATEGORY}`);
-    if (response.status === 200) {
-      const data: ArtistSearchByMainCategoryResult = await response.json();
+    try {
+      const response = await fetch(`${config.api.baseURL}/${ArtistSearch.BY_MAIN_CATEGORY}`);
+      if (response.ok) {
+        const data: ArtistSearchByMainCategoryResult = await response.json();
 
-      const categoryOfArtists: CategoryOfArtistModel[] = processArtistList(data);
-      AsyncStorage.setItem('categoryOfArtists', JSON.stringify(categoryOfArtists));
+        const categoryOfArtists: CategoryOfArtistModel[] = processArtistList(data);
+        AsyncStorage.setItem('categoryOfArtists', JSON.stringify(categoryOfArtists));
+
+        dispatch({
+          type: STORE_ARTISTS,
+          payload: categoryOfArtists,
+        });
+      }
+    } catch (e) {
+      const categoryOfArtists: CategoryOfArtistModel[] = [];
+
       dispatch({
         type: STORE_ARTISTS,
         payload: categoryOfArtists,
       });
+
+      console.error(e);
     }
   };
 };

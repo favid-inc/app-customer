@@ -6,24 +6,28 @@ export const postOrder = (options: OrderFlowPlaceOrderArguments, idToken: String
   return async dispatch => {
     dispatch(loadOrderStarted());
 
-    const response = await fetch(`${config.api.baseURL}/${OrderFlow.PLACE}`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${idToken}`,
-      },
+    try {
+      const response = await fetch(`${config.api.baseURL}/${OrderFlow.PLACE}`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${idToken}`,
+          'Content-Type': 'application/json',
+        },
 
-      body: JSON.stringify({ order: options }),
-    });
+        body: JSON.stringify(options as OrderFlowPlaceOrderArguments),
+      });
 
-    const { order }: OrderFlowPlaceOrderResponse = await response.json();
+      const { order }: OrderFlowPlaceOrderResponse = await response.json();
 
-    if (!response.ok) {
-      const message = response.status === 403 ? 'Sua sessão expirou.' : 'Erro interno do servidor.';
-      dispatch(orderError({ status: response.status, message }));
+      if (!response.ok) {
+        const message = response.status === 403 ? 'Sua sessão expirou. Faça login e tente novamente.' : 'Erro interno do servidor.';
+        dispatch(orderError({ status: response.status, message }));
+      }
+    } catch (e) {
+      console.error(e);
+      dispatch(orderError({ message: 'Seu pedido não pode ser enviado.' }));
     }
-
     dispatch(loadOrderEnded());
   };
 };
