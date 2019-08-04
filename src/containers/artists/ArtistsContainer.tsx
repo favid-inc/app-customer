@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import { NavigationScreenProps } from 'react-navigation';
-import * as actions from '../../store/actions';
+import { ScrollView, RefreshControl } from 'react-native';
+
+import * as actions from '@src/store/actions';
 import { Artist, CategoryOfArtistModel } from '@src/core/model';
+
 import { ArtistList } from './ArtistsList';
 
 interface State {
@@ -26,8 +29,10 @@ class ArtistsContainerComponent extends Component<Props, State> {
   private navigationKey: string = 'Artists';
 
   public componentWillMount() {
-    this.props.onListArtists();
+    this.onRefresh();
   }
+
+  private onRefresh = () => this.props.onListArtists();
 
   public onDetails(artist: Artist) {
     this.props.onSetArtist(artist);
@@ -67,12 +72,14 @@ class ArtistsContainerComponent extends Component<Props, State> {
 
   public render(): React.ReactNode {
     return (
-      <ArtistList
-        onSearchStringChange={this.onSearchStringChange}
-        loading={this.props.loading}
-        categoryOfArtists={this.filteredArtists()}
-        onDetails={artist => this.onDetails(artist)}
-      />
+      <ScrollView refreshControl={<RefreshControl refreshing={this.props.loading} onRefresh={this.onRefresh} />}>
+        <ArtistList
+          onSearchStringChange={this.onSearchStringChange}
+          loading={this.props.loading}
+          categoryOfArtists={this.filteredArtists()}
+          onDetails={artist => this.onDetails(artist)}
+        />
+      </ScrollView>
     );
   }
 }
