@@ -4,8 +4,6 @@ import * as actions from '../../store/actions';
 import { NavigationScreenProps } from 'react-navigation';
 import { Profile } from '@src/core/model';
 import { Text, View, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
-import * as config from '@src/core/config';
-import * as AppAuth from 'expo-app-auth';
 import { googleImage, favidImage } from '@src/assets/images';
 import { AuthState as AuthStateModel } from '@src/core/model/authState.model';
 
@@ -31,8 +29,7 @@ class SignInContainer extends React.Component<props, State> {
   }
 
   private auth = async () => {
-    const result = await AppAuth.authAsync(config.auth);
-    this.props.onAuth(result);
+    this.props.onAuth();
   };
 
   public render(): React.ReactNode {

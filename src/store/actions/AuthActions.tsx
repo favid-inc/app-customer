@@ -1,20 +1,30 @@
+import * as firebase from 'firebase';
+import * as AppAuth from 'expo-app-auth';
 import { AsyncStorage } from 'react-native';
-import { SIGN_IN, SIGN_OUT, SIGN_IN_STARTED, SIGN_IN_ENDED, SIGN_IN_ERROR } from './ActionTypes';
+
 import * as config from '@src/core/config';
 import { storageKeys } from '@src/core/config';
 import { Customer as CustomerModel } from '@src/core/model/customer.model';
 import { AuthState as AuthStateModel } from '@src/core/model/authState.model';
-import * as firebase from 'firebase';
+
+import { SIGN_IN, SIGN_OUT, SIGN_IN_STARTED, SIGN_IN_ENDED, SIGN_IN_ERROR } from './ActionTypes';
 
 const storageKey = storageKeys.currentUser;
 
-export const auth = authResult => {
+export const auth = () => {
   return async dispatch => {
     dispatch(signInStarted());
+
+    const authResult = await AppAuth.authAsync(config.auth);
+
     const credential = firebase.auth.GoogleAuthProvider.credential(authResult.idToken, authResult.accessToken);
+
     const authData = await firebase.auth().signInWithCredential(credential);
+
     const data = JSON.parse(JSON.stringify(authData)).user;
+
     const idToken = await firebase.auth().currentUser.getIdToken();
+
     const customer: CustomerModel = {
       uid: data.uid,
       displayName: data.displayName,
@@ -24,13 +34,16 @@ export const auth = authResult => {
       createdAt: data.createdAt,
       idToken,
     };
+
     const authState: AuthStateModel = {
       ...customer,
       redirectEventId: data.redirectEventId,
       lastLoginAt: data.lastLoginAt,
       createdAt: data.createdAt,
     };
+
     await AsyncStorage.setItem(storageKey, JSON.stringify(authState));
+
     dispatch(signIn(authState));
     dispatch(signInFinished());
   };
