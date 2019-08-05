@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavigationScreenProps } from 'react-navigation';
 import { Orders } from './Orders';
-import * as actions from '../../../store/actions/index';
 import { OrderModel } from '@favid-inc/api';
+import * as actions from '../../../store/actions/index';
+import { NavigationScreenProps } from 'react-navigation';
+import { ScrollView, RefreshControl } from 'react-native';
 
 interface ComponentProps {
   userId: any;
@@ -17,16 +18,22 @@ type Props = NavigationScreenProps & ComponentProps;
 
 class OrdersContainerComponent extends Component<Props> {
   public componentWillMount() {
-    this.props.onGetOrders(this.props.userId);
+    this.onRefresh();
   }
 
-  public onDetails(order: OrderModel) {
+  private onRefresh = () => this.props.onGetOrders(this.props.userId);
+
+  private onDetails = (order: OrderModel) => {
     this.props.onSetOrder(order);
     this.props.navigation.navigate('Detalhes do Pedido');
-  }
+  };
 
   public render(): React.ReactNode {
-    return <Orders orders={this.props.orders} loading={this.props.loading} onDetails={this.onDetails.bind(this)} />;
+    return (
+      <ScrollView refreshControl={<RefreshControl refreshing={this.props.loading} onRefresh={this.onRefresh} />}>
+        <Orders orders={this.props.orders} loading={this.props.loading} onDetails={this.onDetails} />
+      </ScrollView>
+    );
   }
 }
 
