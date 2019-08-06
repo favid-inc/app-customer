@@ -20,11 +20,9 @@ export const auth = () => {
     const credential = firebase.auth.GoogleAuthProvider.credential(authResult.idToken, authResult.accessToken);
 
     const authData = await firebase.auth().signInWithCredential(credential);
-
-    const data = JSON.parse(JSON.stringify(authData)).user;
-
+    const data = JSON.parse(JSON.stringify(authData.user));
     const idToken = await firebase.auth().currentUser.getIdToken();
-
+    // console.log('', data);
     const customer: CustomerModel = {
       uid: data.uid,
       displayName: data.displayName,
@@ -113,9 +111,16 @@ const registerCustomer = (customer: CustomerModel) => {
   };
 };
 
-export const signOut = () => {
-  AsyncStorage.removeItem(storageKey);
+export const removeUser = () => {
   return {
     type: SIGN_OUT,
+  };
+};
+
+export const signOut = () => {
+  return async dispatch => {
+    await firebase.auth().signOut();
+    await AsyncStorage.removeItem(storageKey);
+    dispatch(removeUser());
   };
 };
