@@ -29,9 +29,9 @@ export const auth = () => {
   };
 };
 
-export const reAuth = (auth: AuthStateModel) => {
+export const reAuth = ({ refreshToken }: AuthStateModel) => {
   return async dispatch => {
-    const authState = await AppAuth.refreshAsync(config.auth, auth.refreshToken);
+    const authState = await AppAuth.refreshAsync(config.auth, refreshToken);
     const credential = firebase.auth.GoogleAuthProvider.credential(authState.idToken, authState.accessToken);
     await firebase.auth().signInWithCredential(credential);
 
