@@ -4,14 +4,14 @@ import { NavigationScreenProps } from 'react-navigation';
 import { Profile } from '@src/core/model';
 import { Account } from './Account';
 import { ActivityIndicator } from 'react-native';
-import { AuthState as AuthStateModel } from '@src/core/model/authState.model';
+import { Customer as CustomerModel } from '@src/core/model/customer.model';
 
 interface State {
   profile: Profile;
 }
 
 interface AccountContainerProps {
-  auth: AuthStateModel;
+  customer: CustomerModel;
   onSignOut: () => void;
 }
 
@@ -25,20 +25,20 @@ class AccountContainerComponent extends Component<Props, State> {
   private onUploadPhotoButtonPress = () => {};
 
   public componentDidMount() {
-    if (!this.props.auth.displayName) {
+    if (!this.props.customer.displayName) {
       return this.props.onSignOut();
     }
     this.setState(() => {
       const imageSource = {
-        uri: this.props.auth.photoURL,
+        uri: this.props.customer.photoURL,
         height: 100,
         width: 100,
       };
       const profile: Profile = {
-        firstName: this.props.auth.displayName.split(' ')[0],
-        lastName: this.props.auth.displayName.split(' ')[1],
+        firstName: this.props.customer.displayName.split(' ')[0],
+        lastName: this.props.customer.displayName.split(' ')[1],
         photo: { imageSource },
-        email: this.props.auth.email,
+        email: this.props.customer.email,
       };
 
       return {
@@ -56,6 +56,6 @@ class AccountContainerComponent extends Component<Props, State> {
   }
 }
 
-const mapStateToProps = ({ auth }) => ({ auth: auth.authState });
+const mapStateToProps = ({ auth }) => ({ customer: auth.customer });
 
 export const AccountContainer = connect(mapStateToProps)(AccountContainerComponent);

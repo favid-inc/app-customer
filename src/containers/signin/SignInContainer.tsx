@@ -5,16 +5,14 @@ import { NavigationScreenProps } from 'react-navigation';
 import { Profile } from '@src/core/model';
 import { Text, View, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { googleImage, favidImage } from '@src/assets/images';
-import { AuthState as AuthStateModel } from '@src/core/model/authState.model';
 
 interface State {
   profile: Profile;
 }
 
 interface SignInContainerProps {
-  auth: AuthStateModel;
   loading: boolean;
-  onAuth: (any) => void;
+  onAuth: () => void;
   onLoadAuthState: () => void;
 }
 
@@ -28,7 +26,7 @@ class SignInContainer extends React.Component<props, State> {
     this.props.onLoadAuthState();
   }
 
-  private auth = async () => {
+  private auth = () => {
     this.props.onAuth();
   };
 
@@ -60,12 +58,11 @@ class SignInContainer extends React.Component<props, State> {
 }
 
 const mapStateToProps = ({ auth }) => ({
-  auth: auth.authState,
   loading: auth.loading,
 });
 
 const mapDispatchToProps = dispatch => ({
-  onAuth: authResult => dispatch(actions.auth(authResult)),
+  onAuth: () => dispatch(actions.auth()),
   onLoadAuthState: () => dispatch(actions.loadAuthState()),
 });
 

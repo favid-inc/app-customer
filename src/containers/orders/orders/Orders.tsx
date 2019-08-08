@@ -9,7 +9,6 @@ import { ContainerView } from '@src/components/common';
 import { textStyle } from '@src/components/common';
 
 interface Props {
-  loading: boolean;
   orders: OrderModel[];
   onDetails: (order: OrderModel) => void;
 }
@@ -37,7 +36,7 @@ class OrdersComponent extends Component<ThemedComponentProps & Props> {
         </ContainerView>
       );
 
-    return this.props.loading ? <ActivityIndicator size='large' /> : list;
+    return list;
   }
 }
 
