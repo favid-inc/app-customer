@@ -14,18 +14,13 @@ export const postOrder = (options: OrderFlowPlaceOrderArguments, idToken: String
           Authorization: `Bearer ${idToken}`,
           'Content-Type': 'application/json',
         },
-
         body: JSON.stringify(options as OrderFlowPlaceOrderArguments),
       });
-
-      const { order }: OrderFlowPlaceOrderResponse = await response.json();
-
       if (!response.ok) {
-        const message = response.status === 403 ? 'Sua sessão expirou. Faça login e tente novamente.' : 'Erro interno do servidor.';
-        dispatch(orderError({ status: response.status, message }));
+        throw Error(response.status.toString());
       }
     } catch (e) {
-      console.error(e);
+      console.log('[OrderActions.tsx] postOrder error:', e);
       dispatch(orderError({ message: 'Seu pedido não pode ser enviado.' }));
     }
     dispatch(loadOrderEnded());
@@ -54,11 +49,9 @@ export const getOrders = (userId: string) => {
 
     const response = await fetch(`${config.firebase.databaseURL}/order.json${queryParams}`);
     if (response.ok) {
-
       const data: { [key: string]: OrderModel } = await response.json();
 
-      const orders: OrderModel[] = Object.values(data)
-      .filter(o => o.customerId === userId);
+      const orders: OrderModel[] = Object.values(data).filter(o => o.customerId === userId);
 
       dispatch(storeOrders(orders));
     } else {

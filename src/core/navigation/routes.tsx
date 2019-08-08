@@ -16,6 +16,10 @@ import * as BuyingProcess from '@src/containers/buyingProcess/index';
 import { OrdersNavigator, OrderDetailsContainerNavigationMap } from '@src/containers/orders';
 import { MenuNavigator } from '../../containers/menu';
 import { SettingsNavigationMap } from '../../containers/settings';
+import * as actions from '../../store/actions';
+
+import { Customer as CustomerModel } from '../../core/model/customer.model';
+import { AuthState as AuthStateModel } from '../../core/model/authState.model';
 
 const BuyingProcessNavigationMap: NavigationRouteConfigMap = {
   ['Booking']: {
@@ -68,7 +72,11 @@ const createAppRouter = (container: NavigationContainer): NavigationContainer =>
 const NavigationRouter: NavigationContainer = createAppRouter(AppNavigator);
 const AuthNavigationRouter: NavigationContainer = createAppRouter(SignInNavigator);
 interface ComponentProps {
-  auth: any;
+  isLoggedIn: boolean;
+  customer: CustomerModel;
+  authState: AuthStateModel;
+  onLoadAuthState: () => void;
+  onverifySession: (authState: AuthStateModel) => void;
   onNavigationStateChange: (
     prevNavigationState: NavigationState,
     nextNavigationState: NavigationState,
@@ -77,15 +85,31 @@ interface ComponentProps {
 }
 
 class Router extends React.Component<ComponentProps> {
+  componentWillMount() {
+    this.props.onLoadAuthState();
+  }
+
+  componentDidUpdate() {
+    if (this.props.authState.refreshToken) {
+      this.props.onverifySession(this.props.authState);
+    }
+  }
+
   public render() {
     let navigation = <AuthNavigationRouter onNavigationStateChange={this.props.onNavigationStateChange} />;
-    if (this.props.auth.authState.uid) {
+    if (this.props.customer.uid) {
       navigation = <NavigationRouter onNavigationStateChange={this.props.onNavigationStateChange} />;
     }
     return navigation;
   }
 }
 
-const mapStateToProps = ({ auth }) => ({ auth: auth });
-
-export default connect(mapStateToProps)(Router);
+const mapStateToProps = ({ auth }) => ({ authState: auth.authState, customer: auth.customer });
+const mapDispatchToProps = dispatch => ({
+  onLoadAuthState: () => dispatch(actions.loadAuthState()),
+  onverifySession: (authState: AuthStateModel) => dispatch(actions.verifySession(authState)),
+});
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Router);

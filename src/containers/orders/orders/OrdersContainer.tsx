@@ -31,7 +31,7 @@ class OrdersContainerComponent extends Component<Props> {
   public render(): React.ReactNode {
     return (
       <ScrollView refreshControl={<RefreshControl refreshing={this.props.loading} onRefresh={this.onRefresh} />}>
-        <Orders orders={this.props.orders} loading={this.props.loading} onDetails={this.onDetails} />
+        <Orders orders={this.props.orders} onDetails={this.onDetails} />
       </ScrollView>
     );
   }
@@ -39,7 +39,7 @@ class OrdersContainerComponent extends Component<Props> {
 
 const mapStateToProps = ({ order, auth }) => ({
   loading: order.loading,
-  userId: auth.authState.uid,
+  userId: auth.customer.uid,
   orders: order.orders,
 });
 

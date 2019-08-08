@@ -1,19 +1,29 @@
-import { SIGN_IN, SIGN_OUT, SIGN_IN_STARTED, SIGN_IN_ENDED, SIGN_IN_ERROR } from '../actions/ActionTypes';
+import {
+  SIGN_IN,
+  SIGN_OUT,
+  SIGN_IN_STARTED,
+  SIGN_IN_ENDED,
+  SIGN_IN_ERROR,
+  UPDATE_IS_LOGGED_IN,
+} from '../actions/ActionTypes';
 import { AuthState as AuthStateModel } from '@src/core/model/authState.model';
 
 const INITIAL_STATE = {
   authState: {
+    accessToken: null,
+    accessTokenExpirationDate: null,
+    additionalParameters: null,
+    idToken: null,
+    refreshToken: null,
+    tokenType: null,
+  },
+  customer: {
     uid: null,
     displayName: null,
     photoURL: null,
     email: null,
-    refreshToken: null,
-    accessToken: null,
-    expirationTime: null,
-    redirectEventId: null,
-    lastLoginAt: null,
-    createdAt: null,
   },
+  isloggedIn: false,
   error: null,
   loading: false,
 };
@@ -24,6 +34,10 @@ const signIn = (state, action) => {
     authState: {
       ...action.authState,
     },
+    customer: {
+      ...action.customer,
+    },
+    isloggedIn: true,
   };
 };
 
@@ -31,17 +45,20 @@ const signOut = state => {
   return {
     ...state,
     authState: {
+      accessToken: null,
+      accessTokenExpirationDate: null,
+      additionalParameters: null,
+      idToken: null,
+      refreshToken: null,
+      tokenType: null,
+    },
+    customer: {
       uid: null,
       displayName: null,
       photoURL: null,
       email: null,
-      refreshToken: null,
-      accessToken: null,
-      expirationTime: null,
-      redirectEventId: null,
-      lastLoginAt: null,
-      createdAt: null,
     },
+    isloggedIn: false,
   };
 };
 
@@ -67,6 +84,13 @@ const signInError = (state, action) => {
   };
 };
 
+const updateIsLoggedIn = (state, action) => {
+  return {
+    ...state,
+    isloggedIn: action.isloggedIn,
+  };
+};
+
 const authReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SIGN_IN:
@@ -79,6 +103,8 @@ const authReducer = (state = INITIAL_STATE, action) => {
       return signInEnded(state);
     case SIGN_IN_ERROR:
       return signInError(state, action);
+    case UPDATE_IS_LOGGED_IN:
+      return updateIsLoggedIn(state, action);
     default:
       return state;
   }

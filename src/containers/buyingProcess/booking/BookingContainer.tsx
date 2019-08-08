@@ -19,15 +19,16 @@ interface ComponentProps {
 }
 
 class BookingContainer extends Component<ComponentProps & NavigationScreenProps> {
-  private onSend = (orderInstructions) => {
+  private onSend = orderInstructions => {
     const order: OrderModel = {
       ...orderInstructions,
       artistId: this.props.artistId,
       userId: this.props.userId,
     };
     this.props.onPostOrder(order, this.props.idToken);
+
     this.props.navigation.navigate('Orders');
-  }
+  };
   public shouldComponentUpdate(nextProps) {
     if (this.props.error !== nextProps || this.props.loading !== this.props.loading) {
       return true;
@@ -56,7 +57,7 @@ class BookingContainer extends Component<ComponentProps & NavigationScreenProps>
 const mapStateToProps = ({ order, artist, auth }) => ({
   loading: order.loading,
   artistId: artist.artist.id,
-  userId: auth.authState.uid,
+  userId: auth.customer.uid,
   idToken: auth.authState.idToken,
   error: order.error,
 });
