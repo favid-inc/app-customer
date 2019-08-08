@@ -1,7 +1,8 @@
-import { Customer } from './customer.model';
-export interface AuthState extends Customer {
-  refreshToken?: string;
-  accessToken?: string;
-  expirationTime?: string;
-  redirectEventId?: string;
+export interface AuthState {
+  accessToken: string;
+  accessTokenExpirationDate: string;
+  additionalParameters: object;
+  idToken: string;
+  refreshToken: string;
+  tokenType: string;
 }
