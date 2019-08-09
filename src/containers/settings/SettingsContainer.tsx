@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { NavigationScreenProps } from 'react-navigation';
 import { Settings } from './Settings';
 import * as actions from '../../store/actions';
-import { Text } from 'react-native-ui-kitten/ui';
-import { View } from 'react-native';
 import { ContainerView } from '@src/components/common';
 
 interface Props {
@@ -19,10 +17,6 @@ export class SettingsContainerComponent extends Component<NavigationScreenProps 
   public render(): React.ReactNode {
     return (
       <ContainerView style={{ flex: 1 }}>
-        <Text appearance='hint' style={{ textAlign: 'center' }} category='h5'>
-          Configurações
-        </Text>
-
         <Settings
           onNavigate={(pathName: string) => this.onNavigate(pathName)}
           onSignOut={this.props.onSignOut.bind(this)}

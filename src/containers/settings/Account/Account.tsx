@@ -41,17 +41,8 @@ class Accountomponent extends React.Component<AccountProps> {
           <ProfilePhoto style={themedStyle.photo} source={profile.photo.imageSource} button={this.renderPhotoButton} />
         </View>
         <View style={themedStyle.infoSection}>
-          <ProfileSetting style={themedStyle.profileSetting} hint='First Name' value={profile.firstName} />
-          <ProfileSetting style={themedStyle.profileSetting} hint='Last Name' value={profile.lastName} />
-        </View>
-        <View style={themedStyle.contactSection}>
-          <ProfileSetting style={themedStyle.profileSetting} hint='Email' value={profile.email} />
-        </View>
-        <View style={themedStyle.contactSection}>
-          <ProfileSetting style={themedStyle.profileSetting} hint='Email' value={profile.email} />
-        </View>
-        <View style={themedStyle.contactSection}>
-          <ProfileSetting style={themedStyle.profileSetting} hint='Email' value={profile.email} />
+          <ProfileSetting style={themedStyle.profileSetting} hint='Nome' value={profile.firstName} />
+          <ProfileSetting style={themedStyle.profileSetting} hint='Sobrenome' value={profile.lastName} />
         </View>
         <View style={themedStyle.contactSection}>
           <ProfileSetting style={themedStyle.profileSetting} hint='Email' value={profile.email} />

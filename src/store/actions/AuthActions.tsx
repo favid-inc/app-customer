@@ -21,7 +21,6 @@ export const auth = () => {
     await firebase.auth().signInWithCredential(credential);
     const { uid, displayName, photoURL, email } = await firebase.auth().currentUser;
     const customer: CustomerModel = { uid, displayName, photoURL, email };
-    // authState.accessTokenExpirationDate = new Date(new Date().setSeconds(new Date().getSeconds() + 30)).toString();
     await AsyncStorage.setItem(storageKey, JSON.stringify({ authState, customer }));
 
     dispatch(signIn(authState, customer));

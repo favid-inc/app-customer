@@ -1,7 +1,9 @@
 import React from 'react';
-import { withStyles, ThemeType, ThemedComponentProps } from '@kitten/theme';
-import { textStyle } from '@src/components/common';
-import { Text } from 'react-native';
+import { withStyles, ThemedComponentProps, ThemeType } from '@kitten/theme';
+import { textStyle, ContainerView } from '@src/components/common';
+import { AddPaymentCardForm } from './addPaymentCardForm.component';
+import { Button } from 'react-native-ui-kitten/ui';
+import { ActivityIndicator } from 'react-native';
 // import { CreditCardModel as State } from '@favid-inc/api';
 
 interface ComponentProps {
@@ -9,26 +11,48 @@ interface ComponentProps {
   onSend: (creditCard) => void;
 }
 
+interface State {
+  formValue: any;
+}
+
 export type CreditCardComponentProps = ThemedComponentProps & ComponentProps;
 
-class CreditCardComponent extends React.Component<CreditCardComponentProps> {
+class CreditCardComponent extends React.Component<CreditCardComponentProps, State> {
+  public state: State = {
+    formValue: null,
+  };
+
+  public onFormValueChange(formValue) {
+    this.setState({ formValue: formValue ? { ...formValue } : formValue });
+  }
+
   public render() {
-    return <Text>Credit Card</Text>;
+    const { themedStyle, loading } = this.props;
+
+    return (
+      <ContainerView style={themedStyle.container}>
+        <AddPaymentCardForm onFormValueChange={this.onFormValueChange.bind(this)} />
+        <Button
+          style={themedStyle.saveButton}
+          textStyle={textStyle.button}
+          size='giant'
+          disabled={!this.state.formValue || loading}
+          onPress={this.props.onSend.bind(this, this.state.formValue)}
+        >
+          {loading ? 'Processando...' : 'Save'}
+        </Button>
+      </ContainerView>
+    );
   }
 }
 
-export const CreditCard = withStyles(CreditCardComponent, () => ({
+export const CreditCard = withStyles(CreditCardComponent, (theme: ThemeType) => ({
   container: {
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    alignItems: 'flex-start',
+    backgroundColor: theme['background-basic-color-2'],
+    paddingVertical: 20,
+    paddingHorizontal: 16,
   },
-  pagerContainer: {
-    marginVertical: 8,
-  },
-  subtitle: {
-    marginVertical: 16,
-    textAlign: 'center',
-    ...textStyle.subtitle,
+  saveButton: {
+    marginVertical: 20,
   },
 }));

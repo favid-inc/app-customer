@@ -10,6 +10,7 @@ import thunk from 'redux-thunk';
 import AuthReducer from './store/reducers/AuthReducer';
 import ArtistReducer from './store/reducers/ArtistReducer';
 import OrderReducer from './store/reducers/OrderReducer';
+import PaymentReducer from './store/reducers/PaymentReducer';
 
 import { ImageRequireSource } from 'react-native';
 import { NavigationState } from 'react-navigation';
@@ -80,6 +81,7 @@ class App extends React.Component<{}, State> {
     auth: AuthReducer,
     artist: ArtistReducer,
     order: OrderReducer,
+    payment: PaymentReducer,
   });
 
   private store = createStore(this.rootReducer, /* preloadedState, */ compose(applyMiddleware(thunk)));

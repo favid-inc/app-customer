@@ -6,7 +6,6 @@ import {
   SIGN_IN_ERROR,
   UPDATE_IS_LOGGED_IN,
 } from '../actions/ActionTypes';
-import { AuthState as AuthStateModel } from '@src/core/model/authState.model';
 
 const INITIAL_STATE = {
   authState: {
