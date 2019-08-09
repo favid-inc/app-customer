@@ -28,6 +28,11 @@
     "splash": {
       "image": "src/assets/images/source/splash.png",
       "resizeMode": "contain"
-    }
+    },
+    "platforms": [
+      "android",
+      "ios"
+    ],
+    "description": ""
   }
 }
