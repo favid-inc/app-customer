@@ -102,11 +102,9 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
 
     if (artist.about && artist.about.length) {
       about = (
-        <ShowcaseSection title='Sobre' style={themedStyle.section}>
-          <Text style={[themedStyle.profileSectionContent, themedStyle.profileAboutLabel]} appearance='hint'>
-            {artist.about}
-          </Text>
-        </ShowcaseSection>
+        <View style={themedStyle.section}>
+          <Text style={[themedStyle.profileSectionContent, themedStyle.profileAboutLabel]}>{artist.about}</Text>
+        </View>
       );
     }
 
@@ -214,7 +212,6 @@ export const ArtistDetails = withStyles(ArtistDetailsComponent, (theme: ThemeTyp
     marginTop: 24,
   },
   profileAboutLabel: {
-    marginHorizontal: 16,
     ...textStyle.paragraph,
   },
   shotsSection: {
