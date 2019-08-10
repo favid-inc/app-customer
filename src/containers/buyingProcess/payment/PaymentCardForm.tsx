@@ -39,7 +39,7 @@ interface State {
   cardholderName: string | undefined;
 }
 
-class AddNewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
+class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
   public state: State = {
     cardNumber: undefined,
     expirationDate: undefined,
@@ -142,7 +142,7 @@ class AddNewCardComponent extends React.Component<AddPaymentCardFormProps, State
   }
 }
 
-export const AddPaymentCardForm = withStyles(AddNewCardComponent, (theme: ThemeType) => ({
+export const PaymentCardForm = withStyles(NewCardComponent, (theme: ThemeType) => ({
   container: {},
   middleContainer: {
     flexDirection: 'row',

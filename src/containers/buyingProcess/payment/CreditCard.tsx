@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles, ThemedComponentProps, ThemeType } from '@kitten/theme';
 import { textStyle, ContainerView } from '@src/components/common';
-import { AddPaymentCardForm } from './addPaymentCardForm.component';
+import { PaymentCardForm } from './PaymentCardForm';
 import { Button } from 'react-native-ui-kitten/ui';
 import { ActivityIndicator } from 'react-native';
 // import { CreditCardModel as State } from '@favid-inc/api';
@@ -31,7 +31,7 @@ class CreditCardComponent extends React.Component<CreditCardComponentProps, Stat
 
     return (
       <ContainerView style={themedStyle.container}>
-        <AddPaymentCardForm onFormValueChange={this.onFormValueChange.bind(this)} />
+        <PaymentCardForm onFormValueChange={this.onFormValueChange.bind(this)} />
         <Button
           style={themedStyle.saveButton}
           textStyle={textStyle.button}
