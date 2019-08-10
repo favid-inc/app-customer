@@ -27,7 +27,7 @@ class Container extends Component<ComponentProps & NavigationScreenProps> {
     };
     this.props.onPostOrder(order, this.props.idToken);
 
-    this.props.navigation.navigate('Orders');
+    this.props.navigation.navigate('Pagamento');
   };
   public shouldComponentUpdate(nextProps) {
     if (this.props.error !== nextProps || this.props.loading !== this.props.loading) {
