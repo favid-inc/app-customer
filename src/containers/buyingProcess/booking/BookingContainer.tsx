@@ -18,7 +18,7 @@ interface ComponentProps {
   onError: (error: any) => void;
 }
 
-class BookingContainer extends Component<ComponentProps & NavigationScreenProps> {
+class Container extends Component<ComponentProps & NavigationScreenProps> {
   private onSend = orderInstructions => {
     const order: OrderModel = {
       ...orderInstructions,
@@ -68,7 +68,7 @@ const mapDispatchToProps = dispatch => ({
   onSignOut: () => dispatch(actions.signOut()),
 });
 
-export default connect(
+export const BookingContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(BookingContainer);
+)(Container);

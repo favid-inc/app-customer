@@ -1,5 +1,1 @@
-import BookingContainer from './booking/BookingContainer';
-
-export default {
-  BookingContainer,
-};
+export { BuyingProcessNavigationMap } from './navigator';

@@ -38,7 +38,7 @@ class ArtistsContainerComponent extends Component<Props, State> {
     this.props.onSetArtist(artist);
     this.props.navigation.navigate({
       key: this.navigationKey,
-      routeName: 'Artist Details',
+      routeName: 'Artista',
     });
   }
 

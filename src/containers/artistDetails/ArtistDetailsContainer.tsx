@@ -27,7 +27,7 @@ class ArtistContainer extends Component<Props, State> {
 
   private onOrderPress = () => {
     this.props.navigation.navigate({
-      routeName: 'Booking',
+      routeName: 'Pedido',
     });
   };
   private onFollowersPress = () => {};
