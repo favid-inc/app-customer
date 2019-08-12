@@ -19,10 +19,11 @@ export const auth = () => {
 
     const credential = firebase.auth.GoogleAuthProvider.credential(authState.idToken, authState.accessToken);
     await firebase.auth().signInWithCredential(credential);
+    const idToken = await firebase.auth().currentUser.getIdToken();
+    authState.idToken = idToken;
     const { uid, displayName, photoURL, email } = await firebase.auth().currentUser;
     const customer: CustomerModel = { uid, displayName, photoURL, email };
     await AsyncStorage.setItem(storageKey, JSON.stringify({ authState, customer }));
-
     dispatch(signIn(authState, customer));
     dispatch(signInFinished());
   };
@@ -33,6 +34,8 @@ export const reAuth = ({ refreshToken }: AuthStateModel) => {
     const authState = await AppAuth.refreshAsync(config.auth, refreshToken);
     const credential = firebase.auth.GoogleAuthProvider.credential(authState.idToken, authState.accessToken);
     await firebase.auth().signInWithCredential(credential);
+    const idToken = await firebase.auth().currentUser.getIdToken();
+    authState.idToken = idToken;
 
     const { uid, displayName, photoURL, email } = await firebase.auth().currentUser;
     const customer: CustomerModel = { uid, displayName, photoURL, email };
