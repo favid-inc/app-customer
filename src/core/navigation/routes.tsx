@@ -15,14 +15,14 @@ import ArtistDetailsContainer from '@src/containers/artistDetails/ArtistDetailsC
 import { OrdersNavigator, OrderDetailsContainerNavigationMap } from '@src/containers/orders';
 import { MenuNavigator } from '../../containers/menu';
 import { SettingsNavigationMap } from '../../containers/settings';
-import { BuyingProcessNavigationMap } from '../../containers/buyingProcess';
+import { BuyingProcessNavigation } from '../../containers/buyingProcess';
 import * as actions from '../../store/actions';
 
 import { Customer as CustomerModel } from '../../core/model/customer.model';
 import { AuthState as AuthStateModel } from '../../core/model/authState.model';
 
 const ArtistNavigationMap: NavigationRouteConfigMap = {
-  ['Artista']: {
+  Artista: {
     screen: ArtistDetailsContainer,
     navigationOptions: SocialNavigationOptions,
   },
@@ -42,13 +42,12 @@ const SignInNavigator: NavigationContainer = createStackNavigator(
 
 const AppNavigator: NavigationContainer = createStackNavigator(
   {
-    ['Home']: MenuNavigator,
+    MenuNavigator,
+    BuyingProcessNavigation,
     OrdersNavigator,
     ...ArtistNavigationMap,
-    ...BuyingProcessNavigationMap,
     ...OrderDetailsContainerNavigationMap,
     ...SettingsNavigationMap,
-    ...BuyingProcessNavigationMap,
   },
   {
     headerMode: 'screen',

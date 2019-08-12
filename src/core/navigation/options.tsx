@@ -28,7 +28,7 @@ const MenuTopNavigationParams: TopNavigationParams = {
       <TopNavigationBar
         {...props}
         title={routeName}
-        backIcon={isRootRoute(index) && ArrowIosBackFill}
+        backIcon={ArrowIosBackFill}
         onBackPress={() => {
           props.navigation.goBack(KEY_NAVIGATION_BACK);
         }}
