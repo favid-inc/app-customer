@@ -15,5 +15,3 @@ export const LOAD_ORDER_STARTED = 'LOAD_ORDER_STARTED';
 export const LOAD_ORDER_ENDED = 'LOAD_ORDER_ENDED';
 export const ORDER_ERROR = 'ORDER_ERROR';
 export const SET_ORDER = 'SET_ORDER';
-
-export const SET_PAYMENT_TOKEN = 'SET_PAYMENT_TOKEN';

@@ -2,9 +2,11 @@ import { NavigationContainer, createStackNavigator, NavigationRouteConfigMap } f
 import { AccountContainer } from './AccountCointainer';
 import { TopBarNavigationOptions } from '@src/core/navigation/options';
 
-export const AccountNavigation = {
-  Conta: {
-    screen: AccountContainer,
+export const AccountNavigator: NavigationContainer = createStackNavigator(
+  {
+    ['Conta']: AccountContainer,
+  },
+  {
     navigationOptions: TopBarNavigationOptions,
   },
-};
+);

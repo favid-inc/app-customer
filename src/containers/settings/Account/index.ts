@@ -1,1 +1,1 @@
-export { AccountNavigation } from './navigators';
+export { AccountNavigator } from './navigators';

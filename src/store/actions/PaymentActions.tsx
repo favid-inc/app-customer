@@ -1,5 +1,5 @@
-import { SET_PAYMENT_TOKEN } from './ActionTypes';
-export const setPaymentToken = (paymentToken: string) => ({
-  type: SET_PAYMENT_TOKEN,
-  paymentToken,
-});
+export const onSendPayment = payment => {
+  return async dispatch => {
+    console.log('[PaymentActions.tsx] payment: ', payment);
+  };
+};
