@@ -1,7 +1,22 @@
+export const PHONE_NUMBER_REGEX = /^(\d{3})(1|)?(\d{4})(\d{4})$/;
 export const CardNumberFormatter = (value: string): string => {
   return value
     .replace(/\s?/g, '')
     .replace(/(\d{4})/g, '$1 ')
+    .trim();
+};
+
+export const PhoneNumberFormatter = phoneNumberString => {
+  const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+  const [prefix, extraDigit, firstNumbers, lastNumbers] = cleaned.match(PHONE_NUMBER_REGEX);
+  return `(${prefix}) ${extraDigit} ${firstNumbers} ${lastNumbers}`;
+};
+
+export const CpfNumberFormatter = (value: string): string => {
+  return value
+    .replace(/\s?/g, '')
+    .replace(/(\d{3})/g, '$1 ')
+    .replace(/(\d{2})/g, '$1 ')
     .trim();
 };
 
