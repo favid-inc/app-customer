@@ -19,20 +19,25 @@ export const storeOrders = (orders: OrderModel[]) => ({ type: STORE_ORDERS, orde
 
 export const getOrders = (userId: string) => {
   return async dispatch => {
-    dispatch(loadOrderStarted());
-    const queryParams = ''; // `?orderBy="customerId"&equalTo="${userId}"`; TODO: fix
+    try {
+      dispatch(loadOrderStarted());
+      const queryParams = ''; // `?orderBy="customerId"&equalTo="${userId}"`; TODO: fix
 
-    const response = await fetch(`${config.firebase.databaseURL}/order.json${queryParams}`);
-    if (response.ok) {
+      const response = await fetch(`${config.firebase.databaseURL}/order.json${queryParams}`);
+      if (!response.ok) {
+        console.log(response);
+        throw new Error(response.statusText);
+      }
       const data: { [key: string]: OrderModel } = await response.json();
 
       const orders: OrderModel[] = Object.values(data).filter(o => o.customerId === userId);
 
       dispatch(storeOrders(orders));
-    } else {
-      dispatch(orderError({ status: response.status, message: 'Erro ao listar pedidos.' }));
+      dispatch(loadOrderEnded());
+    } catch (error) {
+      console.error(error);
+      dispatch(orderError({ message: 'Erro ao listar pedidos.' }));
     }
-    dispatch(loadOrderEnded());
   };
 };
 
