@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  View,
-  ViewProps,
-} from 'react-native';
-import {
-  ThemedComponentProps,
-  ThemeType,
-  withStyles,
-} from '@kitten/theme';
+import { View, ViewProps } from 'react-native';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 
 interface ComponentProps {
   children?: React.ReactNode;
@@ -16,14 +9,11 @@ interface ComponentProps {
 export type ActivityBarProps = ThemedComponentProps & ViewProps & ComponentProps;
 
 class ActivityBarComponent extends React.Component<ActivityBarProps> {
-
   public render(): React.ReactNode {
     const { style, themedStyle, children, ...restProps } = this.props;
 
     return (
-      <View
-        style={[themedStyle.container, style]}
-        {...restProps}>
+      <View style={[themedStyle.container, style]} {...restProps}>
         {children}
       </View>
     );

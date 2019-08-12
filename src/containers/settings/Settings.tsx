@@ -26,15 +26,7 @@ class SettingsComponent extends React.Component<SettingsComponentProps> {
         >
           Conta
         </Button>
-        <Button
-          status='info'
-          style={themedStyle.Button}
-          size='giant'
-          onPress={onNavigate.bind(this, 'Pagamento')}
-          icon={CreditCardIconFill}
-        >
-          Cartão de Credito
-        </Button>
+
         <Button
           status='danger'
           style={themedStyle.Button}

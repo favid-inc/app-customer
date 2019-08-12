@@ -1,25 +1,18 @@
-import { START_PROCESSING_PAYMENT, STOP_PROCESSING_PAYMENT } from '../actions/ActionTypes';
+import { SET_PAYMENT_TOKEN } from '../actions/ActionTypes';
 
 const INITIAL_STATE = {
-  loading: false,
+  paymentToken: null,
 };
 
-const startProcessingPayment = state => ({
+const setPaymentToken = (state, action) => ({
   ...state,
-  loading: true,
-});
-
-const stopProcessingPayment = state => ({
-  ...state,
-  loading: false,
+  paymentToken: action.paymentToken,
 });
 
 const paymentReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case START_PROCESSING_PAYMENT:
-      return startProcessingPayment(state);
-    case STOP_PROCESSING_PAYMENT:
-      return stopProcessingPayment(state);
+    case SET_PAYMENT_TOKEN:
+      return setPaymentToken(state, action);
     default:
       return state;
   }

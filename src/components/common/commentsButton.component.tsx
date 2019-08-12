@@ -1,15 +1,6 @@
 import React from 'react';
-import {
-  StyleProp,
-  TextStyle,
-  TouchableOpacity,
-  TouchableOpacityProps,
-} from 'react-native';
-import {
-  ThemedComponentProps,
-  ThemeType,
-  withStyles,
-} from '@kitten/theme';
+import { StyleProp, TextStyle, TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Text } from '@kitten/ui';
 import { MessageCircleIconOutline } from '@src/assets/icons';
 
@@ -21,18 +12,13 @@ interface ComponentProps {
 export type CommentsButtonProps = ThemedComponentProps & TouchableOpacityProps & ComponentProps;
 
 class CommentsButtonComponent extends React.Component<CommentsButtonProps> {
-
   public render(): React.ReactNode {
     const { style, themedStyle, textStyle, children, ...restProps } = this.props;
 
     return (
-      <TouchableOpacity
-        style={[themedStyle.container, style]}
-        {...restProps}>
+      <TouchableOpacity style={[themedStyle.container, style]} {...restProps}>
         {MessageCircleIconOutline(themedStyle.icon)}
-        <Text
-          style={[themedStyle.valueLabel, textStyle]}
-          category='p2'>
+        <Text style={[themedStyle.valueLabel, textStyle]} category='p2'>
           {children}
         </Text>
       </TouchableOpacity>

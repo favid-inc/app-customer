@@ -1,4 +1,9 @@
-import { NavigationContainer, createBottomTabNavigator, NavigationRouteConfigMap } from 'react-navigation';
+import {
+  NavigationContainer,
+  createBottomTabNavigator,
+  NavigationRouteConfigMap,
+  createStackNavigator,
+} from 'react-navigation';
 import { MenuContainer } from './menu.container';
 import { ArtistsNavigator } from '../artists';
 import { OrdersNavigator } from '../orders';

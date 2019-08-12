@@ -1,23 +1,23 @@
 import React from 'react';
 import { withStyles, ThemedComponentProps, ThemeType } from '@kitten/theme';
 import { textStyle, ContainerView } from '@src/components/common';
-import { AddPaymentCardForm } from './addPaymentCardForm.component';
+import { PaymentCardForm } from './PaymentCardForm';
 import { Button } from 'react-native-ui-kitten/ui';
 import { ActivityIndicator } from 'react-native';
-// import { CreditCardModel as State } from '@favid-inc/api';
+import { Payment as PaymentModel } from '@src/core/model';
 
 interface ComponentProps {
   loading: boolean;
-  onSend: (creditCard) => void;
+  onSend: (payment: PaymentModel) => void;
 }
 
 interface State {
   formValue: any;
 }
 
-export type CreditCardComponentProps = ThemedComponentProps & ComponentProps;
+export type PaymentComponentProps = ThemedComponentProps & ComponentProps;
 
-class CreditCardComponent extends React.Component<CreditCardComponentProps, State> {
+class Component extends React.Component<PaymentComponentProps, State> {
   public state: State = {
     formValue: null,
   };
@@ -31,22 +31,23 @@ class CreditCardComponent extends React.Component<CreditCardComponentProps, Stat
 
     return (
       <ContainerView style={themedStyle.container}>
-        <AddPaymentCardForm onFormValueChange={this.onFormValueChange.bind(this)} />
+        <PaymentCardForm onFormValueChange={this.onFormValueChange.bind(this)} />
         <Button
+          status='success'
           style={themedStyle.saveButton}
           textStyle={textStyle.button}
           size='giant'
           disabled={!this.state.formValue || loading}
           onPress={this.props.onSend.bind(this, this.state.formValue)}
         >
-          {loading ? 'Processando...' : 'Save'}
+          {loading ? 'Processando...' : 'Enviar'}
         </Button>
       </ContainerView>
     );
   }
 }
 
-export const CreditCard = withStyles(CreditCardComponent, (theme: ThemeType) => ({
+export const Payment = withStyles(Component, (theme: ThemeType) => ({
   container: {
     backgroundColor: theme['background-basic-color-2'],
     paddingVertical: 20,

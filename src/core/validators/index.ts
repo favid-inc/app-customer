@@ -4,6 +4,7 @@ export const PATTERN_EMAIL: RegExp = /\S+@\S+\.\S+/;
 export const PATTERN_PASSWORD: RegExp = /[a-z0-9]{8,}/;
 export const PATTERN_PHONE: RegExp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/;
 export const PATTERN_SMS_CODE: RegExp = /\d{4}/;
+export const PATTERN_CPF_NUMBER: RegExp = /\d{3} \d{3} \d{3} \d{2}/;
 export const PATTERN_CARD_NUMBER: RegExp = /\d{4} \d{4} \d{4} \d{4}/;
 export const PATTERN_CARD_EXPIRE_DATE: RegExp = /\d{2}\/\d{2}/;
 export const PATTERN_CARD_CVV: RegExp = /\d{3}/;
@@ -31,6 +32,10 @@ export const PhoneNumberValidator = (value: string): boolean => {
 
 export const SMSCodeValidator = (value: string): boolean => {
   return RegExpValidator(PATTERN_SMS_CODE, value);
+};
+
+export const CpfNumberValidator = (value: string): boolean => {
+  return RegExpValidator(PATTERN_CPF_NUMBER, value);
 };
 
 export const CardNumberValidator = (value: string): boolean => {

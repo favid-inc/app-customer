@@ -12,24 +12,17 @@ import {
 import { SocialNavigationOptions } from './options';
 import SignInContainer from '@src/containers/signin/SignInContainer';
 import ArtistDetailsContainer from '@src/containers/artistDetails/ArtistDetailsContainer';
-import * as BuyingProcess from '@src/containers/buyingProcess/index';
 import { OrdersNavigator, OrderDetailsContainerNavigationMap } from '@src/containers/orders';
 import { MenuNavigator } from '../../containers/menu';
 import { SettingsNavigationMap } from '../../containers/settings';
+import { BuyingProcessNavigation } from '../../containers/buyingProcess';
 import * as actions from '../../store/actions';
 
 import { Customer as CustomerModel } from '../../core/model/customer.model';
 import { AuthState as AuthStateModel } from '../../core/model/authState.model';
 
-const BuyingProcessNavigationMap: NavigationRouteConfigMap = {
-  ['Booking']: {
-    screen: BuyingProcess.default.BookingContainer,
-    navigationOptions: SocialNavigationOptions,
-  },
-};
-
 const ArtistNavigationMap: NavigationRouteConfigMap = {
-  ['Artist Details']: {
+  Artista: {
     screen: ArtistDetailsContainer,
     navigationOptions: SocialNavigationOptions,
   },
@@ -49,12 +42,12 @@ const SignInNavigator: NavigationContainer = createStackNavigator(
 
 const AppNavigator: NavigationContainer = createStackNavigator(
   {
-    ['Home']: MenuNavigator,
+    MenuNavigator,
+    BuyingProcessNavigation,
+    OrdersNavigator,
     ...ArtistNavigationMap,
-    ...BuyingProcessNavigationMap,
     ...OrderDetailsContainerNavigationMap,
     ...SettingsNavigationMap,
-    OrdersNavigator,
   },
   {
     headerMode: 'screen',
