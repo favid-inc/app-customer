@@ -1,1 +1,1 @@
-export { BuyingProcessNavigationMap } from './navigator';
+export { BuyingProcessNavigation } from './navigator';
