@@ -53,4 +53,30 @@ export interface Charge {
   keep_dunning: boolean;
   items: Item[];
   payer: Payer;
+  order_id: string;
+}
+
+export interface PaymentResponse {
+  id: string;
+  method: string;
+  extra_info: {
+    brand: string;
+    holder_name: string;
+    display_number: string;
+    bin: string;
+    month: number;
+    year: number;
+  };
+  test: boolean;
+}
+
+export interface ChargeResponse {
+  message: string;
+  errors: object;
+  success: boolean;
+  url: string;
+  pdf: string;
+  identification: string;
+  invoice_id: string;
+  LR: string;
 }
