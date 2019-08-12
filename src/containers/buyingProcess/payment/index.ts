@@ -1,1 +1,1 @@
-export { CreditCardNavigator } from './navigators';
+export { PaymentNavigator } from './navigators';

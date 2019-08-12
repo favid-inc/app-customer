@@ -1,10 +1,9 @@
-import { NavigationContainer, createStackNavigator } from 'react-navigation';
-import { CreditCardContainer } from './CreditCardContainer';
-import { TopBarNavigationOptions } from '@src/core/navigation/options';
+import { PaymentContainer as screen } from './PaymentContainer';
+import { TopBarNavigationOptions as navigationOptions } from '@src/core/navigation/options';
 
-export const CreditCardNavigator = {
+export const PaymentNavigator = {
   Pagamento: {
-    screen: CreditCardContainer,
-    navigationOptions: TopBarNavigationOptions,
+    screen,
+    navigationOptions,
   },
 };
