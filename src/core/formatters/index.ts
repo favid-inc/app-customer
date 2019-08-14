@@ -1,4 +1,8 @@
-export const PHONE_NUMBER_REGEX = /^(\d{3})(1|)?(\d{4})(\d{4})$/;
+export const PHONE_REGEX = /^(\d{1,2})?(\d{1,5})?(\d{1,4})?$/;
+export const CPF_REGEX = /^(\d{1,3})?(\d{1,3})?(\d{1,3})?(\d{1,2})?$/;
+export const CEP_REGEX = /^(\d{1,5})?(\d{1,3})?$/;
+export const STATE_REGEX = /^[\da-zA-Z]?$/;
+
 export const CardNumberFormatter = (value: string): string => {
   return value
     .replace(/\s?/g, '')
@@ -6,25 +10,29 @@ export const CardNumberFormatter = (value: string): string => {
     .trim();
 };
 
-export const PhoneNumberFormatter = phoneNumberString => {
-  const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
-  const [prefix, extraDigit, firstNumbers, lastNumbers] = cleaned.match(PHONE_NUMBER_REGEX);
-  return `(${prefix}) ${extraDigit} ${firstNumbers} ${lastNumbers}`;
-};
+export const formatter = (str: string, regExp: RegExp, mapFormatter: (v: string, i: number) => void = v => v || '') =>
+  str
+    .replace(/\D/g, '')
+    .match(regExp)
+    .filter((v, i) => i && v)
+    .map(mapFormatter)
+    .join(' ');
 
-export const CpfNumberFormatter = (value: string): string => {
-  return value
-    .replace(/\s?/g, '')
-    .replace(/(\d{3})/g, '$1 ')
-    .replace(/(\d{2})/g, '$1 ')
-    .trim();
-};
+export const PhoneNumberFormatter = (phone: string): string =>
+  formatter(phone, PHONE_REGEX, (v, i) => (!i ? `(${v})` : v));
+
+export const CepNumberFormatter = (cep: string): string => formatter(cep, CEP_REGEX);
+
+export const CpfNumberFormatter = (cpf: string): string => formatter(cpf, CPF_REGEX);
+export const StateFormatter = (state: string): string => state.toUpperCase();
 
 export const ExpirationDateFormatter = (value: string, stateValue: string): string => {
   let formatted: string = value;
+
   if (formatted[0] !== '1' && formatted[0] !== '0') {
     formatted = '';
   }
+
   if (formatted.length === 2) {
     if (parseInt(formatted.substring(0, 2), 10) > 12) {
       formatted = formatted[0];
