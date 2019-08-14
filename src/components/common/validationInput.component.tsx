@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  ThemedComponentProps,
-  ThemeType,
-  withStyles,
-} from '@kitten/theme';
-import {
-  Input,
-  InputProps,
-} from '@kitten/ui';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { Input, InputProps } from '@kitten/ui';
 
 interface ComponentProps extends InputProps {
   validator: (value: string) => boolean;
@@ -29,10 +22,13 @@ export type ValidationInputProps = ThemedComponentProps & ComponentProps;
  * You probably don't need to pass `value` prop into this component
  */
 class ValidationInputComponent extends React.Component<ValidationInputProps, State> {
-
   public state: State = {
     value: this.props.value,
   };
+
+  public componentWillReceiveProps(nextProps) {
+    this.setState({ value: nextProps.value });
+  }
 
   public componentDidUpdate(prevProps: ValidationInputProps, prevState: State) {
     const { value: oldValue } = prevState;
