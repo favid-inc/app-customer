@@ -57,26 +57,26 @@ export interface Charge {
 }
 
 export interface PaymentResponse {
-  id: string;
-  method: string;
-  extra_info: {
-    brand: string;
-    holder_name: string;
-    display_number: string;
-    bin: string;
-    month: number;
-    year: number;
+  id?: string;
+  method?: string;
+  extra_info?: {
+    brand?: string;
+    holder_name?: string;
+    display_number?: string;
+    bin?: string;
+    month?: number;
+    year?: number;
   };
-  test: boolean;
+  test?: boolean;
 }
 
 export interface ChargeResponse {
-  message: string;
-  errors: object;
-  success: boolean;
-  url: string;
-  pdf: string;
-  identification: string;
-  invoice_id: string;
-  LR: string;
+  message?: string;
+  errors?: object;
+  success?: boolean;
+  url?: string;
+  pdf?: string;
+  identification?: string;
+  invoice_id?: string;
+  LR?: string;
 }
