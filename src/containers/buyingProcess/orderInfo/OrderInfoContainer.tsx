@@ -9,12 +9,15 @@ import { NavigationScreenProps } from 'react-navigation';
 import { BuyingProcessContext } from '../context';
 import { Charge as ChargeModel, Item as ItemModel, Payer as PayerModel, ChargeResponse } from '@src/core/model';
 import { OrderInfo } from './OrderInfo';
+import { Customer } from '@src/core/model';
+
 interface State {
   loading: boolean;
 }
 
 interface OrderInfoContainerProps {
   idToken: string;
+  customer: Customer;
 }
 
 type Props = OrderInfoContainerProps & NavigationScreenProps;
@@ -83,6 +86,11 @@ class Container extends Component<Props, State, typeof BuyingProcessContext> {
     this.setState({ loading: false });
   };
 
+  public componentWillMount() {
+    console.log('[componentDidMount()]: ', this.props.customer);
+    this.context.setCustomer(this.props.customer);
+  }
+
   public render(): React.ReactNode {
     const { loading } = this.state;
     return <OrderInfo loading={loading} onSend={this.onSend.bind(this)} />;
@@ -91,6 +99,7 @@ class Container extends Component<Props, State, typeof BuyingProcessContext> {
 
 const mapStateToProps = ({ auth }) => ({
   idToken: auth.authState.idToken,
+  customer: auth.customer,
 });
 
 export const OrderInfoContainer = connect(mapStateToProps)(Container);
