@@ -86,14 +86,9 @@ class Container extends Component<Props, State, typeof BuyingProcessContext> {
     this.setState({ loading: false });
   };
 
-  public componentWillMount() {
-    console.log('[componentDidMount()]: ', this.props.customer);
-    this.context.setCustomer(this.props.customer);
-  }
-
   public render(): React.ReactNode {
     const { loading } = this.state;
-    return <OrderInfo loading={loading} onSend={this.onSend.bind(this)} />;
+    return <OrderInfo loading={loading} {...this.props.customer} onSend={this.onSend.bind(this)} />;
   }
 }
 
