@@ -22,16 +22,16 @@ class Component extends React.Component<Props, State> {
     formValue: null,
   };
 
-  public onFormValueChange(formValue) {
+  public onFormValueChange = formValue => {
     this.setState({ formValue: formValue ? { ...formValue } : formValue });
-  }
+  };
 
   public render() {
     const { themedStyle, loading } = this.props;
 
     return (
       <ContainerView style={themedStyle.container}>
-        <OrderInfoForm onFormValueChange={this.onFormValueChange.bind(this)} />
+        <OrderInfoForm onFormValueChange={this.onFormValueChange} />
         <Button
           status='success'
           style={themedStyle.saveButton}
