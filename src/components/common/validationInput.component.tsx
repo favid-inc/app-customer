@@ -10,6 +10,7 @@ interface ComponentProps extends InputProps {
    * Will be called with input value if it is valid, otherwise will be called with undefined
    */
   onChangeText?: (value: string | undefined) => void;
+  onChangeValidation?: (isValid: boolean) => void;
 }
 
 interface State {
@@ -30,6 +31,12 @@ class ValidationInputComponent extends React.Component<ValidationInputProps, Sta
     this.setState({ value: nextProps.value });
   }
 
+  public componentDidMount() {
+    if (this.props.onChangeValidation) {
+      this.props.onChangeValidation(this.isValid(this.props.value));
+    }
+  }
+
   public componentDidUpdate(prevProps: ValidationInputProps, prevState: State) {
     const { value: oldValue } = prevState;
     const { value: newValue } = this.state;
@@ -37,10 +44,11 @@ class ValidationInputComponent extends React.Component<ValidationInputProps, Sta
     const becomeValid: boolean = !this.isValid(oldValue) && this.isValid(newValue);
     const becomeInvalid: boolean = !this.isValid(newValue) && this.isValid(oldValue);
 
-    if (becomeValid) {
+    if (oldValue !== newValue && this.props.onChangeValidation) {
+      this.props.onChangeValidation(this.isValid(newValue));
+    }
+    if (becomeValid || becomeInvalid) {
       this.props.onChangeText(newValue);
-    } else if (becomeInvalid) {
-      this.props.onChangeText(undefined);
     }
   }
 
@@ -62,8 +70,8 @@ class ValidationInputComponent extends React.Component<ValidationInputProps, Sta
 
   private isValid = (value: string): boolean => {
     const { validator } = this.props;
-
-    return validator(value);
+    const isValid = validator(value);
+    return isValid;
   };
 
   private getStatus = (): string | undefined => {
