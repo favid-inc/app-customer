@@ -1,9 +1,8 @@
 import React from 'react';
 import { withStyles, ThemedComponentProps, ThemeType } from '@kitten/theme';
 import { textStyle, ContainerView } from '@src/components/common';
-
+import { PaymentCardForm } from './PaymentCardForm';
 import { Button } from 'react-native-ui-kitten/ui';
-import { OrderInfoForm } from './OrderInfoForm';
 import { Payment as PaymentModel } from '@src/core/model';
 
 interface ComponentProps {
@@ -15,23 +14,23 @@ interface State {
   formValue: any;
 }
 
-export type Props = ThemedComponentProps & ComponentProps;
+export type PaymentComponentProps = ThemedComponentProps & ComponentProps;
 
-class Component extends React.Component<Props, State> {
+class Component extends React.Component<PaymentComponentProps, State> {
   public state: State = {
     formValue: null,
   };
 
-  public onFormValueChange = formValue => {
+  public onFormValueChange(formValue) {
     this.setState({ formValue: formValue ? { ...formValue } : formValue });
-  };
+  }
 
   public render() {
     const { themedStyle, loading } = this.props;
 
     return (
       <ContainerView style={themedStyle.container}>
-        <OrderInfoForm onFormValueChange={this.onFormValueChange} />
+        <PaymentCardForm onFormValueChange={this.onFormValueChange.bind(this)} />
         <Button
           status='success'
           style={themedStyle.saveButton}
@@ -47,7 +46,7 @@ class Component extends React.Component<Props, State> {
   }
 }
 
-export const OrderInfo = withStyles(Component, (theme: ThemeType) => ({
+export const Payment = withStyles(Component, (theme: ThemeType) => ({
   container: {
     backgroundColor: theme['background-basic-color-2'],
     paddingVertical: 20,
