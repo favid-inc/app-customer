@@ -3,7 +3,6 @@ import { withStyles, ThemedComponentProps, ThemeType } from '@kitten/theme';
 import { textStyle, ContainerView } from '@src/components/common';
 import { PaymentCardForm } from './PaymentCardForm';
 import { Button } from 'react-native-ui-kitten/ui';
-import { ActivityIndicator } from 'react-native';
 import { Payment as PaymentModel } from '@src/core/model';
 
 interface ComponentProps {
