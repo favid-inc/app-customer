@@ -41,13 +41,12 @@ export interface Item {
   price_cents: number;
 }
 
-
 export interface PaymentToken {
   account_id?: string;
   method?: string;
   test?: string;
   data?: CreditCard;
-};
+}
 
 export interface DirectCharge {
   method?: string;

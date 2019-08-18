@@ -1,5 +1,5 @@
 import { Order } from '@favid-inc/api';
-import { ChargeResponse, Customer, CreditCard } from '@src/core/model';
+import { ChargeResponse, CreditCard, Customer } from '@src/core/model';
 import React from 'react';
 import { NavigationScreenProps } from 'react-navigation';
 import { NavigationContainer } from 'react-navigation';

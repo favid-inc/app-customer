@@ -1,13 +1,13 @@
-import { Charge, ChargeResponse, Payer } from '@src/core/model';
+import { PayOrder } from '@favid-inc/api/lib/app-customer';
+import { Charge, Payer } from '@src/core/model';
 import { Customer } from '@src/core/model';
+import { apiClient } from '@src/core/utils/apiClient';
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { connect } from 'react-redux';
 import { BuyingProcessContext } from '../context';
 import { OrderInfo } from './OrderInfo';
-import {apiClient} from '@src/core/utils/apiClient';
-import { PayOrder } from '@favid-inc/api/lib/app-customer';
 interface State {
   loading: boolean;
 }
@@ -46,7 +46,7 @@ class Container extends Component<Props, State, typeof BuyingProcessContext> {
       const request: PayOrder['Request'] = {
         url: '/PayOrder',
         method: 'POST',
-        data: charge as unknown as PayOrder['Request']['data'],
+        data: (charge as unknown) as PayOrder['Request']['data'],
       };
 
       const response = await apiClient.request<PayOrder['Response']>(request);

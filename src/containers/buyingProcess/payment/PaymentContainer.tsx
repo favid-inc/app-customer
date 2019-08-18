@@ -1,6 +1,5 @@
 import { CreditCard } from '@src/core/model';
 import React, { Component } from 'react';
-import { Alert } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { connect } from 'react-redux';
 import { BuyingProcessContext } from '../context';

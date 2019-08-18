@@ -1,9 +1,4 @@
-import {
-  StyleType,
-  ThemedComponentProps,
-  ThemeType,
-  withStyles,
-} from '@kitten/theme';
+import { StyleType, ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Text } from '@kitten/ui';
 import { StarIconFill } from '@src/assets/icons';
 import { textStyle } from '@src/components/common/style';
@@ -34,7 +29,6 @@ interface ComponentProps {
 export type RateBarProps = ThemedComponentProps & ViewProps & ComponentProps;
 
 class RateBarComponent extends React.Component<RateBarProps> {
-
   static defaultProps: Partial<RateBarProps> = {
     icon: StarIconFill,
     value: 0,
@@ -48,9 +42,7 @@ class RateBarComponent extends React.Component<RateBarProps> {
     const componentChildren: React.ReactNode = this.renderComponentChildren(componentStyle);
 
     return (
-      <View
-        {...restProps}
-        style={[container, style]}>
+      <View {...restProps} style={[container, style]}>
         {componentChildren}
       </View>
     );
@@ -66,10 +58,7 @@ class RateBarComponent extends React.Component<RateBarProps> {
     const { hintStyle } = this.props;
 
     return (
-      <Text
-        key={0}
-        style={[style, hintStyle]}
-        appearance='hint'>
+      <Text key={0} style={[style, hintStyle]} appearance='hint'>
         {this.props.hint}
       </Text>
     );
@@ -81,8 +70,8 @@ class RateBarComponent extends React.Component<RateBarProps> {
     const iconElement: React.ReactElement<ImageProps> = icon(style.icon);
 
     const isEnabled: boolean = index < value;
-    const stateStyle: StyleType = isEnabled ? style.iconEnabled : style.iconDisabled;
-    const derivedStateStyle: StyleType = isEnabled ? iconStyle : iconDisabledStyle;
+    const stateStyle: StyleProp<ImageStyle> = isEnabled ? style.iconEnabled : style.iconDisabled;
+    const derivedStateStyle: StyleProp<ImageStyle> = isEnabled ? iconStyle : iconDisabledStyle;
 
     return React.cloneElement(iconElement, {
       style: [style.icon, iconElement.props.style, stateStyle, derivedStateStyle],
@@ -93,10 +82,7 @@ class RateBarComponent extends React.Component<RateBarProps> {
     const iconElement: React.ReactElement<ImageProps> = this.renderRateIconElement(style, index);
 
     return (
-      <TouchableOpacity
-        key={index}
-        activeOpacity={0.65}
-        onPress={() => this.onRateButtonPress(index)}>
+      <TouchableOpacity key={index} activeOpacity={0.65} onPress={() => this.onRateButtonPress(index)}>
         {iconElement}
       </TouchableOpacity>
     );
@@ -117,10 +103,7 @@ class RateBarComponent extends React.Component<RateBarProps> {
     const { hint } = this.props;
     const { hint: hintStyle, ...rateBarStyle } = style;
 
-    return [
-      hint ? this.renderHintElement(style.hint) : null,
-      this.renderRateBar(rateBarStyle),
-    ];
+    return [hint ? this.renderHintElement(style.hint) : null, this.renderRateBar(rateBarStyle)];
   };
 }
 
