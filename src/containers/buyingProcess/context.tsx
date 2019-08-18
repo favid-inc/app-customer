@@ -1,5 +1,5 @@
 import { Order } from '@favid-inc/api';
-import { ChargeResponse, Customer, PaymentResponse } from '@src/core/model';
+import { ChargeResponse, Customer, CreditCard } from '@src/core/model';
 import React from 'react';
 import { NavigationScreenProps } from 'react-navigation';
 import { NavigationContainer } from 'react-navigation';
@@ -8,9 +8,9 @@ interface Context {
   order?: Order;
   chargeData?: ChargeResponse;
   setOrder?: (order: Order) => void;
-  paymentData?: PaymentResponse;
+  creditCard?: CreditCard;
   customer?: Customer;
-  setPaymentData?: (paymentData: PaymentResponse) => void;
+  setCreditCard?: (creditCard: CreditCard) => void;
   setChargeData?: (chargeData: ChargeResponse) => void;
   setCustomer?: (customer: Customer) => void;
 }
@@ -28,10 +28,10 @@ export function connect(Navigator: NavigationContainer) {
     public state: Context = {
       order: {},
       chargeData: {},
-      paymentData: {},
+      creditCard: {},
       customer: {},
       setOrder: (order: Order) => this.setState({ order }),
-      setPaymentData: (paymentData: PaymentResponse) => this.setState({ paymentData }),
+      setCreditCard: (creditCard: CreditCard) => this.setState({ creditCard }),
       setChargeData: (chargeData: ChargeResponse) => this.setState({ chargeData }),
       setCustomer: (customer: Customer) => this.setState({ customer }),
     };
