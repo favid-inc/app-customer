@@ -6,7 +6,6 @@ export const PATTERN_PHONE: RegExp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*
 export const PATTERN_SMS_CODE: RegExp = /\d{4}/;
 export const PATTERN_CPF_NUMBER: RegExp = /\d{3} \d{3} \d{3} \d{2}/;
 export const PATTERN_CEP_NUMBER: RegExp = /\d{5} \d{3}/;
-export const PATTERN_CARD_NUMBER: RegExp = /\d{4} \d{4} \d{4} \d{4}/;
 export const PATTERN_CARD_EXPIRE_DATE: RegExp = /\d{2}\/\d{2}/;
 export const PATTERN_CARD_CVV: RegExp = /\d{3}/;
 export const PATTERN_FULLNAME: RegExp = /^$|^[a-zA-ZčČćĆđĐšŠžŽ-]+ [a-zA-ZčČćĆđĐšŠžŽ-]+$/;
@@ -43,10 +42,6 @@ export const CepNumberValidator = (value: string): boolean => {
   return RegExpValidator(PATTERN_CEP_NUMBER, value);
 };
 
-export const CardNumberValidator = (value: string): boolean => {
-  return RegExpValidator(PATTERN_CARD_NUMBER, value);
-};
-
 export const ExpirationDateValidator = (value: string): boolean => {
   return RegExpValidator(PATTERN_CARD_EXPIRE_DATE, value);
 };
@@ -61,6 +56,12 @@ export const CardholderNameValidator = (value: string): boolean => {
 
 export const StringValidator = (value: string): boolean => {
   return !!value && value.length > 0;
+};
+
+export const validation = (regexp: RegExp) => (value: string) => {
+  if (value) {
+    return RegExpValidator(regexp, value.replace(/\D/g, ''));
+  }
 };
 
 const RegExpValidator = (regexp: RegExp, value: string): boolean => {
