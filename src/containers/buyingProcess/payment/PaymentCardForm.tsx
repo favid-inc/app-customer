@@ -11,13 +11,8 @@ import {
   CvvFormatter,
   ExpirationDateFormatter,
 } from '@src/core/formatters';
-import { CreditCard as CreditCard } from '@src/core/model';
-import {
-  CardholderNameValidator,
-  CvvValidator,
-  ExpirationDateValidator,
-  validation,
-} from '@src/core/validators';
+import { CreditCard } from '@src/core/model';
+import { CardholderNameValidator, CvvValidator, ExpirationDateValidator, validation } from '@src/core/validators';
 
 interface ComponentProps {
   onFormValueChange: (creditCard: CreditCard | undefined) => void;
@@ -45,7 +40,14 @@ class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
   };
 
   public componentDidMount() {
-    const {number, first_name, last_name, verification_value, month, year} = this.context.creditCard;
+    let { number, first_name, last_name, verification_value, month, year } = this.context.creditCard;
+
+    number = '4111 1111 1111 1111';
+    first_name = 'Gabriel';
+    last_name = 'Umbelino';
+    verification_value = '1234';
+    month = '10';
+    year = '22';
     if (number) {
       this.onCardNumberChange(number);
     }
@@ -68,12 +70,24 @@ class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
     const becomeInvalid: boolean = oldFormValid && !newFormValid;
     if (becomeValid) {
       const creditCard: CreditCard = {
-        number:  this.state.cardNumber,
-        verification_value:  this.state.cvv,
-        first_name:  this.state.cardholderName.split(' ').splice(0, 1).join(''),
-        last_name:  this.state.cardholderName.split(' ').splice(1).join(' '),
-        month:  this.state.expirationDate.split('/').splice(0, 1).join(''),
-        year:  this.state.expirationDate.split('/').splice(1, 1).join(''),
+        number: this.state.cardNumber,
+        verification_value: this.state.cvv,
+        first_name: this.state.cardholderName
+          .split(' ')
+          .splice(0, 1)
+          .join(''),
+        last_name: this.state.cardholderName
+          .split(' ')
+          .splice(1)
+          .join(' '),
+        month: this.state.expirationDate
+          .split('/')
+          .splice(0, 1)
+          .join(''),
+        year: this.state.expirationDate
+          .split('/')
+          .splice(1, 1)
+          .join(''),
       };
       console.log('[PaymentCardForm] bacameValid: ', creditCard);
       this.props.onFormValueChange(creditCard);
