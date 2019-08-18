@@ -59,7 +59,12 @@ class Container extends Component<Props, State, typeof BuyingProcessContext> {
 
       // this.context.setChargeData(response);
 
-      // this.props.navigation.navigate('Confirmação');
+      Alert.alert(
+        'Pagamento enviado com sucesso!',
+        'Seu pedido está sendo processado.',
+        [{ text: 'OK', onPress: () => this.props.navigation.navigate('Orders') }],
+        { cancelable: false },
+      );
     } catch (error) {
       console.log('[PaymentContainer.tsx] sendOrder error:', error);
       Alert.alert('Erro ao processar pagamento');
