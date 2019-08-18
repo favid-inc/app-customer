@@ -1,34 +1,29 @@
-import * as config from './core/config';
 import * as firebase from 'firebase';
-import 'firebase/firestore';
+import * as config from './core/config';
+firebase.initializeApp(config.firebase);
 
 import React from 'react';
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import { ImageRequireSource } from 'react-native';
 import { Provider } from 'react-redux';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
-import AuthReducer from './store/reducers/AuthReducer';
-import ArtistReducer from './store/reducers/ArtistReducer';
-import OrderReducer from './store/reducers/OrderReducer';
-
-import { ImageRequireSource } from 'react-native';
-import { NavigationState } from 'react-navigation';
 import { mapping } from '@eva-design/eva';
 import { ApplicationProvider } from '@kitten/theme';
-import { DynamicStatusBar } from '@src/components/common';
-import { ApplicationLoader, Assets } from './core/appLoader/applicationLoader.component';
-import Router from './core/navigation/routes';
-import { trackScreenTransition } from './core/utils/analytics';
-import { getCurrentStateName } from './core/navigation/util';
-import { ThemeContext, ThemeContextType, ThemeKey, themes, ThemeStore } from '@src/core/themes';
+import { NavigationState } from 'react-navigation';
 
-if (!firebase.firestore) {
-  throw new Error(`
-    import * as firebase from 'firebase';
-    import 'firebase/firestore';
-  `);
-}
-firebase.initializeApp(config.firebase);
+import { ApplicationLoader, Assets } from '@src/core/appLoader/applicationLoader.component';
+import Router from '@src/core/navigation/routes';
+import { getCurrentStateName } from '@src/core/navigation/util';
+import { ThemeContext, ThemeContextType, ThemeKey, themes, ThemeStore } from '@src/core/themes';
+import { trackScreenTransition } from '@src/core/utils/analytics';
+import { apiClient } from '@src/core/utils/apiClient';
+
+import { DynamicStatusBar } from '@src/components/common';
+
+import ArtistReducer from '@src/store/reducers/ArtistReducer';
+import AuthReducer from '@src/store/reducers/AuthReducer';
+import OrderReducer from '@src/store/reducers/OrderReducer';
 
 const images: ImageRequireSource[] = [
   require('./assets/images/source/favid-logo.png'),
@@ -44,9 +39,19 @@ const fonts: { [key: string]: number } = {
 };
 
 const assets: Assets = {
-  images: images,
-  fonts: fonts,
+  images,
+  fonts,
 };
+
+firebase.auth().onIdTokenChanged(async (auth) => {
+  const headers = apiClient.defaults.headers.common;
+  try {
+    const idToken = await auth.getIdToken();
+    headers.Authorization = `Bearer ${idToken}`;
+  } catch (e) {
+    delete headers.Authorization;
+  }
+});
 
 interface State {
   theme: ThemeKey;
@@ -55,25 +60,6 @@ interface State {
 class App extends React.Component<{}, State> {
   public state: State = {
     theme: 'Eva Light',
-  };
-
-  private onTransitionTrackError = (error: any): void => {
-    console.warn('Analytics error: ', error.message);
-  };
-
-  private onNavigationStateChange = (prevState: NavigationState, currentState: NavigationState) => {
-    const prevStateName: string = getCurrentStateName(prevState);
-    const currentStateName: string = getCurrentStateName(currentState);
-
-    if (prevStateName !== currentStateName) {
-      trackScreenTransition(currentStateName).catch(this.onTransitionTrackError);
-    }
-  };
-
-  private onSwitchTheme = (theme: ThemeKey) => {
-    ThemeStore.setTheme(theme).then(() => {
-      this.setState({ theme });
-    });
   };
 
   private rootReducer = combineReducers({
@@ -103,6 +89,25 @@ class App extends React.Component<{}, State> {
       </ApplicationLoader>
     );
   }
+
+  private onTransitionTrackError = (error: any): void => {
+    console.warn('Analytics error: ', error.message);
+  };
+
+  private onNavigationStateChange = (prevState: NavigationState, currentState: NavigationState) => {
+    const prevStateName: string = getCurrentStateName(prevState);
+    const currentStateName: string = getCurrentStateName(currentState);
+
+    if (prevStateName !== currentStateName) {
+      trackScreenTransition(currentStateName).catch(this.onTransitionTrackError);
+    }
+  };
+
+  private onSwitchTheme = (theme: ThemeKey) => {
+    ThemeStore.setTheme(theme).then(() => {
+      this.setState({ theme });
+    });
+  };
 }
 
 export default App;

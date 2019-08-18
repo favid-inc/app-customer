@@ -1,11 +1,13 @@
+import { Order } from '@favid-inc/api';
 import React, { Component } from 'react';
-import { Booking } from './Booking';
-import { connect } from 'react-redux';
 import { Alert } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
-import { axiosInstance } from '../../../core/utils/axios';
-import { OrderModel, OrderFlow, OrderFlowPlaceOrderArguments } from '@favid-inc/api';
+import { connect } from 'react-redux';
+
+import { Booking } from './Booking';
+
 import { BuyingProcessContext } from '../context';
+
 interface ComponentProps {
   artistId: string;
   price: string;
@@ -18,27 +20,32 @@ interface State {
 }
 
 class Container extends Component<ComponentProps & NavigationScreenProps, State, typeof BuyingProcessContext> {
+  static contextType = BuyingProcessContext;
+
   public state: State = {
+    public context: React.ContextType<typeof BuyingProcessContext>;
     loading: false,
   };
 
-  static contextType = BuyingProcessContext;
-  public context: React.ContextType<typeof BuyingProcessContext>;
+  public render(): React.ReactNode {
+    return <Booking onSend={this.onSend} loading={this.state.loading} />;
+  }
 
-  private onSend = async orderInstructions => {
-    const order: OrderModel = {
+  private onSend = async (orderInstructions) => {
+    const order: Order = {
       ...orderInstructions,
       artistId: this.props.artistId,
       userId: this.props.userId,
     };
 
     this.setState({ loading: true });
+
     try {
-      const axios = axiosInstance(this.props.idToken);
-      const response = await axios.post(`/${OrderFlow.PLACE}`, order as OrderFlowPlaceOrderArguments);
-      if (response.status !== 200) {
-        throw Error(response.status.toString());
-      }
+      // const axios = axiosInstance(this.props.idToken);
+      // const response = await axios.post(`/${OrderFlow.PLACE}`, order as OrderFlowPlaceOrderArguments);
+      // if (response.status !== 200) {
+      //   throw Error(response.status.toString());
+      // }
       this.context.setOrder(order);
       this.props.navigation.navigate('Pagamento');
     } catch (error) {
@@ -47,12 +54,6 @@ class Container extends Component<ComponentProps & NavigationScreenProps, State,
     }
     this.setState({ loading: false });
   };
-
-  public render(): React.ReactNode {
-    const { order } = this.context;
-    console.log(order);
-    return <Booking onSend={this.onSend} loading={this.state.loading} />;
-  }
 }
 
 const mapStateToProps = ({ artist, auth }) => ({

@@ -1,20 +1,16 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { NavigationScreenProps } from 'react-navigation';
-import { Settings } from './Settings';
-import * as actions from '../../store/actions';
-import { Text } from 'react-native-ui-kitten/ui';
-import { View } from 'react-native';
 import { ContainerView } from '@src/components/common';
+import React, { Component } from 'react';
+import { Text } from 'react-native-ui-kitten/ui';
+import { NavigationScreenProps } from 'react-navigation';
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions';
+import { Settings } from './Settings';
 
 interface Props {
   onSignOut: () => void;
 }
 
 export class SettingsContainerComponent extends Component<NavigationScreenProps & Props> {
-  private onNavigate = (pathName: string): void => {
-    this.props.navigation.navigate(pathName);
-  };
 
   public render(): React.ReactNode {
     return (
@@ -30,9 +26,12 @@ export class SettingsContainerComponent extends Component<NavigationScreenProps 
       </ContainerView>
     );
   }
+  private onNavigate = (pathName: string): void => {
+    this.props.navigation.navigate(pathName);
+  };
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   onSignOut: () => dispatch(actions.signOut()),
 });
 

@@ -1,9 +1,9 @@
-import React from 'react';
-import { View, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Text } from '@kitten/ui';
 import { Chips, ImageOverlay, textStyle } from '@src/components/common';
 import { Artist } from '@src/core/model';
+import React from 'react';
+import { TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
 
 interface ComponentProps {
   artist: Artist;
@@ -17,7 +17,7 @@ class ArtistCardComponent extends React.Component<ArtistCardProps> {
   public render(): React.ReactNode {
     const { themedStyle, artist, style } = this.props;
     const artistImage = {
-      uri: artist.photo,
+      uri: artist.photoUri,
       height: 128,
       width: 128,
     };

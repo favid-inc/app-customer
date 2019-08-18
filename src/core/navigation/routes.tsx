@@ -1,25 +1,25 @@
+import ArtistDetailsContainer from '@src/containers/artistDetails/ArtistDetailsContainer';
+import { OrderDetailsContainerNavigationMap, OrdersNavigator } from '@src/containers/orders';
+import SignInContainer from '@src/containers/signin/SignInContainer';
 import React from 'react';
-import { connect } from 'react-redux';
 import { useScreens } from 'react-native-screens';
 import {
-  NavigationAction,
   createAppContainer,
   createStackNavigator,
+  NavigationAction,
   NavigationContainer,
   NavigationRouteConfigMap,
   NavigationState,
 } from 'react-navigation';
-import { SocialNavigationOptions } from './options';
-import SignInContainer from '@src/containers/signin/SignInContainer';
-import ArtistDetailsContainer from '@src/containers/artistDetails/ArtistDetailsContainer';
-import { OrdersNavigator, OrderDetailsContainerNavigationMap } from '@src/containers/orders';
+import { connect } from 'react-redux';
+import { BuyingProcessNavigation } from '../../containers/buyingProcess';
 import { MenuNavigator } from '../../containers/menu';
 import { SettingsNavigationMap } from '../../containers/settings';
-import { BuyingProcessNavigation } from '../../containers/buyingProcess';
 import * as actions from '../../store/actions';
+import { SocialNavigationOptions } from './options';
 
-import { Customer as CustomerModel } from '../../core/model/customer.model';
 import { AuthState as AuthStateModel } from '../../core/model/authState.model';
+import { Customer as CustomerModel } from '../../core/model/customer.model';
 
 const ArtistNavigationMap: NavigationRouteConfigMap = {
   Artista: {
@@ -98,7 +98,7 @@ class Router extends React.Component<ComponentProps> {
 }
 
 const mapStateToProps = ({ auth }) => ({ authState: auth.authState, customer: auth.customer });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   onLoadAuthState: () => dispatch(actions.loadAuthState()),
   onverifySession: (authState: AuthStateModel) => dispatch(actions.verifySession(authState)),
 });

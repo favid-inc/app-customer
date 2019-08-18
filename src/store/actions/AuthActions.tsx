@@ -1,18 +1,18 @@
-import * as firebase from 'firebase';
 import * as AppAuth from 'expo-app-auth';
+import * as firebase from 'firebase';
 import { AsyncStorage } from 'react-native';
 
 import * as config from '@src/core/config';
 import { storageKeys } from '@src/core/config';
-import { Customer as CustomerModel } from '@src/core/model/customer.model';
 import { AuthState as AuthStateModel } from '@src/core/model/authState.model';
+import { Customer as CustomerModel } from '@src/core/model/customer.model';
 
-import { SIGN_IN, SIGN_OUT, SIGN_IN_STARTED, SIGN_IN_ENDED, SIGN_IN_ERROR, UPDATE_IS_LOGGED_IN } from './ActionTypes';
+import { SIGN_IN, SIGN_IN_ENDED, SIGN_IN_ERROR, SIGN_IN_STARTED, SIGN_OUT, UPDATE_IS_LOGGED_IN } from './ActionTypes';
 
 const storageKey = storageKeys.currentUser;
 
 export const auth = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch(signInStarted());
 
     const authState = await AppAuth.authAsync(config.auth);
@@ -31,7 +31,7 @@ export const auth = () => {
 };
 
 export const reAuth = ({ refreshToken }: AuthStateModel) => {
-  return async dispatch => {
+  return async (dispatch) => {
     const authState = await AppAuth.refreshAsync(config.auth, refreshToken);
     const credential = firebase.auth.GoogleAuthProvider.credential(authState.idToken, authState.accessToken);
     await firebase.auth().signInWithCredential(credential);
@@ -47,7 +47,7 @@ export const reAuth = ({ refreshToken }: AuthStateModel) => {
 };
 
 export const verifySession = (authState: AuthStateModel) => {
-  return async dispatch => {
+  return async (dispatch) => {
     const expirationTime = new Date(authState.accessTokenExpirationDate).getTime();
     const currentTime = new Date().getTime();
 
@@ -90,7 +90,7 @@ export const signInFinished = () => {
   };
 };
 
-export const signInError = error => {
+export const signInError = (error) => {
   return {
     type: SIGN_IN_ERROR,
     error,
@@ -98,7 +98,7 @@ export const signInError = error => {
 };
 
 export const loadAuthState = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     const data = await AsyncStorage.getItem(storageKey);
     if (!data) {
       return;
@@ -115,7 +115,7 @@ export const removeUser = () => {
 };
 
 export const signOut = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     await firebase.auth().signOut();
     await AsyncStorage.removeItem(storageKey);
     dispatch(removeUser());

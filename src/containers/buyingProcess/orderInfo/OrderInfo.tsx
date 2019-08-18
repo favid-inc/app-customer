@@ -1,10 +1,10 @@
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { ContainerView, textStyle } from '@src/components/common';
 import React from 'react';
-import { withStyles, ThemedComponentProps, ThemeType } from '@kitten/theme';
-import { textStyle, ContainerView } from '@src/components/common';
 
+import { Payment as PaymentModel } from '@src/core/model';
 import { Button } from 'react-native-ui-kitten/ui';
 import { OrderInfoForm } from './OrderInfoForm';
-import { Payment as PaymentModel } from '@src/core/model';
 
 interface ComponentProps {
   loading: boolean;
@@ -22,7 +22,7 @@ class Component extends React.Component<Props, State> {
     formValue: null,
   };
 
-  public onFormValueChange = formValue => {
+  public onFormValueChange = (formValue) => {
     this.setState({ formValue: formValue ? { ...formValue } : formValue });
   };
 

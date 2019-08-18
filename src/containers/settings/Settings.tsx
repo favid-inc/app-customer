@@ -1,8 +1,8 @@
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { Button } from '@kitten/ui';
 import React from 'react';
 import { View } from 'react-native';
-import { withStyles, ThemedComponentProps, ThemeType } from '@kitten/theme';
-import { Button } from '@kitten/ui';
-import { CreditCardIconFill, PersonIconFill, LogOutIconFill } from '../../assets/icons';
+import { LogOutIconFill, PersonIconFill } from '../../assets/icons';
 
 interface Props {
   onSignOut: () => void;

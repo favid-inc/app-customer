@@ -1,6 +1,6 @@
-import { NavigationContainer, createStackNavigator, NavigationRouteConfigMap } from 'react-navigation';
-import { AccountContainer } from './AccountCointainer';
 import { TopBarNavigationOptions } from '@src/core/navigation/options';
+import { createStackNavigator, NavigationContainer } from 'react-navigation';
+import { AccountContainer } from './AccountCointainer';
 
 export const AccountNavigator: NavigationContainer = createStackNavigator(
   {

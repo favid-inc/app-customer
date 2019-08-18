@@ -1,4 +1,4 @@
-import { STORE_ORDERS, POST_ORDER, LOAD_ORDER_STARTED, LOAD_ORDER_ENDED, ORDER_ERROR, SET_ORDER } from '../actions/ActionTypes';
+import { LOAD_ORDER_ENDED, LOAD_ORDER_STARTED, ORDER_ERROR, POST_ORDER, SET_ORDER, STORE_ORDERS } from '../actions/ActionTypes';
 
 const INITIAL_STATE = {
   orders: null,
@@ -21,14 +21,14 @@ const postOrder = (state, action) => {
   };
 };
 
-const postOrderStarted = state => {
+const postOrderStarted = (state) => {
   return {
     ...state,
     loading: true,
   };
 };
 
-const postOrderEnded = state => {
+const postOrderEnded = (state) => {
   return {
     ...state,
     loading: false,

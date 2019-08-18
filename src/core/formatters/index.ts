@@ -10,7 +10,7 @@ export const CardNumberFormatter = (value: string): string => {
     .trim();
 };
 
-export const formatter = (str: string, regExp: RegExp, mapFormatter: (v: string, i: number) => void = v => v || '') =>
+export const formatter = (str: string, regExp: RegExp, mapFormatter: (v: string, i: number) => void = (v) => v || '') =>
   str
     .replace(/\D/g, '')
     .match(regExp)

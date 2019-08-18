@@ -1,19 +1,18 @@
+import { StyleType, ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { Input, InputProps, List, Text } from '@kitten/ui';
+import { SearchIconOutline } from '@src/assets/icons';
+import { ArtistCard, ArtistCardProps } from '@src/components/artist/artistCard.component';
+import { textStyle } from '@src/components/common';
+import { Artist, CategoryOfArtistModel } from '@src/core/model';
 import React from 'react';
 import {
+  ActivityIndicator,
   ListRenderItemInfo,
   NativeScrollEvent,
   NativeSyntheticEvent,
   ScrollView,
   View,
-  ViewProps,
-  ActivityIndicator,
 } from 'react-native';
-import { withStyles, ThemeType, ThemedComponentProps, StyleType } from '@kitten/theme';
-import { Artist, CategoryOfArtistModel } from '@src/core/model';
-import { ArtistCard, ArtistCardProps } from '@src/components/artist/artistCard.component';
-import { List, Text, InputProps, Input } from '@kitten/ui';
-import { textStyle } from '@src/components/common';
-import { SearchIconOutline } from '@src/assets/icons';
 
 interface ComponentProps {
   categoryOfArtists: CategoryOfArtistModel[];
@@ -32,6 +31,44 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
   public state: State = {
     selectedExerciseIndex: 0,
   };
+
+  public render(): React.ReactNode {
+    const { themedStyle, categoryOfArtists, loading } = this.props;
+    let categoryList: React.ReactNode = loading ? (
+      <ActivityIndicator size='large' />
+    ) : (
+      <Text style={themedStyle.subtitle} appearance='hint'>
+        Nenhum artista.
+      </Text>
+    );
+
+    if (categoryOfArtists && categoryOfArtists.length) {
+      categoryList = categoryOfArtists.map((artistsList) => {
+        return (
+          <View key={artistsList.key}>
+            <Text style={themedStyle.pagerLabel} appearance='hint'>
+              {artistsList.key}
+            </Text>
+            <List
+              style={themedStyle.pagerContainer}
+              horizontal={true}
+              renderItem={this.renderPagerCard}
+              data={artistsList.artists}
+              showsHorizontalScrollIndicator={false}
+              onScroll={this.onExerciseListScroll}
+            />
+          </View>
+        );
+      });
+    }
+
+    return (
+      <View style={themedStyle.container}>
+        {this.renderSearchInput()}
+        <ScrollView contentContainerStyle={themedStyle.container}>{categoryList}</ScrollView>
+      </View>
+    );
+  }
 
   private onExerciseListScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { themedStyle } = this.props;
@@ -79,44 +116,6 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
       />
     );
   };
-
-  public render(): React.ReactNode {
-    const { themedStyle, categoryOfArtists, loading } = this.props;
-    let categoryList: React.ReactNode = loading ? (
-      <ActivityIndicator size='large' />
-    ) : (
-      <Text style={themedStyle.subtitle} appearance='hint'>
-        Nenhum artista.
-      </Text>
-    );
-
-    if (categoryOfArtists && categoryOfArtists.length) {
-      categoryList = categoryOfArtists.map(artistsList => {
-        return (
-          <View key={artistsList.key}>
-            <Text style={themedStyle.pagerLabel} appearance='hint'>
-              {artistsList.key}
-            </Text>
-            <List
-              style={themedStyle.pagerContainer}
-              horizontal={true}
-              renderItem={this.renderPagerCard}
-              data={artistsList.artists}
-              showsHorizontalScrollIndicator={false}
-              onScroll={this.onExerciseListScroll}
-            />
-          </View>
-        );
-      });
-    }
-
-    return (
-      <View style={themedStyle.container}>
-        {this.renderSearchInput()}
-        <ScrollView contentContainerStyle={themedStyle.container}>{categoryList}</ScrollView>
-      </View>
-    );
-  }
 }
 
 export const ArtistList = withStyles(ArtistListComponent, (theme: ThemeType) => ({

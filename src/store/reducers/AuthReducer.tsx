@@ -1,12 +1,11 @@
 import {
   SIGN_IN,
-  SIGN_OUT,
-  SIGN_IN_STARTED,
   SIGN_IN_ENDED,
   SIGN_IN_ERROR,
+  SIGN_IN_STARTED,
+  SIGN_OUT,
   UPDATE_IS_LOGGED_IN,
 } from '../actions/ActionTypes';
-import { AuthState as AuthStateModel } from '@src/core/model/authState.model';
 
 const INITIAL_STATE = {
   authState: {
@@ -41,7 +40,7 @@ const signIn = (state, action) => {
   };
 };
 
-const signOut = state => {
+const signOut = (state) => {
   return {
     ...state,
     authState: {
@@ -62,14 +61,14 @@ const signOut = state => {
   };
 };
 
-const signInStarted = state => {
+const signInStarted = (state) => {
   return {
     ...state,
     loading: true,
   };
 };
 
-const signInEnded = state => {
+const signInEnded = (state) => {
   return {
     ...state,
     loading: false,

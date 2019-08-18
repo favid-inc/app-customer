@@ -1,10 +1,10 @@
-import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { RefreshControl, ScrollView } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
-import { ScrollView, RefreshControl } from 'react-native';
+import { connect } from 'react-redux';
 
-import * as actions from '@src/store/actions';
 import { Artist, CategoryOfArtistModel } from '@src/core/model';
+import * as actions from '@src/store/actions';
 
 import { ArtistList } from './ArtistsList';
 
@@ -32,8 +32,6 @@ class ArtistsContainerComponent extends Component<Props, State> {
     this.onRefresh();
   }
 
-  private onRefresh = () => this.props.onListArtists();
-
   public onDetails(artist: Artist) {
     this.props.onSetArtist(artist);
     this.props.navigation.navigate({
@@ -41,10 +39,6 @@ class ArtistsContainerComponent extends Component<Props, State> {
       routeName: 'Artista',
     });
   }
-
-  private onSearchStringChange = (searchString: string): void => {
-    this.setState({ searchString });
-  };
 
   public filteredArtists(): CategoryOfArtistModel[] {
     const { searchString } = this.state;
@@ -66,7 +60,7 @@ class ArtistsContainerComponent extends Component<Props, State> {
           };
         },
       )
-      .filter(category => category.artists.length);
+      .filter((category) => category.artists.length);
     return filtered;
   }
 
@@ -77,21 +71,27 @@ class ArtistsContainerComponent extends Component<Props, State> {
           onSearchStringChange={this.onSearchStringChange}
           loading={this.props.loading}
           categoryOfArtists={this.filteredArtists()}
-          onDetails={artist => this.onDetails(artist)}
+          onDetails={(artist) => this.onDetails(artist)}
         />
       </ScrollView>
     );
   }
+
+  private onRefresh = () => this.props.onListArtists();
+
+  private onSearchStringChange = (searchString: string): void => {
+    this.setState({ searchString });
+  };
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     loading: state.loading,
     categoryOfArtists: state.artist.categoryOfArtists,
   };
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   onListArtists: () => dispatch(actions.listArtists()),
   onSetArtist: (artist: Artist) => dispatch(actions.setArtist(artist)),
 });

@@ -1,13 +1,13 @@
+import { Order } from '@favid-inc/api';
+import { ChargeResponse, Customer, PaymentResponse } from '@src/core/model';
 import React from 'react';
 import { NavigationScreenProps } from 'react-navigation';
 import { NavigationContainer } from 'react-navigation';
-import { OrderModel } from '@favid-inc/api';
-import { PaymentResponse, ChargeResponse, Customer } from '@src/core/model';
 import { connect as reduxConnect } from 'react-redux';
-export interface IBuyingProcessContext {
-  order?: OrderModel;
+interface Context {
+  order?: Order;
   chargeData?: ChargeResponse;
-  setOrder?: (order: OrderModel) => void;
+  setOrder?: (order: Order) => void;
   paymentData?: PaymentResponse;
   customer?: Customer;
   setPaymentData?: (paymentData: PaymentResponse) => void;
@@ -19,26 +19,22 @@ interface OrderInfoContainerProps {
   customer: Customer;
 }
 
-export const BuyingProcessContext = React.createContext<IBuyingProcessContext>({});
+export const BuyingProcessContext = React.createContext<Context>({});
 export function connect(Navigator: NavigationContainer) {
-  class ContextNavigator extends React.Component<
-    NavigationScreenProps & OrderInfoContainerProps,
-    IBuyingProcessContext
-  > {
-    public state: IBuyingProcessContext = {
+  class ContextNavigator extends React.Component<NavigationScreenProps & OrderInfoContainerProps, Context> {
+    static router = Navigator.router;
+    static screenProps = Navigator.screenProps;
+    static navigationOptions = Navigator.navigationOptions;
+    public state: Context = {
       order: {},
       chargeData: {},
       paymentData: {},
       customer: {},
-      setOrder: (order: OrderModel) => this.setState({ order }),
+      setOrder: (order: Order) => this.setState({ order }),
       setPaymentData: (paymentData: PaymentResponse) => this.setState({ paymentData }),
       setChargeData: (chargeData: ChargeResponse) => this.setState({ chargeData }),
       setCustomer: (customer: Customer) => this.setState({ customer }),
     };
-
-    static router = Navigator.router;
-    static screenProps = Navigator.screenProps;
-    static navigationOptions = Navigator.navigationOptions;
 
     public componentWillMount() {
       this.state.setCustomer(this.props.customer);

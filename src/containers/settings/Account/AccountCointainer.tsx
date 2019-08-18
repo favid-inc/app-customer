@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { NavigationScreenProps } from 'react-navigation';
 import { Profile } from '@src/core/model';
-import { Account } from './Account';
-import { ActivityIndicator } from 'react-native';
 import { Customer as CustomerModel } from '@src/core/model/customer.model';
+import React, { Component } from 'react';
+import { ActivityIndicator } from 'react-native';
+import { NavigationScreenProps } from 'react-navigation';
+import { connect } from 'react-redux';
+import { Account } from './Account';
 
 interface State {
   profile: Profile;
@@ -21,8 +21,6 @@ class AccountContainerComponent extends Component<Props, State> {
   public state: State = {
     profile: null,
   };
-
-  private onUploadPhotoButtonPress = () => {};
 
   public componentDidMount() {
     if (!this.props.customer.displayName) {
@@ -54,6 +52,8 @@ class AccountContainerComponent extends Component<Props, State> {
     }
     return account;
   }
+
+  private onUploadPhotoButtonPress = () => {};
 }
 
 const mapStateToProps = ({ auth }) => ({ customer: auth.customer });

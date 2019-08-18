@@ -1,10 +1,10 @@
+import { favidImage, googleImage } from '@src/assets/images';
+import { Profile } from '@src/core/model';
 import React from 'react';
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { NavigationScreenProps } from 'react-navigation';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
-import { NavigationScreenProps } from 'react-navigation';
-import { Profile } from '@src/core/model';
-import { Text, View, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { googleImage, favidImage } from '@src/assets/images';
 
 interface State {
   profile: Profile;
@@ -25,10 +25,6 @@ class SignInContainer extends React.Component<props, State> {
   public componentWillMount() {
     this.props.onLoadAuthState();
   }
-
-  private auth = () => {
-    this.props.onAuth();
-  };
 
   public render(): React.ReactNode {
     let signInContent = (
@@ -55,13 +51,17 @@ class SignInContainer extends React.Component<props, State> {
 
     return signInContent;
   }
+
+  private auth = () => {
+    this.props.onAuth();
+  };
 }
 
 const mapStateToProps = ({ auth }) => ({
   loading: auth.loading,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   onAuth: () => dispatch(actions.auth()),
   onLoadAuthState: () => dispatch(actions.loadAuthState()),
 });

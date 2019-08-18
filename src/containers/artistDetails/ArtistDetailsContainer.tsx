@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Artist } from '@src/core/model';
-import { ArtistDetails } from './ArtistDetails';
+import React, { Component } from 'react';
 import { NavigationScreenProps } from 'react-navigation';
+import { connect } from 'react-redux';
+import { ArtistDetails } from './ArtistDetails';
 
 interface ArtistContainerProps {
   artist: Artist;
@@ -20,6 +20,23 @@ class ArtistContainer extends Component<Props, State> {
     cameoOrdered: false,
     follow: false,
   };
+
+  public render(): React.ReactNode {
+    return (
+      <ArtistDetails
+        follow={this.state.follow}
+        cameoOrdered={this.state.cameoOrdered}
+        artist={this.props.artist}
+        onFollowPress={this.onFollowPress}
+        onOrderPress={this.onOrderPress}
+        onFollowersPress={this.onFollowersPress}
+        onFollowingPress={this.onFollowingPress}
+        onPostsPress={this.onPostsPress}
+        onFriendPress={this.onFriendPress}
+        onPhotoPress={this.onPhotoPress}
+      />
+    );
+  }
 
   private onFollowPress = () => {
     this.setState({ follow: true });
@@ -39,23 +56,6 @@ class ArtistContainer extends Component<Props, State> {
   private onFriendPress = (index: number) => {};
 
   private onPhotoPress = (index: number) => {};
-
-  public render(): React.ReactNode {
-    return (
-      <ArtistDetails
-        follow={this.state.follow}
-        cameoOrdered={this.state.cameoOrdered}
-        artist={this.props.artist}
-        onFollowPress={this.onFollowPress}
-        onOrderPress={this.onOrderPress}
-        onFollowersPress={this.onFollowersPress}
-        onFollowingPress={this.onFollowingPress}
-        onPostsPress={this.onPostsPress}
-        onFriendPress={this.onFriendPress}
-        onPhotoPress={this.onPhotoPress}
-      />
-    );
-  }
 }
 
 const mapStateToProps = ({ artist }) => {

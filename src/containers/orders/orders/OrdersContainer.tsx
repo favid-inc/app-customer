@@ -1,16 +1,16 @@
+import { Order } from '@favid-inc/api';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Orders } from './Orders';
-import { OrderModel } from '@favid-inc/api';
-import * as actions from '../../../store/actions/index';
+import { RefreshControl, ScrollView } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
-import { ScrollView, RefreshControl } from 'react-native';
+import { connect } from 'react-redux';
+import * as actions from '../../../store/actions/index';
+import { Orders } from './Orders';
 
 interface ComponentProps {
   userId: any;
-  orders: OrderModel[];
+  orders: Order[];
   loading: boolean;
-  onSetOrder: (order: OrderModel) => void;
+  onSetOrder: (order: Order) => void;
   onGetOrders: (userId: string) => void;
 }
 
@@ -21,13 +21,6 @@ class OrdersContainerComponent extends Component<Props> {
     this.onRefresh();
   }
 
-  private onRefresh = () => this.props.onGetOrders(this.props.userId);
-
-  private onDetails = (order: OrderModel) => {
-    this.props.onSetOrder(order);
-    this.props.navigation.navigate('Detalhes do Pedido');
-  };
-
   public render(): React.ReactNode {
     return (
       <ScrollView refreshControl={<RefreshControl refreshing={this.props.loading} onRefresh={this.onRefresh} />}>
@@ -35,6 +28,13 @@ class OrdersContainerComponent extends Component<Props> {
       </ScrollView>
     );
   }
+
+  private onRefresh = () => this.props.onGetOrders(this.props.userId);
+
+  private onDetails = (order: Order) => {
+    this.props.onSetOrder(order);
+    this.props.navigation.navigate('Detalhes do Pedido');
+  };
 }
 
 const mapStateToProps = ({ order, auth }) => ({
@@ -43,8 +43,8 @@ const mapStateToProps = ({ order, auth }) => ({
   orders: order.orders,
 });
 
-const mapDispatchToProps = dispatch => ({
-  onSetOrder: (order: OrderModel) => dispatch(actions.setOrder(order)),
+const mapDispatchToProps = (dispatch) => ({
+  onSetOrder: (order: Order) => dispatch(actions.setOrder(order)),
   onGetOrders: (userId: string) => dispatch(actions.getOrders(userId)),
 });
 

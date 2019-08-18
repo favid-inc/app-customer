@@ -1,4 +1,4 @@
-import { STORE_ARTIST, REMOVE_ARTIST, STORE_ARTISTS } from '../actions/ActionTypes';
+import { REMOVE_ARTIST, STORE_ARTIST, STORE_ARTISTS } from '../actions/ActionTypes';
 
 const INITIAL_STATE = {
   artist: null,
@@ -22,7 +22,7 @@ const storeArtists = (state, action) => {
   };
 };
 
-const removeArtist = state => {
+const removeArtist = (state) => {
   return {
     ...state,
     artist: null,

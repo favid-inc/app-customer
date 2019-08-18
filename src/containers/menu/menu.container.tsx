@@ -6,6 +6,15 @@ export class MenuContainer extends React.Component<NavigationScreenProps> {
 
   private navigationKey: string = 'MenuContainer';
 
+  public render(): React.ReactNode {
+    return (
+      <Menu
+        selectedIndex={this.props.navigation.state.index}
+        onTabSelect={this.onTabSelect}
+      />
+    );
+  }
+
   private onTabSelect = (index: number) => {
     const { navigation } = this.props;
     const { [index]: selectedRoute } = navigation.state.routes;
@@ -15,13 +24,4 @@ export class MenuContainer extends React.Component<NavigationScreenProps> {
       routeName: selectedRoute.routeName,
     });
   };
-
-  public render(): React.ReactNode {
-    return (
-      <Menu
-        selectedIndex={this.props.navigation.state.index}
-        onTabSelect={this.onTabSelect}
-      />
-    );
-  }
 }

@@ -1,25 +1,21 @@
-import React, { Component } from 'react';
-import { OrderModel } from '@favid-inc/api';
-import { List, Text } from 'react-native-ui-kitten/ui';
-import { withStyles, ThemeType, ThemedComponentProps } from 'react-native-ui-kitten/theme';
-import { ListRenderItemInfo, ActivityIndicator } from 'react-native';
-import { OrderCard } from './orderCard';
-import { OrderCardProps } from './orderCard/OrderCard';
+import { Order } from '@favid-inc/api';
 import { ContainerView } from '@src/components/common';
 import { textStyle } from '@src/components/common';
+import React, { Component } from 'react';
+import { ListRenderItemInfo } from 'react-native';
+import { ThemedComponentProps, ThemeType, withStyles } from 'react-native-ui-kitten/theme';
+import { List, Text } from 'react-native-ui-kitten/ui';
+import { OrderCard } from './orderCard';
+import { OrderCardProps } from './orderCard/OrderCard';
 
 interface Props {
-  orders: OrderModel[];
-  onDetails: (order: OrderModel) => void;
+  orders: Order[];
+  onDetails: (order: Order) => void;
 }
 
 class OrdersComponent extends Component<ThemedComponentProps & Props> {
-  private renderItem = (info: ListRenderItemInfo<OrderModel>): React.ReactElement<OrderCardProps> => {
-    const { themedStyle } = this.props;
-    return <OrderCard style={themedStyle.item} order={info.item} onPress={this.onDetails.bind(this)} />;
-  };
 
-  public onDetails(order: OrderModel) {
+  public onDetails(order: Order) {
     this.props.onDetails(order);
   }
 
@@ -38,6 +34,10 @@ class OrdersComponent extends Component<ThemedComponentProps & Props> {
 
     return list;
   }
+  private renderItem = (info: ListRenderItemInfo<Order>): React.ReactElement<OrderCardProps> => {
+    const { themedStyle } = this.props;
+    return <OrderCard style={themedStyle.item} order={info.item} onPress={this.onDetails.bind(this)} />;
+  };
 }
 
 export const Orders = withStyles(OrdersComponent, (theme: ThemeType) => ({

@@ -1,30 +1,29 @@
-import React from 'react';
-import { View, ViewProps, Text, Platform } from 'react-native';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import React from 'react';
+import { Platform, Text, View, ViewProps } from 'react-native';
 import {
+  ScrollableAvoidKeyboard,
   textStyle,
   ValidationInput,
-  ScrollableAvoidKeyboard,
-  ScrollableAvoidKeyboardProps,
 } from '../../../components/common';
 
-import { Payer as PayerModel, Address as AddressModel } from '@src/core/model';
+import { Payer as PayerModel } from '@src/core/model';
 import axios from 'axios';
 import {
-  EmailValidator,
-  CpfNumberValidator,
-  PhoneNumberValidator,
-  NameValidator,
-  StringValidator,
-  CepNumberValidator,
-} from '../../../core/validators';
-import {
-  CpfNumberFormatter,
-  PhoneNumberFormatter,
-  PHONE_REGEX,
   CepNumberFormatter,
+  CpfNumberFormatter,
+  PHONE_REGEX,
+  PhoneNumberFormatter,
   StateFormatter,
 } from '../../../core/formatters';
+import {
+  CepNumberValidator,
+  CpfNumberValidator,
+  EmailValidator,
+  NameValidator,
+  PhoneNumberValidator,
+  StringValidator,
+} from '../../../core/validators';
 import { BuyingProcessContext } from '../context';
 
 interface ComponentProps {
@@ -96,6 +95,11 @@ class Component extends React.Component<OrderInfoFormProps, State> {
     },
   };
 
+  private keyboardOffset: number = Platform.select({
+    ios: 0,
+    android: 228,
+  });
+
   public componentDidUpdate(prevProps: OrderInfoFormProps, prevState: State) {
     const oldFormValid: boolean = this.isValid(prevState);
     const newFormValid: boolean = this.isValid(this.state);
@@ -146,50 +150,35 @@ class Component extends React.Component<OrderInfoFormProps, State> {
     });
   }
 
-  public onChange = prop => {
+  public onChange = (prop) => {
     const [propKey] = Object.keys(prop);
     if (prop[propKey]) {
       this.setState({ model: { ...this.state.model, ...prop } });
     }
   };
 
-  public onChangeAddress = prop => {
+  public onChangeAddress = (prop) => {
     const [propKey] = Object.keys(prop);
     if (prop[propKey]) {
       this.onChange({ address: { ...this.state.model.address, ...prop } });
     }
   };
 
-  public onChangeValidation = prop => {
+  public onChangeValidation = (prop) => {
     const [propKey] = Object.keys(prop);
     if (prop[propKey]) {
       this.setState({ validation: { ...this.state.validation, ...prop } });
     }
   };
 
-  public onChangeAddressValidation = prop => {
+  public onChangeAddressValidation = (prop) => {
     const [propKey] = Object.keys(prop);
     if (prop[propKey]) {
       this.onChangeValidation({ address: { ...this.state.validation.address, ...prop } });
     }
   };
 
-  private isValid = (state: State): boolean => {
-    const validation = { ...state.validation, ...state.validation.address };
-    const errors = Object.keys(validation)
-      .filter(f => typeof validation[f] === 'boolean')
-      .filter(f => {
-        return !validation[f];
-      });
-    return Boolean(errors.length);
-  };
-
-  private keyboardOffset: number = Platform.select({
-    ios: 0,
-    android: 228,
-  });
-
-  public onZipcodeChange = async zip_code => {
+  public onZipcodeChange = async (zip_code) => {
     if (!zip_code || zip_code === this.state.model.address.street) {
       return;
     }
@@ -233,18 +222,6 @@ class Component extends React.Component<OrderInfoFormProps, State> {
     }
   };
 
-  private updatePhone = phone => {
-    const [prefix, firstNumbers, lastNumbers] = phone
-      .replace(/\D/g, '')
-      .match(PHONE_REGEX)
-      .filter((v, i) => i && v);
-    this.onChange({
-      phone_prefix: `(${prefix}) `,
-      phone: [firstNumbers, lastNumbers].join(' '),
-    });
-    this.onChangeValidation({ phone_prefix: `(${prefix}) `, phone: [firstNumbers, lastNumbers].join(' ') });
-  };
-
   public render(): React.ReactNode {
     const { style, themedStyle, ...restProps } = this.props;
     return (
@@ -256,8 +233,8 @@ class Component extends React.Component<OrderInfoFormProps, State> {
             labelStyle={textStyle.label}
             label='Nome'
             validator={NameValidator}
-            onChangeText={name => this.onChange({ name })}
-            onChangeValidation={name => this.onChangeValidation({ name })}
+            onChangeText={(name) => this.onChange({ name })}
+            onChangeValidation={(name) => this.onChangeValidation({ name })}
             value={this.state.model.name}
           />
 
@@ -270,8 +247,8 @@ class Component extends React.Component<OrderInfoFormProps, State> {
             formatter={CpfNumberFormatter}
             maxLength={14}
             keyboardType='numeric'
-            onChangeText={cpf_cnpj => this.onChange({ cpf_cnpj })}
-            onChangeValidation={cpf_cnpj => this.onChangeValidation({ cpf_cnpj })}
+            onChangeText={(cpf_cnpj) => this.onChange({ cpf_cnpj })}
+            onChangeValidation={(cpf_cnpj) => this.onChangeValidation({ cpf_cnpj })}
             value={this.state.model.cpf_cnpj}
           />
 
@@ -280,11 +257,11 @@ class Component extends React.Component<OrderInfoFormProps, State> {
             textStyle={textStyle.paragraph}
             labelStyle={textStyle.label}
             label='Email'
-            formatter={email => email.toLowerCase()}
+            formatter={(email) => email.toLowerCase()}
             validator={EmailValidator}
             keyboardType='email-address'
-            onChangeText={email => this.onChange({ email })}
-            onChangeValidation={email => this.onChangeValidation({ email })}
+            onChangeText={(email) => this.onChange({ email })}
+            onChangeValidation={(email) => this.onChangeValidation({ email })}
             value={this.state.model.email}
           />
 
@@ -310,7 +287,7 @@ class Component extends React.Component<OrderInfoFormProps, State> {
             formatter={CepNumberFormatter}
             maxLength={9}
             onChangeText={this.onZipcodeChange}
-            onChangeValidation={zip_code => this.onChangeAddressValidation({ zip_code })}
+            onChangeValidation={(zip_code) => this.onChangeAddressValidation({ zip_code })}
             value={this.state.model.address.zip_code}
           />
 
@@ -323,8 +300,8 @@ class Component extends React.Component<OrderInfoFormProps, State> {
               formatter={StateFormatter}
               validator={StringValidator}
               maxLength={2}
-              onChangeText={state => this.onChangeAddress({ state })}
-              onChangeValidation={state => this.onChangeAddressValidation({ state })}
+              onChangeText={(state) => this.onChangeAddress({ state })}
+              onChangeValidation={(state) => this.onChangeAddressValidation({ state })}
               value={this.state.model.address.state}
             />
 
@@ -334,8 +311,8 @@ class Component extends React.Component<OrderInfoFormProps, State> {
               labelStyle={textStyle.label}
               label='Cidade'
               validator={StringValidator}
-              onChangeText={city => this.onChangeAddress({ city })}
-              onChangeValidation={city => this.onChangeAddressValidation({ city })}
+              onChangeText={(city) => this.onChangeAddress({ city })}
+              onChangeValidation={(city) => this.onChangeAddressValidation({ city })}
               value={this.state.model.address.city}
             />
           </View>
@@ -346,8 +323,8 @@ class Component extends React.Component<OrderInfoFormProps, State> {
             labelStyle={textStyle.label}
             label='Rua'
             validator={StringValidator}
-            onChangeText={street => this.onChangeAddress({ street })}
-            onChangeValidation={street => this.onChangeAddressValidation({ street })}
+            onChangeText={(street) => this.onChangeAddress({ street })}
+            onChangeValidation={(street) => this.onChangeAddressValidation({ street })}
             value={this.state.model.address.street}
           />
 
@@ -359,8 +336,8 @@ class Component extends React.Component<OrderInfoFormProps, State> {
               label='Número'
               validator={StringValidator}
               maxLength={6}
-              onChangeText={number => this.onChangeAddress({ number })}
-              onChangeValidation={number => this.onChangeAddressValidation({ number })}
+              onChangeText={(number) => this.onChangeAddress({ number })}
+              onChangeValidation={(number) => this.onChangeAddressValidation({ number })}
               value={this.state.model.address.number}
             />
 
@@ -370,8 +347,8 @@ class Component extends React.Component<OrderInfoFormProps, State> {
               labelStyle={textStyle.label}
               label='District'
               validator={StringValidator}
-              onChangeText={district => this.onChangeAddress({ district })}
-              onChangeValidation={district => this.onChangeAddressValidation({ district })}
+              onChangeText={(district) => this.onChangeAddress({ district })}
+              onChangeValidation={(district) => this.onChangeAddressValidation({ district })}
               value={this.state.model.address.district}
             />
           </View>
@@ -382,8 +359,8 @@ class Component extends React.Component<OrderInfoFormProps, State> {
             labelStyle={textStyle.label}
             label='Complemento'
             validator={StringValidator}
-            onChangeText={complement => this.onChangeAddress({ complement })}
-            onChangeValidation={complement => this.onChangeAddressValidation({ complement })}
+            onChangeText={(complement) => this.onChangeAddress({ complement })}
+            onChangeValidation={(complement) => this.onChangeAddressValidation({ complement })}
             value={this.state.model.address.complement}
           />
           <ValidationErrors
@@ -394,18 +371,40 @@ class Component extends React.Component<OrderInfoFormProps, State> {
       </ScrollableAvoidKeyboard>
     );
   }
+
+  private isValid = (state: State): boolean => {
+    const validation = { ...state.validation, ...state.validation.address };
+    const errors = Object.keys(validation)
+      .filter((f) => typeof validation[f] === 'boolean')
+      .filter((f) => {
+        return !validation[f];
+      });
+    return Boolean(errors.length);
+  };
+
+  private updatePhone = (phone) => {
+    const [prefix, firstNumbers, lastNumbers] = phone
+      .replace(/\D/g, '')
+      .match(PHONE_REGEX)
+      .filter((v, i) => i && v);
+    this.onChange({
+      phone_prefix: `(${prefix}) `,
+      phone: [firstNumbers, lastNumbers].join(' '),
+    });
+    this.onChangeValidation({ phone_prefix: `(${prefix}) `, phone: [firstNumbers, lastNumbers].join(' ') });
+  };
 }
 
-const ValidationErrors = props => {
+const ValidationErrors = (props) => {
   if (!props.showErrors) {
     return <View />;
   }
   const errors = Object.keys(props.validation)
-    .filter(f => typeof props.validation[f] === 'boolean')
-    .filter(f => !props.validation[f]);
+    .filter((f) => typeof props.validation[f] === 'boolean')
+    .filter((f) => !props.validation[f]);
   return (
     <View>
-      {errors.map(e => (
+      {errors.map((e) => (
         <Text key={e}>Campo obrigatório: {e}</Text>
       ))}
     </View>

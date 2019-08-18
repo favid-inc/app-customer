@@ -1,13 +1,10 @@
-import { connect } from 'react-redux';
+import { CreditCard as CreditCardModel, Payment as PaymentModel, PaymentResponse } from '@src/core/model';
 import React, { Component } from 'react';
-import { Payment } from './Payment';
-import * as config from '../../../core/config';
-import * as actions from '../../../store/actions';
-import { axiosInstance } from '../../../core/utils/axios';
 import { Alert } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
+import { connect } from 'react-redux';
 import { BuyingProcessContext } from '../context';
-import { Payment as PaymentModel, CreditCard as CreditCardModel, PaymentResponse } from '@src/core/model';
+import { Payment } from './Payment';
 
 interface State {
   loading: boolean;

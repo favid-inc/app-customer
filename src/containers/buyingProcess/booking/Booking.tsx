@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { ThemedComponentProps, withStyles, ThemeType } from 'react-native-ui-kitten/theme';
-import { ContainerView, ValidationInput, textStyle } from '@src/components/common';
-import { View, ViewProps, ActivityIndicator } from 'react-native';
-import { Toggle, Text, Button, Input } from 'react-native-ui-kitten/ui';
+import { Order as State } from '@favid-inc/api';
+import { ContainerView, textStyle, ValidationInput } from '@src/components/common';
 import { NameValidator } from '@src/core/validators';
-import { OrderModel as State } from '@favid-inc/api';
+import React, { Component } from 'react';
+import { View, ViewProps } from 'react-native';
+import { ThemedComponentProps, ThemeType, withStyles } from 'react-native-ui-kitten/theme';
+import { Button, Text, Toggle } from 'react-native-ui-kitten/ui';
 
 interface ComponentProps {
   loading: boolean;
@@ -17,13 +17,9 @@ class BookingComponent extends Component<BookingProps, State> {
   public state: State = {
     isGift: false,
     customerName: '',
-    theirName: '',
-    videoInstructions: '',
+    receiverName: '',
+    instructions: '',
   };
-
-  private onSend() {
-    this.props.onSend(this.state);
-  }
 
   public render() {
     const { themedStyle } = this.props;
@@ -33,14 +29,14 @@ class BookingComponent extends Component<BookingProps, State> {
       giftFields = (
         <View style={themedStyle.middleContainer}>
           <ValidationInput
-            value={this.state.theirName}
+            value={this.state.receiverName}
             style={themedStyle.input}
             textStyle={textStyle.paragraph}
             labelStyle={textStyle.label}
             label='Nome Dele'
             placeholder='José'
             validator={NameValidator}
-            onChangeText={theirName => this.setState({ theirName })}
+            onChangeText={(receiverName) => this.setState({ receiverName })}
           />
         </View>
       );
@@ -56,7 +52,7 @@ class BookingComponent extends Component<BookingProps, State> {
             <Toggle
               checked={this.state.isGift}
               style={themedStyle.isGift}
-              onChange={isGift => this.setState({ isGift })}
+              onChange={(isGift) => this.setState({ isGift })}
             />
           </View>
           <View style={themedStyle.middleContainer}>
@@ -68,20 +64,20 @@ class BookingComponent extends Component<BookingProps, State> {
               label='Meu Nome'
               placeholder='João'
               validator={NameValidator}
-              onChangeText={customerName => this.setState({ customerName })}
+              onChangeText={(customerName) => this.setState({ customerName })}
             />
           </View>
           {giftFields}
           <View style={themedStyle.middleContainer}>
             <ValidationInput
-              value={this.state.videoInstructions}
+              value={this.state.instructions}
               style={themedStyle.input}
               textStyle={textStyle.paragraph}
               labelStyle={textStyle.label}
               label='Minha Menssagem'
               placeholder='Por favor deseje um feliz aniversário ao meu amigo Lucas Marques.'
               validator={NameValidator}
-              onChangeText={videoInstructions => this.setState({ videoInstructions })}
+              onChangeText={(instructions) => this.setState({ instructions })}
             />
           </View>
         </View>
@@ -96,6 +92,10 @@ class BookingComponent extends Component<BookingProps, State> {
         </Button>
       </ContainerView>
     );
+  }
+
+  private onSend() {
+    this.props.onSend(this.state);
   }
 }
 

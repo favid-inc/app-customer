@@ -1,11 +1,10 @@
-import React from 'react';
 
-import { NavigationRouteConfigMap, createStackNavigator } from 'react-navigation';
-import { BookingNavigation } from './booking';
-import { PaymentNavigator } from './payment';
-import { OrderInfoNavigator } from './orderInfo';
-import { connect } from './context';
 import { TopBarNavigationOptions } from '@src/core/navigation/options';
+import { createStackNavigator, NavigationRouteConfigMap } from 'react-navigation';
+import { BookingNavigation } from './booking';
+import { connect } from './context';
+import { OrderInfoNavigator } from './orderInfo';
+import { PaymentNavigator } from './payment';
 
 const BuyingProcessNavigationMap: NavigationRouteConfigMap = {
   ...BookingNavigation,

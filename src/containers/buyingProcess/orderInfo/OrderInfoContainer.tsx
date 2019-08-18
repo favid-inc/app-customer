@@ -1,15 +1,12 @@
-import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import * as config from '../../../core/config';
-import * as actions from '../../../store/actions';
-import { axiosInstance } from '../../../core/utils/axios';
-import { Alert, Text } from 'react-native';
+import { Charge as ChargeModel, ChargeResponse, Item as ItemModel, Payer as PayerModel } from '@src/core/model';
+import { Customer } from '@src/core/model';
+import { Alert } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { BuyingProcessContext } from '../context';
-import { Charge as ChargeModel, Item as ItemModel, Payer as PayerModel, ChargeResponse } from '@src/core/model';
 import { OrderInfo } from './OrderInfo';
-import { Customer } from '@src/core/model';
 
 interface State {
   loading: boolean;
@@ -34,7 +31,7 @@ class Container extends Component<Props, State, typeof BuyingProcessContext> {
     this.setState({ loading: true });
     const items: ItemModel[] = [
       {
-        description: this.context.order.videoInstructions,
+        description: this.context.order.instructions,
         quantity: 1,
         price_cents: this.context.order.price,
       },

@@ -1,9 +1,9 @@
-import React from 'react';
-import { withStyles, ThemedComponentProps, ThemeType } from '@kitten/theme';
-import { textStyle, ContainerView } from '@src/components/common';
-import { PaymentCardForm } from './PaymentCardForm';
-import { Button } from 'react-native-ui-kitten/ui';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { ContainerView, textStyle } from '@src/components/common';
 import { Payment as PaymentModel } from '@src/core/model';
+import React from 'react';
+import { Button } from 'react-native-ui-kitten/ui';
+import { PaymentCardForm } from './PaymentCardForm';
 
 interface ComponentProps {
   loading: boolean;

@@ -1,7 +1,7 @@
-import { NavigationContainer, createStackNavigator, NavigationRouteConfigMap } from 'react-navigation';
-import { SettingsContainer } from './SettingsContainer';
+import { createStackNavigator, NavigationContainer, NavigationRouteConfigMap } from 'react-navigation';
 import { AccountNavigator } from './Account';
 import { CreditCardNavigator } from './Payment';
+import { SettingsContainer } from './SettingsContainer';
 
 export const SettingsNavigator: NavigationContainer = createStackNavigator(
   {

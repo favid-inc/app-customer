@@ -1,8 +1,8 @@
-import { NavigationContainer, createBottomTabNavigator, NavigationRouteConfigMap } from 'react-navigation';
-import { MenuContainer } from './menu.container';
+import { createBottomTabNavigator, NavigationContainer, NavigationRouteConfigMap } from 'react-navigation';
 import { ArtistsNavigator } from '../artists';
 import { OrdersNavigator } from '../orders';
 import { SettingsNavigator } from '../settings';
+import { MenuContainer } from './menu.container';
 
 const menuNavigationMap: NavigationRouteConfigMap = {
   Artists: ArtistsNavigator,

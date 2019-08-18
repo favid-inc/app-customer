@@ -1,5 +1,3 @@
-import React from 'react';
-import { View } from 'react-native';
 import {
   ThemeType,
   withStyles,
@@ -9,6 +7,8 @@ import {
   AvatarProps,
   ButtonProps,
 } from '@kitten/ui';
+import React from 'react';
+import { View } from 'react-native';
 
 interface ComponentProps {
   button?: () => React.ReactElement<ButtonProps>;
@@ -17,14 +17,6 @@ interface ComponentProps {
 export type ProfilePhotoProps = ComponentProps & AvatarProps;
 
 class ProfilePhotoComponent extends React.Component<ProfilePhotoProps> {
-
-  private renderEditElement = (): React.ReactElement<ButtonProps> => {
-    const buttonElement: React.ReactElement<ButtonProps> = this.props.button();
-
-    return React.cloneElement(buttonElement, {
-      style: [buttonElement.props.style, this.props.themedStyle.editButton],
-    });
-  };
 
   public render(): React.ReactNode {
     const { style, themedStyle, button, ...restProps } = this.props;
@@ -39,6 +31,14 @@ class ProfilePhotoComponent extends React.Component<ProfilePhotoProps> {
       </View>
     );
   }
+
+  private renderEditElement = (): React.ReactElement<ButtonProps> => {
+    const buttonElement: React.ReactElement<ButtonProps> = this.props.button();
+
+    return React.cloneElement(buttonElement, {
+      style: [buttonElement.props.style, this.props.themedStyle.editButton],
+    });
+  };
 }
 
 export const ProfilePhoto = withStyles(ProfilePhotoComponent, (theme: ThemeType) => ({
@@ -50,4 +50,3 @@ export const ProfilePhoto = withStyles(ProfilePhotoComponent, (theme: ThemeType)
     alignSelf: 'flex-end',
   },
 }));
-
