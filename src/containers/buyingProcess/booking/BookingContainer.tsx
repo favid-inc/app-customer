@@ -21,9 +21,9 @@ interface State {
 
 class Container extends Component<ComponentProps & NavigationScreenProps, State, typeof BuyingProcessContext> {
   static contextType = BuyingProcessContext;
+  public context: React.ContextType<typeof BuyingProcessContext>;
 
   public state: State = {
-    public context: React.ContextType<typeof BuyingProcessContext>;
     loading: false,
   };
 
@@ -34,8 +34,8 @@ class Container extends Component<ComponentProps & NavigationScreenProps, State,
   private onSend = async (orderInstructions) => {
     const order: Order = {
       ...orderInstructions,
-      artistId: this.props.artistId,
-      userId: this.props.userId,
+      artistId: 1,
+      userId: 2,
     };
 
     this.setState({ loading: true });
@@ -46,6 +46,7 @@ class Container extends Component<ComponentProps & NavigationScreenProps, State,
       // if (response.status !== 200) {
       //   throw Error(response.status.toString());
       // }
+
       this.context.setOrder(order);
       this.props.navigation.navigate('Pagamento');
     } catch (error) {
@@ -57,9 +58,9 @@ class Container extends Component<ComponentProps & NavigationScreenProps, State,
 }
 
 const mapStateToProps = ({ artist, auth }) => ({
-  artistId: artist.artist.id,
-  userId: auth.customer.uid,
-  idToken: auth.authState.idToken,
+  // artistId: artist.artist.id,
+  // userId: auth.customer.uid,
+  // idToken: auth.authState.idToken,
 });
 
 export const BookingContainer = connect(mapStateToProps)(Container);
