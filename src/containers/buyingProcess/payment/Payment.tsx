@@ -25,17 +25,17 @@ class Component extends React.Component<PaymentComponentProps, State> {
     if (c) {
       this.setState({ creditCard: { ...c } });
     }
-  }
+  };
 
-  public onSend = () =>  {
+  public onSend = () => {
     this.props.onSend(this.state.creditCard);
-  }
+  };
 
   public render() {
     const { themedStyle, loading } = this.props;
 
     return (
-      <ContainerView style={themedStyle.container}>
+      <ContainerView style={themedStyle.container} contentContainerStyle={themedStyle.contentContainer}>
         <PaymentCardForm onFormValueChange={this.onFormValueChange} />
         <Button
           status='success'
@@ -54,9 +54,12 @@ class Component extends React.Component<PaymentComponentProps, State> {
 
 export const Payment = withStyles(Component, (theme: ThemeType) => ({
   container: {
-    backgroundColor: theme['background-basic-color-2'],
-    paddingVertical: 20,
     paddingHorizontal: 16,
+    flex: 1,
+    backgroundColor: theme['background-basic-color-2'],
+  },
+  contentContainer: {
+    flex: 1,
   },
   saveButton: {
     marginVertical: 20,

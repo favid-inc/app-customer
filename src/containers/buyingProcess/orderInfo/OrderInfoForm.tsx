@@ -1,11 +1,7 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import React from 'react';
-import { Platform, Text, View, ViewProps } from 'react-native';
-import {
-  ScrollableAvoidKeyboard,
-  textStyle,
-  ValidationInput,
-} from '../../../components/common';
+import { Text, View, ViewProps } from 'react-native';
+import { textStyle, ValidationInput } from '../../../components/common';
 
 import { Payer } from '@src/core/model';
 import axios from 'axios';
@@ -94,11 +90,6 @@ class Component extends React.Component<OrderInfoFormProps, State> {
       phone_prefix: false,
     },
   };
-
-  private keyboardOffset: number = Platform.select({
-    ios: 0,
-    android: 228,
-  });
 
   public componentDidUpdate(prevProps: OrderInfoFormProps, prevState: State) {
     const oldFormValid: boolean = this.isValid(prevState);
@@ -225,150 +216,148 @@ class Component extends React.Component<OrderInfoFormProps, State> {
   public render(): React.ReactNode {
     const { style, themedStyle, ...restProps } = this.props;
     return (
-      <ScrollableAvoidKeyboard style={[themedStyle.container, style]} extraScrollHeight={this.keyboardOffset}>
-        <View style={[themedStyle.container, style]} {...restProps}>
-          <ValidationInput
-            style={themedStyle.input}
-            textStyle={textStyle.paragraph}
-            labelStyle={textStyle.label}
-            label='Nome'
-            validator={NameValidator}
-            onChangeText={(name) => this.onChange({ name })}
-            onChangeValidation={(name) => this.onChangeValidation({ name })}
-            value={this.state.model.name}
-          />
+      <View style={[themedStyle.container, style]} {...restProps}>
+        <ValidationInput
+          style={themedStyle.input}
+          textStyle={textStyle.paragraph}
+          labelStyle={textStyle.label}
+          label='Nome'
+          validator={NameValidator}
+          onChangeText={(name) => this.onChange({ name })}
+          onChangeValidation={(name) => this.onChangeValidation({ name })}
+          value={this.state.model.name}
+        />
 
-          <ValidationInput
-            style={themedStyle.input}
-            textStyle={textStyle.paragraph}
-            labelStyle={textStyle.label}
-            label='CPF'
-            validator={CpfNumberValidator}
-            formatter={CpfNumberFormatter}
-            maxLength={14}
-            keyboardType='numeric'
-            onChangeText={(cpf_cnpj) => this.onChange({ cpf_cnpj })}
-            onChangeValidation={(cpf_cnpj) => this.onChangeValidation({ cpf_cnpj })}
-            value={this.state.model.cpf_cnpj}
-          />
+        <ValidationInput
+          style={themedStyle.input}
+          textStyle={textStyle.paragraph}
+          labelStyle={textStyle.label}
+          label='CPF'
+          validator={CpfNumberValidator}
+          formatter={CpfNumberFormatter}
+          maxLength={14}
+          keyboardType='numeric'
+          onChangeText={(cpf_cnpj) => this.onChange({ cpf_cnpj })}
+          onChangeValidation={(cpf_cnpj) => this.onChangeValidation({ cpf_cnpj })}
+          value={this.state.model.cpf_cnpj}
+        />
 
-          <ValidationInput
-            style={themedStyle.input}
-            textStyle={textStyle.paragraph}
-            labelStyle={textStyle.label}
-            label='Email'
-            formatter={(email) => email.toLowerCase()}
-            validator={EmailValidator}
-            keyboardType='email-address'
-            onChangeText={(email) => this.onChange({ email })}
-            onChangeValidation={(email) => this.onChangeValidation({ email })}
-            value={this.state.model.email}
-          />
+        <ValidationInput
+          style={themedStyle.input}
+          textStyle={textStyle.paragraph}
+          labelStyle={textStyle.label}
+          label='Email'
+          formatter={(email) => email.toLowerCase()}
+          validator={EmailValidator}
+          keyboardType='email-address'
+          onChangeText={(email) => this.onChange({ email })}
+          onChangeValidation={(email) => this.onChangeValidation({ email })}
+          value={this.state.model.email}
+        />
 
+        <ValidationInput
+          style={themedStyle.input}
+          textStyle={textStyle.paragraph}
+          labelStyle={textStyle.label}
+          label='Telefone'
+          validator={PhoneNumberValidator}
+          formatter={PhoneNumberFormatter}
+          maxLength={15}
+          keyboardType='numeric'
+          onChangeText={this.updatePhone}
+          value={`${this.state.model.phone_prefix}${this.state.model.phone}`}
+        />
+
+        <ValidationInput
+          style={[themedStyle.input, themedStyle.longInput]}
+          textStyle={textStyle.paragraph}
+          labelStyle={textStyle.label}
+          label='CEP'
+          validator={CepNumberValidator}
+          formatter={CepNumberFormatter}
+          maxLength={9}
+          onChangeText={this.onZipcodeChange}
+          onChangeValidation={(zip_code) => this.onChangeAddressValidation({ zip_code })}
+          value={this.state.model.address.zip_code}
+        />
+
+        <View style={themedStyle.middleContainer}>
           <ValidationInput
-            style={themedStyle.input}
+            style={[themedStyle.input, themedStyle.shortInput]}
             textStyle={textStyle.paragraph}
             labelStyle={textStyle.label}
-            label='Telefone'
-            validator={PhoneNumberValidator}
-            formatter={PhoneNumberFormatter}
-            maxLength={15}
-            keyboardType='numeric'
-            onChangeText={this.updatePhone}
-            value={`${this.state.model.phone_prefix}${this.state.model.phone}`}
+            label='Estado'
+            formatter={StateFormatter}
+            validator={StringValidator}
+            maxLength={2}
+            onChangeText={(state) => this.onChangeAddress({ state })}
+            onChangeValidation={(state) => this.onChangeAddressValidation({ state })}
+            value={this.state.model.address.state}
           />
 
           <ValidationInput
             style={[themedStyle.input, themedStyle.longInput]}
             textStyle={textStyle.paragraph}
             labelStyle={textStyle.label}
-            label='CEP'
-            validator={CepNumberValidator}
-            formatter={CepNumberFormatter}
-            maxLength={9}
-            onChangeText={this.onZipcodeChange}
-            onChangeValidation={(zip_code) => this.onChangeAddressValidation({ zip_code })}
-            value={this.state.model.address.zip_code}
-          />
-
-          <View style={themedStyle.middleContainer}>
-            <ValidationInput
-              style={[themedStyle.input, themedStyle.shortInput]}
-              textStyle={textStyle.paragraph}
-              labelStyle={textStyle.label}
-              label='Estado'
-              formatter={StateFormatter}
-              validator={StringValidator}
-              maxLength={2}
-              onChangeText={(state) => this.onChangeAddress({ state })}
-              onChangeValidation={(state) => this.onChangeAddressValidation({ state })}
-              value={this.state.model.address.state}
-            />
-
-            <ValidationInput
-              style={[themedStyle.input, themedStyle.longInput]}
-              textStyle={textStyle.paragraph}
-              labelStyle={textStyle.label}
-              label='Cidade'
-              validator={StringValidator}
-              onChangeText={(city) => this.onChangeAddress({ city })}
-              onChangeValidation={(city) => this.onChangeAddressValidation({ city })}
-              value={this.state.model.address.city}
-            />
-          </View>
-
-          <ValidationInput
-            style={themedStyle.input}
-            textStyle={textStyle.paragraph}
-            labelStyle={textStyle.label}
-            label='Rua'
+            label='Cidade'
             validator={StringValidator}
-            onChangeText={(street) => this.onChangeAddress({ street })}
-            onChangeValidation={(street) => this.onChangeAddressValidation({ street })}
-            value={this.state.model.address.street}
-          />
-
-          <View style={themedStyle.middleContainer}>
-            <ValidationInput
-              style={[themedStyle.input, themedStyle.shortInput]}
-              textStyle={textStyle.paragraph}
-              labelStyle={textStyle.label}
-              label='Número'
-              validator={StringValidator}
-              maxLength={6}
-              onChangeText={(number) => this.onChangeAddress({ number })}
-              onChangeValidation={(number) => this.onChangeAddressValidation({ number })}
-              value={this.state.model.address.number}
-            />
-
-            <ValidationInput
-              style={[themedStyle.input, themedStyle.longInput]}
-              textStyle={textStyle.paragraph}
-              labelStyle={textStyle.label}
-              label='District'
-              validator={StringValidator}
-              onChangeText={(district) => this.onChangeAddress({ district })}
-              onChangeValidation={(district) => this.onChangeAddressValidation({ district })}
-              value={this.state.model.address.district}
-            />
-          </View>
-
-          <ValidationInput
-            style={themedStyle.input}
-            textStyle={textStyle.paragraph}
-            labelStyle={textStyle.label}
-            label='Complemento'
-            validator={StringValidator}
-            onChangeText={(complement) => this.onChangeAddress({ complement })}
-            onChangeValidation={(complement) => this.onChangeAddressValidation({ complement })}
-            value={this.state.model.address.complement}
-          />
-          <ValidationErrors
-            showErrors={false}
-            validation={{ ...this.state.validation, ...this.state.validation.address }}
+            onChangeText={(city) => this.onChangeAddress({ city })}
+            onChangeValidation={(city) => this.onChangeAddressValidation({ city })}
+            value={this.state.model.address.city}
           />
         </View>
-      </ScrollableAvoidKeyboard>
+
+        <ValidationInput
+          style={themedStyle.input}
+          textStyle={textStyle.paragraph}
+          labelStyle={textStyle.label}
+          label='Rua'
+          validator={StringValidator}
+          onChangeText={(street) => this.onChangeAddress({ street })}
+          onChangeValidation={(street) => this.onChangeAddressValidation({ street })}
+          value={this.state.model.address.street}
+        />
+
+        <View style={themedStyle.middleContainer}>
+          <ValidationInput
+            style={[themedStyle.input, themedStyle.shortInput]}
+            textStyle={textStyle.paragraph}
+            labelStyle={textStyle.label}
+            label='Número'
+            validator={StringValidator}
+            maxLength={6}
+            onChangeText={(number) => this.onChangeAddress({ number })}
+            onChangeValidation={(number) => this.onChangeAddressValidation({ number })}
+            value={this.state.model.address.number}
+          />
+
+          <ValidationInput
+            style={[themedStyle.input, themedStyle.longInput]}
+            textStyle={textStyle.paragraph}
+            labelStyle={textStyle.label}
+            label='District'
+            validator={StringValidator}
+            onChangeText={(district) => this.onChangeAddress({ district })}
+            onChangeValidation={(district) => this.onChangeAddressValidation({ district })}
+            value={this.state.model.address.district}
+          />
+        </View>
+
+        <ValidationInput
+          style={themedStyle.input}
+          textStyle={textStyle.paragraph}
+          labelStyle={textStyle.label}
+          label='Complemento'
+          validator={StringValidator}
+          onChangeText={(complement) => this.onChangeAddress({ complement })}
+          onChangeValidation={(complement) => this.onChangeAddressValidation({ complement })}
+          value={this.state.model.address.complement}
+        />
+        <ValidationErrors
+          showErrors={false}
+          validation={{ ...this.state.validation, ...this.state.validation.address }}
+        />
+      </View>
     );
   }
 

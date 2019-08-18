@@ -131,6 +131,6 @@ export const Booking = withStyles(BookingComponent, (theme: ThemeType) => ({
   },
   formContainer: {
     flex: 1,
-    marginTop: 40,
+    marginTop: 20,
   },
 }));
