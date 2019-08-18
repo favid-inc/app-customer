@@ -1,4 +1,4 @@
-import { CreditCard as CreditCardModel, Payment as PaymentModel, PaymentResponse } from '@src/core/model';
+import { CreditCard } from '@src/core/model';
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
@@ -24,51 +24,19 @@ class Container extends Component<Props, State, typeof BuyingProcessContext> {
     loading: false,
   };
 
-  public onSend = async (creditCard: CreditCardModel) => {
+  public onSend = (creditCard: CreditCard) => {
     this.setState({ loading: true });
 
-    const payment: PaymentModel = {
-      creditCard,
-      account_id: null,
-      test: false,
-      method: 'credit_card',
-    };
-
-    try {
-      // todo: add request to backend
-      // const axios = axiosInstance(this.props.idToken);
-      // const response = await axios.post('/paymentToken', payment);
-      // if (response.status !== 200) {
-      //   throw Error(response.status.toString());
-      // }
-      console.log('[PaymentContainer.tsx] payment: ', payment);
-      const response: PaymentResponse = {
-        id: 'marqs é comunista e vacilão, gosta de comer batata com melão.',
-        method: 'credit_card',
-        extra_info: {
-          brand: 'VISA',
-          holder_name: 'JOHN DOE',
-          display_number: 'XXXX-XXXX-XXXX-1111',
-          bin: '411111',
-          month: 10,
-          year: 2020,
-        },
-        test: false,
-      };
-      this.context.setPaymentData(response);
-
-      this.props.navigation.navigate('Informações do Pedido');
-    } catch (error) {
-      console.log('[PaymentContainer.tsx] sendOrder error:', error);
-      Alert.alert('Erro ao processar pagamento');
-    }
+    this.context.setCreditCard(creditCard);
 
     this.setState({ loading: false });
+
+    this.props.navigation.navigate('Informações do Pedido');
   };
 
   public render(): React.ReactNode {
     const { loading } = this.state;
-    return <Payment loading={loading} onSend={this.onSend.bind(this)} />;
+    return <Payment loading={loading} onSend={this.onSend} />;
   }
 }
 

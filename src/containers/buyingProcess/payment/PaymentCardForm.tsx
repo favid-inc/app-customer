@@ -1,34 +1,26 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import React from 'react';
 import { View, ViewProps } from 'react-native';
+import { BuyingProcessContext } from '../context';
 
 import { textStyle, ValidationInput } from '@src/components/common';
 import {
+  CARD_NUMBER_REGEX,
   CardholderNameFormatter,
   CardNumberFormatter,
   CvvFormatter,
   ExpirationDateFormatter,
 } from '@src/core/formatters';
+import { CreditCard as CreditCard } from '@src/core/model';
 import {
   CardholderNameValidator,
-  CardNumberValidator,
   CvvValidator,
   ExpirationDateValidator,
+  validation,
 } from '@src/core/validators';
 
-export interface AddPaymentCardFormType {
-  cardNumber: string;
-  expirationDate: string;
-  cvv: string;
-  cardholderName: string;
-}
-
 interface ComponentProps {
-  /**
-   * Will emit changes depending on validation:
-   * Will be called with form value if it is valid, otherwise will be called with undefined
-   */
-  onFormValueChange: (value: AddPaymentCardFormType | undefined) => void;
+  onFormValueChange: (creditCard: CreditCard | undefined) => void;
 }
 
 export type AddPaymentCardFormProps = ThemedComponentProps & ViewProps & ComponentProps;
@@ -40,13 +32,33 @@ interface State {
   cardholderName: string | undefined;
 }
 
+const cardNumberValidator = validation(CARD_NUMBER_REGEX);
+
 class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
+  static contextType = BuyingProcessContext;
+  public context: React.ContextType<typeof BuyingProcessContext>;
   public state: State = {
     cardNumber: undefined,
     expirationDate: undefined,
     cvv: undefined,
     cardholderName: undefined,
   };
+
+  public componentDidMount() {
+    const {number, first_name, last_name, verification_value, month, year} = this.context.creditCard;
+    if (number) {
+      this.onCardNumberChange(number);
+    }
+    if (month && year) {
+      this.onExpirationDateChange([month, year].join('/'));
+    }
+    if (verification_value) {
+      this.onCvvChange(verification_value);
+    }
+    if (first_name && last_name) {
+      this.onCardHolderNameChange([first_name, last_name].join(' '));
+    }
+  }
 
   public componentDidUpdate(prevProps: AddPaymentCardFormProps, prevState: State) {
     const oldFormValid: boolean = this.isValid(prevState);
@@ -55,7 +67,16 @@ class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
     const becomeValid: boolean = !oldFormValid && newFormValid;
     const becomeInvalid: boolean = oldFormValid && !newFormValid;
     if (becomeValid) {
-      this.props.onFormValueChange(this.state);
+      const creditCard: CreditCard = {
+        number:  this.state.cardNumber,
+        verification_value:  this.state.cvv,
+        first_name:  this.state.cardholderName.split(' ').splice(0, 1).join(''),
+        last_name:  this.state.cardholderName.split(' ').splice(1).join(' '),
+        month:  this.state.expirationDate.split('/').splice(0, 1).join(''),
+        year:  this.state.expirationDate.split('/').splice(1, 1).join(''),
+      };
+      console.log('[PaymentCardForm] bacameValid: ', creditCard);
+      this.props.onFormValueChange(creditCard);
     } else if (becomeInvalid) {
       this.props.onFormValueChange(undefined);
     }
@@ -67,58 +88,59 @@ class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
     return (
       <View style={[themedStyle.container, style]} {...restProps}>
         <ValidationInput
-          style={themedStyle.input}
-          textStyle={textStyle.paragraph}
-          labelStyle={textStyle.label}
-          label='Número do Cartão'
-          placeholder='0000 0000 0000 0000'
-          validator={CardNumberValidator}
-          formatter={CardNumberFormatter}
           maxLength={19}
           keyboardType='numeric'
+          label='Número do Cartão'
+          style={themedStyle.input}
+          labelStyle={textStyle.label}
+          value={this.state.cardNumber}
+          textStyle={textStyle.paragraph}
+          validator={cardNumberValidator}
+          formatter={CardNumberFormatter}
           onChangeText={this.onCardNumberChange}
         />
         <View style={themedStyle.middleContainer}>
           <ValidationInput
-            style={[themedStyle.input, themedStyle.expireInput]}
-            textStyle={textStyle.paragraph}
-            labelStyle={textStyle.label}
-            label='Data de Expiração'
-            placeholder='MM/YY'
-            validator={ExpirationDateValidator}
-            formatter={ExpirationDateFormatter}
             maxLength={5}
             keyboardType='numeric'
+            label='Data de Expiração'
+            labelStyle={textStyle.label}
+            textStyle={textStyle.paragraph}
+            value={this.state.expirationDate}
+            validator={ExpirationDateValidator}
+            formatter={ExpirationDateFormatter}
             onChangeText={this.onExpirationDateChange}
+            style={[themedStyle.input, themedStyle.expireInput]}
           />
           <ValidationInput
-            style={[themedStyle.input, themedStyle.cvvInput]}
-            textStyle={textStyle.paragraph}
-            labelStyle={textStyle.label}
             label='CVV'
-            placeholder='CVV'
-            validator={CvvValidator}
-            formatter={CvvFormatter}
             maxLength={3}
             keyboardType='numeric'
+            value={this.state.cvv}
+            validator={CvvValidator}
+            formatter={CvvFormatter}
+            labelStyle={textStyle.label}
             onChangeText={this.onCvvChange}
+            textStyle={textStyle.paragraph}
+            style={[themedStyle.input, themedStyle.cvvInput]}
           />
         </View>
         <ValidationInput
-          style={[themedStyle.input, themedStyle.cardholderNameInput]}
-          textStyle={textStyle.paragraph}
-          labelStyle={textStyle.label}
           label='Nome no Cartão'
-          placeholder='João Pedro'
+          labelStyle={textStyle.label}
+          textStyle={textStyle.paragraph}
+          value={this.state.cardholderName}
           validator={CardholderNameValidator}
           formatter={CardholderNameFormatter}
           onChangeText={this.onCardHolderNameChange}
+          style={[themedStyle.input, themedStyle.cardholderNameInput]}
         />
       </View>
     );
   }
 
   private onCardNumberChange = (cardNumber: string) => {
+    console.log('[PaymentCardForm.tsx] onCardNumberChange() cardNumber: ', cardNumber);
     this.setState({ cardNumber });
   };
 
@@ -134,17 +156,16 @@ class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
     this.setState({ cardholderName });
   };
 
-  private isValid = (value: AddPaymentCardFormType): boolean => {
+  private isValid = (value: State): boolean => {
     const { cardNumber, expirationDate, cvv, cardholderName } = value;
-
-    return (
-      cardNumber !== undefined && expirationDate !== undefined && cvv !== undefined && cardholderName !== undefined
-    );
+    return Boolean(cardNumber && expirationDate && cvv && cardholderName);
   };
 }
 
 export const PaymentCardForm = withStyles(NewCardComponent, (theme: ThemeType) => ({
-  container: {},
+  container: {
+    marginVertical: 40,
+  },
   middleContainer: {
     flexDirection: 'row',
     alignItems: 'center',

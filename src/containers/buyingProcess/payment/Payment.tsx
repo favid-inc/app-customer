@@ -1,28 +1,34 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { ContainerView, textStyle } from '@src/components/common';
-import { Payment as PaymentModel } from '@src/core/model';
+import { CreditCard } from '@src/core/model';
 import React from 'react';
 import { Button } from 'react-native-ui-kitten/ui';
 import { PaymentCardForm } from './PaymentCardForm';
 
 interface ComponentProps {
   loading: boolean;
-  onSend: (payment: PaymentModel) => void;
+  onSend: (creditCard: CreditCard) => void;
 }
 
 interface State {
-  formValue: any;
+  creditCard: CreditCard;
 }
 
 export type PaymentComponentProps = ThemedComponentProps & ComponentProps;
 
 class Component extends React.Component<PaymentComponentProps, State> {
   public state: State = {
-    formValue: null,
+    creditCard: null,
   };
 
-  public onFormValueChange(formValue) {
-    this.setState({ formValue: formValue ? { ...formValue } : formValue });
+  public onFormValueChange = (c) => {
+    if (c) {
+      this.setState({ creditCard: { ...c } });
+    }
+  }
+
+  public onSend = () =>  {
+    this.props.onSend(this.state.creditCard);
   }
 
   public render() {
@@ -30,16 +36,16 @@ class Component extends React.Component<PaymentComponentProps, State> {
 
     return (
       <ContainerView style={themedStyle.container}>
-        <PaymentCardForm onFormValueChange={this.onFormValueChange.bind(this)} />
+        <PaymentCardForm onFormValueChange={this.onFormValueChange} />
         <Button
           status='success'
           style={themedStyle.saveButton}
           textStyle={textStyle.button}
           size='giant'
-          disabled={!this.state.formValue || loading}
-          onPress={this.props.onSend.bind(this, this.state.formValue)}
+          disabled={!this.state.creditCard || loading}
+          onPress={this.onSend}
         >
-          {loading ? 'Processando...' : 'Enviar'}
+          {loading ? 'Processando...' : 'Próximo'}
         </Button>
       </ContainerView>
     );
