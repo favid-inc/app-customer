@@ -1,30 +1,36 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { ContainerView, textStyle } from '@src/components/common';
+import { Payer } from '@src/core/model';
 import React from 'react';
-
-import { Payment as PaymentModel } from '@src/core/model';
 import { Button } from 'react-native-ui-kitten/ui';
 import { OrderInfoForm } from './OrderInfoForm';
 
 interface ComponentProps {
   loading: boolean;
-  onSend: (payment: PaymentModel) => void;
+  onSend: (payer: Payer) => void;
 }
 
 interface State {
-  formValue: any;
+  payer: Payer;
 }
 
 export type Props = ThemedComponentProps & ComponentProps;
 
 class Component extends React.Component<Props, State> {
+
   public state: State = {
-    formValue: null,
+    payer: null,
   };
 
-  public onFormValueChange = (formValue) => {
-    this.setState({ formValue: formValue ? { ...formValue } : formValue });
+  public onFormValueChange = (payer: Payer) => {
+    if (payer) {
+      this.setState({ payer: { ...payer }});
+    }
   };
+
+  public onSend = () =>  {
+    this.props.onSend(this.state.payer);
+  }
 
   public render() {
     const { themedStyle, loading } = this.props;
@@ -37,8 +43,8 @@ class Component extends React.Component<Props, State> {
           style={themedStyle.saveButton}
           textStyle={textStyle.button}
           size='giant'
-          disabled={!this.state.formValue || loading}
-          onPress={this.props.onSend.bind(this, this.state.formValue)}
+          disabled={!this.state.payer || loading}
+          onPress={this.onSend}
         >
           {loading ? 'Processando...' : 'Enviar'}
         </Button>

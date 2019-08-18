@@ -7,7 +7,7 @@ import {
   ValidationInput,
 } from '../../../components/common';
 
-import { Payer as PayerModel } from '@src/core/model';
+import { Payer } from '@src/core/model';
 import axios from 'axios';
 import {
   CepNumberFormatter,
@@ -31,13 +31,13 @@ interface ComponentProps {
    * Will emit changes depending on validation:
    * Will be called with form value if it is valid, otherwise will be called with undefined
    */
-  onFormValueChange: (value: PayerModel | undefined) => void;
+  onFormValueChange: (value: Payer | undefined) => void;
 }
 
 export type OrderInfoFormProps = ComponentProps & ThemedComponentProps & ViewProps;
 
 interface State {
-  model: PayerModel;
+  model: Payer;
   validation: {
     address: {
       street: boolean;

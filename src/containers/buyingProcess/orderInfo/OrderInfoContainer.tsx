@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
-import { Charge as ChargeModel, ChargeResponse, Item as ItemModel, Payer as PayerModel } from '@src/core/model';
+import { Charge, ChargeResponse, Payer } from '@src/core/model';
 import { Customer } from '@src/core/model';
+import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
+import { connect } from 'react-redux';
 import { BuyingProcessContext } from '../context';
 import { OrderInfo } from './OrderInfo';
-
+import {apiClient} from '@src/core/utils/apiClient';
+import { PayOrder } from '@favid-inc/api/lib/app-customer';
 interface State {
   loading: boolean;
 }
@@ -27,54 +27,39 @@ class Container extends Component<Props, State, typeof BuyingProcessContext> {
     loading: false,
   };
 
-  public onSend = async (payer: PayerModel) => {
+  public onSend = async (payer: Payer) => {
     this.setState({ loading: true });
-    const items: ItemModel[] = [
-      {
-        description: this.context.order.instructions,
-        quantity: 1,
-        price_cents: this.context.order.price,
+
+    const charge: Charge = {
+      order: this.context.order,
+      paymentToken: {
+        data: this.context.creditCard,
       },
-    ];
-    const charge: ChargeModel = {
-      method: this.context.paymentData.method,
-      token: this.context.paymentData.id,
-      customer_payment_method_id: null,
-      restrict_payment_method: false,
-      customer_id: null,
-      invoice_id: null,
-      email: payer.email,
-      months: 1,
-      discount_cents: 0,
-      bank_slip_extra_days: 2,
-      keep_dunning: false,
-      payer,
-      items,
-      order_id: this.context.paymentData.id,
+      directCharge: {
+        payer,
+      },
     };
+    console.log('[PaymentContainer.tsx] charge: ', charge);
 
     try {
       // todo: add request to backend
-      // const axios = axiosInstance(this.props.idToken);
-      // const response = await axios.post('/paymentToken', payment);
-      // if (response.status !== 200) {
-      //   throw Error(response.status.toString());
-      // }
-      console.log('[PaymentContainer.tsx] charge: ', charge);
-      const response: ChargeResponse = {
-        message: 'Autorizado',
-        errors: {},
-        success: true,
-        url: 'https://faturas.iugu.com/03937a35-3208-4080-b551-f7307b581bd8-728a',
-        pdf: 'https://faturas.iugu.com/03937a35-3208-4080-b551-f7307b581bd8-728a.pdf',
-        identification: null,
-        invoice_id: '03937A3532084080B551F7307B581BD8',
-        LR: '00',
+      const request: PayOrder['Request'] = {
+        url: '/PayOrder',
+        method: 'POST',
+        data: charge as unknown as PayOrder['Request']['data'],
       };
 
-      this.context.setChargeData(response);
+      const response = await apiClient.request<PayOrder['Response']>(request);
 
-      this.props.navigation.navigate('Confirmação');
+      console.log('[PaymentContainer.tsx] response.data: ', response.data);
+
+      if (response.status !== 200) {
+        throw Error(response.status.toString());
+      }
+
+      // this.context.setChargeData(response);
+
+      // this.props.navigation.navigate('Confirmação');
     } catch (error) {
       console.log('[PaymentContainer.tsx] sendOrder error:', error);
       Alert.alert('Erro ao processar pagamento');
@@ -85,13 +70,13 @@ class Container extends Component<Props, State, typeof BuyingProcessContext> {
 
   public render(): React.ReactNode {
     const { loading } = this.state;
-    return <OrderInfo loading={loading} {...this.props.customer} onSend={this.onSend.bind(this)} />;
+    return <OrderInfo loading={loading} {...this.props.customer} onSend={this.onSend} />;
   }
 }
 
 const mapStateToProps = ({ auth }) => ({
-  idToken: auth.authState.idToken,
-  customer: auth.customer,
+  // idToken: auth.authState.idToken,
+  // customer: auth.customer,
 });
 
 export const OrderInfoContainer = connect(mapStateToProps)(Container);
