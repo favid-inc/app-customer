@@ -1,7 +1,4 @@
 import { Order } from '@favid-inc/api';
-import { ListArtistsGroupingByMainCategory } from '@favid-inc/api/lib/app-customer';
-
-import { apiClient } from '@src/core/utils/apiClient';
 
 import { LOAD_ORDER_ENDED, LOAD_ORDER_STARTED, ORDER_ERROR, SET_ORDER, STORE_ORDERS } from './ActionTypes';
 
