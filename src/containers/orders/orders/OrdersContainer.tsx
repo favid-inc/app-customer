@@ -39,13 +39,12 @@ class OrdersContainerComponent extends Component<Props> {
 
 const mapStateToProps = ({ order, auth }) => ({
   loading: order.loading,
-  userId: auth.customer.uid,
   orders: order.orders,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onSetOrder: (order: Order) => dispatch(actions.setOrder(order)),
-  onGetOrders: (userId: string) => dispatch(actions.getOrders(userId)),
+  onGetOrders: () => dispatch(actions.getOrders()),
 });
 
 export const OrdersContainer = connect(

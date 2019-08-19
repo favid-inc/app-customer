@@ -13,16 +13,16 @@ import { ApplicationProvider } from '@kitten/theme';
 import { NavigationState } from 'react-navigation';
 
 import { ApplicationLoader, Assets } from '@src/core/appLoader/applicationLoader.component';
-import Router from '@src/core/navigation/routes';
-import { getCurrentStateName } from '@src/core/navigation/util';
+import { FirebaseAuth } from '@src/core/auth';
+import { Router } from '@src/core/navigation/routes';
+// import { getCurrentStateName } from '@src/core/navigation/util';
 import { ThemeContext, ThemeContextType, ThemeKey, themes, ThemeStore } from '@src/core/themes';
-import { trackScreenTransition } from '@src/core/utils/analytics';
+// import { trackScreenTransition } from '@src/core/utils/analytics';
 import { apiClient } from '@src/core/utils/apiClient';
 
 import { DynamicStatusBar } from '@src/components/common';
 
 import ArtistReducer from '@src/store/reducers/ArtistReducer';
-import AuthReducer from '@src/store/reducers/AuthReducer';
 import OrderReducer from '@src/store/reducers/OrderReducer';
 
 const images: ImageRequireSource[] = [
@@ -57,13 +57,12 @@ interface State {
   theme: ThemeKey;
 }
 
-class App extends React.Component<{}, State> {
+export class App extends React.Component<{}, State> {
   public state: State = {
     theme: 'Eva Light',
   };
 
   private rootReducer = combineReducers({
-    auth: AuthReducer,
     artist: ArtistReducer,
     order: OrderReducer,
   });
@@ -82,7 +81,9 @@ class App extends React.Component<{}, State> {
           <Provider store={this.store}>
             <ApplicationProvider mapping={mapping} theme={themes[this.state.theme]}>
               <DynamicStatusBar currentTheme={this.state.theme} />
-              <Router onNavigationStateChange={this.onNavigationStateChange} />
+              <FirebaseAuth>
+                <Router onNavigationStateChange={this.onNavigationStateChange} />
+              </FirebaseAuth>
             </ApplicationProvider>
           </Provider>
         </ThemeContext.Provider>
@@ -90,17 +91,16 @@ class App extends React.Component<{}, State> {
     );
   }
 
-  private onTransitionTrackError = (error: any): void => {
-    console.warn('Analytics error: ', error.message);
-  };
+  // private onTransitionTrackError = (error: any): void => {
+  //   console.warn('Analytics error: ', error.message);
+  // };
 
   private onNavigationStateChange = (prevState: NavigationState, currentState: NavigationState) => {
-    const prevStateName: string = getCurrentStateName(prevState);
-    const currentStateName: string = getCurrentStateName(currentState);
-
-    if (prevStateName !== currentStateName) {
-      trackScreenTransition(currentStateName).catch(this.onTransitionTrackError);
-    }
+    // const prevStateName: string = getCurrentStateName(prevState);
+    // const currentStateName: string = getCurrentStateName(currentState);
+    // if (prevStateName !== currentStateName) {
+    //   trackScreenTransition(currentStateName).catch(this.onTransitionTrackError);
+    // }
   };
 
   private onSwitchTheme = (theme: ThemeKey) => {
@@ -109,5 +109,3 @@ class App extends React.Component<{}, State> {
     });
   };
 }
-
-export default App;

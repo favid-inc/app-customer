@@ -1,4 +1,8 @@
 import { Order } from '@favid-inc/api';
+import { ListArtistsGroupingByMainCategory } from '@favid-inc/api/lib/app-customer';
+
+import { apiClient } from '@src/core/utils/apiClient';
+
 import { LOAD_ORDER_ENDED, LOAD_ORDER_STARTED, ORDER_ERROR, SET_ORDER, STORE_ORDERS } from './ActionTypes';
 
 export const loadOrderStarted = () => ({
@@ -16,25 +20,23 @@ export const orderError = (error) => ({
 
 export const storeOrders = (orders: Order[]) => ({ type: STORE_ORDERS, orders });
 
-export const getOrders = (userId: string) => {
+export const getOrders = () => {
   return async (dispatch) => {
     try {
       dispatch(loadOrderStarted());
-      // const queryParams = ''; // `?orderBy="customerId"&equalTo="${userId}"`; TODO: fix
-
-      // const response = await fetch(`${config.firebase.databaseURL}/order.json${queryParams}`);
-      // if (!response.ok) {
-      //   console.log(response);
-      //   throw new Error(response.statusText);
-      // }
-      // const data: { [key: string]: Order } = await response.json();
 
       const orders: Order[] = [];
+
+      // const request: ListArtistsGroupingByMainCategory['Request'] = {
+      //   url: '/ListArtistsGroupingByMainCategory',
+      //   method: 'POST',
+      // };
+
+      // apiClient.request(request);
 
       dispatch(storeOrders(orders));
       dispatch(loadOrderEnded());
     } catch (error) {
-      console.error(error);
       dispatch(orderError({ message: 'Erro ao listar pedidos.' }));
     }
   };

@@ -50,7 +50,6 @@ class Container extends Component<ComponentProps & NavigationScreenProps, State,
       this.context.setOrder(order);
       this.props.navigation.navigate('Pagamento');
     } catch (error) {
-      console.log('[BookingContainer.tsx] postOrder error:', error);
       Alert.alert('Erro ao enviar pedido');
     }
     this.setState({ loading: false });

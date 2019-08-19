@@ -3,7 +3,7 @@ import { ChargeResponse, CreditCard, Customer } from '@src/core/model';
 import React from 'react';
 import { NavigationScreenProps } from 'react-navigation';
 import { NavigationContainer } from 'react-navigation';
-import { connect as reduxConnect } from 'react-redux';
+
 interface Context {
   order?: Order;
   chargeData?: ChargeResponse;
@@ -14,6 +14,7 @@ interface Context {
   setChargeData?: (chargeData: ChargeResponse) => void;
   setCustomer?: (customer: Customer) => void;
 }
+
 interface OrderInfoContainerProps {
   idToken: string;
   customer: Customer;
@@ -48,10 +49,6 @@ export function connect(Navigator: NavigationContainer) {
       );
     }
   }
-  const mapStateToProps = ({ auth }) => ({
-    idToken: auth.authState.idToken,
-    customer: auth.customer,
-  });
 
-  return reduxConnect(mapStateToProps)(ContextNavigator);
+  return ContextNavigator;
 }

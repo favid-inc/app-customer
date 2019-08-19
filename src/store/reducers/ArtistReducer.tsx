@@ -18,7 +18,7 @@ const storeArtist = (state, action) => {
 const storeArtists = (state, action) => {
   return {
     ...state,
-    categoryOfArtists: [...action.payload],
+    categoryOfArtists: action.payload,
   };
 };
 

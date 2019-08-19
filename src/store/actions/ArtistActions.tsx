@@ -1,10 +1,13 @@
-// import { ArtistSearchByMainCategoryResult, ArtistSearch } from '@favid-inc/api';
-import { Artist, CategoryOfArtistModel } from '@src/core/model';
+import { Artist } from '@favid-inc/api';
+import { ListArtistsGroupingByMainCategory } from '@favid-inc/api/lib/app-customer';
 import { AsyncStorage } from 'react-native';
+
+import { CategoryOfArtistModel } from '@src/core/model';
+import { apiClient } from '@src/core/utils/apiClient';
+
 import { REMOVE_ARTIST, STORE_ARTIST, STORE_ARTISTS } from './ActionTypes';
 
 export const setArtist = (artist: Artist) => {
-  AsyncStorage.setItem('artist', JSON.stringify(artist));
   return async (dispatch) => dispatch(storeArtist(artist));
 };
 
@@ -12,48 +15,27 @@ export const getArtist = () => {
   return async (dispatch) => {
     const artistString: string = await AsyncStorage.getItem('artist');
     const artist: Artist = JSON.parse(artistString);
+
     dispatch(storeArtist(artist));
   };
 };
 
-const processArtistList = (result): CategoryOfArtistModel[] => {
-  //   const categoryOfArtists: CategoryOfArtistModel[] = result.aggregations.mainCategory.buckets.map(bucket => {
-  //     const artists: Artist[] = bucket.by_top_hit.hits.hits.map(a => a._source);
-
-  //     const category: CategoryOfArtistModel = {
-  //       key: bucket.key,
-  //       artists,
-  //     };
-
-  //     return category;
-  //   });
-  return [];
-};
-
 export const listArtists = () => {
   return async (dispatch) => {
-    const storeArtists = await AsyncStorage.getItem('categoryOfArtists');
-    if (storeArtists) {
-      dispatch({
-        type: STORE_ARTISTS,
-        payload: JSON.parse(storeArtists),
-      });
-    }
-
     try {
-      // const response = await fetch(`${config.api.baseURL}/${ArtistSearch.BY_MAIN_CATEGORY}`);
-      // if (response.ok) {
-      //   const data: ArtistSearchByMainCategoryResult = await response.json();
+      type Action = ListArtistsGroupingByMainCategory;
 
-      const data = [];
-      const categoryOfArtists: CategoryOfArtistModel[] = processArtistList(data);
-      AsyncStorage.setItem('categoryOfArtists', JSON.stringify(categoryOfArtists));
+      const request: Action['Request'] = {
+        url: '/ListArtistsGroupingByMainCategory',
+        method: 'GET',
+      };
+
+      const { data } = await apiClient.request<Action['Response']>(request);
 
       dispatch({
         type: STORE_ARTISTS,
-        payload: categoryOfArtists,
+        payload: Object.entries(data).map(([key, artists]) => ({ key, artists })),
       });
-      // }
     } catch (e) {
       const categoryOfArtists: CategoryOfArtistModel[] = [];
 
@@ -61,8 +43,6 @@ export const listArtists = () => {
         type: STORE_ARTISTS,
         payload: categoryOfArtists,
       });
-
-      console.error(e);
     }
   };
 };
