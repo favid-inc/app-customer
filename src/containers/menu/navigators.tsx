@@ -26,7 +26,7 @@ export const BuyingProcessStack = connect(
 
 const menuNavigationMap: NavigationRouteConfigMap = {
   Artists: ArtistsNavigator,
-  Booking: BuyingProcessStack,
+  // Booking: BuyingProcessStack,
   Orders: OrdersNavigator,
   Settings: SettingsNavigator,
 };
