@@ -104,10 +104,12 @@ class AuthFormComponent extends React.Component<SignIn5Props, State> {
 export const AuthForm = withStyles(AuthFormComponent, (theme: ThemeType) => ({
   container: {
     flex: 1,
-    width: Dimensions.get('window').width - 60,
+    // width: Dimensions.get('window').width - 60,
+    alignContent: 'stretch',
   },
   tabContentContainer: {
     marginVertical: 8,
+    padding: 20,
   },
   tabView: {
     flex: 1,
@@ -116,12 +118,13 @@ export const AuthForm = withStyles(AuthFormComponent, (theme: ThemeType) => ({
   },
   tabBar: {
     backgroundColor: 'transparent',
+    color: theme['text-hint-color'],
   },
   tabViewIndicator: {
-    backgroundColor: theme['background-basic-color-1'],
+    backgroundColor: theme['text-hint-color'],
   },
   tabTitle: {
-    color: 'white',
+    color: theme['text-hint-color'],
     ...textStyle.label,
   },
   submitButton: {
