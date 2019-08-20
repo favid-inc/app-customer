@@ -34,24 +34,15 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
 
   public render(): React.ReactNode {
     const { themedStyle, categoryOfArtists, loading } = this.props;
-
     if (loading) {
-      return (
-        <View style={themedStyle.container}>
-          {this.renderSearchInput()}
-          <ActivityIndicator size='large' />
-        </View>
-      );
+      return <ActivityIndicator size='large' />;
     }
 
     if (!categoryOfArtists || !categoryOfArtists.length) {
       return (
-        <View style={themedStyle.container}>
-          {this.renderSearchInput()}
-          <Text style={themedStyle.subtitle} appearance='hint'>
-            Nenhum artista encontrado.
-          </Text>
-        </View>
+        <Text style={themedStyle.subtitle} appearance='hint'>
+          Nenhum artista encontrado.
+        </Text>
       );
     }
 

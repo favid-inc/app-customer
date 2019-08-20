@@ -3,39 +3,40 @@ import React, { Component } from 'react';
 import { NavigationScreenProps } from 'react-navigation';
 import { ArtistDetails } from './ArtistDetails';
 
-interface ArtistContainerProps {
-  artist: Artist;
-}
-
 interface State {
   cameoOrdered: boolean;
   follow: boolean;
+  artist: Artist;
 }
 
-type Props = NavigationScreenProps & ArtistContainerProps;
+type Props = NavigationScreenProps;
 
 export class ArtistDetailsContainer extends Component<Props, State> {
   public state: State = {
+    artist: {},
     cameoOrdered: false,
     follow: false,
   };
 
-  public render() {
+  public componentDidMount() {
     const { navigation } = this.props;
     const artist = navigation.getParam('artist');
+    this.setState({ artist });
+  }
 
+  public render() {
     return (
       <ArtistDetails
-        follow={this.state.follow}
+        artist={this.state.artist}
         cameoOrdered={this.state.cameoOrdered}
-        artist={artist}
-        onFollowPress={this.onFollowPress}
-        onOrderPress={this.onOrderPress}
+        follow={this.state.follow}
         onFollowersPress={this.onFollowersPress}
         onFollowingPress={this.onFollowingPress}
-        onPostsPress={this.onPostsPress}
+        onFollowPress={this.onFollowPress}
         onFriendPress={this.onFriendPress}
+        onOrderPress={this.onOrderPress}
         onPhotoPress={this.onPhotoPress}
+        onPostsPress={this.onPostsPress}
       />
     );
   }
@@ -47,6 +48,9 @@ export class ArtistDetailsContainer extends Component<Props, State> {
   private onOrderPress = () => {
     this.props.navigation.navigate({
       routeName: 'Pedido',
+      params: {
+        artist: this.state.artist,
+      },
     });
   };
   private onFollowersPress = () => {};
