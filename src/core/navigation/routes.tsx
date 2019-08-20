@@ -9,7 +9,7 @@ import {
   NavigationState,
 } from 'react-navigation';
 
-import ArtistDetailsContainer from '@src/containers/artistDetails/ArtistDetailsContainer';
+import { ArtistDetailsContainer } from '@src/containers/artistDetails';
 import { AuthContainer } from '@src/containers/auth';
 import { BuyingProcessNavigation } from '@src/containers/buyingProcess';
 import { MenuNavigator } from '@src/containers/menu';

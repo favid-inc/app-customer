@@ -1,7 +1,6 @@
 import { Artist } from '@src/core/model';
 import React, { Component } from 'react';
 import { NavigationScreenProps } from 'react-navigation';
-import { connect } from 'react-redux';
 import { ArtistDetails } from './ArtistDetails';
 
 interface ArtistContainerProps {
@@ -15,18 +14,21 @@ interface State {
 
 type Props = NavigationScreenProps & ArtistContainerProps;
 
-class ArtistContainer extends Component<Props, State> {
+export class ArtistDetailsContainer extends Component<Props, State> {
   public state: State = {
     cameoOrdered: false,
     follow: false,
   };
 
-  public render(): React.ReactNode {
+  public render() {
+    const { navigation } = this.props;
+    const artist = navigation.getParam('artist');
+
     return (
       <ArtistDetails
         follow={this.state.follow}
         cameoOrdered={this.state.cameoOrdered}
-        artist={this.props.artist}
+        artist={artist}
         onFollowPress={this.onFollowPress}
         onOrderPress={this.onOrderPress}
         onFollowersPress={this.onFollowersPress}
@@ -57,11 +59,3 @@ class ArtistContainer extends Component<Props, State> {
 
   private onPhotoPress = (index: number) => {};
 }
-
-const mapStateToProps = ({ artist }) => {
-  return {
-    artist: artist.artist,
-  };
-};
-
-export default connect(mapStateToProps)(ArtistContainer);
