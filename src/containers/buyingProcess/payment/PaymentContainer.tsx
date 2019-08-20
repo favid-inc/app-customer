@@ -15,7 +15,7 @@ interface CreditCardContainerProps {
 
 type Props = CreditCardContainerProps & NavigationScreenProps;
 
-class Container extends Component<Props, State, typeof BuyingProcessContext> {
+export class PaymentContainer extends Component<Props, State, typeof BuyingProcessContext> {
   static contextType = BuyingProcessContext;
   public context: React.ContextType<typeof BuyingProcessContext>;
 
@@ -38,9 +38,3 @@ class Container extends Component<Props, State, typeof BuyingProcessContext> {
     return <Payment loading={loading} onSend={this.onSend} />;
   }
 }
-
-const mapStateToProps = ({ auth }) => ({
-  idToken: auth.authState.idToken,
-});
-
-export const PaymentContainer = connect(mapStateToProps)(Container);
