@@ -1,75 +1,42 @@
 import React, { Component } from 'react';
 import { RefreshControl, ScrollView } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
-import { connect } from 'react-redux';
 
 import { Artist, CategoryOfArtistModel } from '@src/core/model';
-import * as actions from '@src/store/actions';
 
 import { ArtistList } from './ArtistsList';
 
+import { listArtistsGroupingByMainCategory } from './listArtistsGroupingByMainCategory';
+
 interface State {
-  selectedLevelIndex: number;
-  searchString: string;
-}
-interface ArtistContainerProps {
-  loading: boolean;
-  onListArtists: () => void;
   categoryOfArtists: CategoryOfArtistModel[];
-  onSetArtist: (Artist) => void;
+  loading: boolean;
+  searchString: string;
+  selectedLevelIndex: number;
 }
 
-type Props = NavigationScreenProps & ArtistContainerProps;
-class ArtistsContainerComponent extends Component<Props, State> {
+type Props = NavigationScreenProps;
+
+export class ArtistsContainer extends Component<Props, State> {
   public state: State = {
-    selectedLevelIndex: 0,
+    categoryOfArtists: [],
+    loading: false,
     searchString: '',
+    selectedLevelIndex: 0,
   };
 
   private navigationKey: string = 'Artists';
 
-  public componentWillMount() {
-    this.onRefresh();
-  }
-
-  public onDetails(artist: Artist) {
-    this.props.onSetArtist(artist);
-    this.props.navigation.navigate({
-      key: this.navigationKey,
-      routeName: 'Artista',
-    });
-  }
-
-  public filteredArtists(): CategoryOfArtistModel[] {
-    const { searchString } = this.state;
-
-    if (!searchString) {
-      return this.props.categoryOfArtists;
-    }
-    const categoryOfArtists: CategoryOfArtistModel[] = [...this.props.categoryOfArtists];
-    const filtered: CategoryOfArtistModel[] = categoryOfArtists
-      .map(
-        (category): CategoryOfArtistModel => {
-          const artists: Artist[] = category.artists.filter((artist: Artist) => {
-            const term = new RegExp(searchString.toUpperCase());
-            return term.test(artist.artisticName.toUpperCase());
-          });
-          return {
-            ...category,
-            artists,
-          };
-        },
-      )
-      .filter((category) => category.artists.length);
-    return filtered;
+  public componentDidMount() {
+    this.handleRefresh();
   }
 
   public render(): React.ReactNode {
     return (
-      <ScrollView refreshControl={<RefreshControl refreshing={this.props.loading} onRefresh={this.onRefresh} />}>
+      <ScrollView refreshControl={<RefreshControl refreshing={this.state.loading} onRefresh={this.handleRefresh} />}>
         <ArtistList
-          onSearchStringChange={this.onSearchStringChange}
-          loading={this.props.loading}
+          onSearchStringChange={this.handleSearchStringChange}
+          loading={this.state.loading}
           categoryOfArtists={this.filteredArtists()}
           onDetails={(artist) => this.onDetails(artist)}
         />
@@ -77,26 +44,48 @@ class ArtistsContainerComponent extends Component<Props, State> {
     );
   }
 
-  private onRefresh = () => this.props.onListArtists();
+  private onDetails = (artist: Artist) => {
+    // this.props.onSetArtist(artist);
+    this.props.navigation.navigate({
+      key: this.navigationKey,
+      routeName: 'Artista',
+    });
+  };
 
-  private onSearchStringChange = (searchString: string): void => {
+  private filteredArtists() {
+    const { searchString } = this.state;
+
+    if (!searchString) {
+      return this.state.categoryOfArtists;
+    }
+
+    const term = new RegExp(searchString.toUpperCase());
+
+    const filtered = this.state.categoryOfArtists
+      .map((category) => {
+        const artists = category.artists.filter((artist) => term.test(artist.artisticName.toUpperCase()));
+
+        return { ...category, artists };
+      })
+      .filter((category) => category.artists.length);
+
+    return filtered;
+  }
+
+  private handleRefresh = async () => {
+    this.setState({ loading: true });
+    try {
+      const data = await listArtistsGroupingByMainCategory();
+
+      const categoryOfArtists = Object.entries(data).map(([key, artists]) => ({ key, artists }));
+
+      this.setState({ categoryOfArtists });
+    } finally {
+      this.setState({ loading: false });
+    }
+  };
+
+  private handleSearchStringChange = (searchString) => {
     this.setState({ searchString });
   };
 }
-
-const mapStateToProps = (state) => {
-  return {
-    loading: state.loading,
-    categoryOfArtists: state.artist.categoryOfArtists,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  onListArtists: () => dispatch(actions.listArtists()),
-  onSetArtist: (artist: Artist) => dispatch(actions.setArtist(artist)),
-});
-
-export const ArtistsContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ArtistsContainerComponent);

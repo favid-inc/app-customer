@@ -1,4 +1,4 @@
-import { REMOVE_ARTIST, STORE_ARTIST, STORE_ARTISTS } from '../actions/ActionTypes';
+import { REMOVE_ARTIST, STORE_ARTIST } from '../actions/ActionTypes';
 
 const INITIAL_STATE = {
   artist: null,
@@ -15,13 +15,6 @@ const storeArtist = (state, action) => {
   };
 };
 
-const storeArtists = (state, action) => {
-  return {
-    ...state,
-    categoryOfArtists: action.payload,
-  };
-};
-
 const removeArtist = (state) => {
   return {
     ...state,
@@ -35,8 +28,6 @@ const authReducer = (state = INITIAL_STATE, action) => {
       return storeArtist(state, action);
     case REMOVE_ARTIST:
       return removeArtist(state);
-    case STORE_ARTISTS:
-      return storeArtists(state, action);
     default:
       return state;
   }
