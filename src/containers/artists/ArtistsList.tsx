@@ -98,10 +98,9 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
   };
 
   private renderPagerCard = (info: ListRenderItemInfo<Artist>): React.ReactElement<ArtistCardProps> => {
-    const { themedStyle, categoryOfArtists } = this.props;
+    const { themedStyle } = this.props;
 
     const marginStyle: StyleType = themedStyle.pagerCardMargin;
-    // const marginStyle: StyleType =info.index === categoryOfArtists[0].artists.length - 1 ? null : themedStyle.pagerCardMargin;
 
     return (
       <ArtistCard

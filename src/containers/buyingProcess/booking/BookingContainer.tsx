@@ -1,4 +1,4 @@
-import { Artist, Order } from '@favid-inc/api';
+import { Artist } from '@favid-inc/api';
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
