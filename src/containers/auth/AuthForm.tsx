@@ -1,7 +1,7 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Tab, TabView } from '@kitten/ui';
 import React from 'react';
-import { Dimensions, View } from 'react-native';
+import { View } from 'react-native';
 
 import { textStyle } from '@src/components/common';
 import { SignInForm } from './SignInForm';
@@ -104,7 +104,6 @@ class AuthFormComponent extends React.Component<SignIn5Props, State> {
 export const AuthForm = withStyles(AuthFormComponent, (theme: ThemeType) => ({
   container: {
     flex: 1,
-    // width: Dimensions.get('window').width - 60,
     alignContent: 'stretch',
   },
   tabContentContainer: {
@@ -113,7 +112,7 @@ export const AuthForm = withStyles(AuthFormComponent, (theme: ThemeType) => ({
   },
   tabView: {
     flex: 1,
-    paddingHorizontal: 16,
+    paddingHorizontal: 0,
     margin: 5,
   },
   tabBar: {
