@@ -1,67 +1,65 @@
-import { Artist, Order } from '@favid-inc/api';
+import { Order } from '@favid-inc/api';
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
+import { connect } from 'react-redux';
 
-import { AuthContext } from '@src/core/auth';
+import { Booking } from './Booking';
 
 import { BuyingProcessContext } from '../context';
 
-import { Booking } from './Booking';
-import { placeOrder } from './placeOrder';
-
-type Props = NavigationScreenProps<{ artist: Artist }>;
+interface ComponentProps {
+  artistId: string;
+  price: string;
+  userId: number;
+  idToken: string;
+}
 
 interface State {
-  artist: Artist;
   loading: boolean;
 }
 
-type Context = typeof BuyingProcessContext;
-
-export class BookingContainer extends Component<Props, State, Context> {
+class Container extends Component<ComponentProps & NavigationScreenProps, State, typeof BuyingProcessContext> {
   static contextType = BuyingProcessContext;
-  public context: React.ContextType<Context>;
+  public context: React.ContextType<typeof BuyingProcessContext>;
 
   public state: State = {
-    artist: null,
     loading: false,
   };
 
-  public componentDidMount() {
-    const { navigation } = this.props;
-    const artist = navigation.getParam('artist');
-    this.setState({ artist });
+  public render(): React.ReactNode {
+    return <Booking onSend={this.onSend} loading={this.state.loading} />;
   }
 
-  public render() {
-    return (
-      <AuthContext.Consumer>
-        {({ user }) => (
-          <Booking customerName={user.displayName} onSend={this.handleSend} sending={this.state.loading} />
-        )}
-      </AuthContext.Consumer>
-    );
-  }
+  private onSend = async (orderInstructions) => {
+    const order: Order = {
+      ...orderInstructions,
+      artistId: 1,
+      userId: 2,
+    };
 
-  private handleSend = async (orderFormData) => {
     this.setState({ loading: true });
 
-    console.log(orderFormData);
-
     try {
-      const order = await placeOrder({
-        ...orderFormData,
-        artistId: this.state.artist.id,
-      });
+      // const axios = axiosInstance(this.props.idToken);
+      // const response = await axios.post(`/${OrderFlow.PLACE}`, order as OrderFlowPlaceOrderArguments);
+      // if (response.status !== 200) {
+      //   throw Error(response.status.toString());
+      // }
 
-      console.log(order);
-      // this.context.setOrder(order);
-      // this.props.navigation.navigate('Pagamento');
+      this.context.setOrder(order);
+      this.props.navigation.navigate('Pagamento');
     } catch (error) {
-      console.log(error);
       Alert.alert('Erro ao enviar pedido');
     }
     this.setState({ loading: false });
   };
 }
+
+const mapStateToProps = ({ artist, auth }) => ({
+  // artistId: artist.artist.id,
+  // userId: auth.customer.uid,
+  // idToken: auth.authState.idToken,
+});
+
+export const BookingContainer = connect(mapStateToProps)(Container);

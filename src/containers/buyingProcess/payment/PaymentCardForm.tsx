@@ -89,6 +89,7 @@ class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
           .splice(1, 1)
           .join(''),
       };
+      console.log('[PaymentCardForm] bacameValid: ', creditCard);
       this.props.onFormValueChange(creditCard);
     } else if (becomeInvalid) {
       this.props.onFormValueChange(undefined);
@@ -101,61 +102,59 @@ class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
     return (
       <View style={[themedStyle.container, style]} {...restProps}>
         <ValidationInput
-          autoCompleteType='cc-number'
-          formatter={CardNumberFormatter}
+          maxLength={19}
           keyboardType='numeric'
           label='Número do Cartão'
-          labelStyle={textStyle.label}
-          maxLength={19}
-          onChangeText={this.onCardNumberChange}
           style={themedStyle.input}
+          labelStyle={textStyle.label}
+          value={this.state.cardNumber}
           textStyle={textStyle.paragraph}
           validator={cardNumberValidator}
-          value={this.state.cardNumber}
+          formatter={CardNumberFormatter}
+          onChangeText={this.onCardNumberChange}
         />
         <View style={themedStyle.middleContainer}>
           <ValidationInput
-            autoCompleteType='cc-exp'
-            formatter={ExpirationDateFormatter}
+            maxLength={5}
             keyboardType='numeric'
             label='Data de Expiração'
             labelStyle={textStyle.label}
-            maxLength={5}
+            textStyle={textStyle.paragraph}
+            value={this.state.expirationDate}
+            validator={ExpirationDateValidator}
+            formatter={ExpirationDateFormatter}
             onChangeText={this.onExpirationDateChange}
             style={[themedStyle.input, themedStyle.expireInput]}
-            textStyle={textStyle.paragraph}
-            validator={ExpirationDateValidator}
-            value={this.state.expirationDate}
           />
           <ValidationInput
-            autoCompleteType='cc-csc'
-            formatter={CvvFormatter}
-            keyboardType='numeric'
             label='CVV'
-            labelStyle={textStyle.label}
             maxLength={3}
-            onChangeText={this.onCvvChange}
-            style={[themedStyle.input, themedStyle.cvvInput]}
-            textStyle={textStyle.paragraph}
-            validator={CvvValidator}
+            keyboardType='numeric'
             value={this.state.cvv}
+            validator={CvvValidator}
+            formatter={CvvFormatter}
+            labelStyle={textStyle.label}
+            onChangeText={this.onCvvChange}
+            textStyle={textStyle.paragraph}
+            style={[themedStyle.input, themedStyle.cvvInput]}
           />
         </View>
         <ValidationInput
-          formatter={CardholderNameFormatter}
           label='Nome no Cartão'
           labelStyle={textStyle.label}
+          textStyle={textStyle.paragraph}
+          value={this.state.cardholderName}
+          validator={CardholderNameValidator}
+          formatter={CardholderNameFormatter}
           onChangeText={this.onCardHolderNameChange}
           style={[themedStyle.input, themedStyle.cardholderNameInput]}
-          textStyle={textStyle.paragraph}
-          validator={CardholderNameValidator}
-          value={this.state.cardholderName}
         />
       </View>
     );
   }
 
   private onCardNumberChange = (cardNumber: string) => {
+    console.log('[PaymentCardForm.tsx] onCardNumberChange() cardNumber: ', cardNumber);
     this.setState({ cardNumber });
   };
 

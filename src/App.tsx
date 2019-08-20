@@ -4,9 +4,6 @@ firebase.initializeApp(config.firebase);
 
 import React from 'react';
 import { ImageRequireSource } from 'react-native';
-import { Provider } from 'react-redux';
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import thunk from 'redux-thunk';
 
 import { mapping } from '@eva-design/eva';
 import { ApplicationProvider } from '@kitten/theme';
@@ -21,8 +18,6 @@ import { ThemeContext, ThemeContextType, ThemeKey, themes, ThemeStore } from '@s
 import { apiClient } from '@src/core/utils/apiClient';
 
 import { DynamicStatusBar } from '@src/components/common';
-
-import OrderReducer from '@src/store/reducers/OrderReducer';
 
 const images: ImageRequireSource[] = [
   require('./assets/images/source/favid-logo.png'),
@@ -61,13 +56,7 @@ export class App extends React.Component<{}, State> {
     theme: 'Eva Light',
   };
 
-  private rootReducer = combineReducers({
-    order: OrderReducer,
-  });
-
-  private store = createStore(this.rootReducer, /* preloadedState, */ compose(applyMiddleware(thunk)));
-
-  public render(): React.ReactNode {
+  public render() {
     const contextValue: ThemeContextType = {
       currentTheme: this.state.theme,
       toggleTheme: this.onSwitchTheme,
@@ -76,14 +65,12 @@ export class App extends React.Component<{}, State> {
     return (
       <ApplicationLoader assets={assets}>
         <ThemeContext.Provider value={contextValue}>
-          <Provider store={this.store}>
-            <ApplicationProvider mapping={mapping} theme={themes[this.state.theme]}>
-              <DynamicStatusBar currentTheme={this.state.theme} />
-              <FirebaseAuth>
-                <Router onNavigationStateChange={this.onNavigationStateChange} />
-              </FirebaseAuth>
-            </ApplicationProvider>
-          </Provider>
+          <ApplicationProvider mapping={mapping} theme={themes[this.state.theme]}>
+            <DynamicStatusBar currentTheme={this.state.theme} />
+            <FirebaseAuth>
+              <Router onNavigationStateChange={this.onNavigationStateChange} />
+            </FirebaseAuth>
+          </ApplicationProvider>
         </ThemeContext.Provider>
       </ApplicationLoader>
     );

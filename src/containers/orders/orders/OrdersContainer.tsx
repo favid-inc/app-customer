@@ -1,53 +1,51 @@
 import { Order } from '@favid-inc/api';
 import React, { Component } from 'react';
-import { RefreshControl, ScrollView } from 'react-native';
+import { Alert, RefreshControl, ScrollView } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
-import { connect } from 'react-redux';
-import * as actions from '../../../store/actions/index';
+
+import { listOrders } from './listOrders';
 import { Orders } from './Orders';
 
-interface ComponentProps {
-  userId: any;
+type Props = NavigationScreenProps;
+
+interface State {
   orders: Order[];
   loading: boolean;
-  onSetOrder: (order: Order) => void;
-  onGetOrders: (userId: string) => void;
 }
 
-type Props = NavigationScreenProps & ComponentProps;
+export class OrdersContainer extends Component<Props, State> {
+  public state: State = {
+    orders: [],
+    loading: false,
+  };
 
-class OrdersContainerComponent extends Component<Props> {
-  public componentWillMount() {
+  public componentDidMount() {
     this.onRefresh();
   }
 
   public render(): React.ReactNode {
     return (
-      <ScrollView refreshControl={<RefreshControl refreshing={this.props.loading} onRefresh={this.onRefresh} />}>
-        <Orders orders={this.props.orders} onDetails={this.onDetails} />
+      <ScrollView refreshControl={<RefreshControl refreshing={this.state.loading} onRefresh={this.onRefresh} />}>
+        <Orders orders={this.state.orders} onDetails={this.onDetails} />
       </ScrollView>
     );
   }
 
-  private onRefresh = () => this.props.onGetOrders(this.props.userId);
+  private onRefresh = async () => {
+    this.setState({ loading: true });
+    try {
+      const orders = await listOrders();
+      this.setState({ orders });
+    } catch (e) {
+      Alert.alert('Erro ao listar pedidos');
+    } finally {
+      this.setState({ loading: true });
+    }
+  };
 
   private onDetails = (order: Order) => {
-    this.props.onSetOrder(order);
-    this.props.navigation.navigate('Detalhes do Pedido');
+    this.props.navigation.navigate('Detalhes do Pedido', {
+      order,
+    });
   };
 }
-
-const mapStateToProps = ({ order, auth }) => ({
-  loading: order.loading,
-  orders: order.orders,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onSetOrder: (order: Order) => dispatch(actions.setOrder(order)),
-  onGetOrders: () => dispatch(actions.getOrders()),
-});
-
-export const OrdersContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(OrdersContainerComponent);
