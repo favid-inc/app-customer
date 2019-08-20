@@ -14,12 +14,7 @@ interface Props {
 }
 
 class OrdersComponent extends Component<ThemedComponentProps & Props> {
-
-  public onDetails(order: Order) {
-    this.props.onDetails(order);
-  }
-
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle, orders } = this.props;
     const list =
       orders && orders.length ? (
@@ -34,9 +29,14 @@ class OrdersComponent extends Component<ThemedComponentProps & Props> {
 
     return list;
   }
+
+  private onDetails = (order: Order) => {
+    this.props.onDetails(order);
+  };
+
   private renderItem = (info: ListRenderItemInfo<Order>): React.ReactElement<OrderCardProps> => {
     const { themedStyle } = this.props;
-    return <OrderCard style={themedStyle.item} order={info.item} onPress={this.onDetails.bind(this)} />;
+    return <OrderCard style={themedStyle.item} order={info.item} onPress={this.onDetails} />;
   };
 }
 

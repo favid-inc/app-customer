@@ -15,8 +15,7 @@ interface ComponentProps extends TouchableOpacityProps {
 export type OrderCardProps = ThemedComponentProps & ComponentProps;
 
 class OrderCardComponent extends React.Component<OrderCardProps> {
-
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, order, ...restProps } = this.props;
 
     return (
@@ -26,9 +25,9 @@ class OrderCardComponent extends React.Component<OrderCardProps> {
         style={[themedStyle.container, style]}
         onPress={this.onPress}
       >
-        {order.videoThumbnailUri ? (
+        {order.videoThumbnailUri && (
           <ImageBackground style={themedStyle.image} source={{ uri: order.videoThumbnailUri }} />
-        ) : null}
+        )}
         <View style={themedStyle.infoContainer}>
           <Text style={themedStyle.descriptionLabel} appearance='hint' category='s2'>
             {order.isGift ? order.receiverName : order.customerName}
@@ -41,13 +40,14 @@ class OrderCardComponent extends React.Component<OrderCardProps> {
           <ActivityAuthoring
             photo={{ uri: order.artistPhotoUri }}
             name={order.artistName}
-            date={new Date(order.statusPlacedDate).toDateString()}
+            date={new Date(order.statusPlacedDate).toLocaleDateString()}
           />
           <OrderStatus status={order.status} />
         </OrderCardBottom>
       </TouchableOpacity>
     );
   }
+
   private onPress = () => {
     if (this.props.order.videoUri) {
       this.props.onPress(this.props.order);

@@ -31,7 +31,7 @@ export class ArtistsContainer extends Component<Props, State> {
     this.handleRefresh();
   }
 
-  public render(): React.ReactNode {
+  public render() {
     return (
       <ScrollView refreshControl={<RefreshControl refreshing={this.state.loading} onRefresh={this.handleRefresh} />}>
         <ArtistList
@@ -49,6 +49,9 @@ export class ArtistsContainer extends Component<Props, State> {
     this.props.navigation.navigate({
       key: this.navigationKey,
       routeName: 'Artista',
+      params: {
+        artist,
+      },
     });
   };
 

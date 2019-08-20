@@ -20,18 +20,18 @@ export class OrdersContainer extends Component<Props, State> {
   };
 
   public componentDidMount() {
-    this.onRefresh();
+    this.handleRefresh();
   }
 
-  public render(): React.ReactNode {
+  public render() {
     return (
-      <ScrollView refreshControl={<RefreshControl refreshing={this.state.loading} onRefresh={this.onRefresh} />}>
+      <ScrollView refreshControl={<RefreshControl refreshing={this.state.loading} onRefresh={this.handleRefresh} />}>
         <Orders orders={this.state.orders} onDetails={this.onDetails} />
       </ScrollView>
     );
   }
 
-  private onRefresh = async () => {
+  private handleRefresh = async () => {
     this.setState({ loading: true });
     try {
       const orders = await listOrders();
@@ -39,7 +39,7 @@ export class OrdersContainer extends Component<Props, State> {
     } catch (e) {
       Alert.alert('Erro ao listar pedidos');
     } finally {
-      this.setState({ loading: true });
+      this.setState({ loading: false });
     }
   };
 

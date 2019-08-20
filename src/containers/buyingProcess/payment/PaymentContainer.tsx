@@ -1,7 +1,6 @@
 import { CreditCard } from '@src/core/model';
 import React, { Component } from 'react';
 import { NavigationScreenProps } from 'react-navigation';
-import { connect } from 'react-redux';
 import { BuyingProcessContext } from '../context';
 import { Payment } from './Payment';
 
@@ -15,9 +14,11 @@ interface CreditCardContainerProps {
 
 type Props = CreditCardContainerProps & NavigationScreenProps;
 
-class Container extends Component<Props, State, typeof BuyingProcessContext> {
+type Context = typeof BuyingProcessContext;
+
+export class PaymentContainer extends Component<Props, State, Context> {
   static contextType = BuyingProcessContext;
-  public context: React.ContextType<typeof BuyingProcessContext>;
+  public context: React.ContextType<Context>;
 
   public state: State = {
     loading: false,
@@ -38,9 +39,3 @@ class Container extends Component<Props, State, typeof BuyingProcessContext> {
     return <Payment loading={loading} onSend={this.onSend} />;
   }
 }
-
-const mapStateToProps = ({ auth }) => ({
-  idToken: auth.authState.idToken,
-});
-
-export const PaymentContainer = connect(mapStateToProps)(Container);
