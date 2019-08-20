@@ -14,7 +14,7 @@ interface ComponentProps {
 export type ArtistCardProps = ThemedComponentProps & ComponentProps & TouchableOpacityProps;
 
 class ArtistCardComponent extends React.Component<ArtistCardProps> {
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle, artist, style } = this.props;
     const artistImage = {
       uri: artist.photoUri,

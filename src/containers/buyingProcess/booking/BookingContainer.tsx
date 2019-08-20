@@ -56,8 +56,9 @@ export class BookingContainer extends Component<Props, State, Context> {
         artistId: this.state.artist.id,
       });
 
-      // this.context.setOrder(order);
-      // this.props.navigation.navigate('Pagamento');
+      this.props.navigation.navigate('Pagamento', {
+        order,
+      });
     } catch (error) {
       Alert.alert('Erro ao enviar pedido');
     }

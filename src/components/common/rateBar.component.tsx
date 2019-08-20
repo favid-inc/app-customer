@@ -35,7 +35,7 @@ class RateBarComponent extends React.Component<RateBarProps> {
     max: 5,
   };
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, hint, ...restProps } = this.props;
     const { container, ...componentStyle } = themedStyle;
 

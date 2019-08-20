@@ -18,7 +18,7 @@ type BackButtonElement = React.ReactElement<TopNavigationActionProps>;
 
 class TopNavigationBarComponent extends React.Component<TopNavigationBarProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle, title, backIcon } = this.props;
 
     const leftControlElement: BackButtonElement | null = backIcon ? this.renderBackButton(backIcon) : null;

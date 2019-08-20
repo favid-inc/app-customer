@@ -40,7 +40,7 @@ class SignUpFormComponent extends React.Component<SignUpFormProps, State> {
     }
   }
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, theme, ...restProps } = this.props;
 
     const confirmPasswordCaption =

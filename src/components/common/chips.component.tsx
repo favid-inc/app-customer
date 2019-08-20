@@ -11,7 +11,7 @@ export type ChipsProps = ThemedComponentProps & ViewProps & ComponentProps;
 
 class ChipsComponent extends React.Component<ChipsProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle, children, style } = this.props;
 
     return (

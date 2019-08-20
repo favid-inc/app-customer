@@ -44,7 +44,7 @@ export class LoadingAnimationComponent extends React.Component<Props, State> {
     );
   }
 
-  public render(): React.ReactNode {
+  public render() {
     const { animationCompleted } = this.state;
     return animationCompleted ? null : this.renderAnimatedComponent();
   }

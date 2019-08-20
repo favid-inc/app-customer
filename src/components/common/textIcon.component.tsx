@@ -16,7 +16,7 @@ interface ComponentProps {
 export type TextIconProps = ThemedComponentProps & ViewProps & ComponentProps;
 
 class TextIconComponent extends React.Component<TextIconProps> {
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, textStyle: derivedTextStyle, iconStyle, icon, children } = this.props;
 
     const iconElement = icon ? this.renderIconElement(icon, [themedStyle.icon, iconStyle]) : null;

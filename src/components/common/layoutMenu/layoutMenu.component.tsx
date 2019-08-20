@@ -50,7 +50,7 @@ class LayoutMenuComponent extends React.Component<LayoutMenuProps> {
     this.tabLoadingMap = { ...this.tabLoadingMap, ...nextLoadingMap };
   }
 
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle, data, ...restProps } = this.props;
 
     return (

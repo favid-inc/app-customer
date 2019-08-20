@@ -44,7 +44,7 @@ export class AccountContainer extends Component<Props, State> {
     });
   }
 
-  public render(): React.ReactNode {
+  public render() {
     let account = <ActivityIndicator size='large' />;
     if (this.state.profile) {
       account = <Account profile={this.state.profile} onUploadPhotoButtonPress={this.onUploadPhotoButtonPress} />;

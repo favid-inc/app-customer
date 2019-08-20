@@ -35,7 +35,7 @@ type ListItemElementInfo = ListRenderItemInfo<LayoutsListItemData>;
 
 class LayoutsListComponent extends React.Component<LayoutsListProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle, ...restProps } = this.props;
 
     return (

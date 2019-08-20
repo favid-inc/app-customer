@@ -24,7 +24,7 @@ export type ShowcaseSectionProps = ThemedComponentProps & ViewProps & ComponentP
 
 class ShowcaseSectionComponent extends React.Component<ShowcaseSectionProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, title, children, ...restProps } = this.props;
 
     return (

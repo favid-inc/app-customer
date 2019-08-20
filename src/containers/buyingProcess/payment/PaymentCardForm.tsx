@@ -95,7 +95,7 @@ class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
     }
   }
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, ...restProps } = this.props;
 
     return (

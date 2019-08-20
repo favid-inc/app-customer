@@ -35,7 +35,7 @@ type ListItemElementInfo = ListRenderItemInfo<LayoutGridListItemData>;
 
 class LayoutGridListComponent extends React.Component<LayoutGridListProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     return (
       <List
         numColumns={2}

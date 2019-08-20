@@ -30,7 +30,7 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
 
   public async componentDidMount() {}
 
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle, artist } = this.props;
     const artistImage = {
       uri: artist.photoUri,

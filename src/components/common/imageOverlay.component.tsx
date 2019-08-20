@@ -26,7 +26,7 @@ export type ImageOverlayProps = ThemedComponentProps & ImageBackgroundProps & Co
 
 class ImageOverlayComponent extends React.Component<ImageOverlayProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, children, ...restProps } = this.props;
     // @ts-ignore: overlayColor (additional style property)
     const { overlayColor: derivedOverlayColor, ...containerStyle } = StyleSheet.flatten(style);

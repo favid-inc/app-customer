@@ -22,7 +22,7 @@ export type DynamicStatusBarProps = ThemedComponentProps & ViewProps & Component
 
 class DynamicStatusBarComponent extends React.Component<DynamicStatusBarProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle } = this.props;
 
     const androidStatusBarBgColor: string = themedStyle.container.backgroundColor;

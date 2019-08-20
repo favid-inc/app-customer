@@ -17,7 +17,7 @@ interface ComponentProps {
 export type ProfileSocialsProps = ThemedComponentProps & ViewProps & ComponentProps;
 
 class ProfileSocialsComponent extends React.Component<ProfileSocialsProps> {
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, textStyle: derivedTextStyle, followers, following, posts, ...restProps } = this.props;
 
     return (

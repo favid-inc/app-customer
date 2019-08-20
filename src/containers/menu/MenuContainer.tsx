@@ -5,7 +5,7 @@ import { Menu } from './Menu';
 export class MenuContainer extends React.Component<NavigationScreenProps> {
   private navigationKey: string = 'MenuContainer';
 
-  public render(): React.ReactNode {
+  public render() {
     return <Menu selectedIndex={this.props.navigation.state.index} onTabSelect={this.onTabSelect} />;
   }
 

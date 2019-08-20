@@ -52,7 +52,7 @@ class ValidationInputComponent extends React.Component<ValidationInputProps, Sta
     }
   }
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, ...restProps } = this.props;
 
     return (

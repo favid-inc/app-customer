@@ -35,7 +35,7 @@ type ListItemElementInfo = ListRenderItemInfo<ComponentsListItemData>;
 
 class ComponentsListComponent extends React.Component<ComponentsListProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle, ...restProps } = this.props;
 
     return (

@@ -213,7 +213,7 @@ class Component extends React.Component<OrderInfoFormProps, State> {
     }
   };
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, ...restProps } = this.props;
     return (
       <View style={[themedStyle.container, style]} {...restProps}>

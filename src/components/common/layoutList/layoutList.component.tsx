@@ -29,7 +29,7 @@ type ListItemElementInfo = ListRenderItemInfo<LayoutListItemData>;
 
 class LayoutListComponent extends React.Component<LayoutListProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, ...restProps } = this.props;
 
     return (

@@ -26,7 +26,7 @@ export type LayoutsListItemProps = ThemedComponentProps & ListItemProps & Compon
 
 class LayoutsListItemComponent extends React.Component<LayoutsListItemProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, data, ...restProps } = this.props;
 
     return (

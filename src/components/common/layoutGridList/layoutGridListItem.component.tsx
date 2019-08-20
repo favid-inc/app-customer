@@ -24,7 +24,7 @@ export type LayoutGridListItemProps = ThemedComponentProps & ListItemProps & Com
 
 class LayoutGridListItemComponent extends React.Component<LayoutGridListItemProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle, style, data, ...restProps } = this.props;
 
     return (

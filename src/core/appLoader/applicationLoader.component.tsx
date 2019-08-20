@@ -38,7 +38,7 @@ export class ApplicationLoader extends React.Component<Props, State> {
     SplashScreen.preventAutoHide();
   }
 
-  public render(): React.ReactNode {
+  public render() {
     return (
       <React.Fragment>
         {this.state.loaded ? this.props.children : this.renderLoading()}

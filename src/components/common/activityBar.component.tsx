@@ -9,7 +9,7 @@ interface ComponentProps {
 export type ActivityBarProps = ThemedComponentProps & ViewProps & ComponentProps;
 
 class ActivityBarComponent extends React.Component<ActivityBarProps> {
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, children, ...restProps } = this.props;
 
     return (

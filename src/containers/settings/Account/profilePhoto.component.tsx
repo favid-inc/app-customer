@@ -18,7 +18,7 @@ export type ProfilePhotoProps = ComponentProps & AvatarProps;
 
 class ProfilePhotoComponent extends React.Component<ProfilePhotoProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, button, ...restProps } = this.props;
 
     return (

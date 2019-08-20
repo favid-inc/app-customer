@@ -68,7 +68,7 @@ export class OrderInfoContainer extends Component<Props, State, typeof BuyingPro
     this.setState({ loading: false });
   };
 
-  public render(): React.ReactNode {
+  public render() {
     const { loading } = this.state;
     return <OrderInfo loading={loading} {...this.props.customer} onSend={this.onSend} />;
   }

@@ -22,7 +22,7 @@ export type LikeButtonProps = ThemedComponentProps & TouchableOpacityProps & Com
 
 class LikeButtonComponent extends React.Component<LikeButtonProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, textStyle, children, ...restProps } = this.props;
 
     return (

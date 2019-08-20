@@ -26,7 +26,7 @@ export type ComponentsListItemProps = ThemedComponentProps & ListItemProps & Com
 
 class ComponentsListItemComponent extends React.Component<ComponentsListItemProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, data, ...restProps } = this.props;
 
     return (

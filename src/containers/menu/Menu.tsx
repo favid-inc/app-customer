@@ -14,7 +14,7 @@ type Props = ThemedComponentProps & ComponentProps;
 
 class MenuComponent extends React.Component<Props> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { selectedIndex, themedStyle } = this.props;
 
     return (

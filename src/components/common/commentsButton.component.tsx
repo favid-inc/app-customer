@@ -12,7 +12,7 @@ interface ComponentProps {
 export type CommentsButtonProps = ThemedComponentProps & TouchableOpacityProps & ComponentProps;
 
 class CommentsButtonComponent extends React.Component<CommentsButtonProps> {
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, textStyle, children, ...restProps } = this.props;
 
     return (

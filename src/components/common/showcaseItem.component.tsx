@@ -22,7 +22,7 @@ export type ShowcaseItemProps = ThemedComponentProps & ViewProps & ComponentProp
 
 class ShowcaseItemComponent extends React.Component<ShowcaseItemProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, title, children, ...restProps } = this.props;
 
     return (

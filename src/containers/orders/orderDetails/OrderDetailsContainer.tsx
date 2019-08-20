@@ -6,7 +6,7 @@ interface ComponentProps {
 }
 
 export class OrderDetailsContainer extends Component<ComponentProps> {
-  public render(): React.ReactNode {
+  public render() {
     return <OrderDetails order={{}} />;
   }
 }

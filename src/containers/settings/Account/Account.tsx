@@ -16,7 +16,7 @@ export type AccountProps = ThemedComponentProps & ComponentProps;
 
 class Accountomponent extends React.Component<AccountProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle, profile } = this.props;
 
     return (

@@ -13,7 +13,7 @@ export type ScrollableAvoidKeyboardProps = ThemedComponentProps & KeyboardAwareS
 
 class ScrollableAvoidKeyboardComponent extends React.Component<ScrollableAvoidKeyboardProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, contentContainerStyle, themedStyle, ...restProps } = this.props;
 
     return (

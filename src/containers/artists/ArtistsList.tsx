@@ -32,7 +32,7 @@ class ArtistListComponent extends React.Component<ArtistsListComponentProps, Sta
     selectedExerciseIndex: 0,
   };
 
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle, categoryOfArtists, loading } = this.props;
 
     if (loading) {

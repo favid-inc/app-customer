@@ -27,7 +27,7 @@ export class VideoPlayer extends React.Component<Props, State> {
     await setAudioMode();
   }
 
-  public render(): React.ReactNode {
+  public render() {
     const { uri } = this.props;
 
     return (

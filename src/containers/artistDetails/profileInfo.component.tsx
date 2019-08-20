@@ -14,7 +14,7 @@ interface ComponentProps {
 export type ProfileInfoProps = ThemedComponentProps & ViewProps & ComponentProps;
 
 class ProfileInfoComponent extends React.Component<ProfileInfoProps> {
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, photo, name, location, mainCategory, ...restProps } = this.props;
 
     return (

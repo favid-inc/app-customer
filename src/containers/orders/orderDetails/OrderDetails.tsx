@@ -9,7 +9,7 @@ interface Props {
 }
 
 class OrderDetailsComponent extends Component<ThemedComponentProps & Props> {
-  public render(): React.ReactNode {
+  public render() {
     const { order } = this.props;
     return <OrderVideoPlayer order={order} />;
   }

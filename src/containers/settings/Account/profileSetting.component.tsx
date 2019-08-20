@@ -23,7 +23,7 @@ export type ProfileSettingProps = ComponentProps & ViewProps & ThemedComponentPr
 
 class ProfileSettingComponent extends React.Component<ProfileSettingProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, hint, value, ...restProps } = this.props;
     const { container, hintLabel, valueLabel } = themedStyle;
 

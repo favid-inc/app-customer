@@ -31,7 +31,7 @@ class ShowcaseComponent extends React.Component<ShowcaseProps> {
     android: 228,
   });
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, children, ...restProps } = this.props;
 
     return (

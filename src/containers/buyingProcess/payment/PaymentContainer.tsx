@@ -34,7 +34,7 @@ export class PaymentContainer extends Component<Props, State, Context> {
     this.props.navigation.navigate('Informações do Pedido');
   };
 
-  public render(): React.ReactNode {
+  public render() {
     const { loading } = this.state;
     return <Payment loading={loading} onSend={this.onSend} />;
   }

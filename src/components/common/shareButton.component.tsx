@@ -22,7 +22,7 @@ export type ShareButtonProps = ThemedComponentProps & TouchableOpacityProps & Co
 
 class ShareButtonComponent extends React.Component<ShareButtonProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, textStyle, children, ...restProps } = this.props;
 
     return (

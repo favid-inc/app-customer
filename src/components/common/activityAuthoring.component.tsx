@@ -23,7 +23,7 @@ export type ActivitiAuthoringProps = ThemedComponentProps & ViewProps & Componen
 
 class ActivityAuthoringComponent extends React.Component<ActivitiAuthoringProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, photo, name, date, ...restProps } = this.props;
 
     return (
