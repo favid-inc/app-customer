@@ -22,7 +22,6 @@ import { apiClient } from '@src/core/utils/apiClient';
 
 import { DynamicStatusBar } from '@src/components/common';
 
-import ArtistReducer from '@src/store/reducers/ArtistReducer';
 import OrderReducer from '@src/store/reducers/OrderReducer';
 
 const images: ImageRequireSource[] = [
@@ -63,7 +62,6 @@ export class App extends React.Component<{}, State> {
   };
 
   private rootReducer = combineReducers({
-    artist: ArtistReducer,
     order: OrderReducer,
   });
 

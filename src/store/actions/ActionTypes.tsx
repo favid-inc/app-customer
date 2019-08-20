@@ -1,6 +1,3 @@
-export const REMOVE_ARTIST = 'REMOVE_ARTIST';
-export const STORE_ARTIST = 'STORE_ARTIST';
-
 export const STORE_ORDERS = 'STORE_ORDERS';
 export const POST_ORDER = 'POST_ORDER';
 export const LOAD_ORDER_STARTED = 'LOAD_ORDER_STARTED';

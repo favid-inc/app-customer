@@ -1,4 +1,11 @@
-import { LOAD_ORDER_ENDED, LOAD_ORDER_STARTED, ORDER_ERROR, POST_ORDER, SET_ORDER, STORE_ORDERS } from '../actions/ActionTypes';
+import {
+  LOAD_ORDER_ENDED,
+  LOAD_ORDER_STARTED,
+  ORDER_ERROR,
+  POST_ORDER,
+  SET_ORDER,
+  STORE_ORDERS,
+} from '../actions/ActionTypes';
 
 const INITIAL_STATE = {
   orders: null,
