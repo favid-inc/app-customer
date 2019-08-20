@@ -21,11 +21,13 @@ interface OrderInfoContainerProps {
 }
 
 export const BuyingProcessContext = React.createContext<Context>({});
+
 export function connect(Navigator: NavigationContainer) {
   class ContextNavigator extends React.Component<NavigationScreenProps & OrderInfoContainerProps, Context> {
     static router = Navigator.router;
     static screenProps = Navigator.screenProps;
     static navigationOptions = Navigator.navigationOptions;
+
     public state: Context = {
       order: {},
       chargeData: {},
