@@ -12,6 +12,7 @@ interface Context {
   order?: Order;
   creditCard?: CreditCard;
   payer?: Payer;
+  setOrder?: (order: Order) => void;
   setCreditCard?: (creditCard: CreditCard) => void;
   setPayer?: (payer: Payer) => void;
 }
@@ -31,15 +32,10 @@ export function connect(Navigator: NavigationContainer) {
       order: {},
       creditCard: {},
       payer: {},
+      setOrder: (order: Order) => this.setState({ order }),
       setCreditCard: (creditCard) => this.setState({ creditCard }),
       setPayer: (payer) => this.setState({ payer }),
     };
-
-    public componentDidMount() {
-      const { navigation } = this.props;
-      const order = navigation.getParam('order');
-      this.setState({ order });
-    }
 
     public render() {
       return (

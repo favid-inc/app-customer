@@ -25,6 +25,12 @@ export class PaymentContainer extends Component<Props, State, Context> {
     loading: false,
   };
 
+  public componentDidMount() {
+    const { navigation } = this.props;
+    const order = navigation.getParam('order');
+    this.context.setOrder(order);
+  }
+
   public onSend = (creditCard: CreditCard) => {
     this.setState({ loading: true });
 
