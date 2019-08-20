@@ -10,12 +10,9 @@ export type CreditCard = PayOrder['Request']['data']['paymentToken'];
 
 interface Context {
   order?: Order;
-  // chargeData?: ChargeResponse;
-  setOrder?: (order: Order) => void;
   creditCard?: CreditCard;
   payer?: Payer;
   setCreditCard?: (creditCard: CreditCard) => void;
-  // setChargeData?: (chargeData: ChargeResponse) => void;
   setPayer?: (payer: Payer) => void;
 }
 
@@ -34,10 +31,15 @@ export function connect(Navigator: NavigationContainer) {
       order: {},
       creditCard: {},
       payer: {},
-      setOrder: (order: Order) => this.setState({ order }),
       setCreditCard: (creditCard) => this.setState({ creditCard }),
       setPayer: (payer) => this.setState({ payer }),
     };
+
+    public componentDidMount() {
+      const { navigation } = this.props;
+      const order = navigation.getParam('order');
+      this.setState({ order });
+    }
 
     public render() {
       return (

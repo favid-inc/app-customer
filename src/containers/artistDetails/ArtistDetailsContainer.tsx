@@ -54,6 +54,7 @@ export class ArtistDetailsContainer extends Component<Props, State> {
       },
     });
   };
+
   private onFollowersPress = () => {};
 
   private onFollowingPress = () => {};

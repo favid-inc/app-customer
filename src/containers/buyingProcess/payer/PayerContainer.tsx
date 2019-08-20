@@ -38,6 +38,8 @@ export class OrderInfoContainer extends Component<Props, State, typeof BuyingPro
       },
     };
 
+    console.log(charge);
+
     try {
       const request: PayOrder['Request'] = {
         url: '/PayOrder',
