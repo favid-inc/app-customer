@@ -11,7 +11,7 @@ import { connect } from '../buyingProcess/context';
 import { OrdersNavigator } from '../orders';
 import { SettingsNavigator } from '../settings';
 
-import { MenuContainer } from './menu.container';
+import { MenuContainer } from './MenuContainer';
 
 export const BuyingProcessStack = connect(
   createStackNavigator(

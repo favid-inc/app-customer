@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationParams, NavigationScreenProps } from 'react-navigation';
 
 import { ArrowIosBackFill } from '@src/assets/icons';
-import { MenuContainer } from '@src/containers/menu/menu.container';
+import { MenuContainer } from '@src/containers/menu/MenuContainer';
 import { TopNavigationBar } from './components/topNavigationBar.component';
 import { KEY_NAVIGATION_BACK } from './constants';
 import { getCurrentRouteState } from './util';
