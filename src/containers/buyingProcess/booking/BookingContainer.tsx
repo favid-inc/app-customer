@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 
+import { ScrollableAvoidKeyboard } from '@src/components/common';
 import { AuthContext } from '@src/core/auth';
 
 import { BuyingProcessContext } from '../context';
@@ -36,11 +37,13 @@ export class BookingContainer extends Component<Props, State, Context> {
 
   public render() {
     return (
-      <AuthContext.Consumer>
-        {({ user }) => (
-          <Booking customerName={user.displayName} onSend={this.handleSend} sending={this.state.loading} />
-        )}
-      </AuthContext.Consumer>
+      <ScrollableAvoidKeyboard>
+        <AuthContext.Consumer>
+          {({ user }) => (
+            <Booking customerName={user.displayName} onSend={this.handleSend} sending={this.state.loading} />
+          )}
+        </AuthContext.Consumer>
+      </ScrollableAvoidKeyboard>
     );
   }
 
