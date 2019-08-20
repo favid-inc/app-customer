@@ -1,10 +1,11 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { Button } from '@kitten/ui';
 import { ContainerView, ScrollableAvoidKeyboard, textStyle } from '@src/components/common';
-import { Payer } from '@src/core/model';
 import React from 'react';
 import { Platform } from 'react-native';
-import { Button } from 'react-native-ui-kitten/ui';
-import { OrderInfoForm } from './OrderInfoForm';
+
+import { Payer } from '../context';
+import { OrderInfoForm } from './PayerForm';
 
 interface ComponentProps {
   loading: boolean;

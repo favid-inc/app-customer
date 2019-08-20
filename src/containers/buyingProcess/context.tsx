@@ -1,47 +1,43 @@
 import { Order } from '@favid-inc/api';
-import { ChargeResponse, CreditCard, Customer } from '@src/core/model';
+import { PayOrder } from '@favid-inc/api/lib/app-customer';
+
 import React from 'react';
 import { NavigationScreenProps } from 'react-navigation';
 import { NavigationContainer } from 'react-navigation';
 
+export type Payer = PayOrder['Request']['data']['directCharge']['payer'];
+export type CreditCard = PayOrder['Request']['data']['paymentToken'];
+
 interface Context {
   order?: Order;
-  chargeData?: ChargeResponse;
+  // chargeData?: ChargeResponse;
   setOrder?: (order: Order) => void;
   creditCard?: CreditCard;
-  customer?: Customer;
+  payer?: Payer;
   setCreditCard?: (creditCard: CreditCard) => void;
-  setChargeData?: (chargeData: ChargeResponse) => void;
-  setCustomer?: (customer: Customer) => void;
-}
-
-interface OrderInfoContainerProps {
-  idToken: string;
-  customer: Customer;
+  // setChargeData?: (chargeData: ChargeResponse) => void;
+  setPayer?: (payer: Payer) => void;
 }
 
 export const BuyingProcessContext = React.createContext<Context>({});
 
+type Props = NavigationScreenProps;
+type State = Context;
+
 export function connect(Navigator: NavigationContainer) {
-  class ContextNavigator extends React.Component<NavigationScreenProps & OrderInfoContainerProps, Context> {
+  class ContextNavigator extends React.Component<Props, State> {
     static router = Navigator.router;
     static screenProps = Navigator.screenProps;
     static navigationOptions = Navigator.navigationOptions;
 
     public state: Context = {
       order: {},
-      chargeData: {},
       creditCard: {},
-      customer: {},
+      payer: {},
       setOrder: (order: Order) => this.setState({ order }),
-      setCreditCard: (creditCard: CreditCard) => this.setState({ creditCard }),
-      setChargeData: (chargeData: ChargeResponse) => this.setState({ chargeData }),
-      setCustomer: (customer: Customer) => this.setState({ customer }),
+      setCreditCard: (creditCard) => this.setState({ creditCard }),
+      setPayer: (payer) => this.setState({ payer }),
     };
-
-    public componentWillMount() {
-      this.state.setCustomer(this.props.customer);
-    }
 
     public render() {
       return (

@@ -1,8 +1,8 @@
 import { OrderStatus as OrderStatusType } from '@favid-inc/api';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Chips, textStyle } from '@src/components/common';
 import React from 'react';
 import { Text } from 'react-native';
-import { ThemedComponentProps, ThemeType, withStyles } from 'react-native-ui-kitten/theme';
 
 interface Props {
   status: OrderStatusType;

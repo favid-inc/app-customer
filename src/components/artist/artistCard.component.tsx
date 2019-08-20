@@ -1,9 +1,10 @@
+import { Artist } from '@favid-inc/api';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Text } from '@kitten/ui';
-import { Chips, ImageOverlay, textStyle } from '@src/components/common';
-import { Artist } from '@src/core/model';
 import React from 'react';
 import { TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
+
+import { Chips, ImageOverlay, textStyle } from '@src/components/common';
 
 interface ComponentProps {
   artist: Artist;

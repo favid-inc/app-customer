@@ -1,9 +1,9 @@
 import { Order } from '@favid-inc/api';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { Text } from '@kitten/ui';
 import { ActivityAuthoring, textStyle } from '@src/components/common';
 import React from 'react';
 import { ImageBackground, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
-import { ThemedComponentProps, ThemeType, withStyles } from 'react-native-ui-kitten/theme';
-import { Text } from 'react-native-ui-kitten/ui';
 import { OrderCardBottom } from './OrderCardBottom';
 import { OrderStatus } from './OrderStatus';
 // @ts-ignore (override `onPress` prop)

@@ -11,8 +11,10 @@ import {
   CvvFormatter,
   ExpirationDateFormatter,
 } from '@src/core/formatters';
-import { CreditCard } from '@src/core/model';
+
 import { CardholderNameValidator, CvvValidator, ExpirationDateValidator, validation } from '@src/core/validators';
+
+import { CreditCard } from '../context';
 
 interface ComponentProps {
   onFormValueChange: (creditCard: CreditCard | undefined) => void;
@@ -48,6 +50,7 @@ class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
     verification_value = '1234';
     month = '10';
     year = '22';
+
     if (number) {
       this.onCardNumberChange(number);
     }

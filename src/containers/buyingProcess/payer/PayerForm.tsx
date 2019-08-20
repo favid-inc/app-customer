@@ -3,7 +3,8 @@ import React from 'react';
 import { Text, View, ViewProps } from 'react-native';
 import { textStyle, ValidationInput } from '../../../components/common';
 
-import { Payer } from '@src/core/model';
+import { Payer } from '../context';
+
 import axios from 'axios';
 import {
   CepNumberFormatter,
@@ -23,14 +24,10 @@ import {
 import { BuyingProcessContext } from '../context';
 
 interface ComponentProps {
-  /**
-   * Will emit changes depending on validation:
-   * Will be called with form value if it is valid, otherwise will be called with undefined
-   */
   onFormValueChange: (value: Payer | undefined) => void;
 }
 
-export type OrderInfoFormProps = ComponentProps & ThemedComponentProps & ViewProps;
+type Props = ComponentProps & ThemedComponentProps & ViewProps;
 
 interface State {
   model: Payer;
@@ -52,9 +49,11 @@ interface State {
   };
 }
 
-class Component extends React.Component<OrderInfoFormProps, State> {
+type Context = typeof BuyingProcessContext;
+
+class PayerForm extends React.Component<Props, State, Context> {
   static contextType = BuyingProcessContext;
-  public context: React.ContextType<typeof BuyingProcessContext>;
+  public context: React.ContextType<Context>;
 
   public state: State = {
     model: {
@@ -91,7 +90,7 @@ class Component extends React.Component<OrderInfoFormProps, State> {
     },
   };
 
-  public componentDidUpdate(prevProps: OrderInfoFormProps, prevState: State) {
+  public componentDidUpdate(prevProps: Props, prevState: State) {
     const oldFormValid: boolean = this.isValid(prevState);
     const newFormValid: boolean = this.isValid(this.state);
     // const becomeValid: boolean = !oldFormValid && newFormValid;
@@ -99,7 +98,6 @@ class Component extends React.Component<OrderInfoFormProps, State> {
     // console.log('becomeValid', becomeValid);
     // console.log('becomeInvalid', becomeInvalid);
     if (oldFormValid !== newFormValid) {
-      console.log('form Validity Has changed: ', newFormValid);
       this.props.onFormValueChange(this.state.model);
     }
   }
@@ -208,8 +206,6 @@ class Component extends React.Component<OrderInfoFormProps, State> {
         city: false,
         state: false,
       });
-
-      console.error(error);
     }
   };
 
@@ -400,7 +396,7 @@ const ValidationErrors = (props) => {
   );
 };
 
-export const OrderInfoForm = withStyles(Component, (theme: ThemeType) => ({
+export const OrderInfoForm = withStyles(PayerForm, (theme: ThemeType) => ({
   middleContainer: {
     flexDirection: 'row',
     alignItems: 'center',

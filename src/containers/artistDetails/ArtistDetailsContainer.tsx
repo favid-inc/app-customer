@@ -1,6 +1,7 @@
-import { Artist } from '@src/core/model';
+import { Artist } from '@favid-inc/api';
 import React, { Component } from 'react';
 import { NavigationScreenProps } from 'react-navigation';
+
 import { ArtistDetails } from './ArtistDetails';
 
 interface State {

@@ -1,10 +1,10 @@
 import { Order } from '@favid-inc/api';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { List, Text } from '@kitten/ui';
 import { ContainerView } from '@src/components/common';
 import { textStyle } from '@src/components/common';
 import React, { Component } from 'react';
 import { ListRenderItemInfo } from 'react-native';
-import { ThemedComponentProps, ThemeType, withStyles } from 'react-native-ui-kitten/theme';
-import { List, Text } from 'react-native-ui-kitten/ui';
 import { OrderCard } from './orderCard';
 import { OrderCardProps } from './orderCard/OrderCard';
 

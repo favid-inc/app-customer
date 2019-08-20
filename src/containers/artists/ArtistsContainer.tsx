@@ -1,12 +1,15 @@
+import { Artist } from '@favid-inc/api';
 import React, { Component } from 'react';
 import { RefreshControl, ScrollView } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 
-import { Artist, CategoryOfArtistModel } from '@src/core/model';
-
 import { ArtistList } from './ArtistsList';
-
 import { listArtistsGroupingByMainCategory } from './listArtistsGroupingByMainCategory';
+
+export interface CategoryOfArtistModel {
+  key: string;
+  artists: Artist[];
+}
 
 interface State {
   categoryOfArtists: CategoryOfArtistModel[];

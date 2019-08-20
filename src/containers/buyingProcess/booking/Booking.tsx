@@ -1,10 +1,10 @@
 import { Order } from '@favid-inc/api';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { Button, Text, Toggle } from '@kitten/ui';
 import { ContainerView, textStyle, ValidationInput } from '@src/components/common';
 import { NameValidator } from '@src/core/validators';
 import React, { Component } from 'react';
 import { View, ViewProps } from 'react-native';
-import { ThemedComponentProps, ThemeType, withStyles } from 'react-native-ui-kitten/theme';
-import { Button, Text, Toggle } from 'react-native-ui-kitten/ui';
 
 interface ComponentProps {
   customerName: string;

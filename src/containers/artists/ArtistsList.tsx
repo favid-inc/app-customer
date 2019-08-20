@@ -1,9 +1,9 @@
+import { Artist } from '@favid-inc/api';
 import { StyleType, ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Input, InputProps, List, Text } from '@kitten/ui';
 import { SearchIconOutline } from '@src/assets/icons';
 import { ArtistCard, ArtistCardProps } from '@src/components/artist/artistCard.component';
 import { textStyle } from '@src/components/common';
-import { Artist, CategoryOfArtistModel } from '@src/core/model';
 import React from 'react';
 import {
   ActivityIndicator,
@@ -13,6 +13,11 @@ import {
   ScrollView,
   View,
 } from 'react-native';
+
+export interface CategoryOfArtistModel {
+  key: string;
+  artists: Artist[];
+}
 
 interface ComponentProps {
   categoryOfArtists: CategoryOfArtistModel[];

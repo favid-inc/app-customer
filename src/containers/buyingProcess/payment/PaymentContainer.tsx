@@ -1,8 +1,9 @@
-import { CreditCard } from '@src/core/model';
 import React, { Component } from 'react';
 import { NavigationScreenProps } from 'react-navigation';
 import { BuyingProcessContext } from '../context';
 import { Payment } from './Payment';
+
+import { CreditCard } from '../context';
 
 interface State {
   loading: boolean;

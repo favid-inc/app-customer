@@ -1,8 +1,11 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { ContainerView, textStyle } from '@src/components/common';
-import { CreditCard } from '@src/core/model';
+import { Button } from '@kitten/ui';
 import React from 'react';
-import { Button } from 'react-native-ui-kitten/ui';
+
+import { ContainerView, textStyle } from '@src/components/common';
+
+import { CreditCard } from '../context';
+
 import { PaymentCardForm } from './PaymentCardForm';
 
 interface ComponentProps {

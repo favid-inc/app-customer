@@ -1,8 +1,8 @@
 import { Order } from '@favid-inc/api';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import * as firebase from 'firebase';
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { ThemedComponentProps, ThemeType, withStyles } from 'react-native-ui-kitten/theme';
 import { VideoPlayer } from './videoPlayer';
 interface Props {
   order: Order;

@@ -1,19 +1,18 @@
 import { PayOrder } from '@favid-inc/api/lib/app-customer';
-import { Charge, Payer } from '@src/core/model';
-import { Customer } from '@src/core/model';
 import { apiClient } from '@src/core/utils/apiClient';
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { BuyingProcessContext } from '../context';
-import { OrderInfo } from './OrderInfo';
+import { OrderInfo } from './Payer';
 interface State {
   loading: boolean;
 }
 
+import { Payer } from '../context';
+
 interface ComponentProps {
-  idToken: string;
-  customer: Customer;
+  customer: Payer;
 }
 
 type Props = ComponentProps & NavigationScreenProps;
@@ -29,7 +28,7 @@ export class OrderInfoContainer extends Component<Props, State, typeof BuyingPro
   public onSend = async (payer: Payer) => {
     this.setState({ loading: true });
 
-    const charge: Charge = {
+    const charge = {
       order: this.context.order,
       paymentToken: {
         data: this.context.creditCard,
@@ -40,11 +39,10 @@ export class OrderInfoContainer extends Component<Props, State, typeof BuyingPro
     };
 
     try {
-      // todo: add request to backend
       const request: PayOrder['Request'] = {
         url: '/PayOrder',
         method: 'POST',
-        data: (charge as unknown) as PayOrder['Request']['data'],
+        data: charge,
       };
 
       const response = await apiClient.request<PayOrder['Response']>(request);
@@ -52,8 +50,6 @@ export class OrderInfoContainer extends Component<Props, State, typeof BuyingPro
       if (response.status !== 200) {
         throw Error(response.status.toString());
       }
-
-      // this.context.setChargeData(response);
 
       Alert.alert(
         'Pagamento enviado com sucesso!',

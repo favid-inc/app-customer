@@ -1,11 +1,13 @@
+import { Artist as ArtistModel } from '@favid-inc/api';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
 import { imageProfile7Bg, ImageSource } from '@src/assets/images';
 import { Chips, ContainerView, ImageOverlay, textStyle } from '@src/components/common';
 import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
-import { Artist as ArtistModel, ProfileSocials as ProfileSocialsModel } from '@src/core/model';
+import { ProfileSocials as ProfileSocialsModel } from '@src/core/model';
 import React from 'react';
 import { View } from 'react-native';
+
 import { ProfileInfo } from './profileInfo.component';
 import { ProfileSocials } from './profileSocials.component';
 
