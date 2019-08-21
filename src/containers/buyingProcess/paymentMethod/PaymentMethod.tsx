@@ -1,5 +1,5 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { Button, ButtonGroup, Text } from '@kitten/ui';
+import { Button } from '@kitten/ui';
 import { CreditCardIconFill, FileTextIconFill } from '@src/assets/icons';
 import { textStyle } from '@src/components/common';
 import React from 'react';

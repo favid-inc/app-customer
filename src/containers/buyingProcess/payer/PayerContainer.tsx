@@ -2,7 +2,7 @@ import { PayOrder } from '@favid-inc/api/lib/app-customer';
 import { apiClient } from '@src/core/utils/apiClient';
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
-import { Linking } from 'react-native';
+// import { Linking } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 
 import { BuyingProcessContext } from '../context';

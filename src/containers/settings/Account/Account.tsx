@@ -1,12 +1,12 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { Button } from '@kitten/ui';
-import { CameraIconFill } from '@src/assets/icons';
+// import { Button } from '@kitten/ui';
+// import { CameraIconFill } from '@src/assets/icons';
 import { ContainerView } from '@src/components/common';
-import { ProfilePhoto } from '@src/components/common/profilePhoto.component';
+// import { ProfilePhoto } from '@src/components/common/profilePhoto.component';
 import { ProfileSetting } from '@src/components/common/profileSetting.component';
 import { Profile } from '@src/core/model';
 import React from 'react';
-import { ButtonProps, View } from 'react-native';
+// import {  View } from 'react-native';
 interface ComponentProps {
   profile: Profile;
   onUploadPhotoButtonPress: () => void;
@@ -42,22 +42,22 @@ class Accountomponent extends React.Component<AccountProps> {
       </ContainerView>
     );
   }
-  private onPhotoButtonPress = () => {
-    this.props.onUploadPhotoButtonPress();
-  };
+  // private onPhotoButtonPress = () => {
+  //   this.props.onUploadPhotoButtonPress();
+  // };
 
-  private renderPhotoButton = (): React.ReactElement<ButtonProps> => {
-    const { themedStyle } = this.props;
+  // private renderPhotoButton = (): React.ReactElement<ButtonProps> => {
+  //   const { themedStyle } = this.props;
 
-    return (
-      <Button
-        style={themedStyle.photoButton}
-        activeOpacity={0.95}
-        icon={CameraIconFill}
-        onPress={this.onPhotoButtonPress}
-      />
-    );
-  };
+  //   return (
+  //     <Button
+  //       style={themedStyle.photoButton}
+  //       activeOpacity={0.95}
+  //       icon={CameraIconFill}
+  //       onPress={this.onPhotoButtonPress}
+  //     />
+  //   );
+  // };
 }
 
 export const Account = withStyles(Accountomponent, (theme: ThemeType) => ({

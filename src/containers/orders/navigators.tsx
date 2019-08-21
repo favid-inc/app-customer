@@ -1,6 +1,6 @@
 import { TopBarNavigationOptions } from '@src/core/navigation/options';
 
-import { createStackNavigator, NavigationContainer, NavigationRouteConfigMap } from 'react-navigation';
+import { createStackNavigator, NavigationRouteConfigMap } from 'react-navigation';
 
 import { connect } from '@src/containers/buyingProcess/context';
 import { PayerContainer } from '@src/containers/buyingProcess/payer/PayerContainer';

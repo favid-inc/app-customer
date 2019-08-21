@@ -3,7 +3,7 @@ import { Button } from '@kitten/ui';
 import React from 'react';
 import { View } from 'react-native';
 
-import { LogOutIconFill as logOutIconFill, PersonIconFill } from '@src/assets/icons';
+import { LogOutIconFill as logOutIconFill } from '@src/assets/icons';
 import { AuthContext } from '@src/core/auth';
 
 interface Props {
@@ -23,18 +23,18 @@ class SettingsComponent extends React.Component<SettingsComponentProps> {
       </View>
     );
   }
-  private handleNavigateToAccount = () => {
-    this.props.onNavigate('Conta');
-  };
+  // private handleNavigateToAccount = () => {
+  //   this.props.onNavigate('Conta');
+  // };
 }
 
-const NavigateToAccountButton = ({ themedStyle, onNavigate }) => {
-  return (
-    <Button status='info' style={themedStyle.Button} onPress={onNavigate} icon={PersonIconFill} size='giant'>
-      Conta
-    </Button>
-  );
-};
+// const NavigateToAccountButton = ({ themedStyle, onNavigate }) => {
+//   return (
+//     <Button status='info' style={themedStyle.Button} onPress={onNavigate} icon={PersonIconFill} size='giant'>
+//       Conta
+//     </Button>
+//   );
+// };
 
 const SigOutButton = ({ themedStyle }) => {
   const context = React.useContext(AuthContext);
