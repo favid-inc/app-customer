@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavigationScreenProps } from 'react-navigation';
 import { BuyingProcessContext } from '../context';
-import { Payment } from './Payment';
+import { PaymentMethod } from './PaymentMethod';
 
 import { CreditCard } from '../context';
 
@@ -43,6 +43,6 @@ export class PaymentContainer extends Component<Props, State, Context> {
 
   public render() {
     const { loading } = this.state;
-    return <Payment loading={loading} onSend={this.onSend} />;
+    return <PaymentMethod loading={loading} onSend={this.onSend} />;
   }
 }

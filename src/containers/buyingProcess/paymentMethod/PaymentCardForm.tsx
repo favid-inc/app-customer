@@ -182,7 +182,7 @@ class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
 
 export const PaymentCardForm = withStyles(NewCardComponent, (theme: ThemeType) => ({
   container: {
-    marginVertical: 10,
+    margin: 10,
   },
   middleContainer: {
     flexDirection: 'row',

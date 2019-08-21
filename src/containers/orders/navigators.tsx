@@ -1,9 +1,14 @@
-import { PaymentContainer } from '@src/containers/buyingProcess/payment/PaymentContainer';
 import { TopBarNavigationOptions } from '@src/core/navigation/options';
+
 import { createStackNavigator, NavigationContainer, NavigationRouteConfigMap } from 'react-navigation';
-import { connect } from '../buyingProcess/context';
+
+import { connect } from '@src/containers/buyingProcess/context';
+import { PayerContainer } from '@src/containers/buyingProcess/payer/PayerContainer';
+import { PaymentContainer } from '@src/containers/buyingProcess/paymentMethod/PaymentMethodContainer';
+
 import { OrderDetailsContainer } from './orderDetails';
 import { OrdersContainer } from './orders';
+
 export const OrderDetailsContainerNavigationMap: NavigationRouteConfigMap = {
   ['Detalhes do Pedido']: {
     screen: OrderDetailsContainer,
@@ -13,9 +18,13 @@ export const OrderDetailsContainerNavigationMap: NavigationRouteConfigMap = {
 export const OrdersNavigator = connect(
   createStackNavigator(
     {
-      Orders: OrdersContainer,
-      Pagamento: {
+      'Orders': OrdersContainer,
+      'Pagamento': {
         screen: PaymentContainer,
+        navigationOptions: { ...TopBarNavigationOptions },
+      },
+      'Informações do Pedido': {
+        screen: PayerContainer,
         navigationOptions: { ...TopBarNavigationOptions },
       },
     },

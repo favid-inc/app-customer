@@ -9,18 +9,17 @@ import { PaymentCardForm } from './PaymentCardForm';
 
 interface ComponentProps {
   loading: boolean;
-
   onSend: (creditCard: CreditCard) => void;
 }
+
+export type Props = ThemedComponentProps & ComponentProps;
 
 interface State {
   isCreditCard: boolean;
   creditCard: CreditCard;
 }
 
-export type PaymentComponentProps = ThemedComponentProps & ComponentProps;
-
-class Component extends React.Component<PaymentComponentProps, State> {
+class PaymentMethodComponent extends React.Component<Props, State> {
   public state: State = {
     creditCard: null,
     isCreditCard: true,
@@ -80,10 +79,9 @@ class Component extends React.Component<PaymentComponentProps, State> {
   }
 }
 
-export const Payment = withStyles(Component, (theme: ThemeType) => ({
+export const PaymentMethod = withStyles<ComponentProps>(PaymentMethodComponent, (theme: ThemeType) => ({
   container: {
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    padding: 10,
     flex: 1,
     backgroundColor: theme['background-basic-color-2'],
   },

@@ -15,20 +15,19 @@ interface ComponentProps {
 export type AccountProps = ThemedComponentProps & ComponentProps;
 
 class Accountomponent extends React.Component<AccountProps> {
-
   public render() {
     const { themedStyle, profile } = this.props;
 
     return (
       <ContainerView style={themedStyle.container}>
-        <View style={themedStyle.photoSection}>
+        {/* <View style={themedStyle.photoSection}>
           <ProfilePhoto style={themedStyle.photo} source={profile.photo.imageSource} button={this.renderPhotoButton} />
-        </View>
+        </View> */}
         <View style={themedStyle.infoSection}>
           <ProfileSetting style={themedStyle.profileSetting} hint='First Name' value={profile.firstName} />
           <ProfileSetting style={themedStyle.profileSetting} hint='Last Name' value={profile.lastName} />
         </View>
-        <View style={themedStyle.contactSection}>
+        {/* <View style={themedStyle.contactSection}>
           <ProfileSetting style={themedStyle.profileSetting} hint='Email' value={profile.email} />
         </View>
         <View style={themedStyle.contactSection}>
@@ -39,7 +38,7 @@ class Accountomponent extends React.Component<AccountProps> {
         </View>
         <View style={themedStyle.contactSection}>
           <ProfileSetting style={themedStyle.profileSetting} hint='Email' value={profile.email} />
-        </View>
+        </View> */}
       </ContainerView>
     );
   }

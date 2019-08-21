@@ -63,8 +63,7 @@ class Component extends React.Component<Props, State> {
 
 export const OrderInfo = withStyles(Component, (theme: ThemeType) => ({
   container: {
-    paddingHorizontal: 16,
-    padding: 20,
+    padding: 10,
     flex: 1,
     backgroundColor: theme['background-basic-color-2'],
   },

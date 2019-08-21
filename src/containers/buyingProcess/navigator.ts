@@ -3,7 +3,7 @@ import { createStackNavigator, NavigationRouteConfigMap } from 'react-navigation
 import { BookingNavigation } from './booking';
 import { connect } from './context';
 import { OrderInfoNavigator } from './payer';
-import { PaymentNavigator } from './payment';
+import { PaymentNavigator } from './paymentMethod';
 
 const BuyingProcessNavigationMap: NavigationRouteConfigMap = {
   ...BookingNavigation,

@@ -2,7 +2,9 @@ import { PayOrder } from '@favid-inc/api/lib/app-customer';
 import { apiClient } from '@src/core/utils/apiClient';
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
+import { Linking } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
+
 import { BuyingProcessContext } from '../context';
 import { OrderInfo } from './Payer';
 interface State {
@@ -17,7 +19,7 @@ interface ComponentProps {
 
 type Props = ComponentProps & NavigationScreenProps;
 
-export class OrderInfoContainer extends Component<Props, State, typeof BuyingProcessContext> {
+export class PayerContainer extends Component<Props, State, typeof BuyingProcessContext> {
   static contextType = BuyingProcessContext;
   public context: React.ContextType<typeof BuyingProcessContext>;
 
@@ -38,8 +40,6 @@ export class OrderInfoContainer extends Component<Props, State, typeof BuyingPro
       },
     };
 
-    console.log(charge);
-
     try {
       const request: PayOrder['Request'] = {
         url: '/PayOrder',
@@ -56,11 +56,23 @@ export class OrderInfoContainer extends Component<Props, State, typeof BuyingPro
       Alert.alert(
         'Pagamento enviado com sucesso!',
         'Seu pedido está sendo processado.',
-        [{ text: 'OK', onPress: () => this.props.navigation.navigate('Orders') }],
-        { cancelable: false },
+        [
+          { text: 'OK', onPress: () => this.props.navigation.navigate('Orders') },
+          // {
+          //   text: 'Comprovante',
+          //   onPress: () => {
+          //     this.props.navigation.navigate('Orders');
+          //     Linking.openURL((response.data as any).url);
+          //   },
+          // },
+        ],
+        {
+          cancelable: false,
+          // onDismiss: () => this.props.navigation.navigate('Orders'),
+        },
       );
     } catch (error) {
-      Alert.alert('Erro ao processar pagamento');
+      Alert.alert('Erro ao processar pagamento', 'Verifique sua conexão e tente novamente');
     }
 
     this.setState({ loading: false });

@@ -18,7 +18,7 @@ class SettingsComponent extends React.Component<SettingsComponentProps> {
 
     return (
       <View style={themedStyle.container}>
-        <NavigateToAccountButton themedStyle={themedStyle} onNavigate={this.handleNavigateToAccount} />
+        {/* <NavigateToAccountButton themedStyle={themedStyle} onNavigate={this.handleNavigateToAccount} /> */}
         <SigOutButton themedStyle={themedStyle} />
       </View>
     );
