@@ -2,7 +2,7 @@ import { PayOrder } from '@favid-inc/api/lib/app-customer';
 import { apiClient } from '@src/core/utils/apiClient';
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
-// import { Linking } from 'react-native';
+import { Linking } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 
 import { BuyingProcessContext } from '../context';
@@ -57,7 +57,13 @@ export class PayerContainer extends Component<Props, State, typeof BuyingProcess
         'Pagamento enviado com sucesso!',
         'Seu pedido está sendo processado.',
         [
-          { text: 'OK', onPress: () => this.props.navigation.navigate('Orders') },
+          {
+            text: 'OK',
+            onPress: () => {
+              this.props.navigation.navigate('Orders');
+              setTimeout(() => Linking.openURL((response.data as any).url), 2000);
+            },
+          },
           // {
           //   text: 'Comprovante',
           //   onPress: () => {
