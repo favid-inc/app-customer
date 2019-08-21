@@ -36,7 +36,7 @@ class PaymentMethodComponent extends React.Component<Props, State> {
   };
 
   public onSend = () => {
-    this.props.onSend(this.state.creditCard);
+    this.props.onSend(this.state.isCreditCard ? this.state.creditCard : null);
   };
 
   public render() {

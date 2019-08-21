@@ -72,6 +72,7 @@ export class PayerContainer extends Component<Props, State, typeof BuyingProcess
         },
       );
     } catch (error) {
+      // console.log(error);
       Alert.alert('Erro ao processar pagamento', 'Verifique sua conexão e tente novamente');
     }
 
