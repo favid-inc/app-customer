@@ -1,6 +1,6 @@
+import { splashImage } from '@src/assets/images';
 import React from 'react';
 import { Animated, Easing, StyleSheet } from 'react-native';
-import { splashImage } from '@src/assets/images';
 
 interface Props {
   isLoaded: boolean;
@@ -23,25 +23,12 @@ export class LoadingAnimationComponent extends React.Component<Props, State> {
     }
   }
 
-  private triggerAnimation(): void {
-    Animated.timing(this.state.animationValue, {
-      toValue: 1,
-      duration: 700,
-      useNativeDriver: true,
-      easing: Easing.in(Easing.exp),
-    }).start(() => this.onAnimationCompleted());
-  }
-
-  private onAnimationCompleted(): void {
-    this.setState({ animationCompleted: true });
-  }
-
   public renderAnimatedComponent(): React.ReactNode {
     const opacity: Animated.AnimatedInterpolation = this.state.animationValue.interpolate({
       inputRange: [0, 1],
       outputRange: [1, 0],
     });
-    const transform: Object[] = [
+    const transform = [
       {
         scale: this.state.animationValue.interpolate({
           inputRange: [0, 1],
@@ -57,9 +44,22 @@ export class LoadingAnimationComponent extends React.Component<Props, State> {
     );
   }
 
-  public render(): React.ReactNode {
+  public render() {
     const { animationCompleted } = this.state;
     return animationCompleted ? null : this.renderAnimatedComponent();
+  }
+
+  private triggerAnimation(): void {
+    Animated.timing(this.state.animationValue, {
+      toValue: 1,
+      duration: 700,
+      useNativeDriver: true,
+      easing: Easing.in(Easing.exp),
+    }).start(() => this.onAnimationCompleted());
+  }
+
+  private onAnimationCompleted(): void {
+    this.setState({ animationCompleted: true });
   }
 }
 

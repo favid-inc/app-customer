@@ -1,20 +1,12 @@
-import React from 'react';
-import {
-  StyleType,
-  ThemeType,
-  withStyles,
-} from '@kitten/theme';
-import { ImageProps } from 'react-native';
-import {
-  TopNavigation,
-  TopNavigationAction,
-  TopNavigationActionProps,
-  TopNavigationProps,
-} from '@kitten/ui';
+import { StyleType, ThemeType, withStyles } from '@kitten/theme';
+import { TopNavigation, TopNavigationAction, TopNavigationActionProps, TopNavigationProps } from '@kitten/ui';
 import { textStyle } from '@src/components/common';
+import React from 'react';
+import { ImageProps, StyleProp, ViewStyle } from 'react-native';
 import { SafeAreaView } from './safeAreaView.component';
 
 export interface ComponentProps {
+  style?: StyleProp<ViewStyle>;
   backIcon?: BackIconProp;
   onBackPress?: () => void;
 }
@@ -26,29 +18,14 @@ type BackButtonElement = React.ReactElement<TopNavigationActionProps>;
 
 class TopNavigationBarComponent extends React.Component<TopNavigationBarProps> {
 
-  private onBackButtonPress = () => {
-    if (this.props.onBackPress) {
-      this.props.onBackPress();
-    }
-  };
-
-  private renderBackButton = (source: BackIconProp): BackButtonElement => {
-    return (
-      <TopNavigationAction
-        icon={source}
-        onPress={this.onBackButtonPress}
-      />
-    );
-  };
-
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle, title, backIcon } = this.props;
 
     const leftControlElement: BackButtonElement | null = backIcon ? this.renderBackButton(backIcon) : null;
-
     return (
       <SafeAreaView style={themedStyle.safeArea}>
         <TopNavigation
+          style={themedStyle.safeArea}
           alignment='center'
           title={title}
           titleStyle={textStyle.subtitle}
@@ -58,10 +35,20 @@ class TopNavigationBarComponent extends React.Component<TopNavigationBarProps> {
       </SafeAreaView>
     );
   }
+  private onBackButtonPress = () => {
+    if (this.props.onBackPress) {
+      this.props.onBackPress();
+    }
+  };
+
+  private renderBackButton = (source: BackIconProp): BackButtonElement => {
+    return <TopNavigationAction icon={source} onPress={this.onBackButtonPress} />;
+  };
 }
 
 export const TopNavigationBar = withStyles(TopNavigationBarComponent, (theme: ThemeType) => ({
   safeArea: {
-    backgroundColor: theme['background-basic-color-1'],
+    height: 50,
+    backgroundColor: theme['background-basic-color-3'],
   },
 }));

@@ -1,13 +1,13 @@
-import React from 'react';
-import {
-  View,
-  ViewProps,
-} from 'react-native';
 import {
   ThemedComponentProps,
   ThemeType,
   withStyles,
 } from '@kitten/theme';
+import React from 'react';
+import {
+  View,
+  ViewProps,
+} from 'react-native';
 
 type ChildElement = React.ReactElement<any>;
 
@@ -19,7 +19,7 @@ export type ReactionBarProps = ThemedComponentProps & ViewProps & ComponentProps
 
 class ReactionBarComponent extends React.Component<ReactionBarProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle, style, ...restProps } = this.props;
 
     return (

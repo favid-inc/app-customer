@@ -1,0 +1,1 @@
+export { ArtistsNavigator } from './navigators';

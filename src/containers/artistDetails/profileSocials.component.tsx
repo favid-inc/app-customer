@@ -1,8 +1,8 @@
-import React from 'react';
-import { StyleProp, TextStyle, TouchableOpacity, View, ViewProps } from 'react-native';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Text } from '@kitten/ui';
 import { textStyle } from '@src/components/common';
+import React from 'react';
+import { StyleProp, TextStyle, TouchableOpacity, View, ViewProps } from 'react-native';
 
 interface ComponentProps {
   followers: number;
@@ -17,24 +17,16 @@ interface ComponentProps {
 export type ProfileSocialsProps = ThemedComponentProps & ViewProps & ComponentProps;
 
 class ProfileSocialsComponent extends React.Component<ProfileSocialsProps> {
-  private onFollowersButtonPress = () => {
-    this.props.onFollowersPress();
-  };
-
-  private onFollowingButtonPress = () => {
-    this.props.onFollowingPress();
-  };
-
-  private onPostsButtonPress = () => {
-    this.props.onPostsPress();
-  };
-
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, textStyle: derivedTextStyle, followers, following, posts, ...restProps } = this.props;
 
     return (
       <View {...restProps} style={[themedStyle.container, style]}>
-        <TouchableOpacity activeOpacity={0.65} style={themedStyle.parameterContainer} onPress={this.onFollowersButtonPress}>
+        <TouchableOpacity
+          activeOpacity={0.65}
+          style={themedStyle.parameterContainer}
+          onPress={this.onFollowersButtonPress}
+        >
           <Text style={[themedStyle.valueLabel, derivedTextStyle]}>{`${followers}`}</Text>
           <Text style={[themedStyle.hintLabel, derivedTextStyle]} appearance='hint' category='s2'>
             Seguidores
@@ -49,6 +41,17 @@ class ProfileSocialsComponent extends React.Component<ProfileSocialsProps> {
       </View>
     );
   }
+  private onFollowersButtonPress = () => {
+    this.props.onFollowersPress();
+  };
+
+  // private onFollowingButtonPress = () => {
+  //   this.props.onFollowingPress();
+  // };
+
+  private onPostsButtonPress = () => {
+    this.props.onPostsPress();
+  };
 }
 
 export const ProfileSocials = withStyles(ProfileSocialsComponent, (theme: ThemeType) => ({

@@ -1,17 +1,17 @@
+import {
+  ThemedComponentProps,
+  ThemeType,
+  withStyles,
+} from '@kitten/theme';
+import { Text } from '@kitten/ui';
+import { Avatar } from '@kitten/ui';
+import { textStyle } from '@src/components/common/style';
 import React from 'react';
 import {
   ImageSourcePropType,
   View,
   ViewProps,
 } from 'react-native';
-import { Text } from '@kitten/ui';
-import {
-  ThemedComponentProps,
-  ThemeType,
-  withStyles,
-} from '@kitten/theme';
-import { Avatar } from '@kitten/ui';
-import { textStyle } from '@src/components/common/style';
 
 interface ComponentProps {
   photo: ImageSourcePropType;
@@ -23,7 +23,7 @@ export type ActivitiAuthoringProps = ThemedComponentProps & ViewProps & Componen
 
 class ActivityAuthoringComponent extends React.Component<ActivitiAuthoringProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, photo, name, date, ...restProps } = this.props;
 
     return (

@@ -1,8 +1,8 @@
-import React from 'react';
-import { ImageSourcePropType, View, ViewProps } from 'react-native';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Avatar, Text } from '@kitten/ui';
 import { textStyle } from '@src/components/common';
+import React from 'react';
+import { ImageSourcePropType, View, ViewProps } from 'react-native';
 
 interface ComponentProps {
   photo: ImageSourcePropType;
@@ -14,7 +14,7 @@ interface ComponentProps {
 export type ProfileInfoProps = ThemedComponentProps & ViewProps & ComponentProps;
 
 class ProfileInfoComponent extends React.Component<ProfileInfoProps> {
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, photo, name, location, mainCategory, ...restProps } = this.props;
 
     return (

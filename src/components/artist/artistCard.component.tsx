@@ -1,9 +1,10 @@
-import React from 'react';
-import { View, TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import { Artist } from '@favid-inc/api';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Text } from '@kitten/ui';
+import React from 'react';
+import { TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
+
 import { Chips, ImageOverlay, textStyle } from '@src/components/common';
-import { Artist } from '@src/core/model';
 
 interface ComponentProps {
   artist: Artist;
@@ -14,10 +15,10 @@ interface ComponentProps {
 export type ArtistCardProps = ThemedComponentProps & ComponentProps & TouchableOpacityProps;
 
 class ArtistCardComponent extends React.Component<ArtistCardProps> {
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle, artist, style } = this.props;
     const artistImage = {
-      uri: artist.photo,
+      uri: artist.photoUri,
       height: 128,
       width: 128,
     };
