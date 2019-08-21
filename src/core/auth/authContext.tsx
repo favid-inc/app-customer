@@ -54,7 +54,7 @@ export class FirebaseAuth extends React.Component<FirebaseAuthProps, FirebaseAut
     signUp: (email, password) => this.signUp(email, password),
   };
 
-  private STORAGE_KEY: string = '@app-artist:core:auth:FirebaseAuth';
+  private STORAGE_KEY: string = '@app-customer:core:auth:FirebaseAuth';
 
   private unsubscribe: firebase.Unsubscribe;
 
