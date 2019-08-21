@@ -1,6 +1,6 @@
-import React from 'react';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Input, InputProps } from '@kitten/ui';
+import React from 'react';
 
 interface ComponentProps extends InputProps {
   validator: (value: string) => boolean;
@@ -52,6 +52,21 @@ class ValidationInputComponent extends React.Component<ValidationInputProps, Sta
     }
   }
 
+  public render() {
+    const { style, themedStyle, ...restProps } = this.props;
+
+    return (
+      <Input
+        autoCapitalize='none'
+        status={this.getStatus()}
+        {...restProps}
+        value={this.state.value}
+        style={[themedStyle.container, style]}
+        onChangeText={this.onChangeText}
+      />
+    );
+  }
+
   private onChangeText = (text: string) => {
     const { formatter } = this.props;
 
@@ -83,21 +98,6 @@ class ValidationInputComponent extends React.Component<ValidationInputProps, Sta
 
     return undefined;
   };
-
-  public render(): React.ReactNode {
-    const { style, themedStyle, ...restProps } = this.props;
-
-    return (
-      <Input
-        autoCapitalize='none'
-        status={this.getStatus()}
-        {...restProps}
-        value={this.state.value}
-        style={[themedStyle.container, style]}
-        onChangeText={this.onChangeText}
-      />
-    );
-  }
 }
 
 export const ValidationInput = withStyles(ValidationInputComponent, (theme: ThemeType) => ({

@@ -2,8 +2,8 @@ import {
   dark,
   light,
 } from '@eva-design/eva';
-import { default as appTheme } from './appTheme.json';
 import { ThemeType } from '@kitten/theme';
+import { default as appTheme } from './appTheme.json';
 
 interface ThemeRegistry {
   ['Eva Light']: ThemeType;

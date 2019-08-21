@@ -1,7 +1,7 @@
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { ActivityBar, ActivityBarProps } from '@src/components/common';
 import React from 'react';
 import { StyleProp, TextStyle } from 'react-native';
-import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { ActivityBar, ActivityBarProps, CommentsButton, LikeButton, ReactionBar } from '@src/components/common';
 
 interface ComponentProps {
   textStyle?: StyleProp<TextStyle>;
@@ -10,7 +10,7 @@ interface ComponentProps {
 export type OrderCardBottomProps = ThemedComponentProps & ActivityBarProps & ComponentProps;
 
 class OrderCardBottomComponent extends React.Component<OrderCardBottomProps> {
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle, textStyle, children, ...restProps } = this.props;
 
     return <ActivityBar {...restProps}>{children}</ActivityBar>;

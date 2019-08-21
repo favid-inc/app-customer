@@ -1,8 +1,3 @@
-import React from 'react';
-import {
-  View,
-  ViewProps,
-} from 'react-native';
 import {
   ThemedComponentProps,
   ThemeType,
@@ -10,6 +5,11 @@ import {
 } from '@kitten/theme';
 import { Text } from '@kitten/ui';
 import { textStyle } from '@src/components/common';
+import React from 'react';
+import {
+  View,
+  ViewProps,
+} from 'react-native';
 
 interface ComponentProps {
   title: string;
@@ -22,7 +22,7 @@ export type ShowcaseItemProps = ThemedComponentProps & ViewProps & ComponentProp
 
 class ShowcaseItemComponent extends React.Component<ShowcaseItemProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, title, children, ...restProps } = this.props;
 
     return (

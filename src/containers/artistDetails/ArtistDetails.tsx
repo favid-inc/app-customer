@@ -1,12 +1,14 @@
-import React from 'react';
-import { View } from 'react-native';
+import { Artist as ArtistModel } from '@favid-inc/api';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
-import { ProfileInfo } from './profileInfo.component';
-import { Artist as ArtistModel, ProfileSocials as ProfileSocialsModel } from '@src/core/model';
-import { ContainerView, ImageOverlay, textStyle, Chips } from '@src/components/common';
 import { imageProfile7Bg, ImageSource } from '@src/assets/images';
+import { Chips, ContainerView, ImageOverlay, textStyle } from '@src/components/common';
 import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
+import { ProfileSocials as ProfileSocialsModel } from '@src/core/model';
+import React from 'react';
+import { View } from 'react-native';
+
+import { ProfileInfo } from './profileInfo.component';
 import { ProfileSocials } from './profileSocials.component';
 
 interface ComponentProps {
@@ -30,38 +32,10 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
 
   public async componentDidMount() {}
 
-  private onFollowPress = () => {
-    this.props.onFollowPress();
-  };
-
-  private onOrderPress = () => {
-    this.props.onOrderPress();
-  };
-
-  private onFollowersPress = () => {
-    this.props.onFollowersPress();
-  };
-
-  private onFollowingPress = () => {
-    this.props.onFollowingPress();
-  };
-
-  private onPostsPress = () => {
-    this.props.onPostsPress();
-  };
-
-  private onFriendPress = (index: number) => {
-    this.props.onFriendPress(index);
-  };
-
-  private onPhotoPress = (index: number) => {
-    this.props.onPhotoPress(index);
-  };
-
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle, artist } = this.props;
     const artistImage = {
-      uri: artist.photo,
+      uri: artist.photoUri,
       height: 100,
       width: 100,
     };
@@ -72,14 +46,14 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
       posts: 116,
     };
 
-    let responseTime = null;
-    if (artist.responseTime) {
-      responseTime = (
-        <Text appearance='hint' category='s2' style={themedStyle.priceDescription}>
-          {`Responde em  ${artist.responseTime === 1 ? artist.responseTime + ' dia' : artist.responseTime + ' dias'}.`}
-        </Text>
-      );
-    }
+    const responseTime = null;
+    // if (artist.responseTime) {
+    //   responseTime = (
+    //     <Text appearance='hint' category='s2' style={themedStyle.priceDescription}>
+    //       {`Responde em  ${artist.responseTime === 1 ? artist.responseTime + ' dia' : artist.responseTime + ' dias'}.`}
+    //     </Text>
+    //   );
+    // }
 
     let categories = null;
     if (artist.categories && artist.categories.length) {
@@ -98,17 +72,17 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
       );
     }
 
-    let about = null;
+    let biography = null;
 
-    if (artist.about && artist.about.length) {
-      about = (
+    if (artist.biography && artist.biography.length) {
+      biography = (
         <View style={themedStyle.section}>
-          <Text style={[themedStyle.profileSectionContent, themedStyle.profileAboutLabel]}>{artist.about}</Text>
+          <Text style={[themedStyle.profileSectionContent, themedStyle.profileAboutLabel]}>{artist.biography}</Text>
         </View>
       );
     }
 
-    const followStatus = this.props.follow ? 'white' : 'info';
+    // const followStatus = this.props.follow ? 'white' : 'info';
     const cameoOrderedStatus = this.props.cameoOrdered ? 'white' : 'success';
     return (
       <ContainerView style={themedStyle.container}>
@@ -146,11 +120,39 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
         </ImageOverlay>
         <View style={[themedStyle.profileSection, themedStyle.aboutSection]}>
           {categories}
-          {about}
+          {biography}
         </View>
       </ContainerView>
     );
   }
+
+  // private onFollowPress = () => {
+  //   this.props.onFollowPress();
+  // };
+
+  private onOrderPress = () => {
+    this.props.onOrderPress();
+  };
+
+  private onFollowersPress = () => {
+    this.props.onFollowersPress();
+  };
+
+  private onFollowingPress = () => {
+    this.props.onFollowingPress();
+  };
+
+  private onPostsPress = () => {
+    this.props.onPostsPress();
+  };
+
+  // private onFriendPress = (index: number) => {
+  //   this.props.onFriendPress(index);
+  // };
+
+  // private onPhotoPress = (index: number) => {
+  //   this.props.onPhotoPress(index);
+  // };
 }
 
 export const ArtistDetails = withStyles(ArtistDetailsComponent, (theme: ThemeType) => ({

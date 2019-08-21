@@ -1,50 +1,49 @@
-import React, { Component } from 'react';
-import { ThemedComponentProps, withStyles, ThemeType } from 'react-native-ui-kitten/theme';
-import { ContainerView, ValidationInput, textStyle } from '@src/components/common';
-import { View, ViewProps, ActivityIndicator } from 'react-native';
-import { Toggle, Text, Button, Input } from 'react-native-ui-kitten/ui';
+import { Order } from '@favid-inc/api';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { Button, Text, Toggle } from '@kitten/ui';
+import { ContainerView, textStyle, ValidationInput } from '@src/components/common';
 import { NameValidator } from '@src/core/validators';
-import { OrderModel as State } from '@favid-inc/api';
+import React, { Component } from 'react';
+import { View, ViewProps } from 'react-native';
 
 interface ComponentProps {
-  loading: boolean;
+  customerName: string;
+  sending: boolean;
   onSend: (order: State) => void;
 }
 
 export type BookingProps = ThemedComponentProps & ViewProps & ComponentProps;
 
+type State = Order;
+
 class BookingComponent extends Component<BookingProps, State> {
   public state: State = {
     isGift: false,
     customerName: '',
-    theirName: '',
-    videoInstructions: '',
+    receiverName: '',
+    instructions: '',
   };
 
-  private onSend() {
-    this.props.onSend(this.state);
+  public componentDidMount() {
+    this.setState({ customerName: this.props.customerName });
   }
 
   public render() {
     const { themedStyle } = this.props;
-    let giftFields = null;
 
-    if (this.state.isGift) {
-      giftFields = (
-        <View style={themedStyle.middleContainer}>
-          <ValidationInput
-            value={this.state.theirName}
-            style={themedStyle.input}
-            textStyle={textStyle.paragraph}
-            labelStyle={textStyle.label}
-            label='Nome Dele'
-            placeholder='José'
-            validator={NameValidator}
-            onChangeText={theirName => this.setState({ theirName })}
-          />
-        </View>
-      );
-    }
+    const giftFields = this.state.isGift && (
+      <View style={themedStyle.middleContainer}>
+        <ValidationInput
+          label='Nome do Presenteado'
+          labelStyle={textStyle.label}
+          onChangeText={this.handleReceiverNameChange}
+          style={themedStyle.input}
+          textStyle={textStyle.paragraph}
+          validator={NameValidator}
+          value={this.state.receiverName}
+        />
+      </View>
+    );
 
     return (
       <ContainerView style={themedStyle.container} contentContainerStyle={themedStyle.contentContainer}>
@@ -53,50 +52,52 @@ class BookingComponent extends Component<BookingProps, State> {
             <Text appearance='hint' category='s2' style={themedStyle.tittleLabel}>
               Para Presente?
             </Text>
-            <Toggle
-              checked={this.state.isGift}
-              style={themedStyle.isGift}
-              onChange={isGift => this.setState({ isGift })}
-            />
+            <Toggle checked={this.state.isGift} style={themedStyle.isGift} onChange={this.handleIsGiftChange} />
           </View>
           <View style={themedStyle.middleContainer}>
             <ValidationInput
-              value={this.state.customerName}
+              label='Meu Nome'
+              labelStyle={textStyle.label}
+              onChangeText={this.handleCustomerNameChange}
               style={themedStyle.input}
               textStyle={textStyle.paragraph}
-              labelStyle={textStyle.label}
-              label='Meu Nome'
-              placeholder='João'
               validator={NameValidator}
-              onChangeText={customerName => this.setState({ customerName })}
+              value={this.state.customerName}
             />
           </View>
           {giftFields}
           <View style={themedStyle.middleContainer}>
             <ValidationInput
-              value={this.state.videoInstructions}
+              label='Instruções'
+              labelStyle={textStyle.label}
+              onChangeText={this.handleInstructionsChange}
+              placeholder='Por favor, deseje um feliz aniversário...'
               style={themedStyle.input}
               textStyle={textStyle.paragraph}
-              labelStyle={textStyle.label}
-              label='Minha Menssagem'
-              placeholder='Por favor deseje um feliz aniversário ao meu amigo Lucas Marques.'
               validator={NameValidator}
-              onChangeText={videoInstructions => this.setState({ videoInstructions })}
+              value={this.state.instructions}
             />
           </View>
         </View>
         <Button
           status='success'
-          disabled={this.props.loading}
+          disabled={this.props.sending}
           size='giant'
           style={themedStyle.addButton}
-          onPress={() => this.onSend()}
+          onPress={this.handleSend}
         >
-          {this.props.loading ? 'Enviando Pedido...' : 'Enviar Pedido'}
+          {this.props.sending ? 'Enviando Pedido...' : 'Enviar Pedido'}
         </Button>
       </ContainerView>
     );
   }
+
+  private handleCustomerNameChange = (customerName) => this.setState({ customerName });
+  private handleInstructionsChange = (instructions) => this.setState({ instructions });
+  private handleIsGiftChange = (isGift) => this.setState({ isGift });
+  private handleReceiverNameChange = (receiverName) => this.setState({ receiverName });
+
+  private handleSend = () => this.props.onSend(this.state);
 }
 
 export const Booking = withStyles(BookingComponent, (theme: ThemeType) => ({
@@ -131,6 +132,6 @@ export const Booking = withStyles(BookingComponent, (theme: ThemeType) => ({
   },
   formContainer: {
     flex: 1,
-    marginTop: 40,
+    marginTop: 20,
   },
 }));

@@ -1,9 +1,3 @@
-import React from 'react';
-import {
-  View,
-  FlexStyle,
-  ViewProps,
-} from 'react-native';
 import {
   ThemedComponentProps,
   ThemeType,
@@ -11,6 +5,12 @@ import {
 } from '@kitten/theme';
 import { Text } from '@kitten/ui';
 import { textStyle } from '@src/components/common';
+import React from 'react';
+import {
+  FlexStyle,
+  View,
+  ViewProps,
+} from 'react-native';
 
 interface ComponentProps {
   title: string;
@@ -24,21 +24,7 @@ export type ShowcaseSectionProps = ThemedComponentProps & ViewProps & ComponentP
 
 class ShowcaseSectionComponent extends React.Component<ShowcaseSectionProps> {
 
-  private renderItem = (item: ShowcaseSectionItem): ShowcaseSectionItem => {
-    const { themedStyle } = this.props;
-
-    const additionalStyle: FlexStyle = themedStyle.item;
-
-    return React.cloneElement(item, {
-      style: [item.props.style, additionalStyle],
-    });
-  };
-
-  private renderItems = (source: ChildrenProp): ShowcaseSectionItem[] => {
-    return React.Children.map(source, this.renderItem);
-  };
-
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, title, children, ...restProps } = this.props;
 
     return (
@@ -54,6 +40,20 @@ class ShowcaseSectionComponent extends React.Component<ShowcaseSectionProps> {
       </View>
     );
   }
+
+  private renderItem = (item: ShowcaseSectionItem): ShowcaseSectionItem => {
+    const { themedStyle } = this.props;
+
+    const additionalStyle: FlexStyle = themedStyle.item;
+
+    return React.cloneElement(item, {
+      style: [item.props.style, additionalStyle],
+    });
+  };
+
+  private renderItems = (source: ChildrenProp): ShowcaseSectionItem[] => {
+    return React.Children.map(source, this.renderItem);
+  };
 }
 
 export const ShowcaseSection = withStyles(ShowcaseSectionComponent, (theme: ThemeType) => ({

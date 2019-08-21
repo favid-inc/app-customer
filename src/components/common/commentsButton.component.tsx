@@ -1,8 +1,8 @@
-import React from 'react';
-import { StyleProp, TextStyle, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Text } from '@kitten/ui';
 import { MessageCircleIconOutline } from '@src/assets/icons';
+import React from 'react';
+import { StyleProp, TextStyle, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 
 interface ComponentProps {
   textStyle?: StyleProp<TextStyle>;
@@ -12,7 +12,7 @@ interface ComponentProps {
 export type CommentsButtonProps = ThemedComponentProps & TouchableOpacityProps & ComponentProps;
 
 class CommentsButtonComponent extends React.Component<CommentsButtonProps> {
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, textStyle, children, ...restProps } = this.props;
 
     return (

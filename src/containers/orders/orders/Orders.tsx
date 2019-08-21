@@ -1,29 +1,20 @@
-import React, { Component } from 'react';
-import { OrderModel } from '@favid-inc/api';
-import { List, Text } from 'react-native-ui-kitten/ui';
-import { withStyles, ThemeType, ThemedComponentProps } from 'react-native-ui-kitten/theme';
-import { ListRenderItemInfo, ActivityIndicator } from 'react-native';
-import { OrderCard } from './orderCard';
-import { OrderCardProps } from './orderCard/OrderCard';
+import { Order } from '@favid-inc/api';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { List, Text } from '@kitten/ui';
 import { ContainerView } from '@src/components/common';
 import { textStyle } from '@src/components/common';
+import React, { Component } from 'react';
+import { ListRenderItemInfo } from 'react-native';
+import { OrderCard } from './orderCard';
+import { OrderCardProps } from './orderCard/OrderCard';
 
 interface Props {
-  orders: OrderModel[];
-  onDetails: (order: OrderModel) => void;
+  orders: Order[];
+  onDetails: (order: Order) => void;
 }
 
 class OrdersComponent extends Component<ThemedComponentProps & Props> {
-  private renderItem = (info: ListRenderItemInfo<OrderModel>): React.ReactElement<OrderCardProps> => {
-    const { themedStyle } = this.props;
-    return <OrderCard style={themedStyle.item} order={info.item} onPress={this.onDetails.bind(this)} />;
-  };
-
-  public onDetails(order: OrderModel) {
-    this.props.onDetails(order);
-  }
-
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle, orders } = this.props;
     const list =
       orders && orders.length ? (
@@ -38,6 +29,15 @@ class OrdersComponent extends Component<ThemedComponentProps & Props> {
 
     return list;
   }
+
+  private onDetails = (order: Order) => {
+    this.props.onDetails(order);
+  };
+
+  private renderItem = (info: ListRenderItemInfo<Order>): React.ReactElement<OrderCardProps> => {
+    const { themedStyle } = this.props;
+    return <OrderCard style={themedStyle.item} order={info.item} onPress={this.onDetails} />;
+  };
 }
 
 export const Orders = withStyles(OrdersComponent, (theme: ThemeType) => ({

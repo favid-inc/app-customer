@@ -1,11 +1,3 @@
-import React from 'react';
-import {
-  View,
-  StatusBar,
-  ViewProps,
-  StatusBarStyle,
-  Platform,
-} from 'react-native';
 import {
   ThemedComponentProps,
   ThemeType,
@@ -13,6 +5,14 @@ import {
 } from '@kitten/theme';
 import { ThemeKey } from '@src/core/themes';
 import Constants from 'expo-constants';
+import React from 'react';
+import {
+  Platform,
+  StatusBar,
+  StatusBarStyle,
+  View,
+  ViewProps,
+} from 'react-native';
 
 interface ComponentProps {
   currentTheme: ThemeKey;
@@ -22,15 +22,7 @@ export type DynamicStatusBarProps = ThemedComponentProps & ViewProps & Component
 
 class DynamicStatusBarComponent extends React.Component<DynamicStatusBarProps> {
 
-  private getStatusBarContent = (): StatusBarStyle => {
-    if (this.props.currentTheme === 'Eva Light') {
-      return 'dark-content';
-    } else {
-      return 'light-content';
-    }
-  };
-
-  public render(): React.ReactNode {
+  public render() {
     const { themedStyle } = this.props;
 
     const androidStatusBarBgColor: string = themedStyle.container.backgroundColor;
@@ -45,6 +37,14 @@ class DynamicStatusBarComponent extends React.Component<DynamicStatusBarProps> {
       </View>
     );
   }
+
+  private getStatusBarContent = (): StatusBarStyle => {
+    if (this.props.currentTheme === 'Eva Light') {
+      return 'dark-content';
+    } else {
+      return 'light-content';
+    }
+  };
 }
 
 export const DynamicStatusBar = withStyles(DynamicStatusBarComponent, (theme: ThemeType) => ({

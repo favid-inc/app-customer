@@ -1,25 +1,23 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { useScreens } from 'react-native-screens';
 import {
-  NavigationAction,
   createAppContainer,
   createStackNavigator,
+  NavigationAction,
   NavigationContainer,
   NavigationRouteConfigMap,
   NavigationState,
 } from 'react-navigation';
-import { SocialNavigationOptions } from './options';
-import SignInContainer from '@src/containers/signin/SignInContainer';
-import ArtistDetailsContainer from '@src/containers/artistDetails/ArtistDetailsContainer';
-import { OrdersNavigator, OrderDetailsContainerNavigationMap } from '@src/containers/orders';
-import { MenuNavigator } from '../../containers/menu';
-import { SettingsNavigationMap } from '../../containers/settings';
-import { BuyingProcessNavigation } from '../../containers/buyingProcess';
-import * as actions from '../../store/actions';
 
-import { Customer as CustomerModel } from '../../core/model/customer.model';
-import { AuthState as AuthStateModel } from '../../core/model/authState.model';
+import { ArtistDetailsContainer } from '@src/containers/artistDetails';
+import { AuthContainer } from '@src/containers/auth';
+import { BuyingProcessNavigation } from '@src/containers/buyingProcess';
+import { MenuNavigator } from '@src/containers/menu';
+import { OrderDetailsContainerNavigationMap, OrdersNavigator } from '@src/containers/orders';
+import { SettingsNavigationMap } from '@src/containers/settings';
+import { AuthContext } from '@src/core/auth';
+
+import { SocialNavigationOptions } from './options';
 
 const ArtistNavigationMap: NavigationRouteConfigMap = {
   Artista: {
@@ -30,7 +28,7 @@ const ArtistNavigationMap: NavigationRouteConfigMap = {
 
 const SignInNavigator: NavigationContainer = createStackNavigator(
   {
-    ['Sign In']: SignInContainer,
+    ['Sign In']: AuthContainer,
   },
   {
     headerMode: 'screen',
@@ -64,12 +62,8 @@ const createAppRouter = (container: NavigationContainer): NavigationContainer =>
 
 const NavigationRouter: NavigationContainer = createAppRouter(AppNavigator);
 const AuthNavigationRouter: NavigationContainer = createAppRouter(SignInNavigator);
+
 interface ComponentProps {
-  isLoggedIn: boolean;
-  customer: CustomerModel;
-  authState: AuthStateModel;
-  onLoadAuthState: () => void;
-  onverifySession: (authState: AuthStateModel) => void;
   onNavigationStateChange: (
     prevNavigationState: NavigationState,
     nextNavigationState: NavigationState,
@@ -77,32 +71,18 @@ interface ComponentProps {
   ) => void;
 }
 
-class Router extends React.Component<ComponentProps> {
-  componentWillMount() {
-    this.props.onLoadAuthState();
-  }
-
-  componentDidUpdate() {
-    if (this.props.authState.refreshToken) {
-      this.props.onverifySession(this.props.authState);
-    }
-  }
-
+export class Router extends React.Component<ComponentProps> {
   public render() {
-    let navigation = <AuthNavigationRouter onNavigationStateChange={this.props.onNavigationStateChange} />;
-    if (this.props.customer.uid) {
-      navigation = <NavigationRouter onNavigationStateChange={this.props.onNavigationStateChange} />;
-    }
-    return navigation;
+    return (
+      <AuthContext.Consumer>
+        {({ isSignedIn }) =>
+          isSignedIn ? (
+            <NavigationRouter onNavigationStateChange={this.props.onNavigationStateChange} />
+          ) : (
+            <AuthNavigationRouter onNavigationStateChange={this.props.onNavigationStateChange} />
+          )
+        }
+      </AuthContext.Consumer>
+    );
   }
 }
-
-const mapStateToProps = ({ auth }) => ({ authState: auth.authState, customer: auth.customer });
-const mapDispatchToProps = dispatch => ({
-  onLoadAuthState: () => dispatch(actions.loadAuthState()),
-  onverifySession: (authState: AuthStateModel) => dispatch(actions.verifySession(authState)),
-});
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Router);

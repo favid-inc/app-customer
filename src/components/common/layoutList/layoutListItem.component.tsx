@@ -1,16 +1,16 @@
-import React from 'react';
-import {
-  ListItem,
-  ListItemProps,
-  Text,
-} from '@kitten/ui';
 import {
   ThemedComponentProps,
   ThemeType,
   withStyles,
 } from '@kitten/theme';
-import { LayoutListItemData } from './type';
+import {
+  ListItem,
+  ListItemProps,
+  Text,
+} from '@kitten/ui';
+import React from 'react';
 import { textStyle } from '../style';
+import { LayoutListItemData } from './type';
 
 interface ComponentProps {
   data: LayoutListItemData;
@@ -20,7 +20,7 @@ export type LayoutListItemProps = ThemedComponentProps & ComponentProps & ListIt
 
 class LayoutListItemComponent extends React.Component<LayoutListItemProps> {
 
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, data, ...restProps } = this.props;
 
     return (

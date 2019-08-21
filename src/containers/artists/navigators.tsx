@@ -1,4 +1,4 @@
-import { NavigationContainer, createStackNavigator } from 'react-navigation';
+import { createStackNavigator, NavigationContainer } from 'react-navigation';
 import { ArtistsContainer } from './ArtistsContainer';
 
 export const ArtistsNavigator: NavigationContainer = createStackNavigator(

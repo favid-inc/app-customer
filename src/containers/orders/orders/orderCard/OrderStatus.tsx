@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import { Chips, textStyle } from '@src/components/common';
-import { Text } from 'react-native';
 import { OrderStatus as OrderStatusType } from '@favid-inc/api';
-import { withStyles, ThemedComponentProps, ThemeType } from 'react-native-ui-kitten/theme';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { Chips, textStyle } from '@src/components/common';
+import React from 'react';
+import { Text } from 'react-native';
 
 interface Props {
   status: OrderStatusType;
 }
 
-const orderStatusComponent: React.SFC<Props & ThemedComponentProps> = props => {
+const orderStatusComponent: React.SFC<Props & ThemedComponentProps> = (props) => {
   const { themedStyle } = props;
 
-  const statusLabel = status => {
+  const statusLabel = (status) => {
     const statusLabels = {
-      [OrderStatusType.OPENED]: 'Pendente',
-      [OrderStatusType.DECLINED_BY_ARTIST]: 'Recusado',
-      [OrderStatusType.DONE]: 'Concluído',
+      [OrderStatusType.PLACED]: 'Pendente',
+      [OrderStatusType.DECLINED]: 'Recusado',
+      [OrderStatusType.FULFILLED]: 'Concluído',
     };
     if (!statusLabels[status]) {
       return 'Status não mapeado';
@@ -23,11 +23,11 @@ const orderStatusComponent: React.SFC<Props & ThemedComponentProps> = props => {
     return statusLabels[status];
   };
 
-  const statusColor = status => {
+  const statusColor = (status) => {
     const statusLabels = {
-      [OrderStatusType.OPENED]: 'info',
-      [OrderStatusType.DECLINED_BY_ARTIST]: 'danger',
-      [OrderStatusType.DONE]: 'success',
+      [OrderStatusType.PLACED]: 'info',
+      [OrderStatusType.DECLINED]: 'danger',
+      [OrderStatusType.FULFILLED]: 'success',
     };
     if (!statusLabels[status]) {
       return 'disabled';

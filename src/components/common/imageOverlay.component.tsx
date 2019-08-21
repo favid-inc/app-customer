@@ -1,3 +1,8 @@
+import {
+  ThemedComponentProps,
+  ThemeType,
+  withStyles,
+} from '@kitten/theme';
 import React from 'react';
 import {
   ImageBackground,
@@ -7,11 +12,6 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import {
-  ThemedComponentProps,
-  ThemeType,
-  withStyles,
-} from '@kitten/theme';
 
 interface OverlayImageStyle extends ViewStyle {
   overlayColor: string;
@@ -26,13 +26,7 @@ export type ImageOverlayProps = ThemedComponentProps & ImageBackgroundProps & Co
 
 class ImageOverlayComponent extends React.Component<ImageOverlayProps> {
 
-  private getOverlayColor = (source: string): string => {
-    const { themedStyle } = this.props;
-
-    return source || themedStyle.overlay.backgroundColor;
-  };
-
-  public render(): React.ReactNode {
+  public render() {
     const { style, themedStyle, children, ...restProps } = this.props;
     // @ts-ignore: overlayColor (additional style property)
     const { overlayColor: derivedOverlayColor, ...containerStyle } = StyleSheet.flatten(style);
@@ -48,6 +42,12 @@ class ImageOverlayComponent extends React.Component<ImageOverlayProps> {
       </ImageBackground>
     );
   }
+
+  private getOverlayColor = (source: string): string => {
+    const { themedStyle } = this.props;
+
+    return source || themedStyle.overlay.backgroundColor;
+  };
 }
 
 export const ImageOverlay = withStyles(ImageOverlayComponent, (theme: ThemeType) => ({

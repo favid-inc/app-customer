@@ -1,48 +1,41 @@
+import { Order } from '@favid-inc/api';
+import { PayOrder } from '@favid-inc/api/lib/app-customer';
+
 import React from 'react';
 import { NavigationScreenProps } from 'react-navigation';
 import { NavigationContainer } from 'react-navigation';
-import { OrderModel } from '@favid-inc/api';
-import { PaymentResponse, ChargeResponse, Customer } from '@src/core/model';
-import { connect as reduxConnect } from 'react-redux';
-export interface IBuyingProcessContext {
-  order?: OrderModel;
-  chargeData?: ChargeResponse;
-  setOrder?: (order: OrderModel) => void;
-  paymentData?: PaymentResponse;
-  customer?: Customer;
-  setPaymentData?: (paymentData: PaymentResponse) => void;
-  setChargeData?: (chargeData: ChargeResponse) => void;
-  setCustomer?: (customer: Customer) => void;
-}
-interface OrderInfoContainerProps {
-  idToken: string;
-  customer: Customer;
+
+export type Payer = PayOrder['Request']['data']['directCharge']['payer'];
+export type CreditCard = PayOrder['Request']['data']['paymentToken'];
+
+interface Context {
+  order?: Order;
+  creditCard?: CreditCard;
+  payer?: Payer;
+  setOrder?: (order: Order) => void;
+  setCreditCard?: (creditCard: CreditCard) => void;
+  setPayer?: (payer: Payer) => void;
 }
 
-export const BuyingProcessContext = React.createContext<IBuyingProcessContext>({});
+export const BuyingProcessContext = React.createContext<Context>({});
+
+type Props = NavigationScreenProps;
+type State = Context;
+
 export function connect(Navigator: NavigationContainer) {
-  class ContextNavigator extends React.Component<
-    NavigationScreenProps & OrderInfoContainerProps,
-    IBuyingProcessContext
-  > {
-    public state: IBuyingProcessContext = {
-      order: {},
-      chargeData: {},
-      paymentData: {},
-      customer: {},
-      setOrder: (order: OrderModel) => this.setState({ order }),
-      setPaymentData: (paymentData: PaymentResponse) => this.setState({ paymentData }),
-      setChargeData: (chargeData: ChargeResponse) => this.setState({ chargeData }),
-      setCustomer: (customer: Customer) => this.setState({ customer }),
-    };
-
+  class ContextNavigator extends React.Component<Props, State> {
     static router = Navigator.router;
     static screenProps = Navigator.screenProps;
     static navigationOptions = Navigator.navigationOptions;
 
-    public componentWillMount() {
-      this.state.setCustomer(this.props.customer);
-    }
+    public state: Context = {
+      order: {},
+      creditCard: {},
+      payer: {},
+      setOrder: (order: Order) => this.setState({ order }),
+      setCreditCard: (creditCard) => this.setState({ creditCard }),
+      setPayer: (payer) => this.setState({ payer }),
+    };
 
     public render() {
       return (
@@ -52,10 +45,6 @@ export function connect(Navigator: NavigationContainer) {
       );
     }
   }
-  const mapStateToProps = ({ auth }) => ({
-    idToken: auth.authState.idToken,
-    customer: auth.customer,
-  });
 
-  return reduxConnect(mapStateToProps)(ContextNavigator);
+  return ContextNavigator;
 }

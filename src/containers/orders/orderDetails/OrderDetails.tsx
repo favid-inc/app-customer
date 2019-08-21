@@ -1,24 +1,22 @@
+import { Order } from '@favid-inc/api';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import * as firebase from 'firebase';
 import React, { Component } from 'react';
-import { withStyles, ThemeType, ThemedComponentProps } from 'react-native-ui-kitten/theme';
-import { ContainerView } from '@src/components/common';
-import { OrderModel } from '@favid-inc/api';
-import { Video } from 'expo-av';
 import { View } from 'react-native';
 import { VideoPlayer } from './videoPlayer';
-import * as firebase from 'firebase';
 interface Props {
-  order: OrderModel;
+  order: Order;
 }
 
 class OrderDetailsComponent extends Component<ThemedComponentProps & Props> {
-  public render(): React.ReactNode {
-    const { themedStyle, order } = this.props;
+  public render() {
+    const { order } = this.props;
     return <OrderVideoPlayer order={order} />;
   }
 }
 
-function OrderVideoPlayer({ order }: { order: OrderModel }) {
-  const video = `${order.video}`;
+function OrderVideoPlayer({ order }: { order: Order }) {
+  const video = `${order.videoUri}`;
   const [uri, setUri] = React.useState<string>(video);
 
   React.useEffect(() => {
