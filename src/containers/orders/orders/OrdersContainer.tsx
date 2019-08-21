@@ -1,4 +1,4 @@
-import { Order } from '@favid-inc/api';
+import { Order, OrderPaymentStatus } from '@favid-inc/api';
 import React, { Component } from 'react';
 import { Alert, RefreshControl, ScrollView } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
@@ -35,6 +35,7 @@ export class OrdersContainer extends Component<Props, State> {
     this.setState({ loading: true });
     try {
       const orders = await listOrders();
+      // console.log('[OrdersContainer.tsx] orders:', orders);
       this.setState({ orders });
     } catch (e) {
       Alert.alert('Erro ao listar pedidos');
@@ -44,8 +45,14 @@ export class OrdersContainer extends Component<Props, State> {
   };
 
   private onDetails = (order: Order) => {
-    this.props.navigation.navigate('Detalhes do Pedido', {
-      order,
-    });
+    if (order.paymentStatus === OrderPaymentStatus.PENDING) {
+      this.props.navigation.navigate('Pagamento', {
+        order,
+      });
+    } else if (order.videoUri) {
+      this.props.navigation.navigate('Detalhes do Pedido', {
+        order,
+      });
+    }
   };
 }
