@@ -1,19 +1,20 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { Button } from '@kitten/ui';
-import React from 'react';
-
+import { Button, ButtonGroup, Text } from '@kitten/ui';
+import { CreditCardIconFill, FileTextIconFill } from '@src/assets/icons';
 import { ContainerView, textStyle } from '@src/components/common';
-
+import React from 'react';
+import { View } from 'react-native';
 import { CreditCard } from '../context';
-
 import { PaymentCardForm } from './PaymentCardForm';
 
 interface ComponentProps {
   loading: boolean;
+
   onSend: (creditCard: CreditCard) => void;
 }
 
 interface State {
+  isCreditCard: boolean;
   creditCard: CreditCard;
 }
 
@@ -22,6 +23,11 @@ export type PaymentComponentProps = ThemedComponentProps & ComponentProps;
 class Component extends React.Component<PaymentComponentProps, State> {
   public state: State = {
     creditCard: null,
+    isCreditCard: true,
+  };
+
+  public toggleIsCreditCard = () => {
+    this.setState({ isCreditCard: !this.state.isCreditCard });
   };
 
   public onFormValueChange = (c) => {
@@ -39,7 +45,28 @@ class Component extends React.Component<PaymentComponentProps, State> {
 
     return (
       <ContainerView style={themedStyle.container} contentContainerStyle={themedStyle.contentContainer}>
-        <PaymentCardForm onFormValueChange={this.onFormValueChange} />
+        <View style={themedStyle.isCreditContainer}>
+          <Button
+            icon={CreditCardIconFill}
+            style={{ borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
+            status={!this.state.isCreditCard ? 'white' : ''}
+            onPress={this.toggleIsCreditCard}
+            size='giant'
+          >
+            Cartão
+          </Button>
+          <Button
+            icon={FileTextIconFill}
+            style={{ borderBottomLeftRadius: 0, borderTopLeftRadius: 0 }}
+            status={this.state.isCreditCard ? 'white' : ''}
+            onPress={this.toggleIsCreditCard}
+            size='giant'
+          >
+            Boleto
+          </Button>
+        </View>
+        {this.state.isCreditCard ? <PaymentCardForm onFormValueChange={this.onFormValueChange} /> : <View />}
+
         <Button
           status='success'
           style={themedStyle.saveButton}
@@ -63,6 +90,15 @@ export const Payment = withStyles(Component, (theme: ThemeType) => ({
   },
   contentContainer: {
     flex: 1,
+    alignItems: 'center',
+  },
+  creditCard: {
+    borderRadiusRightBottom: 100,
+  },
+  isCreditContainer: {
+    marginTop: 24,
+    flexDirection: 'row',
+    overflow: 'hidden',
   },
   saveButton: {
     marginVertical: 20,

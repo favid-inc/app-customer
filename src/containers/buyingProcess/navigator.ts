@@ -1,4 +1,3 @@
-
 import { TopBarNavigationOptions } from '@src/core/navigation/options';
 import { createStackNavigator, NavigationRouteConfigMap } from 'react-navigation';
 import { BookingNavigation } from './booking';
