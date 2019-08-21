@@ -1,10 +1,11 @@
-import { Order } from '@favid-inc/api';
+import { Order, OrderPaymentStatus as OrderPaymentStatusType } from '@favid-inc/api';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Text } from '@kitten/ui';
 import { ActivityAuthoring, textStyle } from '@src/components/common';
 import React from 'react';
 import { ImageBackground, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
 import { OrderCardBottom } from './OrderCardBottom';
+import { OrderPaymentStatus } from './OrderPaymentStatus';
 import { OrderStatus } from './OrderStatus';
 // @ts-ignore (override `onPress` prop)
 interface ComponentProps extends TouchableOpacityProps {
@@ -42,16 +43,18 @@ class OrderCardComponent extends React.Component<OrderCardProps> {
             name={order.artistName}
             date={new Date(order.statusPlacedDate).toLocaleDateString()}
           />
-          <OrderStatus status={order.status} />
+          {order.paymentStatus === OrderPaymentStatusType.PENDING ? (
+            <OrderPaymentStatus status={order.paymentStatus} />
+          ) : (
+            <OrderStatus status={order.status} />
+          )}
         </OrderCardBottom>
       </TouchableOpacity>
     );
   }
 
   private onPress = () => {
-    if (this.props.order.videoUri) {
-      this.props.onPress(this.props.order);
-    }
+    this.props.onPress(this.props.order);
   };
 }
 
