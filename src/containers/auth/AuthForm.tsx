@@ -107,8 +107,8 @@ export const AuthForm = withStyles(AuthFormComponent, (theme: ThemeType) => ({
     alignContent: 'stretch',
   },
   tabContentContainer: {
-    marginVertical: 8,
-    padding: 20,
+    // marginVertical: 8,
+    paddingVertical: 20,
   },
   tabView: {
     flex: 1,

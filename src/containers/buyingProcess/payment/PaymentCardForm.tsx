@@ -102,7 +102,7 @@ class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
     const { style, themedStyle, ...restProps } = this.props;
 
     return (
-      <View style={{ marginVertical: 40 }} {...restProps}>
+      <View style={themedStyle.container} {...restProps}>
         <ValidationInput
           autoCompleteType='cc-number'
           formatter={CardNumberFormatter}
@@ -181,6 +181,9 @@ class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
 }
 
 export const PaymentCardForm = withStyles(NewCardComponent, (theme: ThemeType) => ({
+  container: {
+    marginVertical: 10,
+  },
   middleContainer: {
     flexDirection: 'row',
     alignItems: 'center',

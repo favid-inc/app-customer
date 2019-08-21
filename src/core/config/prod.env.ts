@@ -9,7 +9,7 @@ export const firebase = {
 };
 
 export const api = {
-  baseURL: 'https://us-central1-onyx-harmony-239219.cloudfunctions.net/api',
+  baseURL: 'https://onyx-harmony-239219.firebaseapp.com/api/appCustomer',
 };
 
 export const auth = {

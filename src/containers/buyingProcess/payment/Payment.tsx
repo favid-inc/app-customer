@@ -1,7 +1,7 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, ButtonGroup, Text } from '@kitten/ui';
 import { CreditCardIconFill, FileTextIconFill } from '@src/assets/icons';
-import { ContainerView, textStyle } from '@src/components/common';
+import { textStyle } from '@src/components/common';
 import React from 'react';
 import { View } from 'react-native';
 import { CreditCard } from '../context';
@@ -44,28 +44,26 @@ class Component extends React.Component<PaymentComponentProps, State> {
     const { themedStyle, loading } = this.props;
 
     return (
-      <ContainerView style={themedStyle.container} contentContainerStyle={themedStyle.contentContainer}>
+      <View style={themedStyle.container}>
         <View style={themedStyle.isCreditContainer}>
           <Button
             icon={CreditCardIconFill}
-            style={{ borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
+            style={{ flex: 1, borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
             status={!this.state.isCreditCard ? 'white' : ''}
             onPress={this.toggleIsCreditCard}
-            size='giant'
           >
             Cartão
           </Button>
           <Button
             icon={FileTextIconFill}
-            style={{ borderBottomLeftRadius: 0, borderTopLeftRadius: 0 }}
+            style={{ flex: 1, borderBottomLeftRadius: 0, borderTopLeftRadius: 0 }}
             status={this.state.isCreditCard ? 'white' : ''}
             onPress={this.toggleIsCreditCard}
-            size='giant'
           >
             Boleto
           </Button>
         </View>
-        {this.state.isCreditCard ? <PaymentCardForm onFormValueChange={this.onFormValueChange} /> : <View />}
+        {this.state.isCreditCard && <PaymentCardForm onFormValueChange={this.onFormValueChange} />}
 
         <Button
           status='success'
@@ -77,20 +75,17 @@ class Component extends React.Component<PaymentComponentProps, State> {
         >
           {loading ? 'Processando...' : 'Próximo'}
         </Button>
-      </ContainerView>
+      </View>
     );
   }
 }
 
 export const Payment = withStyles(Component, (theme: ThemeType) => ({
   container: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
     flex: 1,
     backgroundColor: theme['background-basic-color-2'],
-  },
-  contentContainer: {
-    flex: 1,
-    alignItems: 'center',
   },
   creditCard: {
     borderRadiusRightBottom: 100,
@@ -101,6 +96,6 @@ export const Payment = withStyles(Component, (theme: ThemeType) => ({
     overflow: 'hidden',
   },
   saveButton: {
-    marginVertical: 20,
+    marginVertical: 10,
   },
 }));

@@ -331,7 +331,7 @@ class PayerForm extends React.Component<Props, State, Context> {
             style={[themedStyle.input, themedStyle.longInput]}
             textStyle={textStyle.paragraph}
             labelStyle={textStyle.label}
-            label='District'
+            label='Bairro'
             validator={StringValidator}
             onChangeText={(district) => this.onChangeAddress({ district })}
             onChangeValidation={(district) => this.onChangeAddressValidation({ district })}
