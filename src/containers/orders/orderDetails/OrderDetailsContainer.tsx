@@ -1,12 +1,28 @@
 import { Order } from '@favid-inc/api';
-import React, { Component } from 'react';
+import React from 'react';
+import { View } from 'react-native';
+import { NavigationScreenProps } from 'react-navigation';
 import { OrderDetails } from './OrderDetails';
-interface ComponentProps {
+
+type Props = NavigationScreenProps;
+
+interface State {
   order: Order;
 }
 
-export class OrderDetailsContainer extends Component<ComponentProps> {
+export class OrderDetailsContainer extends React.Component<Props, State> {
+  public state: State = {
+    order: null,
+  };
+
+  public componentDidMount() {
+    const { navigation } = this.props;
+    const order = navigation.getParam('order');
+    this.setState({ order });
+  }
+
   public render() {
-    return <OrderDetails order={{}} />;
+    const { order } = this.state;
+    return order ? <OrderDetails order={this.state.order} /> : <View />;
   }
 }
