@@ -43,7 +43,7 @@ export class ArtistDetailsContainer extends Component<Props, State> {
   }
 
   private onFollowPress = () => {
-    this.setState({ follow: true });
+    this.setState({ follow: !this.state.follow });
   };
 
   private onOrderPress = () => {

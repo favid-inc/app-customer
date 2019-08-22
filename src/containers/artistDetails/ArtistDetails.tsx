@@ -8,6 +8,7 @@ import { ProfileSocials as ProfileSocialsModel } from '@src/core/model';
 import React from 'react';
 import { View } from 'react-native';
 
+import { ArtistReviewsResume } from '../artists/review/ArtistReviewsResume';
 import { ProfileInfo } from './profileInfo.component';
 import { ProfileSocials } from './profileSocials.component';
 
@@ -82,8 +83,6 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
       );
     }
 
-    // const followStatus = this.props.follow ? 'white' : 'info';
-    const cameoOrderedStatus = this.props.cameoOrdered ? 'white' : 'success';
     return (
       <ContainerView style={themedStyle.container}>
         <ImageOverlay style={themedStyle.profileInfoContainer} source={this.backgroundImage.imageSource}>
@@ -99,14 +98,15 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
               {responseTime}
             </View>
             <Button
-              size='giant'
+              size='large'
               style={themedStyle.orderButton}
-              status={cameoOrderedStatus}
-              onPress={this.onOrderPress}
+              appearance={this.props.follow ? 'outline' : 'filled'}
+              onPress={this.onFollowPress}
             >
-              {this.props.cameoOrdered ? 'Pendente' : 'Pedir'}
+              {this.props.follow ? 'Seguindo' : 'Seguir'}
             </Button>
           </View>
+
           <ProfileSocials
             style={themedStyle.profileSocials}
             textStyle={themedStyle.socialsLabel}
@@ -118,6 +118,20 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
             onPostsPress={this.onPostsPress}
           />
         </ImageOverlay>
+        <Button
+          size='giant'
+          style={themedStyle.orderButton}
+          status={this.props.cameoOrdered ? 'white' : 'success'}
+          onPress={this.onOrderPress}
+        >
+          {this.props.cameoOrdered ? 'Pendente' : 'Pedir'}
+        </Button>
+        <ArtistReviewsResume
+          count={3212}
+          lastMessage='Chocolate cake marzipan jelly-o croissant. Marshmallow cupcake cake gummi bears donut. Sweet roll ice cream tart. Halvah wafer gummies. '
+          rate={4}
+        />
+
         <View style={[themedStyle.profileSection, themedStyle.aboutSection]}>
           {categories}
           {biography}
@@ -126,9 +140,9 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
     );
   }
 
-  // private onFollowPress = () => {
-  //   this.props.onFollowPress();
-  // };
+  private onFollowPress = () => {
+    this.props.onFollowPress();
+  };
 
   private onOrderPress = () => {
     this.props.onOrderPress();
