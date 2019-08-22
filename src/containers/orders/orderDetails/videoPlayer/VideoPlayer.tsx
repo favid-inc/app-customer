@@ -16,7 +16,6 @@ interface State {
 }
 
 export class VideoPlayer extends React.Component<Props, State> {
-
   public state: State = {
     playbackStatus: { isLoaded: false },
     isShowingControls: true,
@@ -34,11 +33,13 @@ export class VideoPlayer extends React.Component<Props, State> {
       <TouchableWithoutFeedback onPress={this.toggleControls}>
         <View style={styles.container}>
           <Video
-            style={styles.fullScreen}
-            source={{ uri }}
-            ref={this.setPlaybackInstance}
             onPlaybackStatusUpdate={this.handlePlaybackStatusUpdate}
+            ref={this.setPlaybackInstance}
+            resizeMode={Video.RESIZE_MODE_CONTAIN}
             shouldPlay={true}
+            source={{ uri }}
+            style={styles.fullScreen}
+            useNativeControls={true}
           />
           <View style={styles.fullScreen}>
             {this.state.playbackStatus.isLoaded ? (
