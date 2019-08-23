@@ -105,18 +105,18 @@ class PayerForm extends React.Component<Props, State, Context> {
   public componentDidMount() {
     // please remove this after testing
     this.onChange({
-      cpf_cnpj: '080 779 539 99',
-      email: 'gabriel.f.umbelino@gmail.com',
-      name: 'Gabriel Umbelino',
-      phone: '984452958',
-      phone_prefix: '41',
+      cpf_cnpj: '',
+      email: '',
+      name: '',
+      phone: '',
+      phone_prefix: '',
       address: {
-        headerstreet: 'Rua antonio jeronymo',
-        number: '123',
-        district: 'Cic',
-        city: 'Curitiba',
-        state: 'PR',
-        zip_code: '81170 680',
+        headerstreet: '',
+        number: '',
+        district: '',
+        city: '',
+        state: '',
+        zip_code: '',
         complement: '',
       },
     });

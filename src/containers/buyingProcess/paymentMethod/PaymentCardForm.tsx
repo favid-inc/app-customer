@@ -44,12 +44,12 @@ class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
   public componentDidMount() {
     let { number, first_name, last_name, verification_value, month, year } = this.context.creditCard;
 
-    number = '4111 1111 1111 1111';
-    first_name = 'Gabriel';
-    last_name = 'Umbelino';
-    verification_value = '1234';
-    month = '10';
-    year = '22';
+    number = '';
+    first_name = '';
+    last_name = '';
+    verification_value = '';
+    month = '';
+    year = '';
 
     if (number) {
       this.onCardNumberChange(number);
@@ -72,17 +72,12 @@ class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
     const becomeValid: boolean = !oldFormValid && newFormValid;
     const becomeInvalid: boolean = oldFormValid && !newFormValid;
     if (becomeValid) {
+      const [first_name, ...last_name] = this.state.cardholderName.split(' ');
       const creditCard: CreditCard = {
         number: this.state.cardNumber,
         verification_value: this.state.cvv,
-        first_name: this.state.cardholderName
-          .split(' ')
-          .splice(0, 1)
-          .join(''),
-        last_name: this.state.cardholderName
-          .split(' ')
-          .splice(1)
-          .join(' '),
+        first_name,
+        last_name: last_name.join(' '),
         month: this.state.expirationDate
           .split('/')
           .splice(0, 1)
@@ -92,6 +87,7 @@ class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
           .splice(1, 1)
           .join(''),
       };
+      console.log(creditCard);
       this.props.onFormValueChange(creditCard);
     } else if (becomeInvalid) {
       this.props.onFormValueChange(undefined);
