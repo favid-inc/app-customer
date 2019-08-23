@@ -18,13 +18,3 @@ export const auth = {
   issuer: 'https://accounts.google.com',
   scopes: ['profile', 'email'],
 };
-
-export const storageKeys = {
-  currentUser: 'current_user',
-};
-
-export const core = {
-  elasticsearch: {
-    node: 'http://user:UCBTrbP8hDCn@35.225.67.137/elasticsearch/',
-  },
-};
