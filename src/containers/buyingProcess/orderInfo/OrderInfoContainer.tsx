@@ -6,29 +6,23 @@ import { Linking } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 
 import { BuyingProcessContext } from '../context';
-import { OrderInfo } from './Payer';
+import { OrderInfo } from './OrderInfo';
 interface State {
-  loading: boolean;
+  sending: boolean;
 }
 
-import { Payer } from '../context';
-
-interface ComponentProps {
-  customer: Payer;
-}
-
-type Props = ComponentProps & NavigationScreenProps;
+type Props = NavigationScreenProps;
 
 export class PayerContainer extends Component<Props, State, typeof BuyingProcessContext> {
   static contextType = BuyingProcessContext;
   public context: React.ContextType<typeof BuyingProcessContext>;
 
   public state: State = {
-    loading: false,
+    sending: false,
   };
 
-  public onSend = async (payer: Payer) => {
-    this.setState({ loading: true });
+  public onSend = async () => {
+    this.setState({ sending: true });
 
     const charge = {
       order: this.context.order,
@@ -36,7 +30,7 @@ export class PayerContainer extends Component<Props, State, typeof BuyingProcess
         data: this.context.creditCard,
       },
       directCharge: {
-        payer,
+        payer: this.context.payer,
       },
     };
 
@@ -61,32 +55,23 @@ export class PayerContainer extends Component<Props, State, typeof BuyingProcess
             text: 'OK',
             onPress: () => {
               this.props.navigation.navigate('Orders');
-              setTimeout(() => Linking.openURL((response.data as any).url), 2000);
+              setTimeout(() => Linking.openURL((response.data as any).url), 1000);
             },
           },
-          // {
-          //   text: 'Comprovante',
-          //   onPress: () => {
-          //     this.props.navigation.navigate('Orders');
-          //     Linking.openURL((response.data as any).url);
-          //   },
-          // },
         ],
         {
           cancelable: false,
-          // onDismiss: () => this.props.navigation.navigate('Orders'),
         },
       );
     } catch (error) {
-      // console.log(error);
       Alert.alert('Erro ao processar pagamento', 'Verifique sua conexão e tente novamente');
     }
 
-    this.setState({ loading: false });
+    this.setState({ sending: false });
   };
 
   public render() {
-    const { loading } = this.state;
-    return <OrderInfo loading={loading} {...this.props.customer} onSend={this.onSend} />;
+    const { sending } = this.state;
+    return <OrderInfo sending={sending} onSend={this.onSend} />;
   }
 }

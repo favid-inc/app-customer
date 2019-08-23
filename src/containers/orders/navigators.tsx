@@ -3,7 +3,7 @@ import { TopBarNavigationOptions } from '@src/core/navigation/options';
 import { createStackNavigator, NavigationRouteConfigMap } from 'react-navigation';
 
 import { connect } from '@src/containers/buyingProcess/context';
-import { PayerContainer } from '@src/containers/buyingProcess/payer/PayerContainer';
+import { PayerContainer } from '@src/containers/buyingProcess/orderInfo/OrderInfoContainer';
 import { PaymentContainer } from '@src/containers/buyingProcess/paymentMethod/PaymentMethodContainer';
 
 import { OrderDetailsContainer } from './orderDetails';

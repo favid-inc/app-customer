@@ -4,25 +4,22 @@ import { CreditCardIconFill, FileTextIconFill } from '@src/assets/icons';
 import React from 'react';
 import { View } from 'react-native';
 
-import { ScrollableAvoidKeyboard, textStyle } from '@src/components/common';
-import { CreditCard } from '../context';
+import { ScrollableAvoidKeyboard } from '@src/components/common';
+import { PaymentBoletoForm } from './PaymentBoletoForm';
 import { PaymentCardForm } from './PaymentCardForm';
 
 interface ComponentProps {
-  loading: boolean;
-  onSend: (creditCard: CreditCard) => void;
+  onSend: () => void;
 }
 
 export type Props = ThemedComponentProps & ComponentProps;
 
 interface State {
   isCreditCard: boolean;
-  creditCard: CreditCard;
 }
 
 class PaymentMethodComponent extends React.Component<Props, State> {
   public state: State = {
-    creditCard: null,
     isCreditCard: true,
   };
 
@@ -30,18 +27,8 @@ class PaymentMethodComponent extends React.Component<Props, State> {
     this.setState({ isCreditCard: !this.state.isCreditCard });
   };
 
-  public onFormValueChange = (c) => {
-    if (c) {
-      this.setState({ creditCard: { ...c } });
-    }
-  };
-
-  public onSend = () => {
-    this.props.onSend(this.state.isCreditCard ? this.state.creditCard : null);
-  };
-
   public render() {
-    const { themedStyle, loading } = this.props;
+    const { themedStyle } = this.props;
 
     return (
       <View style={themedStyle.container}>
@@ -64,18 +51,11 @@ class PaymentMethodComponent extends React.Component<Props, State> {
               Boleto
             </Button>
           </View>
-          {this.state.isCreditCard && <PaymentCardForm onFormValueChange={this.onFormValueChange} />}
-
-          <Button
-            status='success'
-            style={themedStyle.saveButton}
-            textStyle={textStyle.button}
-            size='giant'
-            disabled={!this.state.creditCard || loading}
-            onPress={this.onSend}
-          >
-            {loading ? 'Processando...' : 'Próximo'}
-          </Button>
+          {this.state.isCreditCard ? (
+            <PaymentCardForm onSend={this.props.onSend} />
+          ) : (
+            <PaymentBoletoForm onSend={this.props.onSend} />
+          )}
         </ScrollableAvoidKeyboard>
       </View>
     );
@@ -95,8 +75,5 @@ export const PaymentMethod = withStyles<ComponentProps>(PaymentMethodComponent, 
     marginTop: 24,
     flexDirection: 'row',
     overflow: 'hidden',
-  },
-  saveButton: {
-    marginVertical: 10,
   },
 }));

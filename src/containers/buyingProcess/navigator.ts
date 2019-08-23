@@ -2,7 +2,7 @@ import { TopBarNavigationOptions } from '@src/core/navigation/options';
 import { createStackNavigator, NavigationRouteConfigMap } from 'react-navigation';
 import { BookingNavigation } from './booking';
 import { connect } from './context';
-import { OrderInfoNavigator } from './payer';
+import { OrderInfoNavigator } from './orderInfo';
 import { PaymentNavigator } from './paymentMethod';
 
 const BuyingProcessNavigationMap: NavigationRouteConfigMap = {
