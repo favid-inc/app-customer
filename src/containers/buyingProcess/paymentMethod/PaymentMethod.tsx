@@ -1,9 +1,10 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button } from '@kitten/ui';
 import { CreditCardIconFill, FileTextIconFill } from '@src/assets/icons';
-import { textStyle } from '@src/components/common';
 import React from 'react';
 import { View } from 'react-native';
+
+import { ScrollableAvoidKeyboard, textStyle } from '@src/components/common';
 import { CreditCard } from '../context';
 import { PaymentCardForm } from './PaymentCardForm';
 
@@ -44,36 +45,38 @@ class PaymentMethodComponent extends React.Component<Props, State> {
 
     return (
       <View style={themedStyle.container}>
-        <View style={themedStyle.isCreditContainer}>
-          <Button
-            icon={CreditCardIconFill}
-            style={{ flex: 1, borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
-            status={!this.state.isCreditCard ? 'white' : ''}
-            onPress={this.toggleIsCreditCard}
-          >
-            Cartão
-          </Button>
-          <Button
-            icon={FileTextIconFill}
-            style={{ flex: 1, borderBottomLeftRadius: 0, borderTopLeftRadius: 0 }}
-            status={this.state.isCreditCard ? 'white' : ''}
-            onPress={this.toggleIsCreditCard}
-          >
-            Boleto
-          </Button>
-        </View>
-        {this.state.isCreditCard && <PaymentCardForm onFormValueChange={this.onFormValueChange} />}
+        <ScrollableAvoidKeyboard>
+          <View style={themedStyle.isCreditContainer}>
+            <Button
+              icon={CreditCardIconFill}
+              style={{ flex: 1, borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
+              status={!this.state.isCreditCard ? 'white' : ''}
+              onPress={this.toggleIsCreditCard}
+            >
+              Cartão
+            </Button>
+            <Button
+              icon={FileTextIconFill}
+              style={{ flex: 1, borderBottomLeftRadius: 0, borderTopLeftRadius: 0 }}
+              status={this.state.isCreditCard ? 'white' : ''}
+              onPress={this.toggleIsCreditCard}
+            >
+              Boleto
+            </Button>
+          </View>
+          {this.state.isCreditCard && <PaymentCardForm onFormValueChange={this.onFormValueChange} />}
 
-        <Button
-          status='success'
-          style={themedStyle.saveButton}
-          textStyle={textStyle.button}
-          size='giant'
-          disabled={!this.state.creditCard || loading}
-          onPress={this.onSend}
-        >
-          {loading ? 'Processando...' : 'Próximo'}
-        </Button>
+          <Button
+            status='success'
+            style={themedStyle.saveButton}
+            textStyle={textStyle.button}
+            size='giant'
+            disabled={!this.state.creditCard || loading}
+            onPress={this.onSend}
+          >
+            {loading ? 'Processando...' : 'Próximo'}
+          </Button>
+        </ScrollableAvoidKeyboard>
       </View>
     );
   }

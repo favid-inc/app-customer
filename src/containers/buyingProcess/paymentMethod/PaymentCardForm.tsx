@@ -6,7 +6,7 @@ import { BuyingProcessContext } from '../context';
 import { textStyle, ValidationInput } from '@src/components/common';
 import {
   CARD_NUMBER_REGEX,
-  CardholderNameFormatter,
+  CardHolderNameFormatter,
   CardNumberFormatter,
   CvvFormatter,
   ExpirationDateFormatter,
@@ -145,7 +145,8 @@ class NewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
           />
         </View>
         <ValidationInput
-          formatter={CardholderNameFormatter}
+          autoCompleteType='name'
+          formatter={CardHolderNameFormatter}
           label='Nome no Cartão'
           labelStyle={textStyle.label}
           onChangeText={this.onCardHolderNameChange}

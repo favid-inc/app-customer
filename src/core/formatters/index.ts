@@ -6,7 +6,7 @@ export const CPF_REGEX = /^(\d{1,3})?(\d{1,3})?(\d{1,3})?(\d{1,2})?$/;
 export const CARD_NUMBER_FORMATTER_REGEX = /^(\d{1,4})?(\d{1,4})?(\d{1,4})?(\d{1,4})?$/;
 
 export const formatter = (value: string, regExp: RegExp, mapFormatter: (v: string, i: number) => void = (v) => v || '') =>
-value
+  value
     .replace(/\D/g, '')
     .match(regExp)
     .filter((v, i) => i && v)
@@ -47,6 +47,6 @@ export const CvvFormatter = (value: string): string => {
   return value;
 };
 
-export const CardholderNameFormatter = (value: string): string => {
-  return value.toLocaleUpperCase();
+export const CardHolderNameFormatter = (value: string): string => {
+  return value;
 };
