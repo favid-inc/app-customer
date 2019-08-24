@@ -1,20 +1,19 @@
-import { Artist as ArtistModel } from '@favid-inc/api';
+import { SocialArtist as Artist } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
 import { imageProfile7Bg, ImageSource } from '@src/assets/images';
 import { Chips, ContainerView, ImageOverlay, textStyle } from '@src/components/common';
 import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
-import { ProfileSocials as ProfileSocialsModel } from '@src/core/model';
+import { ProfileSocials as ProfileSocialsModel, ArtistRate } from '@src/core/model';
 import React from 'react';
 import { View } from 'react-native';
-
 import { ArtistReviewsResume } from '../artists/review/ArtistReviewsResume';
 import { ProfileInfo } from './profileInfo.component';
 import { ProfileSocials } from './profileSocials.component';
 
 interface ComponentProps {
-  artist: ArtistModel;
-  // socials: ProfileSocialsModel;
+  artist: Artist;
+  artistRates: ArtistRate[];
   cameoOrdered: boolean;
   follow: boolean;
   onFollowPress: () => void;
@@ -24,17 +23,28 @@ interface ComponentProps {
   onPostsPress: () => void;
   onFriendPress: (index: number) => void;
   onPhotoPress: (index: number) => void;
+  onReview: () => void;
 }
 
 export type Profile7Props = ThemedComponentProps & ComponentProps;
 
-class ArtistDetailsComponent extends React.Component<Profile7Props> {
+interface State {
+  rateAvarage: number;
+  showRates: number;
+}
+
+class ArtistDetailsComponent extends React.Component<Profile7Props, State> {
+  public state: State = {
+    rateAvarage: 0,
+    showRates: 5,
+  };
+
   private backgroundImage: ImageSource = imageProfile7Bg;
 
   public async componentDidMount() {}
 
   public render() {
-    const { themedStyle, artist } = this.props;
+    const { themedStyle, artist, artistRates } = this.props;
     const artistImage = {
       uri: artist.photoUri,
       height: 100,
@@ -46,15 +56,6 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
       following: 86,
       posts: 116,
     };
-
-    const responseTime = null;
-    // if (artist.responseTime) {
-    //   responseTime = (
-    //     <Text appearance='hint' category='s2' style={themedStyle.priceDescription}>
-    //       {`Responde em  ${artist.responseTime === 1 ? artist.responseTime + ' dia' : artist.responseTime + ' dias'}.`}
-    //     </Text>
-    //   );
-    // }
 
     let categories = null;
     if (artist.categories && artist.categories.length) {
@@ -95,24 +96,23 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
           <View style={themedStyle.actionContainer}>
             <View style={themedStyle.price}>
               <Text category='h6' style={themedStyle.priceText}>{`R$ ${artist.price}`}</Text>
-              {responseTime}
             </View>
             <Button
               size='large'
               style={themedStyle.orderButton}
-              appearance={this.props.follow ? 'outline' : 'filled'}
+              appearance={artist.follower ? 'outline' : 'filled'}
               onPress={this.onFollowPress}
             >
-              {this.props.follow ? 'Seguindo' : 'Seguir'}
+              {artist.follower ? 'Seguindo' : 'Seguir'}
             </Button>
           </View>
 
           <ProfileSocials
             style={themedStyle.profileSocials}
             textStyle={themedStyle.socialsLabel}
-            followers={socials.followers}
-            following={socials.following}
-            posts={socials.posts}
+            followers={artist.followers}
+            following={artist.follower}
+            posts={artist.orders}
             onFollowersPress={this.onFollowersPress}
             onFollowingPress={this.onFollowingPress}
             onPostsPress={this.onPostsPress}
@@ -126,12 +126,12 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
         >
           {this.props.cameoOrdered ? 'Pendente' : 'Pedir'}
         </Button>
-        <ArtistReviewsResume
-          count={3212}
-          lastMessage='Chocolate cake marzipan jelly-o croissant. Marshmallow cupcake cake gummi bears donut. Sweet roll ice cream tart. Halvah wafer gummies. '
-          rate={4}
-        />
-
+        <ArtistRates
+          showRates={this.state.showRates}
+          onReview={this.onReview}
+          artistRates={artistRates}
+          showMore={this.showMore}
+        ></ArtistRates>
         <View style={[themedStyle.profileSection, themedStyle.aboutSection]}>
           {categories}
           {biography}
@@ -139,6 +139,10 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
       </ContainerView>
     );
   }
+
+  public showMore = () => this.setState({ showRates: this.state.showRates + 5 });
+
+  private onReview = () => this.props.onReview();
 
   private onFollowPress = () => {
     this.props.onFollowPress();
@@ -159,15 +163,26 @@ class ArtistDetailsComponent extends React.Component<Profile7Props> {
   private onPostsPress = () => {
     this.props.onPostsPress();
   };
-
-  // private onFriendPress = (index: number) => {
-  //   this.props.onFriendPress(index);
-  // };
-
-  // private onPhotoPress = (index: number) => {
-  //   this.props.onPhotoPress(index);
-  // };
 }
+
+const ArtistRates = (props) => {
+  return (
+    <View style={{ paddingHorizontal: 20, paddingVertical: 30, backgroundColor: '#f9f9f9' }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Text category='h5' style={{ fontFamily: 'opensans-bold' }}>{`${props.artistRates.length} Avaliações`}</Text>
+        <Button onPress={props.onReview} size='giant' appearance='ghost'>
+          Avaliar
+        </Button>
+      </View>
+      {props.artistRates.slice(0, props.showRates).map((rate, i) => (
+        <ArtistReviewsResume key={i} {...rate} />
+      ))}
+      <Button onPress={props.showMore} size='large' appearance='ghost'>
+        Mostrar Mais
+      </Button>
+    </View>
+  );
+};
 
 export const ArtistDetails = withStyles(ArtistDetailsComponent, (theme: ThemeType) => ({
   container: {
