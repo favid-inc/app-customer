@@ -1,5 +1,4 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { CheckBox } from '@kitten/ui';
 import React from 'react';
 import { ActivityIndicator, Alert, Image, View } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
@@ -9,6 +8,7 @@ import { ScrollableAvoidKeyboard, textStyle } from '@src/components/common';
 import { AuthContext } from '@src/core/auth';
 import * as config from '@src/core/config';
 
+import { TermsAndPolicies } from './TermsAndPolicies';
 import { AuthForm } from './AuthForm';
 import { SocialAuth } from './SocialAuth';
 import { AuthFormData } from './type';
@@ -34,10 +34,8 @@ class AuthContainerComponent extends React.Component<Props, State> {
       return (
         <View style={themedStyle.container}>
           <Image source={favidImage.imageSource} style={themedStyle.logoStyle} />
-          <View style={themedStyle.contentContainer}>
-            <View style={themedStyle.container}>
-              <ActivityIndicator size='large' />
-            </View>
+          <View style={themedStyle.container}>
+            <ActivityIndicator size='large' />
           </View>
         </View>
       );
@@ -49,12 +47,9 @@ class AuthContainerComponent extends React.Component<Props, State> {
         <ScrollableAvoidKeyboard>
           <AuthForm onSignIn={this.handleSignIn} onSignUp={this.handleSignUp} />
           <SocialAuth onGoogleSignIn={this.handleGoogleSignIn} onFacebookSignIn={this.handleFacebookSignIn} />
-          <CheckBox
-            style={themedStyle.termsCheckBox}
-            textStyle={themedStyle.termsCheckBoxText}
-            checked={this.state.termsAccepted}
-            text={'Declaro que li e concordo com os termos de uso'}
-            onChange={this.handleTermsAcceptChange}
+          <TermsAndPolicies
+            onTermsAcceptedChange={this.handleTermsAcceptChange}
+            termsAcceptedValue={this.state.termsAccepted}
           />
         </ScrollableAvoidKeyboard>
       </View>
@@ -105,13 +100,6 @@ export const AuthContainer = withStyles(AuthContainerComponent, (theme: ThemeTyp
     alignItems: 'center',
     paddingVertical: 10,
   },
-  contentContainer: {
-    backgroundColor: 'red',
-    flex: 1,
-    alignItems: 'center',
-    marginBottom: 20,
-    marginTop: 20,
-  },
   logoStyle: {
     padding: 10,
     // margin: 5,
@@ -128,7 +116,7 @@ export const AuthContainer = withStyles(AuthContainerComponent, (theme: ThemeTyp
   },
 
   termsCheckBox: {
-    margin: 20,
+    marginHorizontal: 20,
   },
   termsCheckBoxText: {
     fontSize: 11,

@@ -1,1 +1,0 @@
-export { AccountNavigator } from './navigators';
