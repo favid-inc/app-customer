@@ -9,7 +9,7 @@ import {
   NavigationState,
 } from 'react-navigation';
 
-import { ArtistDetailsContainer } from '@src/containers/artistDetails';
+import { ArtistNavigationMap } from '@src/containers/artistDetails';
 import { AuthContainer } from '@src/containers/auth';
 import { BuyingProcessNavigation } from '@src/containers/buyingProcess';
 import { MenuNavigator } from '@src/containers/menu';
@@ -18,13 +18,6 @@ import { SettingsNavigationMap } from '@src/containers/settings';
 import { AuthContext } from '@src/core/auth';
 
 import { SocialNavigationOptions } from './options';
-
-const ArtistNavigationMap: NavigationRouteConfigMap = {
-  Artista: {
-    screen: ArtistDetailsContainer,
-    navigationOptions: SocialNavigationOptions,
-  },
-};
 
 const SignInNavigator: NavigationContainer = createStackNavigator(
   {

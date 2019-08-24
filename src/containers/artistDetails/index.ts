@@ -1,1 +1,1 @@
-export { ArtistDetailsContainer } from './ArtistDetailsContainer';
+export * from './navigator';
