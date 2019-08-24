@@ -641,6 +641,14 @@ export const ImageIconFill = (style: StyleProp<ImageStyle>): IconElement => {
   return Icon(source, style);
 };
 
+export const FlagIconFill = (style: StyleProp<ImageStyle>): IconElement => {
+  const source: IconSource = {
+    imageSource: require('./eva/flag.png'),
+  };
+
+  return Icon(source, style);
+};
+
 export const FileTextIconFill = (style: StyleProp<ImageStyle>): IconElement => {
   const source: IconSource = {
     imageSource: require('./eva/file-text.png'),

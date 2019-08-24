@@ -6,7 +6,7 @@ import { StyleProp, TextStyle, TouchableOpacity, View, ViewProps } from 'react-n
 
 interface ComponentProps {
   followers: number;
-  following: number;
+  following: boolean;
   posts: number;
   onFollowersPress: () => void;
   onFollowingPress: () => void;

@@ -1,12 +1,14 @@
 import { Order, OrderPaymentStatus as OrderPaymentStatusType } from '@favid-inc/api';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { Text } from '@kitten/ui';
+import { Button, Text } from '@kitten/ui';
 import { ActivityAuthoring, textStyle } from '@src/components/common';
+import { ShareIconOutline, HeartIconFill, FlagIconFill } from '../../../../assets/icons';
 import React from 'react';
-import { ImageBackground, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
+import { ImageBackground, TouchableOpacity, TouchableOpacityProps, View, Share, Linking } from 'react-native';
 import { OrderCardBottom } from './OrderCardBottom';
 import { OrderPaymentStatus } from './OrderPaymentStatus';
 import { OrderStatus } from './OrderStatus';
+
 // @ts-ignore (override `onPress` prop)
 interface ComponentProps extends TouchableOpacityProps {
   order: Order;
@@ -16,9 +18,32 @@ interface ComponentProps extends TouchableOpacityProps {
 export type OrderCardProps = ThemedComponentProps & ComponentProps;
 
 class OrderCardComponent extends React.Component<OrderCardProps> {
+  public onShare = async () => {
+    Share.share(
+      {
+        title: `Meu Video do Favid do Artista: ${this.props.order.artistArtisticName}`,
+        message: '',
+        url: this.props.order.videoThumbnailUri,
+      },
+      {}
+    );
+  };
+
+  public onLike = () => {
+    console.log('like');
+  };
+
+  public onReport = () => {
+    Linking.openURL(`mailto://support@favid.com.br?subject=Reportar Pedido #${this.props.order.id}`);
+  };
+
+  public isLiked = (): boolean => {
+    return true;
+  };
+
   public render() {
     const { style, themedStyle, order, ...restProps } = this.props;
-
+    const isLiked: boolean = this.isLiked();
     return (
       <TouchableOpacity
         activeOpacity={0.95}
@@ -30,9 +55,24 @@ class OrderCardComponent extends React.Component<OrderCardProps> {
           <ImageBackground style={themedStyle.image} source={{ uri: order.videoThumbnailUri }} />
         )}
         <View style={themedStyle.infoContainer}>
-          <Text style={themedStyle.descriptionLabel} appearance='hint' category='s2'>
-            {order.isGift ? order.receiverName : order.customerName}
-          </Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignContent: 'center' }}>
+            <View style={{ flex: 1 }}>
+              <Text style={themedStyle.descriptionLabel} appearance='hint' category='s2'>
+                {order.isGift ? order.receiverName : order.customerName}
+              </Text>
+            </View>
+            <View style={{ flexDirection: 'row' }}>
+              <Button onPress={this.onShare} size='large' status='info' icon={ShareIconOutline} appearance='ghost' />
+              <Button
+                onPress={this.onLike}
+                size='large'
+                status={isLiked ? 'success' : 'danger'}
+                icon={HeartIconFill}
+                appearance='ghost'
+              />
+              <Button onPress={this.onReport} size='small' status='warning' icon={FlagIconFill} appearance='ghost' />
+            </View>
+          </View>
           <Text style={themedStyle.descriptionLabel} appearance='hint' category='s1'>
             {order.instructions}
           </Text>
@@ -40,7 +80,7 @@ class OrderCardComponent extends React.Component<OrderCardProps> {
         <OrderCardBottom style={themedStyle.activityContainer}>
           <ActivityAuthoring
             photo={{ uri: order.artistPhotoUri }}
-            name={order.artistName}
+            name={order.artistArtisticName}
             date={new Date(order.statusPlacedDate).toLocaleDateString()}
           />
           {order.paymentStatus === OrderPaymentStatusType.PENDING ? (
