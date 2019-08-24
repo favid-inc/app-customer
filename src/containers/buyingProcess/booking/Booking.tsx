@@ -76,6 +76,7 @@ class BookingComponent extends Component<BookingProps, State> {
               textStyle={textStyle.paragraph}
               validator={NameValidator}
               value={this.state.instructions}
+              maxLength={300}
             />
           </View>
         </View>
