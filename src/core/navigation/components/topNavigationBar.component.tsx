@@ -17,7 +17,6 @@ type BackIconProp = (style: StyleType) => React.ReactElement<ImageProps>;
 type BackButtonElement = React.ReactElement<TopNavigationActionProps>;
 
 class TopNavigationBarComponent extends React.Component<TopNavigationBarProps> {
-
   public render() {
     const { themedStyle, title, backIcon } = this.props;
 
@@ -49,6 +48,6 @@ class TopNavigationBarComponent extends React.Component<TopNavigationBarProps> {
 export const TopNavigationBar = withStyles(TopNavigationBarComponent, (theme: ThemeType) => ({
   safeArea: {
     height: 50,
-    backgroundColor: theme['background-basic-color-3'],
+    backgroundColor: theme['background-basic-color-1'],
   },
 }));
