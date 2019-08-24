@@ -4,7 +4,7 @@ import { List, Text } from '@kitten/ui';
 import { ContainerView } from '@src/components/common';
 import { textStyle } from '@src/components/common';
 import React, { Component } from 'react';
-import { ListRenderItemInfo } from 'react-native';
+import { ListRenderItemInfo, View } from 'react-native';
 import { OrderCard } from './orderCard';
 import { OrderCardProps } from './orderCard/OrderCard';
 
@@ -20,11 +20,11 @@ class OrdersComponent extends Component<ThemedComponentProps & Props> {
       orders && orders.length ? (
         <List contentContainerStyle={themedStyle.container} renderItem={this.renderItem} data={orders} />
       ) : (
-        <ContainerView style={themedStyle.container}>
+        <View style={themedStyle.container}>
           <Text style={themedStyle.subtitle} appearance='hint'>
             Nenhum pedido.
           </Text>
-        </ContainerView>
+        </View>
       );
 
     return list;
