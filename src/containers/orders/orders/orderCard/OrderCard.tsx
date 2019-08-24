@@ -1,10 +1,10 @@
 import { Order, OrderPaymentStatus as OrderPaymentStatusType } from '@favid-inc/api';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { Button, ButtonGroup, Text } from '@kitten/ui';
+import { Button, Text } from '@kitten/ui';
 import { ActivityAuthoring, textStyle } from '@src/components/common';
-import { ShareIconOutline, HeartIconFill } from '../../../../assets/icons';
+import { ShareIconOutline, HeartIconFill, FlagIconFill } from '../../../../assets/icons';
 import React from 'react';
-import { ImageBackground, TouchableOpacity, TouchableOpacityProps, View, Share } from 'react-native';
+import { ImageBackground, TouchableOpacity, TouchableOpacityProps, View, Share, Linking } from 'react-native';
 import { OrderCardBottom } from './OrderCardBottom';
 import { OrderPaymentStatus } from './OrderPaymentStatus';
 import { OrderStatus } from './OrderStatus';
@@ -21,16 +21,20 @@ class OrderCardComponent extends React.Component<OrderCardProps> {
   public onShare = async () => {
     Share.share(
       {
-        title: `Meu Video do Favid do Artista: ${this.props.order.artistName}`,
+        title: `Meu Video do Favid do Artista: ${this.props.order.artistArtisticName}`,
         message: '',
         url: this.props.order.videoThumbnailUri,
       },
-      {},
+      {}
     );
   };
 
   public onLike = () => {
     console.log('like');
+  };
+
+  public onReport = () => {
+    Linking.openURL(`mailto://support@favid.com.br?subject=Reportar Pedido #${this.props.order.id}`);
   };
 
   public isLiked = (): boolean => {
@@ -58,14 +62,15 @@ class OrderCardComponent extends React.Component<OrderCardProps> {
               </Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
-              <Button onPress={this.onShare} size='giant' status='info' icon={ShareIconOutline} appearance='ghost' />
+              <Button onPress={this.onShare} size='large' status='info' icon={ShareIconOutline} appearance='ghost' />
               <Button
                 onPress={this.onLike}
-                size='giant'
+                size='large'
                 status={isLiked ? 'success' : 'danger'}
                 icon={HeartIconFill}
                 appearance='ghost'
               />
+              <Button onPress={this.onReport} size='small' status='warning' icon={FlagIconFill} appearance='ghost' />
             </View>
           </View>
           <Text style={themedStyle.descriptionLabel} appearance='hint' category='s1'>
@@ -75,7 +80,7 @@ class OrderCardComponent extends React.Component<OrderCardProps> {
         <OrderCardBottom style={themedStyle.activityContainer}>
           <ActivityAuthoring
             photo={{ uri: order.artistPhotoUri }}
-            name={order.artistName}
+            name={order.artistArtisticName}
             date={new Date(order.statusPlacedDate).toLocaleDateString()}
           />
           {order.paymentStatus === OrderPaymentStatusType.PENDING ? (
