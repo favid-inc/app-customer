@@ -4,14 +4,20 @@ import React, { Component } from 'react';
 import { NavigationScreenProps } from 'react-navigation';
 
 import { ArtistDetails } from './ArtistDetails';
-import { Alert } from 'react-native';
+import { Alert, View } from 'react-native';
 import { ArtistRate } from '@src/core/model';
+import { Order } from '@favid-inc/api';
+import { Orders } from './orders/Orders';
+import { listOrders } from './orders/listOrders';
+import { ContainerView } from '@src/components/common';
 
 interface State {
   cameoOrdered: boolean;
   follow: boolean;
+  loading: boolean;
   artist: Artist;
   artistRates: ArtistRate[];
+  orders: Order[];
 }
 
 type Props = NavigationScreenProps;
@@ -19,9 +25,11 @@ type Props = NavigationScreenProps;
 export class ArtistDetailsContainer extends Component<Props, State> {
   public state: State = {
     artist: {},
+    orders: [],
     artistRates: [],
     cameoOrdered: false,
     follow: false,
+    loading: false,
   };
 
   private navigationKey: string = 'Artists';
@@ -35,33 +43,55 @@ export class ArtistDetailsContainer extends Component<Props, State> {
       artistRates.push({
         customerName: 'Gabriel Umbelino',
         message: 'Pudding pie macaroon sesame snaps chupa chups icing cupcake. Tiramisu sweet roll toffee gummi bears.',
-        customerId: 1,
         rate: 4,
       });
     }
     this.setState({
       artistRates,
     });
+    this.handleRefresh();
   }
 
   public render() {
     return (
-      <ArtistDetails
-        artistRates={this.state.artistRates}
-        artist={this.state.artist}
-        cameoOrdered={this.state.cameoOrdered}
-        follow={this.state.follow}
-        onFollowersPress={this.onFollowersPress}
-        onFollowingPress={this.onFollowingPress}
-        onFollowPress={this.onFollowPress}
-        onFriendPress={this.onFriendPress}
-        onOrderPress={this.onOrderPress}
-        onPhotoPress={this.onPhotoPress}
-        onPostsPress={this.onPostsPress}
-        onReview={this.onReview}
-      />
+      <ContainerView>
+        <ArtistDetails
+          artistRates={this.state.artistRates}
+          artist={this.state.artist}
+          cameoOrdered={this.state.cameoOrdered}
+          follow={this.state.follow}
+          onFollowersPress={this.onFollowersPress}
+          onFollowingPress={this.onFollowingPress}
+          onFollowPress={this.onFollowPress}
+          onFriendPress={this.onFriendPress}
+          onOrderPress={this.onOrderPress}
+          onPhotoPress={this.onPhotoPress}
+          onPostsPress={this.onPostsPress}
+          onReview={this.onReview}
+        />
+        <Orders orders={this.state.orders} onDetails={this.onDetails} />
+      </ContainerView>
     );
   }
+
+  private handleRefresh = async () => {
+    this.setState({ loading: true });
+    try {
+      const orders = await listOrders(this.state.artist.id);
+      console.log('[OrdersContainer.tsx] orders:', orders);
+      this.setState({ orders });
+    } catch (e) {
+      Alert.alert('Erro ao listar pedidos');
+    } finally {
+      this.setState({ loading: false });
+    }
+  };
+
+  private onDetails = (order: Order) => {
+    this.props.navigation.navigate('Detalhes do Pedido', {
+      order,
+    });
+  };
 
   private onFollowPress = async () => {
     try {
