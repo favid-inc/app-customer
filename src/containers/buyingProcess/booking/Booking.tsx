@@ -4,7 +4,7 @@ import { Button, Text, Toggle } from '@kitten/ui';
 import { ContainerView, textStyle, ValidationInput } from '@src/components/common';
 import { NameValidator } from '@src/core/validators';
 import React, { Component } from 'react';
-import { View, ViewProps } from 'react-native';
+import { View, ViewProps, TextInput } from 'react-native';
 
 interface ComponentProps {
   customerName: string;
@@ -14,24 +14,36 @@ interface ComponentProps {
 
 export type BookingProps = ThemedComponentProps & ViewProps & ComponentProps;
 
-type State = Order;
+interface State {
+  model: Order;
+  validation: {
+    customerName: string[];
+    instructions: string[];
+  };
+}
 
 class BookingComponent extends Component<BookingProps, State> {
   public state: State = {
-    isGift: false,
-    customerName: '',
-    receiverName: '',
-    instructions: '',
+    model: {
+      isGift: false,
+      customerName: '',
+      receiverName: '',
+      instructions: '',
+    },
+    validation: {
+      customerName: [],
+      instructions: [],
+    },
   };
 
   public componentDidMount() {
-    this.setState({ customerName: this.props.customerName });
+    // this.setState({ model: { ...this.state.model, customerName: this.state.model.customerName } });
   }
 
   public render() {
     const { themedStyle } = this.props;
 
-    const giftFields = this.state.isGift && (
+    const giftFields = this.state.model.isGift && (
       <View style={themedStyle.middleContainer}>
         <ValidationInput
           label='Nome do Presenteado'
@@ -40,7 +52,7 @@ class BookingComponent extends Component<BookingProps, State> {
           style={themedStyle.input}
           textStyle={textStyle.paragraph}
           validator={NameValidator}
-          value={this.state.receiverName}
+          value={this.state.model.receiverName}
         />
       </View>
     );
@@ -48,36 +60,48 @@ class BookingComponent extends Component<BookingProps, State> {
     return (
       <ContainerView style={themedStyle.container} contentContainerStyle={themedStyle.contentContainer}>
         <View style={themedStyle.formContainer}>
-          <View style={themedStyle.middleContainer}>
-            <Text appearance='hint' category='s2' style={themedStyle.tittleLabel}>
+          <View style={[themedStyle.middleContainer, themedStyle.row]}>
+            <Text appearance='hint' style={themedStyle.tittleLabel}>
               Para Presente?
             </Text>
-            <Toggle checked={this.state.isGift} style={themedStyle.isGift} onChange={this.handleIsGiftChange} />
+            <Toggle checked={this.state.model.isGift} style={themedStyle.isGift} onChange={this.handleIsGiftChange} />
           </View>
           <View style={themedStyle.middleContainer}>
             <ValidationInput
               label='Meu Nome'
-              labelStyle={textStyle.label}
-              onChangeText={this.handleCustomerNameChange}
               style={themedStyle.input}
-              textStyle={textStyle.paragraph}
               validator={NameValidator}
-              value={this.state.customerName}
+              labelStyle={textStyle.label}
+              textStyle={textStyle.paragraph}
+              value={this.state.model.customerName}
+              onChangeText={this.handleCustomerNameChange}
             />
+            {this.state.validation.customerName.map((e, i) => (
+              <Text status='danger' key={i}>
+                {e}
+              </Text>
+            ))}
           </View>
           {giftFields}
           <View style={themedStyle.middleContainer}>
-            <ValidationInput
-              label='Instruções'
-              labelStyle={textStyle.label}
-              onChangeText={this.handleInstructionsChange}
-              placeholder='Por favor, deseje um feliz aniversário...'
-              style={themedStyle.input}
-              textStyle={textStyle.paragraph}
-              validator={NameValidator}
-              value={this.state.instructions}
+            <Text appearance='hint' style={themedStyle.tittleLabel}>
+              Instruções
+            </Text>
+            <TextInput
               maxLength={300}
+              multiline={true}
+              numberOfLines={4}
+              style={themedStyle.textArea}
+              value={this.state.model.instructions}
+              onChangeText={this.handleInstructionsChange}
             />
+            <Text appearance='hint' category='p1'>{`${300 -
+              this.state.model.instructions.length} caracteres restantes.`}</Text>
+            {this.state.validation.instructions.map((e, i) => (
+              <Text status='danger' key={i}>
+                {e}
+              </Text>
+            ))}
           </View>
         </View>
         <Button
@@ -93,12 +117,35 @@ class BookingComponent extends Component<BookingProps, State> {
     );
   }
 
-  private handleCustomerNameChange = (customerName) => this.setState({ customerName });
-  private handleInstructionsChange = (instructions) => this.setState({ instructions });
-  private handleIsGiftChange = (isGift) => this.setState({ isGift });
-  private handleReceiverNameChange = (receiverName) => this.setState({ receiverName });
+  public isValid() {
+    const { model } = this.state;
+    const customerName: string[] = !model.customerName ? ['Campo Obrigatório.'] : [];
+    const instructions: string[] = !model.instructions ? ['Campo Obrigatório.'] : [];
 
-  private handleSend = () => this.props.onSend(this.state);
+    this.setState({ validation: { customerName, instructions } });
+
+    return ![...customerName, ...instructions].length;
+  }
+
+  public onChange(prop) {
+    this.setState({ model: { ...this.state.model, ...prop } });
+  }
+
+  private handleCustomerNameChange = (customerName) => {
+    this.onChange({ customerName });
+    this.setState({ validation: { ...this.state.validation, customerName: [] } });
+  };
+  private handleInstructionsChange = (instructions) => {
+    this.onChange({ instructions });
+    this.setState({ validation: { ...this.state.validation, instructions: [] } });
+  };
+  private handleIsGiftChange = (isGift) => this.onChange({ isGift });
+  private handleReceiverNameChange = (receiverName) => this.onChange({ receiverName });
+  private handleSend = () => {
+    if (this.isValid()) {
+      this.props.onSend(this.state);
+    }
+  };
 }
 
 export const Booking = withStyles(BookingComponent, (theme: ThemeType) => ({
@@ -110,22 +157,28 @@ export const Booking = withStyles(BookingComponent, (theme: ThemeType) => ({
   contentContainer: {
     flex: 1,
   },
-  titleLabel: {
-    minWidth: 128,
-    ...textStyle.subtitle,
+  tittleLabel: {
+    minWidth: 138,
+    fontSize: 15,
+    paddingVertical: 5,
+    fontFamily: 'opensans-bold',
+    borderColor: theme['background-basic-color-4'],
   },
   gift: {
     marginHorizontal: 5,
   },
+
   input: {
     flexWrap: 'wrap',
     flex: 1,
     backgroundColor: theme['background-basic-color-1'],
   },
-  middleContainer: {
-    display: 'flex',
+  row: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  middleContainer: {
+    display: 'flex',
     marginTop: 24,
   },
   addButton: {
@@ -134,5 +187,18 @@ export const Booking = withStyles(BookingComponent, (theme: ThemeType) => ({
   formContainer: {
     flex: 1,
     marginTop: 20,
+  },
+  textArea: {
+    flexWrap: 'wrap',
+    flex: 1,
+    backgroundColor: '#ffffff',
+    borderColor: theme['background-basic-color-3'],
+    borderWidth: 1,
+    height: 150,
+    borderRadius: 10,
+    padding: 10,
+    fontSize: 17,
+    fontFamily: 'opensans-regular',
+    width: '100%',
   },
 }));
