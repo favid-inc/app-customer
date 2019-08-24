@@ -126,16 +126,16 @@ class ArtistDetailsComponent extends React.Component<Profile7Props, State> {
         >
           {this.props.cameoOrdered ? 'Pendente' : 'Pedir'}
         </Button>
+        <View style={[themedStyle.profileSection, themedStyle.aboutSection]}>
+          {categories}
+          {biography}
+        </View>
         <ArtistRates
           showRates={this.state.showRates}
           onReview={this.onReview}
           artistRates={artistRates}
           showMore={this.showMore}
         ></ArtistRates>
-        <View style={[themedStyle.profileSection, themedStyle.aboutSection]}>
-          {categories}
-          {biography}
-        </View>
       </ContainerView>
     );
   }
@@ -185,10 +185,6 @@ const ArtistRates = (props) => {
 };
 
 export const ArtistDetails = withStyles(ArtistDetailsComponent, (theme: ThemeType) => ({
-  container: {
-    flex: 1,
-    backgroundColor: theme['background-basic-color-2'],
-  },
   profileInfoContainer: {
     paddingHorizontal: 24,
     paddingVertical: 24,
@@ -214,6 +210,7 @@ export const ArtistDetails = withStyles(ArtistDetailsComponent, (theme: ThemeTyp
   },
   orderButton: {
     flex: 1,
+    fontFamily: 'opensans-bold',
   },
   price: {
     flex: 1,
@@ -255,16 +252,17 @@ export const ArtistDetails = withStyles(ArtistDetailsComponent, (theme: ThemeTyp
     color: 'white',
     ...textStyle.subtitle,
     textAlign: 'center',
-    marginLeft: 5,
-    marginRight: 5,
+    paddingHorizontal: 5,
+  },
+  chips: {
+    marginHorizontal: 4,
+    marginBottom: 8,
   },
   categories: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     flexWrap: 'wrap',
-    marginHorizontal: 10,
-    marginBottom: 3,
   },
   section: {
     paddingBottom: 30,
