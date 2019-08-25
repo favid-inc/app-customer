@@ -1,40 +1,22 @@
 import { Order } from '@favid-inc/api';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
-import { textStyle, ActivityAuthoring } from '@src/components/common';
-import { ShareIconOutline, HeartIconFill } from '../../../../assets/icons';
 import React from 'react';
-import { ImageBackground, TouchableOpacity, TouchableOpacityProps, View, Share, Linking } from 'react-native';
+import { ImageBackground, Share, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
+
+import { HeartIconFill, ShareIconOutline } from '@src/assets/icons';
+import { ActivityAuthoring, textStyle } from '@src/components/common';
 import { OrderCardBottom } from './OrderCardBottom';
 
-// @ts-ignore (override `onPress` prop)
-interface ComponentProps extends TouchableOpacityProps {
+interface ComponentProps {
   order: Order;
   onPress: (order: Order) => void;
+  style: StyleProp<ViewStyle>;
 }
 
 export type OrderCardProps = ThemedComponentProps & ComponentProps;
 
 class OrderCardComponent extends React.Component<OrderCardProps> {
-  public onShare = async () => {
-    Share.share(
-      {
-        title: `Meu Video do Favid do Artista: ${this.props.order.artistArtisticName}`,
-        message: '',
-        url: this.props.order.videoThumbnailUri,
-      },
-      {}
-    );
-  };
-
-  public onLike = () => {
-    console.log('like');
-  };
-
-  public onReport = () => {
-    Linking.openURL(`mailto://support@favid.com.br?subject=Reportar Pedido #${this.props.order.id}`);
-  };
-
   public isLiked = (): boolean => {
     return true;
   };
@@ -81,6 +63,25 @@ class OrderCardComponent extends React.Component<OrderCardProps> {
       </TouchableOpacity>
     );
   }
+
+  // private onReport = () => {
+  //   Linking.openURL(`mailto://suporte.favid@gmail.com?subject=Reportar Pedido #${this.props.order.id}`);
+  // };
+
+  private onLike = () => {
+    console.log('like');
+  };
+
+  private onShare = () => {
+    Share.share(
+      {
+        title: `Meu Video do Favid do Artista: ${this.props.order.artistArtisticName}`,
+        message: '',
+        url: this.props.order.videoThumbnailUri,
+      },
+      {},
+    );
+  };
 
   private onPress = () => {
     this.props.onPress(this.props.order);

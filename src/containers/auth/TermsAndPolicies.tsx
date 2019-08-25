@@ -1,5 +1,5 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { CheckBox, Button } from '@kitten/ui';
+import { Button, CheckBox } from '@kitten/ui';
 import React from 'react';
 import { Linking, View } from 'react-native';
 

@@ -1,12 +1,12 @@
-import React from 'react';
-import { AuthContext } from '@src/core/auth';
-import { RateBar } from '@src/components/common';
-import { Button } from '@kitten/ui';
-import { Alert, View, TextInput } from 'react-native';
-import { NavigationScreenProps } from 'react-navigation';
-import { withStyles, ThemeType, ThemedComponentProps } from '@kitten/theme';
 import { ArtistRate } from '@favid-inc/api';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { Button } from '@kitten/ui';
+import { AuthContext } from '@src/core/auth';
+import React from 'react';
+import { Alert, TextInput, View } from 'react-native';
+import { NavigationScreenProps } from 'react-navigation';
 
+import { RateBar } from '@src/components/common';
 import { rateArtist } from './rateArtist';
 
 type Props = NavigationScreenProps & ThemedComponentProps & NavigationScreenProps;

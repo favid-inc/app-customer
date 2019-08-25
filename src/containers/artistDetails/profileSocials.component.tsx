@@ -1,9 +1,9 @@
+import { SocialArtist } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Text } from '@kitten/ui';
 import { textStyle } from '@src/components/common';
 import React from 'react';
 import { StyleProp, TextStyle, TouchableOpacity, View, ViewProps, ViewStyle } from 'react-native';
-import { SocialArtist } from '@favid-inc/api/lib/app-customer';
 
 interface ComponentProps {
   artist: SocialArtist;

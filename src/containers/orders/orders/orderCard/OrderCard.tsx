@@ -1,10 +1,11 @@
 import { Order, OrderPaymentStatus as OrderPaymentStatusType } from '@favid-inc/api';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
-import { ActivityAuthoring, textStyle } from '@src/components/common';
-import { ShareIconOutline, HeartIconFill, FlagIconFill } from '../../../../assets/icons';
 import React from 'react';
-import { ImageBackground, TouchableOpacity, TouchableOpacityProps, View, Share, Linking } from 'react-native';
+import { ImageBackground, Linking, Share, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
+
+import { FlagIconFill, HeartIconFill, ShareIconOutline } from '@src/assets/icons';
+import { ActivityAuthoring, textStyle } from '@src/components/common';
 import { OrderCardBottom } from './OrderCardBottom';
 import { OrderPaymentStatus } from './OrderPaymentStatus';
 import { OrderStatus } from './OrderStatus';
@@ -25,7 +26,7 @@ class OrderCardComponent extends React.Component<OrderCardProps> {
         message: '',
         url: this.props.order.videoThumbnailUri,
       },
-      {}
+      {},
     );
   };
 

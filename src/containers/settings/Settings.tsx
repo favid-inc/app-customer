@@ -3,7 +3,7 @@ import { Button } from '@kitten/ui';
 import React from 'react';
 import { Linking, View } from 'react-native';
 
-import { LogOutIconFill, MenuIconMessaging, FileTextIconFill } from '@src/assets/icons';
+import { FileTextIconFill, LogOutIconFill, MenuIconMessaging } from '@src/assets/icons';
 import { AuthContext } from '@src/core/auth';
 
 interface Props {

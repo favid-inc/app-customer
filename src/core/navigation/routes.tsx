@@ -5,7 +5,6 @@ import {
   createStackNavigator,
   NavigationAction,
   NavigationContainer,
-  NavigationRouteConfigMap,
   NavigationState,
 } from 'react-navigation';
 
@@ -16,8 +15,6 @@ import { MenuNavigator } from '@src/containers/menu';
 import { OrderDetailsContainerNavigationMap, OrdersNavigator } from '@src/containers/orders';
 import { SettingsNavigationMap } from '@src/containers/settings';
 import { AuthContext } from '@src/core/auth';
-
-import { SocialNavigationOptions } from './options';
 
 const SignInNavigator: NavigationContainer = createStackNavigator(
   {

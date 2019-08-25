@@ -1,18 +1,18 @@
-import { SocialArtist as Artist } from '@favid-inc/api/lib/app-customer';
-import React from 'react';
-import { NavigationScreenProps, NavigationEventSubscription } from 'react-navigation';
 import { ArtistRate } from '@favid-inc/api';
 import { Order } from '@favid-inc/api';
+import { SocialArtist as Artist } from '@favid-inc/api/lib/app-customer';
+import React from 'react';
 import { Alert, RefreshControl } from 'react-native';
+import { NavigationEventSubscription, NavigationScreenProps } from 'react-navigation';
 
 import { ContainerView } from '@src/components/common';
 
-import { listArtistOrders } from './listArtistOrders';
-import { Orders } from './orders/Orders';
 import { ArtistDetails } from './ArtistDetails';
 import { followArtist } from './followArtist';
-import { unFollowArtist } from './unFollowArtist';
+import { listArtistOrders } from './listArtistOrders';
 import { listArtistRates } from './listArtistRates';
+import { Orders } from './orders/Orders';
+import { unFollowArtist } from './unFollowArtist';
 
 interface State {
   cameoOrdered: boolean;

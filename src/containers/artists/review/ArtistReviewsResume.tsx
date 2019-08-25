@@ -1,8 +1,8 @@
-import React from 'react';
-import { Text } from '@kitten/ui';
-import { View } from 'react-native';
-import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { ArtistRate } from '@favid-inc/api';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { Text } from '@kitten/ui';
+import React from 'react';
+import { View } from 'react-native';
 
 import { RateBar } from '@src/components/common';
 import { textStyle } from '@src/components/common/style';

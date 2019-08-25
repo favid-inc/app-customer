@@ -1,9 +1,8 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { ContainerView, ScrollableAvoidKeyboard, textStyle } from '@src/components/common';
+import { ContainerView, ScrollableAvoidKeyboard } from '@src/components/common';
 import React from 'react';
 import { Platform } from 'react-native';
 
-import { Payer } from '../context';
 import { OrderInfoForm } from './OrderInfoForm';
 
 interface ComponentProps {

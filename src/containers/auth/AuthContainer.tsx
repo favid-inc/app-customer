@@ -8,9 +8,9 @@ import { ScrollableAvoidKeyboard, textStyle } from '@src/components/common';
 import { AuthContext } from '@src/core/auth';
 import * as config from '@src/core/config';
 
-import { TermsAndPolicies } from './TermsAndPolicies';
 import { AuthForm } from './AuthForm';
 import { SocialAuth } from './SocialAuth';
+import { TermsAndPolicies } from './TermsAndPolicies';
 import { AuthFormData } from './type';
 
 type Props = ThemedComponentProps & NavigationScreenProps;

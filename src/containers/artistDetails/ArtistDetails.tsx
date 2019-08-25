@@ -1,5 +1,5 @@
-import { SocialArtist as Artist } from '@favid-inc/api/lib/app-customer';
 import { ArtistRate } from '@favid-inc/api';
+import { SocialArtist as Artist } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
 import { imageProfile7Bg, ImageSource } from '@src/assets/images';
