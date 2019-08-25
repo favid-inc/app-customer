@@ -128,11 +128,11 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
           {categories}
           {biography}
         </View>
-        {!artist.videoUri ? (
-          <View style={{flex: 1, position: 'relative', height: 550}}>
+        {artist.videoUri && (
+          <View style={{ flex: 1, position: 'relative', height: 550 }}>
             <VideoPlayer uri={artist.videoUri} />
           </View>
-        ) : null}
+        )}
         <ArtistRates
           loading={loading}
           artist={artist}
