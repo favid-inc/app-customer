@@ -6,17 +6,9 @@ interface Props {
   order: Order;
 }
 
-class OrderDetailsComponent extends Component<ThemedComponentProps & Props> {
+export class OrderDetails extends Component<Props> {
   public render() {
     const { order } = this.props;
     return <VideoPlayer uri={order.videoUri} />;
   }
 }
-
-export const OrderDetails = withStyles(OrderDetailsComponent, (theme: ThemeType) => ({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-}));

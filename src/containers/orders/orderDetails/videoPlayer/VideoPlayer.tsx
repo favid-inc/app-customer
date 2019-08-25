@@ -28,7 +28,6 @@ export class VideoPlayer extends React.Component<Props, State> {
 
   public render() {
     const { uri } = this.props;
-
     return (
       <TouchableWithoutFeedback onPress={this.toggleControls}>
         <View style={styles.container}>

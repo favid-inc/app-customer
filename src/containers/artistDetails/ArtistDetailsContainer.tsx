@@ -2,7 +2,7 @@ import { ArtistRate } from '@favid-inc/api';
 import { Order } from '@favid-inc/api';
 import { SocialArtist as Artist } from '@favid-inc/api/lib/app-customer';
 import React from 'react';
-import { Alert, RefreshControl } from 'react-native';
+import { Alert, RefreshControl, View } from 'react-native';
 import { NavigationEventSubscription, NavigationScreenProps } from 'react-navigation';
 
 import { ContainerView } from '@src/components/common';
@@ -13,6 +13,7 @@ import { listArtistOrders } from './listArtistOrders';
 import { listArtistRates } from './listArtistRates';
 import { Orders } from './orders/Orders';
 import { unFollowArtist } from './unFollowArtist';
+import { VideoPlayer } from '../orders/orderDetails/videoPlayer';
 
 interface State {
   artist: Artist;
@@ -67,7 +68,11 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
   public render() {
     return (
       <ContainerView refreshControl={<RefreshControl refreshing={this.state.loading} onRefresh={this.handleRefresh} />}>
+        <View style={{flex: 1, position: 'relative', height: 550}}>
+          <VideoPlayer uri={'https://storage.googleapis.com/onyx-harmony-239219.appspot.com/Order%2FQ8QEnbAeOENtqBMxVSxpmHUC1SJ2%2F10657b27-7b2b-4bf9-92fc-fc9dcf50460a.mp4'} />
+        </View>
         <ArtistDetails
+          loading={this.state.loading}
           artist={this.state.artist}
           artistRates={this.state.artistRates}
           cameoOrdered={this.state.cameoOrdered}
@@ -88,27 +93,34 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
   }
 
   private handleRefresh = async () => {
+
     if (this.state.loading) {
       return;
     }
 
     this.setState({ loading: true });
+
     try {
+
       const artist = this.props.navigation.getParam('artist');
       const artistId = artist.id;
 
       const [orders, artistRates] = await Promise.all([listArtistOrders({ artistId }), listArtistRates({ artistId })]);
+      const rates = artistRates.map((r) => r.value).reduce((acc, cur) => acc + cur, 0) / (artistRates.length || 1);
 
       this.setState({
         orders,
         artistRates,
         artist: {
           ...artist,
-          rates: artistRates.map((r) => r.value).reduce((acc, cur) => acc + cur, 0) / (artistRates.length || 1),
+          rates,
         },
       });
+
     } finally {
+
       this.setState({ loading: false });
+
     }
   };
 
