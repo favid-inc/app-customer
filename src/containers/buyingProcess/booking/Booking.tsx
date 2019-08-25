@@ -10,7 +10,7 @@ import { NameValidator } from '@src/core/validators';
 interface ComponentProps {
   customerName: string;
   sending: boolean;
-  onSend: (order: State) => void;
+  onSend: (order: Order) => void;
 }
 
 export type BookingProps = ThemedComponentProps & ViewProps & ComponentProps;
@@ -144,7 +144,7 @@ class BookingComponent extends Component<BookingProps, State> {
   private handleReceiverNameChange = (receiverName) => this.onChange({ receiverName });
   private handleSend = () => {
     if (this.isValid()) {
-      this.props.onSend(this.state);
+      this.props.onSend(this.state.model);
     }
   };
 }
