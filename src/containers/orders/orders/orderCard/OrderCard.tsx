@@ -21,6 +21,7 @@ interface ComponentProps {
 
 interface State {
   order: Order;
+  sending: boolean;
 }
 
 export type OrderCardProps = ThemedComponentProps & ComponentProps;
@@ -28,6 +29,7 @@ export type OrderCardProps = ThemedComponentProps & ComponentProps;
 class OrderCardComponent extends React.Component<OrderCardProps, State> {
   public state: State = {
     order: {},
+    sending: false,
   };
 
   public componentDidMount() {
@@ -55,7 +57,13 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
                 {order.isGift ? order.receiverName : order.customerName}
               </Text>
             </View>
-            <SocialButtons order={order} onLike={this.onLike} onReport={this.onReport} onShare={this.onShare} />
+            <SocialButtons
+              sending={this.state.sending}
+              order={order}
+              onLike={this.onLike}
+              onReport={this.onReport}
+              onShare={this.onShare}
+            />
           </View>
           <Text style={themedStyle.descriptionLabel} appearance='hint' category='s1'>
             {order.instructions}
@@ -100,6 +108,7 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
     const { id: orderId, like, likes } = this.state.order;
 
     this.setState({
+      sending: true,
       order: {
         ...this.state.order,
         like: !like,
@@ -108,7 +117,7 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
     });
 
     const order = like ? await unLikeOrder({ orderId }) : await likeOrder({ orderId });
-    this.setState({ order });
+    this.setState({ sending: false, order });
   };
 
   private onReport = () => {
@@ -120,13 +129,14 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
   };
 }
 
-const SocialButtons = ({ order, onLike, onReport, onShare }) => (
+const SocialButtons = ({ order, onLike, onReport, onShare, sending }) => (
   <View style={{ flexDirection: 'row' }}>
     {order.status === OrderStatusType.FULFILLED && (
       <Button onPress={onShare} size='small' status='info' icon={ShareIconOutline} appearance='ghost' />
     )}
     {order.status === OrderStatusType.FULFILLED && (
       <Button
+        disabled={sending}
         onPress={onLike}
         size='small'
         status='danger'

@@ -15,12 +15,13 @@ import { Orders } from './orders/Orders';
 import { unFollowArtist } from './unFollowArtist';
 
 interface State {
+  artist: Artist;
+  artistRates: ArtistRate[];
   cameoOrdered: boolean;
   follow: boolean;
   loading: boolean;
-  artist: Artist;
-  artistRates: ArtistRate[];
   orders: Order[];
+  sending: boolean;
 }
 
 type Props = NavigationScreenProps;
@@ -28,11 +29,12 @@ type Props = NavigationScreenProps;
 export class ArtistDetailsContainer extends React.Component<Props, State> {
   public state: State = {
     artist: {},
-    orders: [],
     artistRates: [],
     cameoOrdered: false,
     follow: false,
     loading: false,
+    orders: [],
+    sending: false,
   };
 
   private didFocusSubscription: NavigationEventSubscription;
@@ -66,8 +68,8 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
     return (
       <ContainerView refreshControl={<RefreshControl refreshing={this.state.loading} onRefresh={this.handleRefresh} />}>
         <ArtistDetails
-          artistRates={this.state.artistRates}
           artist={this.state.artist}
+          artistRates={this.state.artistRates}
           cameoOrdered={this.state.cameoOrdered}
           follow={this.state.follow}
           onFollowersPress={this.onFollowersPress}
@@ -75,9 +77,10 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
           onFollowPress={this.onFollowPress}
           onFriendPress={this.onFriendPress}
           onOrderPress={this.onOrderPress}
-          onPhotoPress={this.onPhotoPress}
           onOrdersPress={this.onOrdersPress}
+          onPhotoPress={this.onPhotoPress}
           onReview={this.onReview}
+          sending={this.state.sending}
         />
         <Orders orders={this.state.orders} onDetails={this.onDetails} />
       </ContainerView>
@@ -91,11 +94,19 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
 
     this.setState({ loading: true });
     try {
-      const { id: artistId } = this.props.navigation.getParam('artist');
+      const artist = this.props.navigation.getParam('artist');
+      const artistId = artist.id;
 
       const [orders, artistRates] = await Promise.all([listArtistOrders({ artistId }), listArtistRates({ artistId })]);
 
-      this.setState({ orders, artistRates });
+      this.setState({
+        orders,
+        artistRates,
+        artist: {
+          ...artist,
+          rates: artistRates.map((r) => r.value).reduce((acc, cur) => acc + cur, 0) / (artistRates.length || 1),
+        },
+      });
     } finally {
       this.setState({ loading: false });
     }
@@ -112,6 +123,7 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
       const { id: artistId, follower, followers } = this.state.artist;
 
       this.setState({
+        sending: true,
         artist: {
           ...this.state.artist,
           follower: !follower,
@@ -123,6 +135,8 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
       this.setState({ artist });
     } catch (error) {
       Alert.alert('Ops!', 'Estamos tendo problemas, tente novamente mais tarde.');
+    } finally {
+      this.setState({ sending: false });
     }
   };
 

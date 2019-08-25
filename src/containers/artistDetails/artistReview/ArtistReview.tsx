@@ -11,13 +11,14 @@ import { rateArtist } from './rateArtist';
 
 type Props = NavigationScreenProps & ThemedComponentProps & NavigationScreenProps;
 
-type State = ArtistRate;
+type State = ArtistRate & { sending: boolean };
 
 class ArtistReviewComponent extends React.Component<Props, State> {
   static contextType = AuthContext;
   public context: React.ContextType<typeof AuthContext>;
 
   public state: State = {
+    sending: false,
     value: 5,
   };
 
@@ -54,7 +55,13 @@ class ArtistReviewComponent extends React.Component<Props, State> {
           <Button status='danger' size='giant' appearance='ghost' style={themedStyle.button} onPress={this.onCancel}>
             Cancelar
           </Button>
-          <Button status='success' size='giant' style={themedStyle.button} onPress={this.onSend}>
+          <Button
+            disabled={this.state.sending}
+            status='success'
+            size='giant'
+            style={themedStyle.button}
+            onPress={this.onSend}
+          >
             Avaliar
           </Button>
         </View>
@@ -67,10 +74,12 @@ class ArtistReviewComponent extends React.Component<Props, State> {
 
   private onSend = async () => {
     try {
+      this.setState({ sending: true });
       await rateArtist(this.state);
       this.props.navigation.goBack();
     } catch (error) {
       Alert.alert('Ops!', 'Estamos tendo problemas, tente novamente mais tarde.');
+      this.setState({ sending: false });
     }
   };
 

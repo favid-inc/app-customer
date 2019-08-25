@@ -25,6 +25,7 @@ interface ComponentProps {
   onFriendPress: (index: number) => void;
   onPhotoPress: (index: number) => void;
   onReview: () => void;
+  sending: boolean;
 }
 
 export type Props = ThemedComponentProps & ComponentProps;
@@ -83,20 +84,21 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
       <ContainerView style={themedStyle.container}>
         <ImageOverlay style={themedStyle.profileInfoContainer} source={this.backgroundImage.imageSource}>
           <ProfileInfo
-            photo={artistImage}
-            name={artist.artisticName}
-            mainCategory={artist.mainCategory}
             location={artist.location}
+            mainCategory={artist.mainCategory}
+            name={artist.artisticName}
+            photo={artistImage}
           />
           <View style={themedStyle.actionContainer}>
             <View style={themedStyle.price}>
               <Text category='h6' style={themedStyle.priceText}>{`R$ ${artist.price}`}</Text>
             </View>
             <Button
+              appearance={artist.follower ? 'outline' : 'filled'}
+              disabled={this.props.sending}
+              onPress={this.onFollowPress}
               size='large'
               style={themedStyle.orderButton}
-              appearance={artist.follower ? 'outline' : 'filled'}
-              onPress={this.onFollowPress}
             >
               {artist.follower ? 'Seguindo' : 'Seguir'}
             </Button>
@@ -162,16 +164,16 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
 const ArtistRates = (props) => {
   return (
     <View style={{ paddingHorizontal: 20, paddingVertical: 30, backgroundColor: '#f9f9f9' }}>
-      <View style={{ flexDirection: 'row', alignItems: 'space-between' }}>
-          <RateBar
-            max={5}
-            value={props.artist.rates}
-            iconStyle={{ width: 30, height: 30 }}
-            iconDisabledStyle={{ tintColor: '#dedede', width: 25, height: 25 }}
-          />
-          <Text appearance='hint' numberOfLines={1}>
-            {`${parseFloat(props.artist.rates).toFixed(1)} Estrelas`}
-          </Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <RateBar
+          max={5}
+          value={Math.round(props.artist.rates || 0)}
+          iconStyle={{ width: 30, height: 30 }}
+          iconDisabledStyle={{ tintColor: '#dedede', width: 25, height: 25 }}
+        />
+        <Text appearance='hint' numberOfLines={1}>
+          {`${Math.round(props.artist.rates || 0)} Estrelas`}
+        </Text>
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Text category='h5' style={{ fontFamily: 'opensans-bold' }}>{`${props.artistRates.length} Avaliações`}</Text>
