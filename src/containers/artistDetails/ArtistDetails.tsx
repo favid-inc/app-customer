@@ -1,16 +1,15 @@
-import { ArtistRate } from '@favid-inc/api';
-import { SocialArtist as Artist } from '@favid-inc/api/lib/app-customer';
-import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import React from 'react';
 import { Button, Text } from '@kitten/ui';
+import { ArtistRate } from '@favid-inc/api';
+import { ProfileInfo } from './profileInfo.component';
+import { View, ActivityIndicator } from 'react-native';
+import { ProfileSocials } from './profileSocials.component';
 import { imageProfile7Bg, ImageSource } from '@src/assets/images';
+import { SocialArtist as Artist } from '@favid-inc/api/lib/app-customer';
+import { ArtistReviewsResume } from '../artists/review/ArtistReviewsResume';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Chips, ContainerView, ImageOverlay, textStyle, RateBar } from '@src/components/common';
 import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
-import React from 'react';
-import { View } from 'react-native';
-
-import { ArtistReviewsResume } from '../artists/review/ArtistReviewsResume';
-import { ProfileInfo } from './profileInfo.component';
-import { ProfileSocials } from './profileSocials.component';
 
 interface ComponentProps {
   artist: Artist;
@@ -26,6 +25,7 @@ interface ComponentProps {
   onPhotoPress: (index: number) => void;
   onReview: () => void;
   sending: boolean;
+  loading: boolean;
 }
 
 export type Props = ThemedComponentProps & ComponentProps;
@@ -46,7 +46,7 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
   public async componentDidMount() {}
 
   public render() {
-    const { themedStyle, artist, artistRates } = this.props;
+    const { themedStyle, artist, artistRates, loading } = this.props;
     const artistImage = {
       uri: artist.photoUri,
       height: 100,
@@ -126,17 +126,21 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
           {biography}
         </View>
         <ArtistRates
+          loading={loading}
           artist={artist}
           showRates={this.state.showRates}
           onReview={this.onReview}
           artistRates={artistRates}
           showMore={this.showMore}
+          showLess={this.showLess}
         ></ArtistRates>
       </ContainerView>
     );
   }
 
   public showMore = () => this.setState({ showRates: this.state.showRates + 5 });
+
+  public showLess = () => this.setState({ showRates: 5 });
 
   private onReview = () => this.props.onReview();
 
@@ -162,9 +166,40 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
 }
 
 const ArtistRates = (props) => {
+  const showMore =
+    props.showRates > props.artistRates.length ? (
+      <Button onPress={props.showLess} size='large' appearance='ghost'>
+        Mostrar Menos
+      </Button>
+    ) : (
+      <Button onPress={props.showMore} size='large' appearance='ghost'>
+        Mostrar Mais
+      </Button>
+    );
+
+  let reviewList = null;
+  if (props.loading) {
+    reviewList = <ActivityIndicator size='large' />;
+  } else if (props.artistRates.length) {
+    reviewList = (
+      <View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text category='h5' style={{ fontFamily: 'opensans-bold' }}>{`${props.artistRates.length} Avaliações`}</Text>
+          <Button onPress={props.onReview} size='giant' appearance='ghost'>
+            Avaliar
+          </Button>
+        </View>
+        {props.artistRates.slice(0, props.showRates).map((rate, i) => (
+          <ArtistReviewsResume key={i} {...rate} />
+        ))}
+        {showMore}
+      </View>
+    );
+  }
+
   return (
     <View style={{ paddingHorizontal: 20, paddingVertical: 30, backgroundColor: '#f9f9f9' }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <RateBar
           max={5}
           value={Math.round(props.artist.rates || 0)}
@@ -175,20 +210,7 @@ const ArtistRates = (props) => {
           {`${Math.round(props.artist.rates || 0)} Estrelas`}
         </Text>
       </View>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text category='h5' style={{ fontFamily: 'opensans-bold' }}>{`${props.artistRates.length} Avaliações`}</Text>
-        <Button onPress={props.onReview} size='giant' appearance='ghost'>
-          Avaliar
-        </Button>
-      </View>
-      {props.artistRates.slice(0, props.showRates).map((rate, i) => (
-        <ArtistReviewsResume key={i} {...rate} />
-      ))}
-      {props.showRates > props.artistRates && (
-        <Button onPress={props.showMore} size='large' appearance='ghost'>
-          Mostrar Mais
-        </Button>
-      )}
+      {reviewList}
     </View>
   );
 };
@@ -259,13 +281,13 @@ export const ArtistDetails = withStyles<ComponentProps>(ArtistDetailsComponent, 
   },
   chipsText: {
     color: 'white',
-    ...textStyle.subtitle,
+    fontSize: 10,
     textAlign: 'center',
-    paddingHorizontal: 5,
   },
   chips: {
     marginHorizontal: 4,
     marginBottom: 8,
+    paddingHorizontal: 5,
   },
   categories: {
     flexDirection: 'row',
