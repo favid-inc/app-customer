@@ -1,5 +1,4 @@
-import { createStackNavigator, NavigationContainer, NavigationRouteConfigMap } from 'react-navigation';
-import { AccountNavigator } from './Account';
+import { createStackNavigator, NavigationContainer } from 'react-navigation';
 import { SettingsContainer } from './SettingsContainer';
 
 export const SettingsNavigator: NavigationContainer = createStackNavigator(
@@ -11,7 +10,3 @@ export const SettingsNavigator: NavigationContainer = createStackNavigator(
     defaultNavigationOptions: { header: null },
   },
 );
-
-export const SettingsNavigationMap: NavigationRouteConfigMap = {
-  AccountNavigator,
-};

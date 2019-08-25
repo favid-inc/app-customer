@@ -1,52 +1,58 @@
 import React from 'react';
 import { Text } from '@kitten/ui';
 import { View } from 'react-native';
-import { ArtistRate } from '@src/core/model';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { ArtistRate } from '@favid-inc/api';
+
 import { RateBar } from '@src/components/common';
 import { textStyle } from '@src/components/common/style';
-import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 
 type Props = ThemedComponentProps & ArtistRate;
 
 class ArtistReviewsResumeComponent extends React.Component<Props> {
   public render() {
-    const { themedStyle, message, rate, customerName } = this.props;
+    const { themedStyle, message, value, customerName } = this.props;
     return (
       <View style={themedStyle.container}>
         <View style={themedStyle.row}>
           <RateBar
             style={themedStyle.rateBar}
             max={5}
-            value={rate}
-            iconStyle={{ width: 18, height: 18 }}
-            iconDisabledStyle={{ tintColor: '#dedede', width: 15, height: 15 }}
+            value={value}
+            iconStyle={themedStyle.rateIconStyle}
+            iconDisabledStyle={themedStyle.rateIconDisabledStyle}
           />
-          <Text
-            appearance='hint'
-            style={[themedStyle.paragraph, { maxWidth: 160, flexWrap: 'wrap' }]}
-            numberOfLines={1}
-          >
+          <Text appearance='hint' style={themedStyle.customerName} numberOfLines={1}>
             {customerName}
           </Text>
         </View>
-        <View style={themedStyle.message}>
-          <Text appearance='hint' style={themedStyle.paragraph}>
-            {`"${message}"`}
-          </Text>
-        </View>
+        {message && (
+          <View style={themedStyle.message}>
+            <Text appearance='hint' style={themedStyle.paragraph}>
+              {`"${message}"`}
+            </Text>
+          </View>
+        )}
       </View>
     );
   }
 }
 
-export const ArtistReviewsResume = withStyles(ArtistReviewsResumeComponent, () => ({
+export const ArtistReviewsResume = withStyles(ArtistReviewsResumeComponent, (themeType: ThemeType) => ({
   container: {
     paddingVertical: 10,
   },
   row: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'space-between',
   },
+  customerName: {
+    ...textStyle.paragraph,
+    flexWrap: 'wrap',
+    maxWidth: 160,
+  },
+  rateIconStyle: { width: 18, height: 18 },
+  rateIconDisabledStyle: { tintColor: '#dedede', width: 15, height: 15 },
   message: {
     marginTop: 5,
   },

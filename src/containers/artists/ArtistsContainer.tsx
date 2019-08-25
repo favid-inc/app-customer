@@ -48,7 +48,6 @@ export class ArtistsContainer extends Component<Props, State> {
   }
 
   private onDetails = (artist: Artist) => {
-    // this.props.onSetArtist(artist);
     this.props.navigation.navigate({
       key: this.navigationKey,
       routeName: 'Artista',

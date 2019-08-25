@@ -1,12 +1,13 @@
 import { SocialArtist as Artist } from '@favid-inc/api/lib/app-customer';
+import { ArtistRate } from '@favid-inc/api';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
 import { imageProfile7Bg, ImageSource } from '@src/assets/images';
 import { Chips, ContainerView, ImageOverlay, textStyle } from '@src/components/common';
 import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
-import { ProfileSocials as ProfileSocialsModel, ArtistRate } from '@src/core/model';
 import React from 'react';
 import { View } from 'react-native';
+
 import { ArtistReviewsResume } from '../artists/review/ArtistReviewsResume';
 import { ProfileInfo } from './profileInfo.component';
 import { ProfileSocials } from './profileSocials.component';
@@ -20,20 +21,20 @@ interface ComponentProps {
   onOrderPress: () => void;
   onFollowersPress: () => void;
   onFollowingPress: () => void;
-  onPostsPress: () => void;
+  onOrdersPress: () => void;
   onFriendPress: (index: number) => void;
   onPhotoPress: (index: number) => void;
   onReview: () => void;
 }
 
-export type Profile7Props = ThemedComponentProps & ComponentProps;
+export type Props = ThemedComponentProps & ComponentProps;
 
 interface State {
   rateAvarage: number;
   showRates: number;
 }
 
-class ArtistDetailsComponent extends React.Component<Profile7Props, State> {
+class ArtistDetailsComponent extends React.Component<Props, State> {
   public state: State = {
     rateAvarage: 0,
     showRates: 5,
@@ -49,12 +50,6 @@ class ArtistDetailsComponent extends React.Component<Profile7Props, State> {
       uri: artist.photoUri,
       height: 100,
       width: 100,
-    };
-
-    const socials: ProfileSocialsModel = {
-      followers: 1500,
-      following: 86,
-      posts: 116,
     };
 
     let categories = null;
@@ -108,14 +103,12 @@ class ArtistDetailsComponent extends React.Component<Profile7Props, State> {
           </View>
 
           <ProfileSocials
-            style={themedStyle.profileSocials}
-            textStyle={themedStyle.socialsLabel}
-            followers={artist.followers}
-            following={artist.follower}
-            posts={artist.orders}
+            artist={artist}
             onFollowersPress={this.onFollowersPress}
             onFollowingPress={this.onFollowingPress}
-            onPostsPress={this.onPostsPress}
+            onOrdersPress={this.onOrdersPress}
+            style={themedStyle.profileSocials}
+            textStyle={themedStyle.socialsLabel}
           />
         </ImageOverlay>
         <Button
@@ -160,8 +153,8 @@ class ArtistDetailsComponent extends React.Component<Profile7Props, State> {
     this.props.onFollowingPress();
   };
 
-  private onPostsPress = () => {
-    this.props.onPostsPress();
+  private onOrdersPress = () => {
+    this.props.onOrdersPress();
   };
 }
 
@@ -177,14 +170,16 @@ const ArtistRates = (props) => {
       {props.artistRates.slice(0, props.showRates).map((rate, i) => (
         <ArtistReviewsResume key={i} {...rate} />
       ))}
-      <Button onPress={props.showMore} size='large' appearance='ghost'>
-        Mostrar Mais
-      </Button>
+      {props.showRates > props.artistRates && (
+        <Button onPress={props.showMore} size='large' appearance='ghost'>
+          Mostrar Mais
+        </Button>
+      )}
     </View>
   );
 };
 
-export const ArtistDetails = withStyles(ArtistDetailsComponent, (theme: ThemeType) => ({
+export const ArtistDetails = withStyles<ComponentProps>(ArtistDetailsComponent, (theme: ThemeType) => ({
   profileInfoContainer: {
     paddingHorizontal: 24,
     paddingVertical: 24,

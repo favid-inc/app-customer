@@ -1,15 +1,18 @@
 import { SocialArtist as Artist } from '@favid-inc/api/lib/app-customer';
-import { followArtist } from './FollowArtist';
-import React, { Component } from 'react';
-import { NavigationScreenProps } from 'react-navigation';
-
-import { ArtistDetails } from './ArtistDetails';
-import { Alert, View } from 'react-native';
-import { ArtistRate } from '@src/core/model';
+import React from 'react';
+import { NavigationScreenProps, NavigationEventSubscription } from 'react-navigation';
+import { ArtistRate } from '@favid-inc/api';
 import { Order } from '@favid-inc/api';
-import { Orders } from './orders/Orders';
-import { listOrders } from './orders/listOrders';
+import { Alert, RefreshControl } from 'react-native';
+
 import { ContainerView } from '@src/components/common';
+
+import { listArtistOrders } from './listArtistOrders';
+import { Orders } from './orders/Orders';
+import { ArtistDetails } from './ArtistDetails';
+import { followArtist } from './followArtist';
+import { unFollowArtist } from './unFollowArtist';
+import { listArtistRates } from './listArtistRates';
 
 interface State {
   cameoOrdered: boolean;
@@ -22,7 +25,7 @@ interface State {
 
 type Props = NavigationScreenProps;
 
-export class ArtistDetailsContainer extends Component<Props, State> {
+export class ArtistDetailsContainer extends React.Component<Props, State> {
   public state: State = {
     artist: {},
     orders: [],
@@ -32,29 +35,36 @@ export class ArtistDetailsContainer extends Component<Props, State> {
     loading: false,
   };
 
-  private navigationKey: string = 'Artists';
+  private didFocusSubscription: NavigationEventSubscription;
 
-  public componentDidMount() {
+  public componentWillUnmount() {
+    if (this.didFocusSubscription) {
+      this.didFocusSubscription.remove();
+    }
+  }
+
+  public async componentDidMount() {
     const { navigation } = this.props;
+
+    this.didFocusSubscription = navigation.addListener('didFocus', () => this.handleRefresh());
+
     const artist = navigation.getParam('artist');
     this.setState({ artist });
-    const artistRates: ArtistRate[] = [];
-    for (let index = 0; index < 50; index++) {
-      artistRates.push({
-        customerName: 'Gabriel Umbelino',
-        message: 'Pudding pie macaroon sesame snaps chupa chups icing cupcake. Tiramisu sweet roll toffee gummi bears.',
-        rate: 4,
-      });
-    }
-    this.setState({
-      artistRates,
-    });
+
     this.handleRefresh();
+  }
+
+  public componentWillUpdate(nextProps, nextState) {
+    const { navigation } = nextProps;
+    const { artist } = nextState;
+    if (navigation) {
+      Object.assign(navigation.getParam('artist'), artist);
+    }
   }
 
   public render() {
     return (
-      <ContainerView>
+      <ContainerView refreshControl={<RefreshControl refreshing={this.state.loading} onRefresh={this.handleRefresh} />}>
         <ArtistDetails
           artistRates={this.state.artistRates}
           artist={this.state.artist}
@@ -66,7 +76,7 @@ export class ArtistDetailsContainer extends Component<Props, State> {
           onFriendPress={this.onFriendPress}
           onOrderPress={this.onOrderPress}
           onPhotoPress={this.onPhotoPress}
-          onPostsPress={this.onPostsPress}
+          onOrdersPress={this.onOrdersPress}
           onReview={this.onReview}
         />
         <Orders orders={this.state.orders} onDetails={this.onDetails} />
@@ -75,13 +85,17 @@ export class ArtistDetailsContainer extends Component<Props, State> {
   }
 
   private handleRefresh = async () => {
+    if (this.state.loading) {
+      return;
+    }
+
     this.setState({ loading: true });
     try {
-      const orders = await listOrders(this.state.artist.id);
-      console.log('[OrdersContainer.tsx] orders:', orders);
-      this.setState({ orders });
-    } catch (e) {
-      Alert.alert('Erro ao listar pedidos');
+      const { id: artistId } = this.props.navigation.getParam('artist');
+
+      const [orders, artistRates] = await Promise.all([listArtistOrders({ artistId }), listArtistRates({ artistId })]);
+
+      this.setState({ orders, artistRates });
     } finally {
       this.setState({ loading: false });
     }
@@ -95,15 +109,10 @@ export class ArtistDetailsContainer extends Component<Props, State> {
 
   private onFollowPress = async () => {
     try {
-      await followArtist({ artistId: this.state.artist.id });
-      this.setState({
-        artist: {
-          ...this.state.artist,
-          follower: !this.state.artist.follower,
-        },
-      });
+      const artistId = this.state.artist.id;
+      const artist = this.state.artist.follower ? await unFollowArtist({ artistId }) : await followArtist({ artistId });
+      this.setState({ artist });
     } catch (error) {
-      // console.log(error);
       Alert.alert('Ops!', 'Estamos tendo problemas, tente novamente mais tarde.');
     }
   };
@@ -118,11 +127,10 @@ export class ArtistDetailsContainer extends Component<Props, State> {
   };
 
   private onReview = () => {
-    console.log('on review!');
     this.props.navigation.navigate({
       routeName: 'Avaliar Artista',
       params: {
-        id: this.state.artist.id,
+        artistId: this.state.artist.id,
       },
     });
   };
@@ -131,7 +139,7 @@ export class ArtistDetailsContainer extends Component<Props, State> {
 
   private onFollowingPress = () => {};
 
-  private onPostsPress = () => {};
+  private onOrdersPress = () => {};
 
   private onFriendPress = (index: number) => {};
 

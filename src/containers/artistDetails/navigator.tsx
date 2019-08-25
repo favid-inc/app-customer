@@ -4,7 +4,7 @@ import { TopBarNavigationOptions } from '@src/core/navigation/options';
 import { NavigationRouteConfigMap } from 'react-navigation';
 
 export const ArtistNavigationMap: NavigationRouteConfigMap = {
-  "Artista": {
+  'Artista': {
     screen: ArtistDetailsContainer,
     navigationOptions: TopBarNavigationOptions,
   },

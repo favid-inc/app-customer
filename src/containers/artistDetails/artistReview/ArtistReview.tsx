@@ -1,28 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { AuthContext } from '@src/core/auth';
 import { RateBar } from '@src/components/common';
-import { Button } from 'react-native-ui-kitten/ui';
-import { ArtistRate as State } from '@src/core/model';
+import { Button } from '@kitten/ui';
 import { Alert, View, TextInput } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
-import { withStyles, ThemeType, ThemedComponentProps } from 'react-native-ui-kitten/theme';
-import { KEY_NAVIGATION_BACK } from '@src/core/navigation/constants';
+import { withStyles, ThemeType, ThemedComponentProps } from '@kitten/theme';
+import { ArtistRate } from '@favid-inc/api';
+
+import { rateArtist } from './rateArtist';
 
 type Props = NavigationScreenProps & ThemedComponentProps & NavigationScreenProps;
 
-class ArtistReviewComponent extends Component<Props, State> {
+type State = ArtistRate;
+
+class ArtistReviewComponent extends React.Component<Props, State> {
   static contextType = AuthContext;
   public context: React.ContextType<typeof AuthContext>;
+
   public state: State = {
-    rate: 5,
-    message: '',
-    customerName: '',
+    value: 5,
   };
 
   public componentDidMount() {
-    this.setState({
-      customerName: this.context.user.displayName,
-    });
+    const { navigation } = this.props;
+    const artistId = navigation.getParam('artistId');
+    this.setState({ artistId });
   }
 
   public render() {
@@ -41,7 +43,7 @@ class ArtistReviewComponent extends Component<Props, State> {
         <View style={themedStyle.middleContainer}>
           <RateBar
             style={themedStyle.rateBar}
-            value={this.state.rate}
+            value={this.state.value}
             max={5}
             onChange={this.handleRateChange}
             iconStyle={{ width: 50, height: 50 }}
@@ -61,18 +63,18 @@ class ArtistReviewComponent extends Component<Props, State> {
   }
 
   private handleMessageChange = (message) => this.setState({ message });
-  private handleRateChange = (rate) => this.setState({ rate: rate + 1 });
+  private handleRateChange = (value) => this.setState({ value: value + 1 });
 
   private onSend = async () => {
     try {
-      // await followArtist({ artistId: this.state.artist.id });
-      console.log('[ArtistReview.tx] model: ', this.state);
+      await rateArtist(this.state);
+      this.props.navigation.goBack();
     } catch (error) {
       Alert.alert('Ops!', 'Estamos tendo problemas, tente novamente mais tarde.');
     }
   };
 
-  private onCancel = () => this.props.navigation.goBack(KEY_NAVIGATION_BACK);
+  private onCancel = () => this.props.navigation.goBack();
 }
 
 export const ArtistReview = withStyles(ArtistReviewComponent, (theme: ThemeType) => ({
@@ -109,6 +111,6 @@ export const ArtistReview = withStyles(ArtistReviewComponent, (theme: ThemeType)
   },
   row: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'space-between',
   },
 }));

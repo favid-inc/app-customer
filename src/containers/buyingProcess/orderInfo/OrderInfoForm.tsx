@@ -2,17 +2,11 @@ import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button } from '@kitten/ui';
 import axios from 'axios';
 import React from 'react';
-import { Text, View, ViewProps } from 'react-native';
+import { View, ViewProps } from 'react-native';
 
 import { textStyle, ValidationInput } from '@src/components/common';
 
-import {
-  CepNumberFormatter,
-  CpfNumberFormatter,
-  PHONE_REGEX,
-  PhoneNumberFormatter,
-  StateFormatter,
-} from '@src/core/formatters';
+import { CepNumberFormatter, CpfNumberFormatter, PhoneNumberFormatter, StateFormatter } from '@src/core/formatters';
 import {
   CepNumberValidator,
   CpfNumberValidator,
@@ -22,7 +16,7 @@ import {
   StringValidator,
 } from '@src/core/validators';
 
-import { BuyingProcessContext, Payer } from '../context';
+import { BuyingProcessContext } from '../context';
 
 interface ComponentProps {
   sending: boolean;

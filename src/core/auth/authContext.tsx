@@ -181,24 +181,23 @@ export class FirebaseAuth extends React.Component<FirebaseAuthProps, FirebaseAut
     const { isSignedIn, credentials } = this.state;
 
     if (isSignedIn && credentials && credentials.type === 'oauth') {
-      try {
-        if (Date.now() > new Date(credentials.tokens.accessTokenExpirationDate).getTime()) {
-          return;
+      setTimeout(async () => {
+        try {
+          console.log('refreshing Token');
+          const { refreshToken } = credentials.tokens;
+          const tokens = await AppAuth.refreshAsync(credentials.oAuthProps, refreshToken);
+
+          await this.sigIn({
+            ...credentials,
+            tokens: {
+              ...tokens,
+              refreshToken,
+            },
+          });
+        } catch (e) {
+          this.signOut();
         }
-
-        const { refreshToken } = credentials.tokens;
-        const tokens = await AppAuth.refreshAsync(credentials.oAuthProps, refreshToken);
-
-        await this.sigIn({
-          ...credentials,
-          tokens: {
-            ...tokens,
-            refreshToken,
-          },
-        });
-      } catch (e) {
-        this.signOut();
-      }
+      }, new Date(credentials.tokens.accessTokenExpirationDate).getTime() - Date.now());
     }
   };
 
