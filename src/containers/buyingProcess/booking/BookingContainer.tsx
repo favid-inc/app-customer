@@ -49,10 +49,10 @@ export class BookingContainer extends Component<Props, State, Context> {
 
   private handleSend = async (orderFormData) => {
     this.setState({ loading: true });
-
+    console.log('[BookingContainer.tsx] orderFormData: ', orderFormData)
     try {
       const order = await placeOrder({
-        ...orderFormData,
+        ...orderFormData.model,
         artistId: this.state.artist.id,
       });
 
