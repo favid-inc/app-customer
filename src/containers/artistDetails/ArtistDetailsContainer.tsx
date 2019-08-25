@@ -2,7 +2,7 @@ import { ArtistRate } from '@favid-inc/api';
 import { Order } from '@favid-inc/api';
 import { SocialArtist as Artist } from '@favid-inc/api/lib/app-customer';
 import React from 'react';
-import { Alert, RefreshControl, View } from 'react-native';
+import { Alert, RefreshControl } from 'react-native';
 import { NavigationEventSubscription, NavigationScreenProps } from 'react-navigation';
 
 import { ContainerView } from '@src/components/common';
@@ -89,7 +89,6 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
   }
 
   private handleRefresh = async () => {
-
     if (this.state.loading) {
       return;
     }
@@ -97,7 +96,6 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
     this.setState({ loading: true });
 
     try {
-
       const artist = this.props.navigation.getParam('artist');
       const artistId = artist.id;
 
@@ -112,11 +110,8 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
           rates,
         },
       });
-
     } finally {
-
       this.setState({ loading: false });
-
     }
   };
 

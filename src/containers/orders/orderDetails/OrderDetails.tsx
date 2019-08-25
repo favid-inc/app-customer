@@ -1,5 +1,4 @@
 import { Order } from '@favid-inc/api';
-import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import React, { Component } from 'react';
 import { VideoPlayer } from './videoPlayer';
 interface Props {
