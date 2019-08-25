@@ -1,6 +1,6 @@
 import { Order, OrderPaymentStatus } from '@favid-inc/api';
 import React, { Component } from 'react';
-import { Alert, RefreshControl, ScrollView } from 'react-native';
+import { Alert, RefreshControl, ScrollView, Linking } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 
 import { listOrders } from './listOrders';
@@ -45,13 +45,14 @@ export class OrdersContainer extends Component<Props, State> {
 
   private onDetails = (order: Order) => {
     if (order.paymentStatus === OrderPaymentStatus.PENDING) {
-      this.props.navigation.navigate('Pagamento', {
-        order,
-      });
+      if (order.iuguInvoiceId) {
+        // @ts-ignore
+        Linking.openURL(order.iuguInvoiceMetadata.url);
+      } else {
+        this.props.navigation.navigate('Pagamento', { order });
+      }
     } else if (order.videoUri) {
-      this.props.navigation.navigate('Detalhes do Pedido', {
-        order,
-      });
+      this.props.navigation.navigate('Detalhes do Pedido', { order });
     }
   };
 }

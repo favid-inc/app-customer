@@ -1,9 +1,10 @@
 import { Order } from '@favid-inc/api';
 import { PayOrder } from '@favid-inc/api/lib/app-customer';
-
 import React from 'react';
 import { NavigationScreenProps } from 'react-navigation';
 import { NavigationContainer } from 'react-navigation';
+
+import { AuthContext } from '@src/core/auth';
 
 export type Payer = PayOrder['Request']['data']['directCharge']['payer'];
 export type CreditCard = PayOrder['Request']['data']['paymentToken'];
@@ -28,6 +29,9 @@ export function connect(Navigator: NavigationContainer) {
     static screenProps = Navigator.screenProps;
     static navigationOptions = Navigator.navigationOptions;
 
+    static contextType = AuthContext;
+    public context: React.ContextType<typeof AuthContext>;
+
     public state: Context = {
       order: {},
       creditCard: {},
@@ -36,6 +40,18 @@ export function connect(Navigator: NavigationContainer) {
       setCreditCard: (creditCard) => this.setState({ creditCard }),
       setPayer: (payer) => this.setState({ payer }),
     };
+
+    public componentDidMount() {
+      this.setState({
+        payer: {
+          name: this.context.user.displayName,
+          email: this.context.user.email,
+        },
+        creditCard: {
+          cardHolderName: this.context.user.displayName,
+        },
+      });
+    }
 
     public render() {
       return (

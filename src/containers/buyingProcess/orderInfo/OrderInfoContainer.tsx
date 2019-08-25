@@ -48,8 +48,8 @@ export class PayerContainer extends Component<Props, State, typeof BuyingProcess
       }
 
       Alert.alert(
-        'Pagamento enviado com sucesso!',
-        'Seu pedido está sendo processado.',
+        'Dados de pagamento enviados com sucesso!',
+        'Seu pedido está sera realizado logo após a confirmação.',
         [
           {
             text: 'OK',

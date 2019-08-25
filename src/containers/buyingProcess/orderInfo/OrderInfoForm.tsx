@@ -50,10 +50,6 @@ class PayerForm extends React.Component<Props, Context> {
   static contextType = BuyingProcessContext;
   public context: React.ContextType<Context>;
 
-  public componentDidMount() {
-    this.context.setPayer({});
-  }
-
   public render() {
     const { style, themedStyle, ...restProps } = this.props;
 
