@@ -13,7 +13,6 @@ import { listArtistOrders } from './listArtistOrders';
 import { listArtistRates } from './listArtistRates';
 import { Orders } from './orders/Orders';
 import { unFollowArtist } from './unFollowArtist';
-import { VideoPlayer } from '../orders/orderDetails/videoPlayer';
 
 interface State {
   artist: Artist;
@@ -68,9 +67,6 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
   public render() {
     return (
       <ContainerView refreshControl={<RefreshControl refreshing={this.state.loading} onRefresh={this.handleRefresh} />}>
-        <View style={{flex: 1, position: 'relative', height: 550}}>
-          <VideoPlayer uri={'https://storage.googleapis.com/onyx-harmony-239219.appspot.com/Order%2FQ8QEnbAeOENtqBMxVSxpmHUC1SJ2%2F10657b27-7b2b-4bf9-92fc-fc9dcf50460a.mp4'} />
-        </View>
         <ArtistDetails
           loading={this.state.loading}
           artist={this.state.artist}

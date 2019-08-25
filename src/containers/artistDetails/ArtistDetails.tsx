@@ -10,6 +10,7 @@ import { ArtistReviewsResume } from '../artists/review/ArtistReviewsResume';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Chips, ContainerView, ImageOverlay, textStyle, RateBar } from '@src/components/common';
 import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
+import { VideoPlayer } from '../orders/orderDetails/videoPlayer';
 
 interface ComponentProps {
   artist: Artist;
@@ -80,6 +81,8 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
       );
     }
 
+    console.log('[ArtistDetails.tsx] artist.videoUri', artist.videoUri);
+
     return (
       <ContainerView style={themedStyle.container}>
         <ImageOverlay style={themedStyle.profileInfoContainer} source={this.backgroundImage.imageSource}>
@@ -125,6 +128,11 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
           {categories}
           {biography}
         </View>
+        {!artist.videoUri ? (
+          <View style={{flex: 1, position: 'relative', height: 550}}>
+            <VideoPlayer uri={artist.videoUri} />
+          </View>
+        ) : null}
         <ArtistRates
           loading={loading}
           artist={artist}
