@@ -1,7 +1,7 @@
 import { Order, OrderPaymentStatus } from '@favid-inc/api';
 import React, { Component } from 'react';
 import { Alert, RefreshControl, ScrollView, Linking } from 'react-native';
-import { NavigationScreenProps } from 'react-navigation';
+import { NavigationScreenProps, NavigationEventSubscription } from 'react-navigation';
 
 import { listOrders } from './listOrders';
 import { Orders } from './Orders';
@@ -19,7 +19,19 @@ export class OrdersContainer extends Component<Props, State> {
     loading: false,
   };
 
-  public componentDidMount() {
+  private didFocusSubscription: NavigationEventSubscription;
+
+  public componentWillUnmount() {
+    if (this.didFocusSubscription) {
+      this.didFocusSubscription.remove();
+    }
+  }
+
+  public async componentDidMount() {
+    const { navigation } = this.props;
+
+    this.didFocusSubscription = navigation.addListener('didFocus', () => this.handleRefresh());
+
     this.handleRefresh();
   }
 
