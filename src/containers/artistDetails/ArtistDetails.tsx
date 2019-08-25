@@ -3,7 +3,7 @@ import { SocialArtist as Artist } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
 import { imageProfile7Bg, ImageSource } from '@src/assets/images';
-import { Chips, ContainerView, ImageOverlay, textStyle } from '@src/components/common';
+import { Chips, ContainerView, ImageOverlay, textStyle, RateBar } from '@src/components/common';
 import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
 import React from 'react';
 import { View } from 'react-native';
@@ -124,6 +124,7 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
           {biography}
         </View>
         <ArtistRates
+          artist={artist}
           showRates={this.state.showRates}
           onReview={this.onReview}
           artistRates={artistRates}
@@ -161,6 +162,17 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
 const ArtistRates = (props) => {
   return (
     <View style={{ paddingHorizontal: 20, paddingVertical: 30, backgroundColor: '#f9f9f9' }}>
+      <View style={{ flexDirection: 'row', alignItems: 'space-between' }}>
+          <RateBar
+            max={5}
+            value={props.artist.rates}
+            iconStyle={{ width: 30, height: 30 }}
+            iconDisabledStyle={{ tintColor: '#dedede', width: 25, height: 25 }}
+          />
+          <Text appearance='hint' numberOfLines={1}>
+            {`${parseFloat(props.artist.rates).toFixed(1)} Estrelas`}
+          </Text>
+      </View>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Text category='h5' style={{ fontFamily: 'opensans-bold' }}>{`${props.artistRates.length} Avaliações`}</Text>
         <Button onPress={props.onReview} size='giant' appearance='ghost'>
