@@ -8,37 +8,31 @@ interface Props {
   status: OrderPaymentStatusType;
 }
 
-const orderPaymentStatusComponent: React.SFC<Props & ThemedComponentProps> = (props) => {
-  const { themedStyle } = props;
+const OrderPaymentStatusComponent: React.SFC<Props & ThemedComponentProps> = (props) => {
+  const { themedStyle, status } = props;
 
-  const statusLabel = (status) => {
-    const statusLabels = {
+  const label = React.useMemo(() => {
+    const labels = {
       [OrderPaymentStatusType.PENDING]: 'Pagar',
     };
-    if (!statusLabels[status]) {
-      return 'Status não mapeado';
-    }
-    return statusLabels[status];
-  };
+    return labels[status] || '';
+  }, [status]);
 
-  const statusColor = (status) => {
-    const statusLabels = {
+  const color = React.useMemo(() => {
+    const colors = {
       [OrderPaymentStatusType.PENDING]: 'danger',
     };
-    if (!statusLabels[status]) {
-      return 'disabled';
-    }
-    return statusLabels[status];
-  };
+    return colors[status] || 'disabled';
+  }, [status]);
 
   return (
-    <Chips style={[themedStyle.chips, themedStyle[statusColor(props.status)]]}>
-      <Text style={themedStyle.chipsText}>{statusLabel(props.status)}</Text>
+    <Chips style={[themedStyle.chips, themedStyle[color]]}>
+      <Text style={themedStyle.chipsText}>{label}</Text>
     </Chips>
   );
 };
 
-export const OrderPaymentStatus = withStyles(orderPaymentStatusComponent, (theme: ThemeType) => ({
+export const OrderPaymentStatus = withStyles(OrderPaymentStatusComponent, (theme: ThemeType) => ({
   success: {
     backgroundColor: theme['color-success-default'],
   },

@@ -1,12 +1,17 @@
-import { Order } from '@favid-inc/api';
+import { OrderPaymentStatus as OrderPaymentStatusType, OrderStatus as OrderStatusType } from '@favid-inc/api';
+import { SocialOrder as Order } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
 import React from 'react';
-import { ImageBackground, Share, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { Platform, StyleProp, ViewStyle, ImageBackground, Linking, Share, TouchableOpacity, View } from 'react-native';
 
-import { HeartIconFill, ShareIconOutline } from '@src/assets/icons';
+import { FlagIconFill, HeartIconOutline, HeartIconFill, ShareIconOutline } from '@src/assets/icons';
 import { ActivityAuthoring, textStyle } from '@src/components/common';
 import { OrderCardBottom } from './OrderCardBottom';
+import { OrderPaymentStatus } from './OrderPaymentStatus';
+import { OrderStatus } from './OrderStatus';
+import { likeOrder } from './likeOrder';
+import { unLikeOrder } from './unLikeOrder';
 
 interface ComponentProps {
   order: Order;
@@ -14,16 +19,25 @@ interface ComponentProps {
   style: StyleProp<ViewStyle>;
 }
 
+interface State {
+  order: Order;
+}
+
 export type OrderCardProps = ThemedComponentProps & ComponentProps;
 
-class OrderCardComponent extends React.Component<OrderCardProps> {
-  public isLiked = (): boolean => {
-    return true;
+class OrderCardComponent extends React.Component<OrderCardProps, State> {
+  public state: State = {
+    order: {},
   };
 
+  public componentDidMount() {
+    this.setState({ order: this.props.order });
+  }
+
   public render() {
-    const { style, themedStyle, order, ...restProps } = this.props;
-    const isLiked: boolean = this.isLiked();
+    const { style, themedStyle, ...restProps } = this.props;
+    const { order } = this.state;
+
     return (
       <TouchableOpacity
         activeOpacity={0.95}
@@ -41,17 +55,11 @@ class OrderCardComponent extends React.Component<OrderCardProps> {
                 {order.isGift ? order.receiverName : order.customerName}
               </Text>
             </View>
-            <View style={{ flexDirection: 'row' }}>
-              <Button onPress={this.onShare} size='large' status='info' icon={ShareIconOutline} appearance='ghost' />
-              <Button
-                onPress={this.onLike}
-                size='large'
-                status={isLiked ? 'success' : 'danger'}
-                icon={HeartIconFill}
-                appearance='ghost'
-              />
-            </View>
+            <SocialButtons order={order} onLike={this.onLike} onReport={this.onReport} onShare={this.onShare} />
           </View>
+          <Text style={themedStyle.descriptionLabel} appearance='hint' category='s1'>
+            {order.instructions}
+          </Text>
         </View>
         <OrderCardBottom style={themedStyle.activityContainer}>
           <ActivityAuthoring
@@ -59,36 +67,78 @@ class OrderCardComponent extends React.Component<OrderCardProps> {
             name={order.artistArtisticName}
             date={new Date(order.statusPlacedDate).toLocaleDateString()}
           />
+          {order.paymentStatus === OrderPaymentStatusType.PENDING ? (
+            <OrderPaymentStatus status={order.paymentStatus} />
+          ) : (
+            <OrderStatus status={order.status} />
+          )}
         </OrderCardBottom>
       </TouchableOpacity>
     );
   }
 
-  // private onReport = () => {
-  //   Linking.openURL(`mailto://suporte.favid@gmail.com?subject=Reportar Pedido #${this.props.order.id}`);
-  // };
-
-  private onLike = () => {
-    console.log('like');
-  };
-
-  private onShare = () => {
+  private onShare = async () => {
+    const { artistArtisticName, videoUri } = this.state.order;
     Share.share(
-      {
-        title: `Meu Video do Favid do Artista: ${this.props.order.artistArtisticName}`,
-        message: '',
-        url: this.props.order.videoThumbnailUri,
-      },
-      {},
+      Platform.select({
+        ios: {
+          title: `Favid - Video exclusivo: ${artistArtisticName}`,
+          url: videoUri,
+        },
+        android: {
+          title: `Favid - Video exclusivo: ${artistArtisticName}`,
+          message: `
+            Favid - Video exclusivo: ${artistArtisticName}
+            ${videoUri}
+          `,
+        },
+      }),
     );
   };
 
+  private onLike = async () => {
+    const { id: orderId, like, likes } = this.state.order;
+
+    this.setState({
+      order: {
+        ...this.state.order,
+        like: !like,
+        likes: likes + (like ? -1 : +1),
+      },
+    });
+
+    const order = like ? await unLikeOrder({ orderId }) : await likeOrder({ orderId });
+    this.setState({ order });
+  };
+
+  private onReport = () => {
+    Linking.openURL(`mailto:suporte.favid@gmail.com?subject=Reportar Pedido - ${this.state.order.id}`);
+  };
+
   private onPress = () => {
-    this.props.onPress(this.props.order);
+    this.props.onPress(this.state.order);
   };
 }
 
-export const OrderCard = withStyles(OrderCardComponent, (theme: ThemeType) => ({
+const SocialButtons = ({ order, onLike, onReport, onShare }) => (
+  <View style={{ flexDirection: 'row' }}>
+    {order.status === OrderStatusType.FULFILLED && (
+      <Button onPress={onShare} size='small' status='info' icon={ShareIconOutline} appearance='ghost' />
+    )}
+    {order.status === OrderStatusType.FULFILLED && (
+      <Button
+        onPress={onLike}
+        size='small'
+        status='danger'
+        icon={order.like ? HeartIconFill : HeartIconOutline}
+        appearance='ghost'
+      />
+    )}
+    <Button onPress={onReport} size='small' status='warning' icon={FlagIconFill} appearance='ghost' />
+  </View>
+);
+
+export const OrderCard = withStyles<ComponentProps>(OrderCardComponent, (theme: ThemeType) => ({
   container: {
     borderRadius: 12,
     overflow: 'hidden',

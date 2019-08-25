@@ -8,41 +8,35 @@ interface Props {
   status: OrderStatusType;
 }
 
-const orderStatusComponent: React.SFC<Props & ThemedComponentProps> = (props) => {
-  const { themedStyle } = props;
+const OrderStatusComponent: React.SFC<Props & ThemedComponentProps> = (props) => {
+  const { status, themedStyle } = props;
 
-  const statusLabel = (status) => {
-    const statusLabels = {
+  const label = React.useMemo(() => {
+    const labels = {
       [OrderStatusType.PLACED]: 'Pendente',
       [OrderStatusType.DECLINED]: 'Recusado',
       [OrderStatusType.FULFILLED]: 'Concluído',
     };
-    if (!statusLabels[status]) {
-      return 'Status não mapeado';
-    }
-    return statusLabels[status];
-  };
+    return labels[status] || '';
+  }, [status]);
 
-  const statusColor = (status) => {
-    const statusLabels = {
+  const color = React.useMemo(() => {
+    const colors = {
       [OrderStatusType.PLACED]: 'info',
       [OrderStatusType.DECLINED]: 'danger',
       [OrderStatusType.FULFILLED]: 'success',
     };
-    if (!statusLabels[status]) {
-      return 'disabled';
-    }
-    return statusLabels[status];
-  };
+    return colors[status] || 'disabled';
+  }, [status]);
 
   return (
-    <Chips style={[themedStyle.chips, themedStyle[statusColor(props.status)]]}>
-      <Text style={themedStyle.chipsText}>{statusLabel(props.status)}</Text>
+    <Chips style={[themedStyle.chips, themedStyle[color]]}>
+      <Text style={themedStyle.chipsText}>{label}</Text>
     </Chips>
   );
 };
 
-export const OrderStatus = withStyles(orderStatusComponent, (theme: ThemeType) => ({
+export const OrderStatus = withStyles(OrderStatusComponent, (theme: ThemeType) => ({
   success: {
     backgroundColor: theme['color-success-default'],
   },

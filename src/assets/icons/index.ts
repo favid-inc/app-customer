@@ -449,6 +449,14 @@ export const HeartIconFill = (style: StyleProp<ImageStyle>): IconElement => {
   return Icon(source, style);
 };
 
+export const HeartIconOutline = (style: StyleProp<ImageStyle>): IconElement => {
+  const source: IconSource = {
+    imageSource: require('./eva/heart-outline.png'),
+  };
+
+  return Icon(source, style);
+};
+
 export const LayoutIconOutline = (style: StyleProp<ImageStyle>): IconElement => {
   const source: IconSource = {
     imageSource: require('./eva/layout-outline.png'),

@@ -109,8 +109,17 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
 
   private onFollowPress = async () => {
     try {
-      const artistId = this.state.artist.id;
-      const artist = this.state.artist.follower ? await unFollowArtist({ artistId }) : await followArtist({ artistId });
+      const { id: artistId, follower, followers } = this.state.artist;
+
+      this.setState({
+        artist: {
+          ...this.state.artist,
+          follower: !follower,
+          followers: followers + (follower ? -1 : +1),
+        },
+      });
+
+      const artist = follower ? await unFollowArtist({ artistId }) : await followArtist({ artistId });
       this.setState({ artist });
     } catch (error) {
       Alert.alert('Ops!', 'Estamos tendo problemas, tente novamente mais tarde.');
