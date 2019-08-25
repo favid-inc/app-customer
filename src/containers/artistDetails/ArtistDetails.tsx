@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Text } from '@kitten/ui';
 import { ArtistRate } from '@favid-inc/api';
 import { ProfileInfo } from './profileInfo.component';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, Dimensions } from 'react-native';
 import { ProfileSocials } from './profileSocials.component';
 import { imageProfile7Bg, ImageSource } from '@src/assets/images';
 import { SocialArtist as Artist } from '@favid-inc/api/lib/app-customer';
@@ -35,6 +35,8 @@ interface State {
   rateAvarage: number;
   showRates: number;
 }
+
+const { height } = Dimensions.get('window');
 
 class ArtistDetailsComponent extends React.Component<Props, State> {
   public state: State = {
@@ -80,8 +82,6 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
         </View>
       );
     }
-
-    console.log('[ArtistDetails.tsx] artist.videoUri', artist.videoUri);
 
     return (
       <ContainerView style={themedStyle.container}>
@@ -129,8 +129,8 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
           {biography}
         </View>
         {artist.videoUri && (
-          <View style={{ flex: 1, position: 'relative', height: 550 }}>
-            <VideoPlayer uri={artist.videoUri} />
+          <View style={{ flex: 1, position: 'relative', height: height * 0.6 }}>
+            <VideoPlayer uri={artist.videoUri} shouldPlay={false} />
           </View>
         )}
         <ArtistRates

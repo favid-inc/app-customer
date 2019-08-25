@@ -8,6 +8,7 @@ import { MainControlButton } from './MainContolButton';
 
 interface Props {
   uri: string;
+  shouldPlay?: boolean;
 }
 
 interface State {
@@ -27,7 +28,7 @@ export class VideoPlayer extends React.Component<Props, State> {
   }
 
   public render() {
-    const { uri } = this.props;
+    const { uri, shouldPlay = true } = this.props;
     return (
       <TouchableWithoutFeedback onPress={this.toggleControls}>
         <View style={styles.container}>
@@ -35,7 +36,7 @@ export class VideoPlayer extends React.Component<Props, State> {
             onPlaybackStatusUpdate={this.handlePlaybackStatusUpdate}
             ref={this.setPlaybackInstance}
             resizeMode={Video.RESIZE_MODE_CONTAIN}
-            shouldPlay={true}
+            shouldPlay={shouldPlay}
             source={{ uri }}
             style={styles.fullScreen}
             useNativeControls={true}
