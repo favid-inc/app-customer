@@ -35,7 +35,6 @@ export class OrdersContainer extends Component<Props, State> {
     this.setState({ loading: true });
     try {
       const orders = await listOrders();
-      // console.log('[OrdersContainer.tsx] orders:', orders);
       this.setState({ orders });
     } catch (e) {
       Alert.alert('Erro ao listar pedidos');

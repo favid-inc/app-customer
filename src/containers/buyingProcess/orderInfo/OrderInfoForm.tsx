@@ -196,7 +196,7 @@ class PayerForm extends React.Component<Props, Context> {
           disabled={!this.isValid() || this.props.sending}
           onPress={this.props.onSend}
         >
-          {this.props.sending ? 'Processando...' : 'Enviar'}
+          {this.props.sending ? 'Processando...' : `Pagar R$ ${this.context.order.price.toString().replace('.', ',')}`}
         </Button>
       </View>
     );
