@@ -12,7 +12,7 @@ import { followArtist } from './followArtist';
 import { listArtistOrders } from './listArtistOrders';
 import { listArtistRates } from './listArtistRates';
 import { Orders } from './orders/Orders';
-import { unFollowArtist } from './unFollowArtist';
+import { unfollowArtist } from './unfollowArtist';
 
 interface State {
   artist: Artist;
@@ -134,7 +134,7 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
         },
       });
 
-      const artist = follower ? await unFollowArtist({ artistId }) : await followArtist({ artistId });
+      const artist = follower ? await unfollowArtist({ artistId }) : await followArtist({ artistId });
       this.setState({ artist });
     } catch (error) {
       Alert.alert('Ops!', 'Estamos tendo problemas, tente novamente mais tarde.');

@@ -1,10 +1,10 @@
-import { UnFollowArtist as Action } from '@favid-inc/api/lib/app-customer';
+import { UnfollowArtist as Action } from '@favid-inc/api/lib/app-customer';
 
 import { apiClient } from '@src/core/utils/apiClient';
 
-export async function unFollowArtist(data: Action['Request']['data']): Promise<Action['Response']> {
+export async function unfollowArtist(data: Action['Request']['data']): Promise<Action['Response']> {
   const request: Action['Request'] = {
-    url: '/UnFollowArtist',
+    url: '/UnfollowArtist',
     method: 'POST',
     data,
   };

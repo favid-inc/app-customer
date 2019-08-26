@@ -73,7 +73,14 @@ const PoliciesButton = ({ themedStyle }) => {
   );
 
   return (
-    <Button status='primary' style={themedStyle.Button} onPress={handleClick} icon={FileTextIconFill} size='giant'>
+    <Button
+      status='primary'
+      style={themedStyle.Button}
+      onPress={handleClick}
+      icon={FileTextIconFill}
+      size='medium'
+      appearance='ghost'
+    >
       Politica de Segurança/Privacide
     </Button>
   );
@@ -89,7 +96,14 @@ const TermsButton = ({ themedStyle }) => {
   );
 
   return (
-    <Button status='primary' style={themedStyle.Button} onPress={handleClick} icon={FileTextIconFill} size='giant'>
+    <Button
+      status='primary'
+      style={themedStyle.Button}
+      onPress={handleClick}
+      icon={FileTextIconFill}
+      size='medium'
+      appearance='ghost'
+    >
       Termos de Uso
     </Button>
   );
