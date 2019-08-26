@@ -81,7 +81,7 @@ const PoliciesButton = ({ themedStyle }) => {
       size='medium'
       appearance='ghost'
     >
-      Politica de Segurança/Privacidade
+      Política de Segurança/Privacidade
     </Button>
   );
 };
