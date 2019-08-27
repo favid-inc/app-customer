@@ -35,10 +35,11 @@ export const Chips = withStyles(ChipsComponent, (theme: ThemeType) => ({
     marginBottom: 4,
     backgroundColor: theme['color-primary-default'],
     borderRadius: 100,
+    alignItems: 'center',
   },
   icon: {
-    width: 13,
-    height: 13,
+    width: 50,
+    height: 50,
     tintColor: 'white',
   },
 }));

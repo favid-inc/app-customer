@@ -41,11 +41,9 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
     const { order } = this.state;
 
     return (
-      <TouchableOpacity
-        activeOpacity={0.95}
+      <View
         {...restProps}
         style={[themedStyle.container, style]}
-        onPress={this.onPress}
       >
         {order.videoThumbnailUri && (
           <ImageBackground style={themedStyle.image} source={{ uri: order.videoThumbnailUri }} />
@@ -81,9 +79,28 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
             <OrderStatus status={order.status} />
           )}
         </OrderCardBottom>
-      </TouchableOpacity>
+        {this.renderActionButton(order.status, order.paymentStatus, this.onPress)}
+      </View>
     );
   }
+
+  private renderActionButton = (orderStatus: string, paymentStatus: string, onPress: () => void): React.ReactElement => {
+
+    const statusColor = {
+      [OrderPaymentStatusType.PENDING]: 'danger',
+      [OrderStatusType.FULFILLED]: 'success',
+    };
+
+    const statusText = {
+      [OrderPaymentStatusType.PENDING]: 'Efetuar Pagamento',
+      [OrderStatusType.FULFILLED]: 'Ver Vídeo',
+    };
+
+    const status = paymentStatus ? statusColor[paymentStatus] : statusColor[orderStatus];
+    const text = paymentStatus ? statusText[paymentStatus] : statusText[orderStatus];
+
+    return status ? <Button status={status} size='giant' onPress={onPress}>{text}</Button> : null;
+  };
 
   private onShare = async () => {
     const { artistArtisticName, videoUri } = this.state.order;
@@ -117,7 +134,6 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
     });
 
     const order = like ? await unLikeOrder({ orderId }) : await likeOrder({ orderId });
-    this.setState({ sending: false, order });
   };
 
   private onReport = () => {

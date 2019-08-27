@@ -81,10 +81,10 @@ export class ArtistsContainer extends Component<Props, State> {
     this.setState({ loading: true });
     try {
       const data = await listArtistsGroupingByMainCategory();
-
       const categoryOfArtists = Object.entries(data).map(([key, artists]) => ({ key, artists }));
-
       this.setState({ categoryOfArtists });
+    } catch (e) {
+      this.setState({ loading: false });
     } finally {
       this.setState({ loading: false });
     }

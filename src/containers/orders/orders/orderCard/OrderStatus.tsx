@@ -51,6 +51,7 @@ export const OrderStatus = withStyles(OrderStatusComponent, (theme: ThemeType) =
   },
   chips: {
     width: 110,
+    flexGrow: 1,
     textAlign: 'center',
   },
   chipsText: {

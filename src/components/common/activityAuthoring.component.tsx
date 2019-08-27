@@ -50,7 +50,7 @@ class ActivityAuthoringComponent extends React.Component<ActivitiAuthoringProps>
 
 export const ActivityAuthoring = withStyles(ActivityAuthoringComponent, (theme: ThemeType) => ({
   container: {
-    flexDirection: 'row',
+    flexGrow: 1,
     alignItems: 'center',
   },
   authorInfoContainer: {

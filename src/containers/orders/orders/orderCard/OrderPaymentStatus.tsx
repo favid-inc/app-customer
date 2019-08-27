@@ -13,7 +13,7 @@ const OrderPaymentStatusComponent: React.SFC<Props & ThemedComponentProps> = (pr
 
   const label = React.useMemo(() => {
     const labels = {
-      [OrderPaymentStatusType.PENDING]: 'Pagar',
+      [OrderPaymentStatusType.PENDING]: 'Pagamento Pendente',
     };
     return labels[status] || '';
   }, [status]);
@@ -47,6 +47,7 @@ export const OrderPaymentStatus = withStyles(OrderPaymentStatusComponent, (theme
   },
   chips: {
     width: 110,
+    flexGrow: 1,
     textAlign: 'center',
   },
   chipsText: {
