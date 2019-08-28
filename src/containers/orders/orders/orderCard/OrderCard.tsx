@@ -133,8 +133,22 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
         likes: likes + (like ? -1 : +1),
       },
     });
+    try {
+      if (like ) {
+        const likeResponse = await likeOrder({ orderId });
+        // console.log('[OrderCard.tsx] likeResponse: ', likeResponse);
+      } else {
+        const unlineResonse = await unLikeOrder({ orderId });
+        // console.log('[OrderCard.tsx] unlineResonse: ', unlineResonse);
+      }
+    } catch (error) {
+      console.log('[OrderCard.tsx] error: ', error);
+    } finally {
+      this.setState({
+        sending: false,
+      });
+    }
 
-    const order = like ? await unLikeOrder({ orderId }) : await likeOrder({ orderId });
   };
 
   private onReport = () => {
