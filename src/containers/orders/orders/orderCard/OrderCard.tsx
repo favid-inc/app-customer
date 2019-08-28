@@ -169,6 +169,9 @@ export const OrderCard = withStyles<ComponentProps>(OrderCardComponent, (theme: 
   container: {
     borderRadius: 12,
     overflow: 'hidden',
+    minWidth: 300,
+    maxWidth: 450,
+    alignSelf: 'center',
   },
   infoContainer: {
     paddingHorizontal: 16,
