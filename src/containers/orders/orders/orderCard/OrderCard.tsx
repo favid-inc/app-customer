@@ -96,10 +96,11 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
       [OrderStatusType.FULFILLED]: 'Ver Vídeo',
     };
 
-    const status = paymentStatus ? statusColor[paymentStatus] : statusColor[orderStatus];
-    const text = paymentStatus ? statusText[paymentStatus] : statusText[orderStatus];
-
-    return status ? <Button status={status} size='giant' onPress={onPress}>{text}</Button> : null;
+    const status = statusColor[paymentStatus] ? statusColor[paymentStatus] : statusColor[orderStatus];
+    const text = statusText[paymentStatus] ? statusText[paymentStatus] : statusText[orderStatus];
+    if (status) {
+      return  <Button status={status} style={{ borderRadius: 0 }}  size='giant' onPress={onPress}>{text}</Button>;
+    }
   };
 
   private onShare = async () => {
