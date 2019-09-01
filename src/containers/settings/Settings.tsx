@@ -19,10 +19,10 @@ class SettingsComponent extends React.Component<SettingsComponentProps> {
     return (
       <View style={themedStyle.container}>
         {/* <NavigateToAccountButton themedStyle={themedStyle} onNavigate={this.handleNavigateToAccount} /> */}
-        <SigOutButton themedStyle={themedStyle} />
         <NeedHelpButton themedStyle={themedStyle} />
         <PoliciesButton themedStyle={themedStyle} />
         <TermsButton themedStyle={themedStyle} />
+        <SigOutButton themedStyle={themedStyle} />
       </View>
     );
   }
@@ -33,7 +33,7 @@ class SettingsComponent extends React.Component<SettingsComponentProps> {
 
 // const NavigateToAccountButton = ({ themedStyle, onNavigate }) => {
 //   return (
-//     <Button status='info' style={themedStyle.Button} onPress={onNavigate} icon={PersonIconFill} size='giant'>
+//     <Button status='info' style={themedStyle.button} onPress={onNavigate} icon={PersonIconFill} size='large'>
 //       Conta
 //     </Button>
 //   );
@@ -44,7 +44,7 @@ const SigOutButton = ({ themedStyle }) => {
   const handleSignOutClick = React.useCallback(() => context.signOut(), [context]);
 
   return (
-    <Button status='danger' style={themedStyle.Button} onPress={handleSignOutClick} icon={LogOutIconFill} size='giant'>
+    <Button status='danger' style={themedStyle.button} onPress={handleSignOutClick} icon={LogOutIconFill} size='large'>
       Deslogar
     </Button>
   );
@@ -57,7 +57,7 @@ const NeedHelpButton = ({ themedStyle }) => {
   );
 
   return (
-    <Button status='primary' style={themedStyle.Button} onPress={handleClick} icon={MenuIconMessaging} size='giant'>
+    <Button status='primary' style={themedStyle.button} onPress={handleClick} icon={MenuIconMessaging} size='large'>
       Preciso de Ajuda
     </Button>
   );
@@ -66,44 +66,25 @@ const NeedHelpButton = ({ themedStyle }) => {
 const PoliciesButton = ({ themedStyle }) => {
   const handleClick = React.useCallback(
     () =>
-      Linking.openURL(
-        'https://onyx-harmony-239219.firebaseapp.com/terms-and-policies/Poli%CC%81tica%20de%20Seguranc%CC%A7a%20e%20Privacidade%20-%20FAVID%20-%2011.04.2019.pdf',
-      ),
+      Linking.openURL('https://onyx-harmony-239219.firebaseapp.com/documents/politica_de_seguranca_e_privacidade.pdf'),
     [],
   );
 
   return (
-    <Button
-      status='primary'
-      style={themedStyle.Button}
-      onPress={handleClick}
-      icon={FileTextIconFill}
-      size='medium'
-      appearance='ghost'
-    >
-      Política de Segurança/Privacidade
+    <Button status='primary' style={themedStyle.button} onPress={handleClick} icon={FileTextIconFill} size='large'>
+      Pol. de Segurança/Privacidade
     </Button>
   );
 };
 
 const TermsButton = ({ themedStyle }) => {
   const handleClick = React.useCallback(
-    () =>
-      Linking.openURL(
-        'https://onyx-harmony-239219.firebaseapp.com/terms-and-policies/Termos%20de%20Uso%20do%20Site%20ou%20Aplicativo%20-%20FAVID%20-%2011.04.2019.pdf',
-      ),
+    () => Linking.openURL('https://onyx-harmony-239219.firebaseapp.com/documents/termos_de_uso.pdf'),
     [],
   );
 
   return (
-    <Button
-      status='primary'
-      style={themedStyle.Button}
-      onPress={handleClick}
-      icon={FileTextIconFill}
-      size='medium'
-      appearance='ghost'
-    >
+    <Button status='primary' style={themedStyle.button} onPress={handleClick} icon={FileTextIconFill} size='large'>
       Termos de Uso
     </Button>
   );
@@ -118,7 +99,7 @@ export const Settings = withStyles(SettingsComponent, (theme: ThemeType) => ({
     flex: 1,
     width: '100%',
   },
-  Button: {
-    marginVertical: 20,
+  button: {
+    marginVertical: 10,
   },
 }));
