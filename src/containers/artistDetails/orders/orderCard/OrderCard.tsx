@@ -3,14 +3,14 @@ import { SocialOrder as Order } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
 import React from 'react';
-import { Platform, StyleProp, ViewStyle, ImageBackground, Linking, Share, TouchableOpacity, View } from 'react-native';
+import { ImageBackground, Linking, Platform, Share, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
 
-import { FlagIconFill, HeartIconOutline, HeartIconFill, ShareIconOutline } from '@src/assets/icons';
+import { FlagIconFill, HeartIconFill, HeartIconOutline, ShareIconOutline } from '@src/assets/icons';
 import { ActivityAuthoring, textStyle } from '@src/components/common';
+import { likeOrder } from './likeOrder';
 import { OrderCardBottom } from './OrderCardBottom';
 import { OrderPaymentStatus } from './OrderPaymentStatus';
 import { OrderStatus } from './OrderStatus';
-import { likeOrder } from './likeOrder';
 import { unLikeOrder } from './unLikeOrder';
 
 interface ComponentProps {
@@ -116,8 +116,12 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
       },
     });
 
-    const order = like ? await unLikeOrder({ orderId }) : await likeOrder({ orderId });
-    this.setState({ sending: false, order });
+    try {
+      const order = like ? await unLikeOrder({ orderId }) : await likeOrder({ orderId });
+      this.setState({ order });
+    } finally {
+      this.setState({ sending: false });
+    }
   };
 
   private onReport = () => {

@@ -1,16 +1,16 @@
-import React from 'react';
-import { Button, Text } from '@kitten/ui';
 import { ArtistRate } from '@favid-inc/api';
-import { ProfileInfo } from './profileInfo.component';
-import { View, ActivityIndicator, Dimensions } from 'react-native';
-import { ProfileSocials } from './profileSocials.component';
-import { imageProfile7Bg, ImageSource } from '@src/assets/images';
 import { SocialArtist as Artist } from '@favid-inc/api/lib/app-customer';
-import { ArtistReviewsResume } from '../artists/review/ArtistReviewsResume';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { Chips, ContainerView, ImageOverlay, textStyle, RateBar } from '@src/components/common';
+import { Button, Text } from '@kitten/ui';
+import { imageProfile7Bg, ImageSource } from '@src/assets/images';
+import { Chips, ContainerView, ImageOverlay, RateBar, textStyle } from '@src/components/common';
 import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
+import React from 'react';
+import { ActivityIndicator, Dimensions, View } from 'react-native';
+import { ArtistReviewsResume } from '../artists/review/ArtistReviewsResume';
 import { VideoPlayer } from '../orders/orderDetails/videoPlayer';
+import { ProfileInfo } from './profileInfo.component';
+import { ProfileSocials } from './profileSocials.component';
 
 interface ComponentProps {
   artist: Artist;

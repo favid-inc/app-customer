@@ -3,14 +3,14 @@ import { SocialOrder as Order } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
 import React from 'react';
-import { Platform, StyleProp, ViewStyle, ImageBackground, Linking, Share, TouchableOpacity, View } from 'react-native';
+import { ImageBackground, Linking, Platform, Share, StyleProp, View, ViewStyle } from 'react-native';
 
-import { FlagIconFill, HeartIconOutline, HeartIconFill, ShareIconOutline } from '@src/assets/icons';
+import { FlagIconFill, HeartIconFill, HeartIconOutline, ShareIconOutline } from '@src/assets/icons';
 import { ActivityAuthoring, textStyle } from '@src/components/common';
+import { likeOrder } from './likeOrder';
 import { OrderCardBottom } from './OrderCardBottom';
 import { OrderPaymentStatus } from './OrderPaymentStatus';
 import { OrderStatus } from './OrderStatus';
-import { likeOrder } from './likeOrder';
 import { unLikeOrder } from './unLikeOrder';
 
 interface ComponentProps {
@@ -41,10 +41,7 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
     const { order } = this.state;
 
     return (
-      <View
-        {...restProps}
-        style={[themedStyle.container, style]}
-      >
+      <View {...restProps} style={[themedStyle.container, style]}>
         {order.videoThumbnailUri && (
           <ImageBackground style={themedStyle.image} source={{ uri: order.videoThumbnailUri }} />
         )}
@@ -84,8 +81,11 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
     );
   }
 
-  private renderActionButton = (orderStatus: string, paymentStatus: string, onPress: () => void): React.ReactElement => {
-
+  private renderActionButton = (
+    orderStatus: string,
+    paymentStatus: string,
+    onPress: () => void,
+  ): React.ReactElement => {
     const statusColor = {
       [OrderPaymentStatusType.PENDING]: 'danger',
       [OrderStatusType.FULFILLED]: 'success',
@@ -99,7 +99,11 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
     const status = statusColor[paymentStatus] ? statusColor[paymentStatus] : statusColor[orderStatus];
     const text = statusText[paymentStatus] ? statusText[paymentStatus] : statusText[orderStatus];
     if (status) {
-      return  <Button status={status} style={{ borderRadius: 0 }}  size='giant' onPress={onPress}>{text}</Button>;
+      return (
+        <Button status={status} style={{ borderRadius: 0 }} size='giant' onPress={onPress}>
+          {text}
+        </Button>
+      );
     }
   };
 
@@ -134,21 +138,11 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
       },
     });
     try {
-      if (like ) {
-        const likeResponse = await likeOrder({ orderId });
-        // console.log('[OrderCard.tsx] likeResponse: ', likeResponse);
-      } else {
-        const unlineResonse = await unLikeOrder({ orderId });
-        // console.log('[OrderCard.tsx] unlineResonse: ', unlineResonse);
-      }
-    } catch (error) {
-      console.log('[OrderCard.tsx] error: ', error);
+      const order = like ? await unLikeOrder({ orderId }) : await likeOrder({ orderId });
+      this.setState({ order });
     } finally {
-      this.setState({
-        sending: false,
-      });
+      this.setState({ sending: false });
     }
-
   };
 
   private onReport = () => {

@@ -1,7 +1,7 @@
 import { Order, OrderPaymentStatus } from '@favid-inc/api';
 import React, { Component } from 'react';
-import { Alert, RefreshControl, ScrollView, Linking } from 'react-native';
-import { NavigationScreenProps, NavigationEventSubscription } from 'react-navigation';
+import { Alert, Linking, RefreshControl, ScrollView } from 'react-native';
+import { NavigationEventSubscription, NavigationScreenProps } from 'react-navigation';
 
 import { listOrders } from './listOrders';
 import { Orders } from './Orders';
