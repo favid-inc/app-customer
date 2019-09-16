@@ -31,9 +31,10 @@ class CustomerFormComponent extends React.Component<Props, Context> {
           value={this.context.name}
         />
 
-        {this.context.documents.map((document) => (
+        {this.context.documents.map((document, index) => (
           <ValidationInput
             formatter={CpfNumberFormatter}
+            key={index}
             keyboardType='numeric'
             label='CPF'
             labelStyle={textStyle.label}
@@ -57,9 +58,10 @@ class CustomerFormComponent extends React.Component<Props, Context> {
           value={this.context.email}
         />
 
-        {this.context.phone_numbers.map((phone_number) => (
+        {this.context.phone_numbers.map((phone_number, index) => (
           <ValidationInput
             formatter={PhoneNumberFormatter}
+            key={index}
             keyboardType='numeric'
             label='Telefone'
             labelStyle={textStyle.label}

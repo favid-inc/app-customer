@@ -5,6 +5,7 @@ import React from 'react';
 import { View } from 'react-native';
 
 import { ScrollableAvoidKeyboard } from '@src/components/common';
+import { PaymentMethodContext } from '../context';
 import { PaymentBoletoForm } from './BoletoForm';
 import { PaymentCardForm } from './CreditCardForm';
 
@@ -18,14 +19,11 @@ interface State {
   isCreditCard: boolean;
 }
 
-class PaymentMethodComponent extends React.Component<Props, State> {
-  public state: State = {
-    isCreditCard: true,
-  };
+type Context = typeof PaymentMethodContext;
 
-  public toggleIsCreditCard = () => {
-    this.setState({ isCreditCard: !this.state.isCreditCard });
-  };
+class PaymentMethodComponent extends React.Component<Props, State, Context> {
+  static contextType = PaymentMethodContext;
+  public context: React.ContextType<Context>;
 
   public render() {
     const { themedStyle } = this.props;
@@ -37,21 +35,21 @@ class PaymentMethodComponent extends React.Component<Props, State> {
             <Button
               icon={CreditCardIconFill}
               style={{ flex: 1, borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
-              status={!this.state.isCreditCard ? 'white' : ''}
-              onPress={this.toggleIsCreditCard}
+              status={this.context.payment_method !== 'credit_card' ? 'white' : ''}
+              onPress={this.selectCreditCard}
             >
               Cartão
             </Button>
             <Button
               icon={FileTextIconFill}
               style={{ flex: 1, borderBottomLeftRadius: 0, borderTopLeftRadius: 0 }}
-              status={this.state.isCreditCard ? 'white' : ''}
-              onPress={this.toggleIsCreditCard}
+              status={this.context.payment_method !== 'boleto' ? 'white' : ''}
+              onPress={this.selectBoleto}
             >
               Boleto
             </Button>
           </View>
-          {this.state.isCreditCard ? (
+          {this.context.payment_method === 'credit_card' ? (
             <PaymentCardForm onSend={this.props.onSend} />
           ) : (
             <PaymentBoletoForm onSend={this.props.onSend} />
@@ -60,6 +58,14 @@ class PaymentMethodComponent extends React.Component<Props, State> {
       </View>
     );
   }
+
+  private selectBoleto = () => {
+    this.context.setPaymentMethod('boleto');
+  };
+
+  private selectCreditCard = () => {
+    this.context.setPaymentMethod('credit_card');
+  };
 }
 
 export const PaymentMethod = withStyles<ComponentProps>(PaymentMethodComponent, (theme: ThemeType) => ({

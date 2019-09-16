@@ -22,14 +22,14 @@ export class PersonalInfoContainer extends React.Component<Props, State> {
     return <PersonalInfo submiting={this.state.submiting} onSubmit={this.onSubmit} />;
   }
 
-  private onSubmit = async () => {
+  private onSubmit = async (data: PayOrder['Request']['data']) => {
     this.setState({ submiting: true });
 
     try {
       const request: PayOrder['Request'] = {
         url: '/PayOrder',
         method: 'POST',
-        data: this.context,
+        data,
       };
 
       const response = await apiClient.request<PayOrder['Response']>(request);
@@ -38,6 +38,8 @@ export class PersonalInfoContainer extends React.Component<Props, State> {
         throw Error(response.status.toString());
       }
 
+      console.log(response);
+
       Alert.alert(
         'Dados de pagamento enviados com sucesso!',
         'Seu pedido está sera realizado logo após a confirmação.',
@@ -45,8 +47,8 @@ export class PersonalInfoContainer extends React.Component<Props, State> {
           {
             text: 'OK',
             onPress: () => {
-              this.props.navigation.pop(2);
-              setTimeout(() => Linking.openURL((response.data as any).url), 1000);
+              this.props.navigation.pop(3);
+              // setTimeout(() => Linking.openURL(response, 1000);
             },
           },
         ],

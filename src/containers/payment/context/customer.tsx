@@ -58,7 +58,9 @@ export class CustomerContextProvider extends React.Component<Props, State> {
   public componentDidMount() {
     const { user } = this.context;
     this.state.setName(user.displayName);
-    this.state.setEmail(user.email), this.state.setPhoneNumbers([user.phoneNumber]);
+    this.state.setEmail(user.email);
+    this.state.setPhoneNumbers([user.phoneNumber]);
+    this.state.setDocuments([{ type: 'cpf', number: '' }]);
   }
 
   public render() {

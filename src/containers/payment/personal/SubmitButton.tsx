@@ -28,7 +28,7 @@ export function SubmitButton({ submiting, onSubmit }: SubmitButtonProps) {
       disabled={submiting || !address.isValid() || !customer.isValid()}
       onPress={onPress}
     >
-      {this.props.sending ? 'Processando...' : `Pagar R$ ${order.price.toString().replace('.', ',')}`}
+      {submiting ? 'Processando...' : `Pagar R$ ${order.price.toString().replace('.', ',')}`}
     </Button>
   );
 }

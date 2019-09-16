@@ -23,7 +23,7 @@ export class PaymentMethodContainer extends Component<Props, any, Context> {
   }
 
   public onSend = () => {
-    this.props.navigation.navigate('Informações do Pedido');
+    this.props.navigation.navigate('Dados Pessoais');
   };
 
   public render() {

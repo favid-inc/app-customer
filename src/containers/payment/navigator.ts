@@ -1,5 +1,4 @@
 import { createStackNavigator } from 'react-navigation';
-import { TopBarNavigationOptions } from '@src/core/navigation/options';
 
 import { connect } from './context';
 import { PersonalInfoContainer } from './personal';
@@ -13,7 +12,7 @@ export const PaymentNavigator = connect(
     },
     {
       headerMode: 'screen',
-      defaultNavigationOptions: TopBarNavigationOptions,
+      defaultNavigationOptions: { header: null },
     },
   ),
 );
