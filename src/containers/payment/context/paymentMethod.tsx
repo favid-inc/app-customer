@@ -1,5 +1,4 @@
 import { PayOrder } from '@favid-inc/api/lib/app-customer';
-import { TransactionPaymentMethod } from '@favid-inc/api/lib/pagar-me';
 import React from 'react';
 
 export type PaymentMethod = PayOrder['Request']['data']['paymentMethod'];

@@ -1,4 +1,3 @@
-import { PayOrder } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import React from 'react';
 import { Platform } from 'react-native';

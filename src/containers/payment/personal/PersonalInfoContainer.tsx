@@ -1,7 +1,6 @@
 import { PayOrder } from '@favid-inc/api/lib/app-customer';
 import React from 'react';
 import { Alert } from 'react-native';
-import { Linking } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 
 import { apiClient } from '@src/core/utils/apiClient';
