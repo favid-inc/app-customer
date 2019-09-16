@@ -13,9 +13,11 @@ type Props = NavigationScreenProps & ThemedComponentProps & NavigationScreenProp
 
 type State = ArtistRate & { sending: boolean };
 
-class ArtistReviewComponent extends React.Component<Props, State> {
+type Context = typeof AuthContext;
+
+class ArtistReviewComponent extends React.Component<Props, State, Context> {
   static contextType = AuthContext;
-  public context: React.ContextType<typeof AuthContext>;
+  public context: React.ContextType<Context>;
 
   public state: State = {
     sending: false,

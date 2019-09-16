@@ -28,8 +28,6 @@ export class ArtistsContainer extends Component<Props, State> {
     selectedLevelIndex: 0,
   };
 
-  private navigationKey: string = 'Artists';
-
   public componentDidMount() {
     this.handleRefresh();
   }
@@ -49,11 +47,8 @@ export class ArtistsContainer extends Component<Props, State> {
 
   private onDetails = (artist: Artist) => {
     this.props.navigation.navigate({
-      key: this.navigationKey,
       routeName: 'Artista',
-      params: {
-        artist,
-      },
+      params: { artist },
     });
   };
 

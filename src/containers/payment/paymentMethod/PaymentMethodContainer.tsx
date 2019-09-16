@@ -1,20 +1,25 @@
+import { Order } from '@favid-inc/api';
 import React, { Component } from 'react';
 import { NavigationScreenProps } from 'react-navigation';
-import { BuyingProcessContext } from '../context';
+import { OrderContext } from '../context';
 import { PaymentMethod } from './PaymentMethod';
 
 type Props = NavigationScreenProps;
 
-type Context = typeof BuyingProcessContext;
+type Context = typeof OrderContext;
 
-export class PaymentContainer extends Component<Props, any, Context> {
-  static contextType = BuyingProcessContext;
+export class PaymentMethodContainer extends Component<Props, any, Context> {
+  static contextType = OrderContext;
   public context: React.ContextType<Context>;
 
   public componentDidMount() {
     const { navigation } = this.props;
-    const order = navigation.getParam('order');
-    this.context.setOrder(order);
+
+    const order: Order = navigation.getParam('order');
+
+    this.context.setId(order.id);
+    this.context.setArtistId(order.artistId);
+    this.context.setPrice(order.price);
   }
 
   public onSend = () => {

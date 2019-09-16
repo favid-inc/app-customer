@@ -1,1 +1,0 @@
-export { BookingNavigation } from './navigator';

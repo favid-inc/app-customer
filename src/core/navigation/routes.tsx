@@ -1,5 +1,6 @@
 import React from 'react';
 import { useScreens } from 'react-native-screens';
+
 import {
   createAppContainer,
   createStackNavigator,
@@ -8,12 +9,11 @@ import {
   NavigationState,
 } from 'react-navigation';
 
-import { ArtistNavigationMap } from '@src/containers/artistDetails';
+import { ArtistNavigator } from '@src/containers/artistDetails';
 import { AuthContainer } from '@src/containers/auth';
-import { BuyingProcessNavigation } from '@src/containers/buyingProcess';
 import { MenuNavigator } from '@src/containers/menu';
-import { OrderDetailsContainerNavigationMap, OrdersNavigator } from '@src/containers/orders';
-import { SettingsNavigationMap } from '@src/containers/settings';
+import { OrdersNavigator } from '@src/containers/orders';
+import { SettingsNavigator } from '@src/containers/settings';
 import { AuthContext } from '@src/core/auth';
 
 const SignInNavigator: NavigationContainer = createStackNavigator(
@@ -31,11 +31,9 @@ const SignInNavigator: NavigationContainer = createStackNavigator(
 const AppNavigator: NavigationContainer = createStackNavigator(
   {
     MenuNavigator,
-    BuyingProcessNavigation,
     OrdersNavigator,
-    ...ArtistNavigationMap,
-    ...OrderDetailsContainerNavigationMap,
-    ...SettingsNavigationMap,
+    SettingsNavigator,
+    ArtistNavigator,
   },
   {
     headerMode: 'screen',

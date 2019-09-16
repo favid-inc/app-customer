@@ -26,18 +26,7 @@ class SettingsComponent extends React.Component<SettingsComponentProps> {
       </View>
     );
   }
-  // private handleNavigateToAccount = () => {
-  //   this.props.onNavigate('Conta');
-  // };
 }
-
-// const NavigateToAccountButton = ({ themedStyle, onNavigate }) => {
-//   return (
-//     <Button status='info' style={themedStyle.button} onPress={onNavigate} icon={PersonIconFill} size='large'>
-//       Conta
-//     </Button>
-//   );
-// };
 
 const SigOutButton = ({ themedStyle }) => {
   const context = React.useContext(AuthContext);

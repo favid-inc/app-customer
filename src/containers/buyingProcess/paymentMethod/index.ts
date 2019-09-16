@@ -1,1 +1,0 @@
-export { PaymentNavigator } from './navigators';

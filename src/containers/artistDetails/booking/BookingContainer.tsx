@@ -6,8 +6,6 @@ import { NavigationScreenProps } from 'react-navigation';
 import { ScrollableAvoidKeyboard } from '@src/components/common';
 import { AuthContext } from '@src/core/auth';
 
-import { BuyingProcessContext } from '../context';
-
 import { Booking } from './Booking';
 import { placeOrder } from './placeOrder';
 
@@ -18,12 +16,7 @@ interface State {
   loading: boolean;
 }
 
-type Context = typeof BuyingProcessContext;
-
-export class BookingContainer extends Component<Props, State, Context> {
-  static contextType = BuyingProcessContext;
-  public context: React.ContextType<Context>;
-
+export class BookingContainer extends Component<Props, State> {
   public state: State = {
     artist: null,
     loading: false,

@@ -13,14 +13,14 @@ const OrderPaymentStatusComponent: React.SFC<Props & ThemedComponentProps> = (pr
 
   const label = React.useMemo(() => {
     const labels = {
-      [OrderPaymentStatusType.PENDING]: 'Pagamento Pendente',
+      [OrderPaymentStatusType.WAITING_PAYMENT]: 'Pagamento Pendente',
     };
     return labels[status] || '';
   }, [status]);
 
   const color = React.useMemo(() => {
     const colors = {
-      [OrderPaymentStatusType.PENDING]: 'danger',
+      [OrderPaymentStatusType.WAITING_PAYMENT]: 'danger',
     };
     return colors[status] || 'disabled';
   }, [status]);

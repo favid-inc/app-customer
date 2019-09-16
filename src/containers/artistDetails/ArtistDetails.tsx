@@ -46,8 +46,6 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
 
   private backgroundImage: ImageSource = imageProfile7Bg;
 
-  public async componentDidMount() {}
-
   public render() {
     const { themedStyle, artist, artistRates, loading } = this.props;
     const artistImage = {
@@ -55,33 +53,6 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
       height: 100,
       width: 100,
     };
-
-    let categories = null;
-    if (artist.categories && artist.categories.length) {
-      categories = (
-        <ShowcaseSection title='Tags' style={themedStyle.section}>
-          <View style={themedStyle.categories}>
-            {artist.categories.map((cat, i) => {
-              return (
-                <Chips style={themedStyle.chips} key={`${cat}-${i}`}>
-                  <Text style={themedStyle.chipsText}>{cat}</Text>
-                </Chips>
-              );
-            })}
-          </View>
-        </ShowcaseSection>
-      );
-    }
-
-    let biography = null;
-
-    if (artist.biography && artist.biography.length) {
-      biography = (
-        <View style={themedStyle.section}>
-          <Text style={[themedStyle.profileSectionContent, themedStyle.profileAboutLabel]}>{artist.biography}</Text>
-        </View>
-      );
-    }
 
     return (
       <ContainerView style={themedStyle.container}>
@@ -124,10 +95,28 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
         >
           {this.props.cameoOrdered ? 'Pendente' : 'Pedir'}
         </Button>
+
         <View style={[themedStyle.profileSection, themedStyle.aboutSection]}>
-          {categories}
-          {biography}
+          {artist.categories && artist.categories.length && (
+            <ShowcaseSection title='Tags' style={themedStyle.section}>
+              <View style={themedStyle.categories}>
+                {artist.categories.map((cat, i) => {
+                  return (
+                    <Chips style={themedStyle.chips} key={`${cat}-${i}`}>
+                      <Text style={themedStyle.chipsText}>{cat}</Text>
+                    </Chips>
+                  );
+                })}
+              </View>
+            </ShowcaseSection>
+          )}
+          {artist.biography && artist.biography.length && (
+            <View style={themedStyle.section}>
+              <Text style={[themedStyle.profileSectionContent, themedStyle.profileAboutLabel]}>{artist.biography}</Text>
+            </View>
+          )}
         </View>
+
         {artist.videoUri && (
           <View style={{ flex: 1, position: 'relative', height: height * 0.6 }}>
             <VideoPlayer uri={artist.videoUri} shouldPlay={false} />

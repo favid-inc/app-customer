@@ -1,16 +1,19 @@
-import { NavigationRouteConfigMap } from 'react-navigation';
-
 import { TopBarNavigationOptions } from '@src/core/navigation/options';
+
 import { ArtistDetailsContainer } from './ArtistDetailsContainer';
 import { ArtistReview } from './artistReview';
+import { BookingContainer } from './booking';
 
-export const ArtistNavigationMap: NavigationRouteConfigMap = {
-  'Artista': {
-    screen: ArtistDetailsContainer,
-    navigationOptions: TopBarNavigationOptions,
+import { createStackNavigator } from 'react-navigation';
+
+export const ArtistNavigator = createStackNavigator(
+  {
+    'Artista': ArtistDetailsContainer,
+    'Avaliar Artista': ArtistReview,
+    'Fazer Pedido': BookingContainer,
   },
-  'Avaliar Artista': {
-    screen: ArtistReview,
-    navigationOptions: TopBarNavigationOptions,
+  {
+    headerMode: 'screen',
+    defaultNavigationOptions: TopBarNavigationOptions,
   },
-};
+);

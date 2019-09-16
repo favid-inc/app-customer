@@ -5,6 +5,7 @@ import { NavigationEventSubscription, NavigationScreenProps } from 'react-naviga
 
 import { listOrders } from './listOrders';
 import { Orders } from './Orders';
+import { getCheckoutLink } from './getCheckoutLink';
 
 type Props = NavigationScreenProps;
 
@@ -55,11 +56,11 @@ export class OrdersContainer extends Component<Props, State> {
     }
   };
 
-  private onDetails = (order: Order) => {
-    if (order.paymentStatus === OrderPaymentStatus.PENDING) {
-      if (order.iuguInvoiceId) {
-        // @ts-ignore
-        Linking.openURL(order.iuguInvoiceMetadata.url);
+  private onDetails = async (order: Order) => {
+    if (order.paymentStatus === OrderPaymentStatus.WAITING_PAYMENT) {
+      if (order.pagarMeTransactionId) {
+        const url = await getCheckoutLink({ orderId: order.id });
+        Linking.openURL(url);
       } else {
         this.props.navigation.navigate('Pagamento', { order });
       }

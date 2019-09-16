@@ -145,7 +145,7 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
 
   private onOrderPress = () => {
     this.props.navigation.navigate({
-      routeName: 'Pedido',
+      routeName: 'Fazer Pedido',
       params: {
         artist: this.state.artist,
       },

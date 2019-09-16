@@ -5,8 +5,8 @@ import React from 'react';
 import { View } from 'react-native';
 
 import { ScrollableAvoidKeyboard } from '@src/components/common';
-import { PaymentBoletoForm } from './PaymentBoletoForm';
-import { PaymentCardForm } from './PaymentCardForm';
+import { PaymentBoletoForm } from './BoletoForm';
+import { PaymentCardForm } from './CreditCardForm';
 
 interface ComponentProps {
   onSend: () => void;

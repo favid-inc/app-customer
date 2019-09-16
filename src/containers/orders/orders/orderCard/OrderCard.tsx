@@ -70,7 +70,7 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
             name={order.artistArtisticName}
             date={new Date(order.statusPlacedDate).toLocaleDateString()}
           />
-          {order.paymentStatus === OrderPaymentStatusType.PENDING ? (
+          {order.paymentStatus === OrderPaymentStatusType.WAITING_PAYMENT ? (
             <OrderPaymentStatus status={order.paymentStatus} />
           ) : (
             <OrderStatus status={order.status} />
@@ -87,12 +87,12 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
     onPress: () => void,
   ): React.ReactElement => {
     const statusColor = {
-      [OrderPaymentStatusType.PENDING]: 'danger',
+      [OrderPaymentStatusType.WAITING_PAYMENT]: 'danger',
       [OrderStatusType.FULFILLED]: 'success',
     };
 
     const statusText = {
-      [OrderPaymentStatusType.PENDING]: 'Efetuar Pagamento',
+      [OrderPaymentStatusType.WAITING_PAYMENT]: 'Efetuar Pagamento',
       [OrderStatusType.FULFILLED]: 'Ver Vídeo',
     };
 

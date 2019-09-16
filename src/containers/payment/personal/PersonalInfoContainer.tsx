@@ -1,44 +1,35 @@
 import { PayOrder } from '@favid-inc/api/lib/app-customer';
-import { apiClient } from '@src/core/utils/apiClient';
-import React, { Component } from 'react';
+import React from 'react';
 import { Alert } from 'react-native';
 import { Linking } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 
-import { BuyingProcessContext } from '../context';
-import { OrderInfo } from './OrderInfo';
+import { apiClient } from '@src/core/utils/apiClient';
+import { PersonalInfo } from './PersonalInfo';
+
 interface State {
-  sending: boolean;
+  submiting: boolean;
 }
 
 type Props = NavigationScreenProps;
 
-export class PayerContainer extends Component<Props, State, typeof BuyingProcessContext> {
-  static contextType = BuyingProcessContext;
-  public context: React.ContextType<typeof BuyingProcessContext>;
-
+export class PersonalInfoContainer extends React.Component<Props, State> {
   public state: State = {
-    sending: false,
+    submiting: false,
   };
 
-  public onSend = async () => {
-    this.setState({ sending: true });
+  public render() {
+    return <PersonalInfo submiting={this.state.submiting} onSubmit={this.onSubmit} />;
+  }
 
-    const charge = {
-      order: this.context.order,
-      paymentToken: {
-        data: this.context.creditCard,
-      },
-      directCharge: {
-        payer: this.context.payer,
-      },
-    };
+  private onSubmit = async () => {
+    this.setState({ submiting: true });
 
     try {
       const request: PayOrder['Request'] = {
         url: '/PayOrder',
         method: 'POST',
-        data: charge,
+        data: this.context,
       };
 
       const response = await apiClient.request<PayOrder['Response']>(request);
@@ -54,7 +45,7 @@ export class PayerContainer extends Component<Props, State, typeof BuyingProcess
           {
             text: 'OK',
             onPress: () => {
-              this.props.navigation.navigate('Orders');
+              this.props.navigation.pop(2);
               setTimeout(() => Linking.openURL((response.data as any).url), 1000);
             },
           },
@@ -67,11 +58,6 @@ export class PayerContainer extends Component<Props, State, typeof BuyingProcess
       Alert.alert('Erro ao processar pagamento', 'Verifique sua conexão e tente novamente');
     }
 
-    this.setState({ sending: false });
+    this.setState({ submiting: false });
   };
-
-  public render() {
-    const { sending } = this.state;
-    return <OrderInfo sending={sending} onSend={this.onSend} />;
-  }
 }

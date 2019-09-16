@@ -1,1 +1,0 @@
-export { OrderInfoNavigator } from './navigator';

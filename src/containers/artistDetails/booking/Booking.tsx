@@ -4,6 +4,7 @@ import { Button, Text, Toggle } from '@kitten/ui';
 import React, { Component } from 'react';
 import { TextInput, View, ViewProps } from 'react-native';
 
+import { AuthContext } from '@src/core/auth';
 import { ContainerView, textStyle, ValidationInput } from '@src/components/common';
 import { NameValidator } from '@src/core/validators';
 
@@ -23,7 +24,12 @@ interface State {
   };
 }
 
-class BookingComponent extends Component<BookingProps, State> {
+type Context = typeof AuthContext;
+
+class BookingComponent extends Component<BookingProps, State, Context> {
+  static contextType = AuthContext;
+  public context: React.ContextType<Context>;
+
   public state: State = {
     model: {
       isGift: false,
@@ -38,7 +44,7 @@ class BookingComponent extends Component<BookingProps, State> {
   };
 
   public componentDidMount() {
-    // this.setState({ model: { ...this.state.model, customerName: this.state.model.customerName } });
+    this.handleCustomerNameChange(this.context.user.displayName);
   }
 
   public render() {

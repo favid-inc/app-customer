@@ -75,7 +75,7 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
             name={order.artistArtisticName}
             date={new Date(order.statusPlacedDate).toLocaleDateString()}
           />
-          {order.paymentStatus === OrderPaymentStatusType.PENDING ? (
+          {order.paymentStatus === OrderPaymentStatusType.WAITING_PAYMENT ? (
             <OrderPaymentStatus status={order.paymentStatus} />
           ) : (
             <OrderStatus status={order.status} />

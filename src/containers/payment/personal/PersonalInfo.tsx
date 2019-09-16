@@ -1,37 +1,40 @@
+import { PayOrder } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { ContainerView, ScrollableAvoidKeyboard } from '@src/components/common';
 import React from 'react';
 import { Platform } from 'react-native';
 
-import { OrderInfoForm } from './OrderInfoForm';
+import { ContainerView, ScrollableAvoidKeyboard } from '@src/components/common';
 
-interface ComponentProps {
-  sending: boolean;
-  onSend: () => void;
-}
+import { AddressForm } from './AddressForm';
+import { CustomerForm } from './CustomerForm';
+import { SubmitButton, SubmitButtonProps } from './SubmitButton';
+
+type ComponentProps = SubmitButtonProps;
 
 export type Props = ThemedComponentProps & ComponentProps;
 
-class Component extends React.Component<Props> {
+class PersonalInfoComponent extends React.Component<Props> {
   private keyboardOffset: number = Platform.select({
     ios: 0,
     android: 228,
   });
 
   public render() {
-    const { themedStyle, sending } = this.props;
+    const { themedStyle, submiting, onSubmit } = this.props;
 
     return (
       <ScrollableAvoidKeyboard style={[themedStyle.container]} extraScrollHeight={this.keyboardOffset}>
         <ContainerView style={themedStyle.container} contentContainerStyle={themedStyle.contentContainer}>
-          <OrderInfoForm sending={sending} onSend={this.props.onSend} />
+          <CustomerForm />
+          <AddressForm />
+          <SubmitButton submiting={submiting} onSubmit={onSubmit} />
         </ContainerView>
       </ScrollableAvoidKeyboard>
     );
   }
 }
 
-export const OrderInfo = withStyles(Component, (theme: ThemeType) => ({
+export const PersonalInfo = withStyles<ComponentProps>(PersonalInfoComponent, (theme: ThemeType) => ({
   container: {
     padding: 10,
     flex: 1,

@@ -3,7 +3,7 @@ import { Button } from '@kitten/ui';
 import React from 'react';
 import { View, ViewProps } from 'react-native';
 
-import { BuyingProcessContext } from '../context';
+import { PaymentMethodContext } from '../context';
 
 import { textStyle, ValidationInput } from '@src/components/common';
 import {
@@ -20,18 +20,16 @@ interface ComponentProps {
   onSend: () => void;
 }
 
-export type AddPaymentCardFormProps = ThemedComponentProps & ViewProps & ComponentProps;
+export type PaymentCardFormProps = ThemedComponentProps & ViewProps & ComponentProps;
 
 const cardNumberValidator = validation(CARD_NUMBER_REGEX);
 
-class PaymentCardFormComponent extends React.Component<AddPaymentCardFormProps> {
-  static contextType = BuyingProcessContext;
-  public context: React.ContextType<typeof BuyingProcessContext>;
+class PaymentCardFormComponent extends React.Component<PaymentCardFormProps> {
+  static contextType = PaymentMethodContext;
+  public context: React.ContextType<typeof PaymentMethodContext>;
 
   public render() {
     const { style, themedStyle, ...restProps } = this.props;
-
-    const { creditCard } = this.context;
 
     return (
       <View style={themedStyle.container} {...restProps}>
@@ -42,11 +40,11 @@ class PaymentCardFormComponent extends React.Component<AddPaymentCardFormProps> 
           label='Número do Cartão'
           labelStyle={textStyle.label}
           maxLength={19}
-          onChangeText={this.onCardNumberChange}
+          onChangeText={this.context.setCardNumber}
           style={themedStyle.input}
           textStyle={textStyle.paragraph}
           validator={cardNumberValidator}
-          value={creditCard.cardNumber}
+          value={this.context.card_number}
         />
         <View style={themedStyle.middleContainer}>
           <ValidationInput
@@ -56,11 +54,11 @@ class PaymentCardFormComponent extends React.Component<AddPaymentCardFormProps> 
             label='Data de Expiração'
             labelStyle={textStyle.label}
             maxLength={5}
-            onChangeText={this.onExpirationDateChange}
+            onChangeText={this.context.setCardExpirationDate}
             style={[themedStyle.input, themedStyle.expireInput]}
             textStyle={textStyle.paragraph}
             validator={ExpirationDateValidator}
-            value={creditCard.expirationDate}
+            value={this.context.card_expiration_date}
           />
           <ValidationInput
             autoCompleteType='cc-csc'
@@ -69,11 +67,11 @@ class PaymentCardFormComponent extends React.Component<AddPaymentCardFormProps> 
             label='CVV'
             labelStyle={textStyle.label}
             maxLength={3}
-            onChangeText={this.onCvvChange}
+            onChangeText={this.context.setCardCvv}
             style={[themedStyle.input, themedStyle.cvvInput]}
             textStyle={textStyle.paragraph}
             validator={CvvValidator}
-            value={creditCard.cvv}
+            value={this.context.card_cvv}
           />
         </View>
         <ValidationInput
@@ -81,11 +79,11 @@ class PaymentCardFormComponent extends React.Component<AddPaymentCardFormProps> 
           formatter={CardHolderNameFormatter}
           label='Nome no Cartão'
           labelStyle={textStyle.label}
-          onChangeText={this.onCardHolderNameChange}
+          onChangeText={this.context.setCardHolderName}
           style={[themedStyle.input, themedStyle.cardholderNameInput]}
           textStyle={textStyle.paragraph}
           validator={CardholderNameValidator}
-          value={creditCard.cardHolderName}
+          value={this.context.card_holder_name}
         />
 
         <Button
@@ -102,25 +100,9 @@ class PaymentCardFormComponent extends React.Component<AddPaymentCardFormProps> 
     );
   }
 
-  private onCardNumberChange = (cardNumber: string) => {
-    this.context.setCreditCard({ ...this.context.creditCard, cardNumber });
-  };
-
-  private onExpirationDateChange = (expirationDate) => {
-    this.context.setCreditCard({ ...this.context.creditCard, expirationDate });
-  };
-
-  private onCvvChange = (cvv) => {
-    this.context.setCreditCard({ ...this.context.creditCard, cvv });
-  };
-
-  private onCardHolderNameChange = (cardHolderName) => {
-    this.context.setCreditCard({ ...this.context.creditCard, cardHolderName });
-  };
-
   private isValid = (): boolean => {
-    const { cardNumber, expirationDate, cvv, cardHolderName: cardholderName } = this.context.creditCard;
-    return Boolean(cardNumber && expirationDate && cvv && cardholderName);
+    const { card_cvv, card_expiration_date, card_number, card_holder_name } = this.context;
+    return Boolean(card_cvv && card_expiration_date && card_number && card_holder_name);
   };
 }
 

@@ -4,7 +4,6 @@ import React from 'react';
 import { View, ViewProps } from 'react-native';
 
 import { textStyle } from '@src/components/common';
-import { BuyingProcessContext } from '../context';
 
 interface ComponentProps {
   onSend: () => void;
@@ -12,9 +11,6 @@ interface ComponentProps {
 
 export type AddPaymentCardFormProps = ThemedComponentProps & ViewProps & ComponentProps;
 class PaymentBoletoFormComponent extends React.Component<AddPaymentCardFormProps> {
-  static contextType = BuyingProcessContext;
-  public context: React.ContextType<typeof BuyingProcessContext>;
-
   public render() {
     const { style, themedStyle, ...restProps } = this.props;
 
@@ -34,7 +30,6 @@ class PaymentBoletoFormComponent extends React.Component<AddPaymentCardFormProps
   }
 
   private handleSend = () => {
-    this.context.setCreditCard({});
     this.props.onSend();
   };
 }
