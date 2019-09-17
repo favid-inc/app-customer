@@ -5,7 +5,7 @@ import { NavigationEventSubscription, NavigationScreenProps } from 'react-naviga
 
 import { listOrders } from './listOrders';
 import { Orders } from './Orders';
-import { getCheckoutLink } from './getCheckoutLink';
+import { readOrderTransaction } from './readOrderTransaction';
 
 type Props = NavigationScreenProps;
 
@@ -59,8 +59,10 @@ export class OrdersContainer extends Component<Props, State> {
   private onDetails = async (order: Order) => {
     if (order.paymentStatus === OrderPaymentStatus.WAITING_PAYMENT) {
       if (order.pagarMeTransactionId) {
-        const url = await getCheckoutLink({ orderId: order.id });
-        Linking.openURL(url);
+        const transaction = await readOrderTransaction({ orderId: order.id });
+        if (transaction.payment_method === 'boleto') {
+          Linking.openURL(transaction.boleto_url);
+        }
       } else {
         this.props.navigation.navigate('Pagamento', { order });
       }

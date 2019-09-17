@@ -1,6 +1,6 @@
 import { PayOrder } from '@favid-inc/api/lib/app-customer';
 import React from 'react';
-import { Alert } from 'react-native';
+import { Alert, Linking } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 
 import { apiClient } from '@src/core/utils/apiClient';
@@ -31,13 +31,13 @@ export class PersonalInfoContainer extends React.Component<Props, State> {
         data,
       };
 
-      const response = await apiClient.request<PayOrder['Response']>(request);
+      const response: PayOrder['Response'] = await apiClient.request(request);
 
       if (response.status !== 200) {
         throw Error(response.status.toString());
       }
 
-      console.log(response);
+      const transaction = response.data;
 
       Alert.alert(
         'Dados de pagamento enviados com sucesso!',
@@ -46,8 +46,11 @@ export class PersonalInfoContainer extends React.Component<Props, State> {
           {
             text: 'OK',
             onPress: () => {
-              this.props.navigation.pop(3);
-              // setTimeout(() => Linking.openURL(response, 1000);
+              console.log(transaction);
+              this.props.navigation.pop(-3);
+              if (transaction.payment_method === 'boleto') {
+                setTimeout(() => Linking.openURL(transaction.boleto_url), 1000);
+              }
             },
           },
         ],

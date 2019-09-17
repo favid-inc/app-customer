@@ -1,10 +1,10 @@
-import { GetCheckoutLink as Action } from '@favid-inc/api/lib/app-customer';
+import { ReadOrderTransaction as Action } from '@favid-inc/api/lib/app-customer';
 
 import { apiClient } from '@src/core/utils/apiClient';
 
-export async function getCheckoutLink(params: Action['Request']['params']): Promise<Action['Response']> {
+export async function readOrderTransaction(params: Action['Request']['params']): Promise<Action['Response']> {
   const request: Action['Request'] = {
-    url: '/GetCheckoutLink',
+    url: '/ReadOrderTransaction',
     method: 'GET',
     params,
   };
