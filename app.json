@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Favid - Customer",
+    "name": "Favid",
     "icon": "./src/assets/icons/icon.png",
     "version": "2.0.1",
     "slug": "favid-customer",
