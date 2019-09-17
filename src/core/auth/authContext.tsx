@@ -170,10 +170,16 @@ export class FirebaseAuth extends React.Component<FirebaseAuthProps, FirebaseAut
     this.saveState();
 
     if (credentials.type === 'oauth') {
-      AppAuth.revokeAsync(credentials.oAuthProps, {
-        token: credentials.tokens.accessToken,
-        isClientIdProvided: true,
-      });
+      try {
+        await AppAuth.revokeAsync(credentials.oAuthProps, {
+          token: credentials.tokens.accessToken,
+          isClientIdProvided: true,
+        });
+
+        return null;
+      } catch ({ message }) {
+        Alert.alert(`Failed to revoke token: ${message}`);
+      }
     }
   }
 

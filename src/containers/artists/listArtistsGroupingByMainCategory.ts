@@ -9,6 +9,5 @@ export async function listArtistsGroupingByMainCategory(): Promise<Action['Respo
   };
 
   const response = await apiClient.request<Action['Response']>(request);
-
   return response.data;
 }

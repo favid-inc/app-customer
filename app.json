@@ -9,13 +9,13 @@
     "orientation": "portrait",
     "githubUrl": "https://github.com/favid-inc/app-customer",
     "ios": {
-      "bundleIdentifier": "br.com.favid.appcustomer",
+      "bundleIdentifier": "br.com.favid.customer",
       "appStoreUrl": "https://itunes.apple.com/us/app/favid/id1246143230"
     },
     "android": {
-      "package": "br.com.favid.appcustomer",
-      "versionCode": 19,
-      "playStoreUrl": "https://play.google.com/store/apps/details?id=br.com.favid.appcustomer"
+      "package": "br.com.favid.customer",
+      "versionCode": 23,
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=br.com.favid.customer"
     },
     "androidStatusBar": {
       "backgroundColor": "#FFFFFF"
