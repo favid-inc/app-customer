@@ -39,10 +39,7 @@ const SigOutButton = ({ themedStyle }) => {
 };
 
 const NeedHelpButton = ({ themedStyle }) => {
-  const handleClick = React.useCallback(
-    () => Linking.openURL('mailto:suporte.favid@gmail.com?subject=Preciso de Ajuda com o aplicativo&'),
-    [],
-  );
+  const handleClick = React.useCallback(() => Linking.openURL('https://www.favid.com.br/suporte/'), []);
 
   return (
     <Button status='primary' style={themedStyle.button} onPress={handleClick} icon={MenuIconMessaging} size='large'>
