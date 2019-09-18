@@ -3,7 +3,7 @@ import { SocialOrder as Order } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
 import React from 'react';
-import { ImageBackground, Linking, Platform, Share, StyleProp, View, ViewStyle } from 'react-native';
+import { ImageBackground, Linking, Platform, Share, StyleProp, View, ViewStyle, TouchableOpacity } from 'react-native';
 
 import { FlagIconFill, HeartIconFill, HeartIconOutline, ShareIconOutline } from '@src/assets/icons';
 import { ActivityAuthoring, textStyle } from '@src/components/common';
@@ -42,8 +42,36 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
 
     return (
       <View {...restProps} style={[themedStyle.container, style]}>
+        <TouchableOpacity
+          activeOpacity={0}
+          style={{
+            opacity: 0.1,
+            zIndex: 1,
+            position: 'absolute',
+            height: '100%',
+            width: '100%',
+            backgroundColor: 'black',
+          }}
+          onPress={() => {}}
+        >
+        </TouchableOpacity>
         {order.videoThumbnailUri && (
-          <ImageBackground style={themedStyle.image} source={{ uri: order.videoThumbnailUri }} />
+          <View style={themedStyle.parameterContainer}>
+              <TouchableOpacity
+                activeOpacity={1}
+                style={{
+                  opacity: 0.3,
+                  zIndex: 1,
+                  position: 'absolute',
+                  height: '100%',
+                  width: '100%',
+                  backgroundColor: 'black',
+                }}
+                onPress={() => {}}
+              >
+              </TouchableOpacity>
+              <ImageBackground style={themedStyle.image} source={{ uri: order.videoThumbnailUri }} />
+            </View>
         )}
         <View style={themedStyle.infoContainer}>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignContent: 'center' }}>
@@ -100,7 +128,7 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
     const text = statusText[paymentStatus] ? statusText[paymentStatus] : statusText[orderStatus];
     if (status) {
       return (
-        <Button status={status} style={{ borderRadius: 0 }} size='giant' onPress={onPress}>
+        <Button status={status} style={{ borderRadius: 0, zIndex: 2 }} size='giant' onPress={onPress}>
           {text}
         </Button>
       );
