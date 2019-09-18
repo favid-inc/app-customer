@@ -3,7 +3,7 @@ import { SocialOrder as Order } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
 import React from 'react';
-import { ImageBackground, Linking, Platform, Share, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { ImageBackground, Linking, Platform, Share, StyleProp, View, ViewStyle, TouchableOpacity } from 'react-native';
 
 import { FlagIconFill, HeartIconFill, HeartIconOutline, ShareIconOutline } from '@src/assets/icons';
 import { ActivityAuthoring, textStyle } from '@src/components/common';
@@ -41,14 +41,37 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
     const { order } = this.state;
 
     return (
-      <TouchableOpacity
-        activeOpacity={0.95}
-        {...restProps}
-        style={[themedStyle.container, style]}
-        onPress={this.onPress}
-      >
+      <View {...restProps} style={[themedStyle.container, style]}>
+        <TouchableOpacity
+          activeOpacity={0}
+          style={{
+            opacity: 0.1,
+            zIndex: 1,
+            position: 'absolute',
+            height: '100%',
+            width: '100%',
+            backgroundColor: 'black',
+          }}
+          onPress={() => {}}
+        >
+        </TouchableOpacity>
         {order.videoThumbnailUri && (
-          <ImageBackground style={themedStyle.image} source={{ uri: order.videoThumbnailUri }} />
+          <View style={themedStyle.parameterContainer}>
+              <TouchableOpacity
+                activeOpacity={1}
+                style={{
+                  opacity: 0.3,
+                  zIndex: 1,
+                  position: 'absolute',
+                  height: '100%',
+                  width: '100%',
+                  backgroundColor: 'black',
+                }}
+                onPress={() => {}}
+              >
+              </TouchableOpacity>
+              <ImageBackground style={themedStyle.image} source={{ uri: order.videoThumbnailUri }} />
+            </View>
         )}
         <View style={themedStyle.infoContainer}>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignContent: 'center' }}>
@@ -69,21 +92,36 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
             {order.instructions}
           </Text>
         </View>
-        <OrderCardBottom style={themedStyle.activityContainer}>
-          <ActivityAuthoring
-            photo={{ uri: order.artistPhotoUri }}
-            name={order.artistArtisticName}
-            date={new Date(order.statusPlacedDate).toLocaleDateString()}
-          />
-          {order.paymentStatus === OrderPaymentStatusType.WAITING_PAYMENT ? (
-            <OrderPaymentStatus status={order.paymentStatus} />
-          ) : (
-            <OrderStatus status={order.status} />
-          )}
-        </OrderCardBottom>
-      </TouchableOpacity>
+        {this.renderActionButton(order.status, order.paymentStatus, this.onPress)}
+      </View>
     );
   }
+
+  private renderActionButton = (
+    orderStatus: string,
+    paymentStatus: string,
+    onPress: () => void,
+  ): React.ReactElement => {
+    const statusColor = {
+      [OrderPaymentStatusType.WAITING_PAYMENT]: 'danger',
+      [OrderStatusType.FULFILLED]: 'success',
+    };
+
+    const statusText = {
+      [OrderPaymentStatusType.WAITING_PAYMENT]: 'Efetuar Pagamento',
+      [OrderStatusType.FULFILLED]: 'Ver Vídeo',
+    };
+
+    const status = statusColor[paymentStatus] ? statusColor[paymentStatus] : statusColor[orderStatus];
+    const text = statusText[paymentStatus] ? statusText[paymentStatus] : statusText[orderStatus];
+    if (status) {
+      return (
+        <Button status={status} style={{ borderRadius: 0, zIndex: 2 }} size='giant' onPress={onPress}>
+          {text}
+        </Button>
+      );
+    }
+  };
 
   private onShare = async () => {
     const { artistArtisticName, videoUri } = this.state.order;
@@ -115,7 +153,6 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
         likes: likes + (like ? -1 : +1),
       },
     });
-
     try {
       const order = like ? await unLikeOrder({ orderId }) : await likeOrder({ orderId });
       this.setState({ order });
@@ -156,6 +193,9 @@ export const OrderCard = withStyles<ComponentProps>(OrderCardComponent, (theme: 
   container: {
     borderRadius: 12,
     overflow: 'hidden',
+    minWidth: 300,
+    maxWidth: 450,
+    alignSelf: 'center',
   },
   infoContainer: {
     paddingHorizontal: 16,
