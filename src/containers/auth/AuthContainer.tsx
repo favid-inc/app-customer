@@ -6,7 +6,6 @@ import { NavigationScreenProps } from 'react-navigation';
 import { favidImage } from '@src/assets/images';
 import { ScrollableAvoidKeyboard, textStyle } from '@src/components/common';
 import { AuthContext } from '@src/core/auth';
-import * as config from '@src/core/config';
 
 import { AuthForm } from './AuthForm';
 import { SocialAuth } from './SocialAuth';
@@ -81,7 +80,7 @@ class AuthContainerComponent extends React.Component<Props, State> {
       Alert.alert('Termos de uso', 'Você deve aceitar os termos de uso para realizar essa ação');
       return;
     }
-    this.context.signInWithOAuth(config.auth.google);
+    this.context.signInWithGoogle();
   };
 
   private handleFacebookSignIn = () => {
@@ -89,7 +88,7 @@ class AuthContainerComponent extends React.Component<Props, State> {
       Alert.alert('Termos de uso', 'Você deve aceitar os termos de uso para realizar essa ação');
       return;
     }
-    // await this.signIn('google');
+    this.context.signInWithFacebook();
   };
 }
 
