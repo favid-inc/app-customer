@@ -1,8 +1,5 @@
 import { LoadingAnimationComponent } from '@src/core/appLoader/loadingAnimation.component';
-import {
-  AppLoading,
-  SplashScreen,
-} from 'expo';
+import { AppLoading, SplashScreen } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import React from 'react';
@@ -28,7 +25,6 @@ type LoadingElement = React.ReactElement<{}>;
  * Loads child component after asynchronous tasks are done
  */
 export class ApplicationLoader extends React.Component<Props, State> {
-
   public state: State = {
     loaded: false,
   };
@@ -42,7 +38,7 @@ export class ApplicationLoader extends React.Component<Props, State> {
     return (
       <React.Fragment>
         {this.state.loaded ? this.props.children : this.renderLoading()}
-        <LoadingAnimationComponent isLoaded={this.state.loaded}/>
+        <LoadingAnimationComponent isLoaded={this.state.loaded} />
       </React.Fragment>
     );
   }
@@ -60,14 +56,16 @@ export class ApplicationLoader extends React.Component<Props, State> {
     return this.loadResourcesAsync(this.props.assets);
   };
 
-  private loadFonts = (fonts: {[key: string]: number}): Promise<void> => {
+  private loadFonts = (fonts: { [key: string]: number }): Promise<void> => {
     return Font.loadAsync(fonts);
   };
 
   private loadImages = (images: ImageRequireSource[]): Promise<void[]> => {
-    const tasks: Array<Promise<void>> = images.map((image: ImageRequireSource): Promise<void> => {
-      return Asset.fromModule(image).downloadAsync();
-    });
+    const tasks: Array<Promise<void>> = images.map(
+      (image: ImageRequireSource): Promise<void> => {
+        return Asset.fromModule(image).downloadAsync();
+      },
+    );
 
     return Promise.all(tasks);
   };
@@ -76,10 +74,7 @@ export class ApplicationLoader extends React.Component<Props, State> {
     const { fonts, images } = assets;
 
     // @ts-ignore (expo type error)
-    return Promise.all([
-      this.loadFonts(fonts),
-      this.loadImages(images),
-    ]);
+    return Promise.all([this.loadFonts(fonts), this.loadImages(images)]);
   }
 
   private renderLoading = (): LoadingElement => {

@@ -6,11 +6,8 @@ import React from 'react';
 import { ImageBackground, Linking, Platform, Share, StyleProp, View, ViewStyle, TouchableOpacity } from 'react-native';
 
 import { FlagIconFill, HeartIconFill, HeartIconOutline, ShareIconOutline } from '@src/assets/icons';
-import { ActivityAuthoring, textStyle } from '@src/components/common';
+import { textStyle } from '@src/components/common';
 import { likeOrder } from './likeOrder';
-import { OrderCardBottom } from './OrderCardBottom';
-import { OrderPaymentStatus } from './OrderPaymentStatus';
-import { OrderStatus } from './OrderStatus';
 import { unLikeOrder } from './unLikeOrder';
 
 interface ComponentProps {
@@ -53,25 +50,23 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
             backgroundColor: 'black',
           }}
           onPress={() => {}}
-        >
-        </TouchableOpacity>
+        ></TouchableOpacity>
         {order.videoThumbnailUri && (
           <View style={themedStyle.parameterContainer}>
-              <TouchableOpacity
-                activeOpacity={1}
-                style={{
-                  opacity: 0.3,
-                  zIndex: 1,
-                  position: 'absolute',
-                  height: '100%',
-                  width: '100%',
-                  backgroundColor: 'black',
-                }}
-                onPress={() => {}}
-              >
-              </TouchableOpacity>
-              <ImageBackground style={themedStyle.image} source={{ uri: order.videoThumbnailUri }} />
-            </View>
+            <TouchableOpacity
+              activeOpacity={1}
+              style={{
+                opacity: 0.3,
+                zIndex: 1,
+                position: 'absolute',
+                height: '100%',
+                width: '100%',
+                backgroundColor: 'black',
+              }}
+              onPress={() => {}}
+            ></TouchableOpacity>
+            <ImageBackground style={themedStyle.image} source={{ uri: order.videoThumbnailUri }} />
+          </View>
         )}
         <View style={themedStyle.infoContainer}>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignContent: 'center' }}>
