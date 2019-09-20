@@ -8,7 +8,7 @@ import { ImageBackground, Linking, Platform, Share, StyleProp, View, ViewStyle, 
 import { FlagIconFill, HeartIconFill, HeartIconOutline, ShareIconOutline } from '@src/assets/icons';
 import { textStyle } from '@src/components/common';
 import { likeOrder } from './likeOrder';
-import { unLikeOrder } from './unLikeOrder';
+import { unlikeOrder } from './unLikeOrder';
 
 interface ComponentProps {
   order: Order;
@@ -149,7 +149,7 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
       },
     });
     try {
-      const order = like ? await unLikeOrder({ orderId }) : await likeOrder({ orderId });
+      const order = like ? await unlikeOrder({ orderId }) : await likeOrder({ orderId });
       this.setState({ order });
     } finally {
       this.setState({ sending: false });
