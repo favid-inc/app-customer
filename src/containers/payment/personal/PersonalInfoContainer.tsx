@@ -46,7 +46,8 @@ export class PersonalInfoContainer extends React.Component<Props, State> {
           {
             text: 'OK',
             onPress: () => {
-              this.props.navigation.pop(-3);
+              this.props.navigation.popToTop();
+              this.props.navigation.goBack(null);
               if (transaction.payment_method === 'boleto') {
                 setTimeout(() => Linking.openURL(transaction.boleto_url), 1000);
               }
