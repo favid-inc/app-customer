@@ -31,13 +31,13 @@ export class PersonalInfoContainer extends React.Component<Props, State> {
         data,
       };
 
-      const response: PayOrder['Response'] = await apiClient.request(request);
+      const response = await apiClient.request<PayOrder['Response']>(request);
 
-      if (response.status !== 200) {
-        throw Error(response.status.toString());
+      if (response.data.status !== 200) {
+        throw Error(response.data.status.toString());
       }
 
-      const transaction = response.data;
+      const transaction = response.data.data;
 
       Alert.alert(
         'Dados de pagamento enviados com sucesso!',
@@ -49,7 +49,7 @@ export class PersonalInfoContainer extends React.Component<Props, State> {
               this.props.navigation.popToTop();
               this.props.navigation.goBack(null);
               if (transaction.payment_method === 'boleto') {
-                setTimeout(() => Linking.openURL(transaction.boleto_url), 1000);
+                Linking.openURL(transaction.boleto_url);
               }
             },
           },
