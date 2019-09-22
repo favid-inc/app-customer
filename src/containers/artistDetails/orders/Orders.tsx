@@ -42,7 +42,7 @@ class OrdersComponent extends Component<ThemedComponentProps & Props, State> {
           isVisible={Boolean(this.state.order && this.state.order.videoUri)}
           onBackdropPress={this.onModalRequestClose}
         >
-          {this.state.order && (
+          {this.state.order ? (
             <Video
               resizeMode={Video.RESIZE_MODE_COVER}
               shouldPlay={true}
@@ -50,6 +50,8 @@ class OrdersComponent extends Component<ThemedComponentProps & Props, State> {
               style={{ height: '80%', backgroundColor: 'black' }}
               useNativeControls={true}
             />
+          ) : (
+            <View style={{ height: '80%', backgroundColor: 'black' }} />
           )}
           <Button appearance='filled' onPress={this.onModalRequestClose} size='giant' status='info'>
             Fechar

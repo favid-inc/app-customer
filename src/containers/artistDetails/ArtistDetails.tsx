@@ -2,14 +2,15 @@ import { ArtistRate } from '@favid-inc/api';
 import { SocialArtist as Artist } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
-import { imageProfile7Bg, ImageSource } from '@src/assets/images';
-import { Chips, ContainerView, ImageOverlay, RateBar, textStyle } from '@src/components/common';
-import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
 import React from 'react';
 import { ActivityIndicator, Dimensions, View } from 'react-native';
 
+import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
+import { imageProfile7Bg, ImageSource } from '@src/assets/images';
+import { Chips, ContainerView, ImageOverlay, RateBar, textStyle } from '@src/components/common';
+import { VideoPlayer } from '@src/components/videoPlayer';
+
 import { ArtistReviewsResume } from '../artists/review/ArtistReviewsResume';
-import { VideoPlayer } from '../orders/orderDetails/videoPlayer';
 import { ProfileInfo } from './profileInfo.component';
 import { ProfileSocials } from './profileSocials.component';
 

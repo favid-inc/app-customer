@@ -1,3 +1,4 @@
+import { MaterialIcons } from '@expo/vector-icons';
 import { OrderPaymentStatus as OrderPaymentStatusType, OrderStatus as OrderStatusType } from '@favid-inc/api';
 import { SocialOrder as Order } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
@@ -42,36 +43,20 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
 
     return (
       <View {...restProps} style={[themedStyle.container, style]}>
-        <TouchableOpacity
-          activeOpacity={0}
-          style={{
-            opacity: 0.1,
-            zIndex: 1,
-            position: 'absolute',
-            height: '100%',
-            width: '100%',
-            backgroundColor: 'black',
-          }}
-          onPress={() => {}}
-        >
-        </TouchableOpacity>
         {order.videoThumbnailUri && (
-          <View style={themedStyle.parameterContainer}>
-              <TouchableOpacity
-                activeOpacity={1}
+          <TouchableOpacity style={themedStyle.parameterContainer} onPress={this.onPress}>
+            <ImageBackground style={{ height: 220 }} source={{ uri: order.videoThumbnailUri }}>
+              <MaterialIcons
+                name='play-arrow'
+                size={100}
+                color='#FFF'
                 style={{
-                  opacity: 0.3,
-                  zIndex: 1,
-                  position: 'absolute',
-                  height: '100%',
-                  width: '100%',
-                  backgroundColor: 'black',
+                  textAlign: 'center',
+                  top: 60,
                 }}
-                onPress={() => {}}
-              >
-              </TouchableOpacity>
-              <ImageBackground style={themedStyle.image} source={{ uri: order.videoThumbnailUri }} />
-            </View>
+              />
+            </ImageBackground>
+          </TouchableOpacity>
         )}
         <View style={themedStyle.infoContainer}>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignContent: 'center' }}>
@@ -104,36 +89,14 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
             <OrderStatus status={order.status} />
           )}
         </OrderCardBottom>
-        {this.renderActionButton(order.status, order.paymentStatus, this.onPress)}
+        {order.paymentStatus === OrderPaymentStatusType.WAITING_PAYMENT && (
+          <Button status='danger' style={{ borderRadius: 0 }} size='giant' onPress={this.onPress}>
+            Efetuar Pagamento
+          </Button>
+        )}
       </View>
     );
   }
-
-  private renderActionButton = (
-    orderStatus: string,
-    paymentStatus: string,
-    onPress: () => void,
-  ): React.ReactElement => {
-    const statusColor = {
-      [OrderPaymentStatusType.WAITING_PAYMENT]: 'danger',
-      [OrderStatusType.FULFILLED]: 'success',
-    };
-
-    const statusText = {
-      [OrderPaymentStatusType.WAITING_PAYMENT]: 'Efetuar Pagamento',
-      [OrderStatusType.FULFILLED]: 'Ver Vídeo',
-    };
-
-    const status = statusColor[paymentStatus] ? statusColor[paymentStatus] : statusColor[orderStatus];
-    const text = statusText[paymentStatus] ? statusText[paymentStatus] : statusText[orderStatus];
-    if (status) {
-      return (
-        <Button status={status} style={{ borderRadius: 0, zIndex: 2 }} size='giant' onPress={onPress}>
-          {text}
-        </Button>
-      );
-    }
-  };
 
   private onShare = async () => {
     const { artistArtisticName, videoUri } = this.state.order;
@@ -205,8 +168,7 @@ export const OrderCard = withStyles<ComponentProps>(OrderCardComponent, (theme: 
   container: {
     borderRadius: 12,
     overflow: 'hidden',
-    minWidth: 300,
-    maxWidth: 450,
+    width: '94%',
     alignSelf: 'center',
   },
   infoContainer: {
@@ -218,9 +180,6 @@ export const OrderCard = withStyles<ComponentProps>(OrderCardComponent, (theme: 
   activityContainer: {
     paddingHorizontal: 16,
     paddingVertical: 16,
-  },
-  image: {
-    height: 220,
   },
   descriptionLabel: {
     marginTop: 16,
