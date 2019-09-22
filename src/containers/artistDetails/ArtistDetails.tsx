@@ -7,6 +7,7 @@ import { Chips, ContainerView, ImageOverlay, RateBar, textStyle } from '@src/com
 import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
 import React from 'react';
 import { ActivityIndicator, Dimensions, View } from 'react-native';
+
 import { ArtistReviewsResume } from '../artists/review/ArtistReviewsResume';
 import { VideoPlayer } from '../orders/orderDetails/videoPlayer';
 import { ProfileInfo } from './profileInfo.component';

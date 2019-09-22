@@ -1,4 +1,5 @@
-import { OrderPaymentStatus as OrderPaymentStatusType, OrderStatus as OrderStatusType } from '@favid-inc/api';
+import { MaterialIcons } from '@expo/vector-icons';
+import { OrderStatus as OrderStatusType } from '@favid-inc/api';
 import { SocialOrder as Order } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
@@ -39,34 +40,20 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
 
     return (
       <View {...restProps} style={[themedStyle.container, style]}>
-        <TouchableOpacity
-          activeOpacity={0}
-          style={{
-            opacity: 0.1,
-            zIndex: 1,
-            position: 'absolute',
-            height: '100%',
-            width: '100%',
-            backgroundColor: 'black',
-          }}
-          onPress={() => {}}
-        ></TouchableOpacity>
         {order.videoThumbnailUri && (
-          <View style={themedStyle.parameterContainer}>
-            <TouchableOpacity
-              activeOpacity={1}
-              style={{
-                opacity: 0.3,
-                zIndex: 1,
-                position: 'absolute',
-                height: '100%',
-                width: '100%',
-                backgroundColor: 'black',
-              }}
-              onPress={() => {}}
-            ></TouchableOpacity>
-            <ImageBackground style={themedStyle.image} source={{ uri: order.videoThumbnailUri }} />
-          </View>
+          <TouchableOpacity style={themedStyle.parameterContainer} onPress={this.onPress}>
+            <ImageBackground style={{ height: 220 }} source={{ uri: order.videoThumbnailUri }}>
+              <MaterialIcons
+                name='play-arrow'
+                size={100}
+                color='#FFF'
+                style={{
+                  textAlign: 'center',
+                  top: 60,
+                }}
+              />
+            </ImageBackground>
+          </TouchableOpacity>
         )}
         <View style={themedStyle.infoContainer}>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignContent: 'center' }}>
@@ -87,36 +74,9 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
             {order.instructions}
           </Text>
         </View>
-        {this.renderActionButton(order.status, order.paymentStatus, this.onPress)}
       </View>
     );
   }
-
-  private renderActionButton = (
-    orderStatus: string,
-    paymentStatus: string,
-    onPress: () => void,
-  ): React.ReactElement => {
-    const statusColor = {
-      [OrderPaymentStatusType.WAITING_PAYMENT]: 'danger',
-      [OrderStatusType.FULFILLED]: 'success',
-    };
-
-    const statusText = {
-      [OrderPaymentStatusType.WAITING_PAYMENT]: 'Efetuar Pagamento',
-      [OrderStatusType.FULFILLED]: 'Ver Vídeo',
-    };
-
-    const status = statusColor[paymentStatus] ? statusColor[paymentStatus] : statusColor[orderStatus];
-    const text = statusText[paymentStatus] ? statusText[paymentStatus] : statusText[orderStatus];
-    if (status) {
-      return (
-        <Button status={status} style={{ borderRadius: 0, zIndex: 2 }} size='giant' onPress={onPress}>
-          {text}
-        </Button>
-      );
-    }
-  };
 
   private onShare = async () => {
     const { artistArtisticName, videoUri } = this.state.order;
@@ -167,19 +127,15 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
 
 const SocialButtons = ({ order, onLike, onReport, onShare, sending }) => (
   <View style={{ flexDirection: 'row' }}>
-    {order.status === OrderStatusType.FULFILLED && (
-      <Button onPress={onShare} size='small' status='info' icon={ShareIconOutline} appearance='ghost' />
-    )}
-    {order.status === OrderStatusType.FULFILLED && (
-      <Button
-        disabled={sending}
-        onPress={onLike}
-        size='small'
-        status='danger'
-        icon={order.like ? HeartIconFill : HeartIconOutline}
-        appearance='ghost'
-      />
-    )}
+    <Button onPress={onShare} size='small' status='info' icon={ShareIconOutline} appearance='ghost' />
+    <Button
+      onPress={onLike}
+      disabled={sending}
+      size='small'
+      status='danger'
+      icon={order.like ? HeartIconFill : HeartIconOutline}
+      appearance='ghost'
+    />
     <Button onPress={onReport} size='small' status='warning' icon={FlagIconFill} appearance='ghost' />
   </View>
 );
@@ -188,8 +144,7 @@ export const OrderCard = withStyles<ComponentProps>(OrderCardComponent, (theme: 
   container: {
     borderRadius: 12,
     overflow: 'hidden',
-    minWidth: 300,
-    maxWidth: 450,
+    width: '94%',
     alignSelf: 'center',
   },
   infoContainer: {
@@ -201,9 +156,6 @@ export const OrderCard = withStyles<ComponentProps>(OrderCardComponent, (theme: 
   activityContainer: {
     paddingHorizontal: 16,
     paddingVertical: 16,
-  },
-  image: {
-    height: 220,
   },
   descriptionLabel: {
     marginTop: 16,

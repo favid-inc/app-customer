@@ -83,7 +83,7 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
           onReview={this.onReview}
           sending={this.state.sending}
         />
-        <Orders orders={this.state.orders} onDetails={this.onDetails} />
+        <Orders orders={this.state.orders} />
       </ContainerView>
     );
   }
