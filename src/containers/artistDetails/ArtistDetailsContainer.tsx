@@ -115,12 +115,6 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
     }
   };
 
-  private onDetails = (order: Order) => {
-    this.props.navigation.navigate('Detalhes do Pedido', {
-      order,
-    });
-  };
-
   private onFollowPress = async () => {
     try {
       const { id: artistId, follower, followers } = this.state.artist;

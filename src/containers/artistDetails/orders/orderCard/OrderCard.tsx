@@ -1,5 +1,4 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { OrderStatus as OrderStatusType } from '@favid-inc/api';
 import { SocialOrder as Order } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
