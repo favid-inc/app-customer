@@ -18,13 +18,16 @@ class SettingsComponent extends React.Component<SettingsComponentProps> {
 
     return (
       <View style={themedStyle.container}>
-        {/* <NavigateToAccountButton themedStyle={themedStyle} onNavigate={this.handleNavigateToAccount} /> */}
         <NeedHelpButton themedStyle={themedStyle} />
-        <PoliciesButton themedStyle={themedStyle} />
+        <PoliciesButton themedStyle={themedStyle} onNavigate={this.handleNavigatePolicies} />
         <SigOutButton themedStyle={themedStyle} />
       </View>
     );
   }
+
+  private handleNavigatePolicies = () => {
+    this.props.onNavigate('Políticas');
+  };
 }
 
 const SigOutButton = ({ themedStyle }) => {
@@ -48,12 +51,10 @@ const NeedHelpButton = ({ themedStyle }) => {
   );
 };
 
-const PoliciesButton = ({ themedStyle }) => {
-  const handleClick = React.useCallback(() => Linking.openURL('https://www.favid.com.br/politicas/'), []);
-
+const PoliciesButton = ({ themedStyle, onNavigate }) => {
   return (
-    <Button status='primary' style={themedStyle.button} onPress={handleClick} icon={FileTextIconFill} size='large'>
-      Politicas
+    <Button status='primary' style={themedStyle.button} onPress={onNavigate} icon={FileTextIconFill} size='large'>
+      Políticas
     </Button>
   );
 };

@@ -1,7 +1,8 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, CheckBox } from '@kitten/ui';
 import React from 'react';
-import { Linking, View } from 'react-native';
+import { View } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
 import { textStyle } from '@src/components/common';
 
@@ -19,7 +20,7 @@ export function TermsAndPoliciesComponent({ themedStyle, onTermsAcceptedChange, 
         style={themedStyle.termsCheckBox}
         textStyle={themedStyle.termsCheckBoxText}
         checked={termsAcceptedValue}
-        text={'Declaro que li e concordo com os'}
+        text={'Declaro que li e concordo com os termos de uso'}
         onChange={onTermsAcceptedChange}
       />
       <PoliciesButton />
@@ -27,20 +28,21 @@ export function TermsAndPoliciesComponent({ themedStyle, onTermsAcceptedChange, 
   );
 }
 
-const PoliciesButton = () => {
-  const handleClick = React.useCallback(() => Linking.openURL('https://www.favid.com.br/politicas/'), []);
+const PoliciesButton = withNavigation(({ navigation }) => {
+  const handleClick = React.useCallback(() => navigation.navigate('Políticas'), [navigation]);
 
   return (
     <Button status='primary' onPress={handleClick} size='tiny' appearance='ghost'>
-      Termos de uso e as Políticas de Segurança/Privacide
+      Termos de uso e Políticas de Segurança/Privacide
     </Button>
   );
-};
+});
 
 export const TermsAndPolicies = withStyles<ComponentProps>(TermsAndPoliciesComponent, (theme: ThemeType) => ({
   container: {
     flex: 1,
     backgroundColor: theme['background-basic-color-2'],
+    // width: 300,
   },
   termsCheckBox: {
     marginHorizontal: 20,
