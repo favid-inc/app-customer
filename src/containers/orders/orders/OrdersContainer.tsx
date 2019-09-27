@@ -39,7 +39,7 @@ export class OrdersContainer extends Component<Props, State> {
   public render() {
     return (
       <ScrollView refreshControl={<RefreshControl refreshing={this.state.loading} onRefresh={this.handleRefresh} />}>
-        <Orders orders={this.state.orders} onDetails={this.onDetails} />
+        {!this.state.loading && <Orders orders={this.state.orders} onDetails={this.onDetails} />}
       </ScrollView>
     );
   }
@@ -60,6 +60,9 @@ export class OrdersContainer extends Component<Props, State> {
     if (order.paymentStatus === OrderPaymentStatus.WAITING_PAYMENT) {
       if (order.pagarMeTransactionId) {
         const transaction = await readOrderTransaction({ orderId: order.id });
+        if (transaction.status !== OrderPaymentStatus.WAITING_PAYMENT) {
+          this.handleRefresh();
+        }
         if (transaction.payment_method === 'boleto') {
           Linking.openURL(transaction.boleto_url);
         }
