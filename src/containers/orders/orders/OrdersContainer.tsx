@@ -57,14 +57,16 @@ export class OrdersContainer extends Component<Props, State> {
   };
 
   private onDetails = async (order: Order) => {
-    if (order.paymentStatus === OrderPaymentStatus.WAITING_PAYMENT) {
+    if (order.paymentStatus === OrderPaymentStatus.WAITING_PAYMENT || order.paymentStatus === OrderPaymentStatus.REFUSED) {
       if (order.pagarMeTransactionId) {
         const transaction = await readOrderTransaction({ orderId: order.id });
-        if (transaction.status !== OrderPaymentStatus.WAITING_PAYMENT) {
+        if (transaction.status !== OrderPaymentStatus.WAITING_PAYMENT && order.paymentStatus !== OrderPaymentStatus.REFUSED) {
           this.handleRefresh();
         }
         if (transaction.payment_method === 'boleto') {
           Linking.openURL(transaction.boleto_url);
+        } else if (transaction.payment_method === 'credit_card') {
+          this.props.navigation.navigate('Pagamento', { order });
         }
       } else {
         this.props.navigation.navigate('Pagamento', { order });
