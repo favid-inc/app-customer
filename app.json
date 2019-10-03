@@ -2,30 +2,37 @@
   "expo": {
     "name": "Favid",
     "icon": "./src/assets/images/source/favid-logo.png",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "slug": "favid-customer",
     "sdkVersion": "34.0.0",
     "privacy": "public",
     "orientation": "portrait",
     "githubUrl": "https://github.com/favid-inc/app-customer",
     "ios": {
-      "bundleIdentifier": "br.com.favid.customer",
+      "bundleIdentifier": "br.com.favid.appcustomer",
       "appStoreUrl": "https://itunes.apple.com/us/app/favid/id1246143230"
     },
     "android": {
-      "package": "br.com.favid.customer",
+      "package": "br.com.favid.appcustomer",
       "versionCode": 23,
       "playStoreUrl": "https://play.google.com/store/apps/details?id=br.com.favid.customer"
     },
     "androidStatusBar": {
       "backgroundColor": "#FFFFFF"
     },
-    "assetBundlePatterns": ["src/assets/images/source/*", "src/assets/icons/**/*.png", "src/assets/fonts"],
+    "assetBundlePatterns": [
+      "src/assets/images/source/*",
+      "src/assets/icons/**/*.png",
+      "src/assets/fonts"
+    ],
     "splash": {
       "image": "src/assets/images/source/splash.png",
       "resizeMode": "contain"
     },
-    "platforms": ["android", "ios"],
+    "platforms": [
+      "android",
+      "ios"
+    ],
     "description": "Favid é um marketplace que conecta os ídolos com os fãs de forma íntima, aproximando-os de artistas, atletas, influenciadores digitais, entre outros famosos através de vídeos."
   }
 }
