@@ -14,6 +14,7 @@ const OrderPaymentStatusComponent: React.SFC<Props & ThemedComponentProps> = (pr
   const label = React.useMemo(() => {
     const labels = {
       [OrderPaymentStatusType.WAITING_PAYMENT]: 'Pagamento Pendente',
+      [OrderPaymentStatusType.REFUSED]: 'Pagamento Recusado',
     };
     return labels[status] || '';
   }, [status]);
@@ -21,6 +22,7 @@ const OrderPaymentStatusComponent: React.SFC<Props & ThemedComponentProps> = (pr
   const color = React.useMemo(() => {
     const colors = {
       [OrderPaymentStatusType.WAITING_PAYMENT]: 'danger',
+      [OrderPaymentStatusType.REFUSED]: 'danger',
     };
     return colors[status] || 'disabled';
   }, [status]);
