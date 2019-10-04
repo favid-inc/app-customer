@@ -57,22 +57,31 @@ export class OrdersContainer extends Component<Props, State> {
   };
 
   private onDetails = async (order: Order) => {
-    if (order.paymentStatus === OrderPaymentStatus.WAITING_PAYMENT || order.paymentStatus === OrderPaymentStatus.REFUSED) {
-      if (order.pagarMeTransactionId) {
-        const transaction = await readOrderTransaction({ orderId: order.id });
-        if (transaction.status !== OrderPaymentStatus.WAITING_PAYMENT && order.paymentStatus !== OrderPaymentStatus.REFUSED) {
-          this.handleRefresh();
-        }
-        if (transaction.payment_method === 'boleto') {
-          Linking.openURL(transaction.boleto_url);
-        } else if (transaction.payment_method === 'credit_card') {
-          this.props.navigation.navigate('Pagamento', { order });
-        }
-      } else {
-        this.props.navigation.navigate('Pagamento', { order });
-      }
-    } else if (order.videoUri) {
+    if (order.videoUri) {
       this.props.navigation.navigate('Detalhes do Pedido', { order });
+      return;
+    }
+
+    if (!order.pagarMeTransactionId) {
+      this.props.navigation.navigate('Pagamento', { order });
+      return;
+    }
+
+    const transaction = await readOrderTransaction({ orderId: order.id });
+
+    if (order.paymentStatus !== transaction.status) {
+      this.handleRefresh();
+      return;
+    }
+
+    if (transaction.status === OrderPaymentStatus.WAITING_PAYMENT && transaction.payment_method === 'boleto') {
+      Linking.openURL(transaction.boleto_url);
+      return;
+    }
+
+    if (transaction.status === OrderPaymentStatus.REFUSED) {
+      this.props.navigation.navigate('Pagamento', { order });
+      return;
     }
   };
 }
