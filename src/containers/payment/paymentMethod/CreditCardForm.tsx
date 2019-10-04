@@ -66,7 +66,7 @@ class PaymentCardFormComponent extends React.Component<PaymentCardFormProps> {
             keyboardType='numeric'
             label='CVV'
             labelStyle={textStyle.label}
-            maxLength={3}
+            maxLength={4}
             onChangeText={this.context.setCardCvv}
             style={[themedStyle.input, themedStyle.cvvInput]}
             textStyle={textStyle.paragraph}
@@ -123,7 +123,7 @@ export const PaymentCardForm = withStyles(PaymentCardFormComponent, (theme: Them
   },
   cvvInput: {
     marginLeft: 24,
-    width: 64,
+    width: 100,
   },
   cardholderNameInput: {
     marginTop: 24,

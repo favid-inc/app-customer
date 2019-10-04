@@ -7,7 +7,7 @@ export const PATTERN_SMS_CODE: RegExp = /\d{4}/;
 export const PATTERN_CPF_NUMBER: RegExp = /\d{3} \d{3} \d{3} \d{2}/;
 export const PATTERN_CEP_NUMBER: RegExp = /\d{5} \d{3}/;
 export const PATTERN_CARD_EXPIRE_DATE: RegExp = /\d{2}\/\d{2}/;
-export const PATTERN_CARD_CVV: RegExp = /\d{3}/;
+export const PATTERN_CARD_CVV: RegExp = /\d{3,4}/;
 export const PATTERN_FULLNAME: RegExp = /^$|^[a-zA-ZčČćĆđĐšŠžŽ-]+ [a-zA-ZčČćĆđĐšŠžŽ-]+$/;
 
 export const NameValidator = (value: string): boolean => {
