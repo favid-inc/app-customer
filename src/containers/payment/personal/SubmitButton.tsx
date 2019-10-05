@@ -1,9 +1,9 @@
 import { PayOrder } from '@favid-inc/api/lib/app-customer';
-import React from 'react';
 import { Button } from '@kitten/ui';
+import React from 'react';
 
 import { textStyle } from '@src/components/common';
-import { OrderContext, CustomerContext, AddressContext, PaymentMethodContext } from '../context';
+import { AddressContext, CustomerContext, OrderContext, PaymentMethodContext } from '../context';
 
 export interface SubmitButtonProps {
   onSubmit: (data: PayOrder['Request']['data']) => void;

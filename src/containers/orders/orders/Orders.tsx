@@ -1,11 +1,11 @@
 import { Order } from '@favid-inc/api';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { List, Text, Button } from '@kitten/ui';
+import { Button, List, Text } from '@kitten/ui';
 import { textStyle } from '@src/components/common';
+import { Video } from 'expo-av';
 import React, { Component } from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
 import Modal from 'react-native-modal';
-import { Video } from 'expo-av';
 
 import { OrderCard } from './orderCard';
 import { OrderCardProps } from './orderCard/OrderCard';

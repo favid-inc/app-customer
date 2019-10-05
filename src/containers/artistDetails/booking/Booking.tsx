@@ -4,8 +4,8 @@ import { Button, Text, Toggle } from '@kitten/ui';
 import React, { Component } from 'react';
 import { TextInput, View, ViewProps } from 'react-native';
 
-import { AuthContext } from '@src/core/auth';
 import { ContainerView, textStyle, ValidationInput } from '@src/components/common';
+import { AuthContext } from '@src/core/auth';
 import { NameValidator } from '@src/core/validators';
 
 interface ComponentProps {

@@ -1,8 +1,8 @@
 import * as AppAuth from 'expo-app-auth';
+import * as Facebook from 'expo-facebook';
 import * as firebase from 'firebase';
 import React from 'react';
 import { Alert } from 'react-native';
-import * as Facebook from 'expo-facebook';
 
 import * as config from '@src/core/config';
 

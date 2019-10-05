@@ -49,7 +49,7 @@ export class ApplicationLoader extends React.Component<Props, State> {
   };
 
   private onLoadError = (error: Error) => {
-    console.warn(error);
+    // console.warn(error);
   };
 
   private loadResources = (): Promise<void> => {
