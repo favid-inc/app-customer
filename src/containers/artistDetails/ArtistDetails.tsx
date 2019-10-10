@@ -5,9 +5,9 @@ import { Button, Text } from '@kitten/ui';
 import React from 'react';
 import { ActivityIndicator, Dimensions, View } from 'react-native';
 
-import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
 import { imageProfile7Bg, ImageSource } from '@src/assets/images';
 import { Chips, ContainerView, ImageOverlay, RateBar, textStyle } from '@src/components/common';
+import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
 import { VideoPlayer } from '@src/components/videoPlayer';
 
 import { ArtistReviewsResume } from '../artists/review/ArtistReviewsResume';

@@ -1,8 +1,8 @@
 import { createStackNavigator } from 'react-navigation';
 
 import { connect } from './context';
-import { PersonalInfoContainer } from './personal';
 import { PaymentMethodContainer } from './paymentMethod';
+import { PersonalInfoContainer } from './personal';
 
 export const PaymentNavigator = connect(
   createStackNavigator(

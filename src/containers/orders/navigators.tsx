@@ -2,8 +2,8 @@ import { TopBarNavigationOptions } from '@src/core/navigation/options';
 
 import { createStackNavigator } from 'react-navigation';
 
-import { connect } from '@src/containers/payment/context';
 import { PaymentNavigator } from '@src/containers/payment';
+import { connect } from '@src/containers/payment/context';
 
 import { OrdersContainer } from './orders';
 
