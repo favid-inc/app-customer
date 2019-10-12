@@ -2,7 +2,7 @@
   "expo": {
     "name": "Favid",
     "icon": "./src/assets/images/source/favid-logo.png",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "slug": "favid-customer",
     "sdkVersion": "34.0.0",
     "privacy": "public",
@@ -14,7 +14,7 @@
     },
     "android": {
       "package": "br.com.favid.appcustomer",
-      "versionCode": 23,
+      "versionCode": 24,
       "playStoreUrl": "https://play.google.com/store/apps/details?id=br.com.favid.customer"
     },
     "androidStatusBar": {
