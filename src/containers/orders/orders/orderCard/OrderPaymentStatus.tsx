@@ -15,6 +15,8 @@ const OrderPaymentStatusComponent: React.SFC<Props & ThemedComponentProps> = (pr
     const labels = {
       [OrderPaymentStatusType.WAITING_PAYMENT]: 'Pagamento Pendente',
       [OrderPaymentStatusType.REFUSED]: 'Pagamento Recusado',
+      [OrderPaymentStatusType.REFUNDED]: 'Estornado',
+      [OrderPaymentStatusType.PENDING_REFUND]: 'Processando Estorno',
     };
     return labels[status] || '';
   }, [status]);

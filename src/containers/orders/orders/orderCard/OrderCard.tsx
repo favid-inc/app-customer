@@ -83,19 +83,15 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
             name={order.artistArtisticName}
             date={new Date(order.statusPlacedDate).toLocaleDateString()}
           />
-          {order.paymentStatus === OrderPaymentStatusType.WAITING_PAYMENT || order.paymentStatus === OrderPaymentStatusType.REFUSED ? (
-            <OrderPaymentStatus status={order.paymentStatus} />
-          ) : (
+
+          {[OrderPaymentStatusType.PAID, OrderPaymentStatusType.AUTHORIZED].includes(order.paymentStatus) ? (
             <OrderStatus status={order.status} />
+          ) : (
+            <OrderPaymentStatus status={order.paymentStatus} />
           )}
         </OrderCardBottom>
-        {order.paymentStatus === OrderPaymentStatusType.WAITING_PAYMENT && (
-          <Button status='danger' style={{ borderRadius: 0 }} size='giant' onPress={this.onPress}>
-            Efetuar Pagamento
-          </Button>
-        )}
 
-        {order.paymentStatus === OrderPaymentStatusType.REFUSED && (
+        {[OrderPaymentStatusType.WAITING_PAYMENT, OrderPaymentStatusType.REFUSED].includes(order.paymentStatus) && (
           <Button status='danger' style={{ borderRadius: 0 }} size='giant' onPress={this.onPress}>
             Efetuar Pagamento
           </Button>
