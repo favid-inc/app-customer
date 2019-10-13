@@ -166,35 +166,28 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
 
 const ArtistRates = (props) => {
   const showMore =
-    props.showRates > props.artistRates.length ? (
-      <Button onPress={props.showLess} size='large' appearance='ghost'>
-        Mostrar Menos
-      </Button>
-    ) : (
+    props.showRates >= props.artistRates.length ? null : (
       <Button onPress={props.showMore} size='large' appearance='ghost'>
         Mostrar Mais
       </Button>
     );
 
-  let reviewList = null;
-  if (props.loading) {
-    reviewList = <ActivityIndicator size='large' />;
-  } else if (props.artistRates.length) {
-    reviewList = (
-      <View>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text category='h5' style={{ fontFamily: 'opensans-bold' }}>{`${props.artistRates.length} Avaliações`}</Text>
-          <Button onPress={props.onReview} size='giant' appearance='ghost'>
-            Avaliar
-          </Button>
-        </View>
-        {props.artistRates.slice(0, props.showRates).map((rate, i) => (
-          <ArtistReviewsResume key={i} {...rate} />
-        ))}
-        {showMore}
+  const reviewList = props.loading ? (
+    <ActivityIndicator size='large' />
+  ) : (
+    <View>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Text category='h5' style={{ fontFamily: 'opensans-bold' }}>{`${props.artistRates.length} Avaliações`}</Text>
+        <Button onPress={props.onReview} size='giant' appearance='ghost'>
+          Avaliar
+        </Button>
       </View>
-    );
-  }
+      {props.artistRates.slice(0, props.showRates).map((rate, i) => (
+        <ArtistReviewsResume key={i} {...rate} />
+      ))}
+      {showMore}
+    </View>
+  );
 
   return (
     <View style={{ paddingHorizontal: 20, paddingVertical: 30, backgroundColor: '#f9f9f9' }}>
