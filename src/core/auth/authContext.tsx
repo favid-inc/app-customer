@@ -60,7 +60,19 @@ export class FirebaseAuth extends React.Component<Props, State> {
 
   public componentDidMount() {
     this.subscription = firebase.auth().onAuthStateChanged(async (user) => {
-      const { claims } = user ? await user.getIdTokenResult() : { claims: null };
+      if (!user) {
+        this.setState({ isSigningIn: false, user: null, claims: null });
+        return;
+      }
+
+      if (user && !user.emailVerified) {
+        Alert.alert('Confirmação de conta', `Um email de verificação de conta foi enviado para ${user.email}.`);
+        await user.sendEmailVerification();
+        firebase.auth().signOut();
+        return;
+      }
+
+      const { claims } = await user.getIdTokenResult();
       this.setState({ isSigningIn: false, user, claims });
     });
   }
@@ -73,9 +85,7 @@ export class FirebaseAuth extends React.Component<Props, State> {
     this.setState({ isSigningIn: true });
 
     try {
-      const { user } = await firebase.auth().createUserWithEmailAndPassword(email, password);
-      await user.sendEmailVerification();
-      Alert.alert('Confirmação de conta', `Um email de verificação de conta foi enviado para ${user.email}.`);
+      await firebase.auth().createUserWithEmailAndPassword(email, password);
     } catch (e) {
       Alert.alert('Erro ao criar conta', (e && e.message) || 'Verifique sua conexão com a internet e tente novamente');
     } finally {
