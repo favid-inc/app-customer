@@ -65,7 +65,7 @@ export class FirebaseAuth extends React.Component<Props, State> {
         return;
       }
 
-      if (user && !user.emailVerified) {
+      if (!user.emailVerified) {
         Alert.alert('Confirmação de conta', `Um email de verificação de conta foi enviado para ${user.email}.`);
         await user.sendEmailVerification();
         firebase.auth().signOut();
