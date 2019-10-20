@@ -66,14 +66,18 @@ export class FirebaseAuth extends React.Component<Props, State> {
       }
 
       if (!user.emailVerified) {
-        Alert.alert('Confirmação de conta', `Um email de verificação de conta foi enviado para ${user.email}.`);
         await user.sendEmailVerification();
+        Alert.alert('Confirmação de conta', `Um email de verificação de conta foi enviado para ${user.email}.`);
         firebase.auth().signOut();
         return;
       }
 
-      const { claims } = await user.getIdTokenResult();
-      this.setState({ isSigningIn: false, user, claims });
+      try {
+        const { claims } = await user.getIdTokenResult();
+        this.setState({ isSigningIn: false, user, claims });
+      } catch (e) {
+        firebase.auth().signOut();
+      }
     });
   }
 
