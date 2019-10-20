@@ -38,10 +38,15 @@ const assets: Assets = {
 };
 
 apiClient.interceptors.request.use(async (axiosRequestConfig) => {
-  const idToken = await firebase.auth().currentUser.getIdToken();
-  const headers = {};
-  Object.assign(headers, axiosRequestConfig.headers, { Authorization: `Bearer ${idToken}` });
-  axiosRequestConfig.headers = headers;
+  const headers = { Authorization: '' };
+
+  try {
+    const idToken = await firebase.auth().currentUser.getIdToken();
+    Object.assign(headers, axiosRequestConfig.headers, { Authorization: `Bearer ${idToken}` });
+  } finally {
+    axiosRequestConfig.headers = headers;
+  }
+
   return axiosRequestConfig;
 });
 
