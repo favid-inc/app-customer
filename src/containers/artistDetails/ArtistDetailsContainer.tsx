@@ -13,6 +13,7 @@ import { listArtistOrders } from './listArtistOrders';
 import { listArtistRates } from './listArtistRates';
 import { Orders } from './orders/Orders';
 import { unfollowArtist } from './unfollowArtist';
+import { Linking } from 'expo';
 
 interface State {
   artist: Artist;
@@ -27,6 +28,7 @@ interface State {
 type Props = NavigationScreenProps;
 
 export class ArtistDetailsContainer extends React.Component<Props, State> {
+
   public state: State = {
     artist: {},
     artistRates: [],
@@ -36,6 +38,18 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
     orders: [],
     sending: false,
   };
+  public onOrderPress = () => {
+    Linking.openURL('https://www.favid.com.br/');
+  };
+
+  // private onOrderPress = () => {
+  //   this.props.navigation.navigate({
+  //     routeName: 'Fazer Pedido',
+  //     params: {
+  //       artist: this.state.artist,
+  //     },
+  //   });
+  // };
 
   private didFocusSubscription: NavigationEventSubscription;
 
@@ -137,15 +151,7 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
     }
   };
 
-  private onOrderPress = () => {
-    this.props.navigation.navigate({
-      routeName: 'Fazer Pedido',
-      params: {
-        artist: this.state.artist,
-      },
-    });
-  };
-
+ 
   private onReview = () => {
     this.props.navigation.navigate({
       routeName: 'Avaliar Artista',

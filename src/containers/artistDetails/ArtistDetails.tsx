@@ -95,7 +95,8 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
           status={this.props.cameoOrdered ? 'white' : 'success'}
           onPress={this.onOrderPress}
         >
-          {this.props.cameoOrdered ? 'Pendente' : 'Pedir'}
+          {/* {this.props.cameoOrdered ? 'Pendente' : 'Pedir'} */}
+          Contato com Artista
         </Button>
 
         <View style={[themedStyle.profileSection, themedStyle.aboutSection]}>
