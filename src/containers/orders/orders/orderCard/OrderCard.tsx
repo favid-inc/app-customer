@@ -91,11 +91,11 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
           )}
         </OrderCardBottom>
 
-        {[OrderPaymentStatusType.WAITING_PAYMENT, OrderPaymentStatusType.REFUSED].includes(order.paymentStatus) && (
+        {/* {[OrderPaymentStatusType.WAITING_PAYMENT, OrderPaymentStatusType.REFUSED].includes(order.paymentStatus) && (
           <Button status='danger' style={{ borderRadius: 0 }} size='giant' onPress={this.onPress}>
             Efetuar Pagamento
           </Button>
-        )}
+        )} */}
       </View>
     );
   }
