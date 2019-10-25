@@ -67,7 +67,7 @@ class AddressFormComponent extends React.Component<Props, Context> {
           style={themedStyle.input}
           textStyle={textStyle.paragraph}
           validator={StringValidator}
-          value={this.context.city}
+          value={this.context.street}
         />
 
         <View style={themedStyle.middleContainer}>
