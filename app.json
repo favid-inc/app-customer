@@ -2,19 +2,22 @@
   "expo": {
     "name": "Favid",
     "icon": "./src/assets/images/source/favid-logo.png",
-    "version": "2.0.5",
+    "version": "2.0.6",
     "slug": "favid-customer",
     "sdkVersion": "35.0.0",
     "privacy": "public",
     "orientation": "portrait",
     "githubUrl": "https://github.com/favid-inc/app-customer",
+    "facebookScheme": "fb642908949561774",
+    "facebookAppId": "642908949561774",
+    "facebookDisplayName": "Favid",
     "ios": {
       "bundleIdentifier": "br.com.favid.appcustomer",
       "appStoreUrl": "https://itunes.apple.com/us/app/favid/id1246143230"
     },
     "android": {
       "package": "br.com.favid.customer",
-      "versionCode": 26,
+      "versionCode": 27,
       "playStoreUrl": "https://play.google.com/store/apps/details?id=br.com.favid.customer"
     },
     "androidStatusBar": {
