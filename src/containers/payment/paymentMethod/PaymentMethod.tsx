@@ -32,14 +32,14 @@ class PaymentMethodComponent extends React.Component<Props, State, Context> {
       <View style={themedStyle.container}>
         <ScrollableAvoidKeyboard>
           <View style={themedStyle.isCreditContainer}>
-            <Button
+            {/* <Button
               icon={CreditCardIconFill}
               style={{ flex: 1, borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
               status={this.context.payment_method !== 'credit_card' ? 'white' : ''}
               onPress={this.selectCreditCard}
             >
               Cartão
-            </Button>
+            </Button> */}
             <Button
               icon={FileTextIconFill}
               style={{ flex: 1, borderBottomLeftRadius: 0, borderTopLeftRadius: 0 }}
