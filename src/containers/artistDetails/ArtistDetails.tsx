@@ -13,6 +13,7 @@ import { VideoPlayer } from '@src/components/videoPlayer';
 import { ArtistReviewsResume } from '../artists/review/ArtistReviewsResume';
 import { ProfileInfo } from './profileInfo.component';
 import { ProfileSocials } from './profileSocials.component';
+import { Video } from 'expo-av';
 
 interface ComponentProps {
   artist: Artist;
@@ -46,22 +47,20 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
     showRates: 5,
   };
 
-  private backgroundImage: ImageSource = imageProfile7Bg;
 
   public render() {
     const { themedStyle, artist, artistRates, loading } = this.props;
-    const artistImage = {
-      uri: artist.photoUri,
-      height: 100,
-      width: 100,
-    };
 
     return (
       <ContainerView style={themedStyle.container}>
         {artist.videoUri && (
-          <View style={{ flex: 1, position: 'relative', height: height * 0.6 }}>
-            <VideoPlayer uri={artist.videoUri} shouldPlay={false} />
-          </View>
+          <Video
+            style={{ flex: 1, position: 'relative', height: height * 0.6 }}
+            resizeMode={Video.RESIZE_MODE_COVER}
+            shouldPlay={true}
+            source={{ uri: artist.videoUri }}
+            useNativeControls={true}
+          />
         )}
         <View style={themedStyle.profileInfoContainer}>
           <View style={themedStyle.subtitle}>
