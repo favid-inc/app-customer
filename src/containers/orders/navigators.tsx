@@ -1,10 +1,6 @@
-import { TopBarNavigationOptions } from '@src/core/navigation/options';
-
 import { createStackNavigator } from 'react-navigation';
-
 import { PaymentNavigator } from '@src/containers/payment';
 import { connect } from '@src/containers/payment/context';
-
 import { OrdersContainer } from './orders';
 
 export const OrdersNavigator = connect(
@@ -15,7 +11,7 @@ export const OrdersNavigator = connect(
     },
     {
       headerMode: 'screen',
-      defaultNavigationOptions: TopBarNavigationOptions,
+      defaultNavigationOptions: { header: null },
     },
   ),
 );
