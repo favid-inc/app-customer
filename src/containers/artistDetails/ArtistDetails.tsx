@@ -5,13 +5,14 @@ import { Button, Text } from '@kitten/ui';
 import React from 'react';
 import { ActivityIndicator, Dimensions, View } from 'react-native';
 
-import { imageProfile7Bg, ImageSource } from '@src/assets/images';
-import { Chips, ContainerView, ImageOverlay, RateBar, textStyle } from '@src/components/common';
+// import { imageProfile7Bg, ImageSource } from '@src/assets/images';
+// import { Chips, ContainerView, ImageOverlay, RateBar, textStyle } from '@src/components/common';
+import { Chips, ContainerView, RateBar, textStyle } from '@src/components/common';
 import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
-import { VideoPlayer } from '@src/components/videoPlayer';
+// import { VideoPlayer } from '@src/components/videoPlayer';
 
 import { ArtistReviewsResume } from '../artists/review/ArtistReviewsResume';
-import { ProfileInfo } from './profileInfo.component';
+// import { ProfileInfo } from './profileInfo.component';
 import { ProfileSocials } from './profileSocials.component';
 import { Video } from 'expo-av';
 
@@ -47,7 +48,6 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
     showRates: 5,
   };
 
-
   public render() {
     const { themedStyle, artist, artistRates, loading } = this.props;
 
@@ -64,8 +64,12 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
         )}
         <View style={themedStyle.profileInfoContainer}>
           <View style={themedStyle.subtitle}>
-            <Text category='h5' style={themedStyle.subtitleText}>{artist.artisticName}</Text>
-            <Text category='h6' style={themedStyle.subtitleText}>{artist.mainCategory}</Text>
+            <Text category='h5' style={themedStyle.subtitleText}>
+              {artist.artisticName}
+            </Text>
+            <Text category='h6' style={themedStyle.subtitleText}>
+              {artist.mainCategory}
+            </Text>
           </View>
           <Button
             appearance={artist.follower ? 'outline' : 'filled'}
@@ -107,7 +111,6 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
                   );
                 })}
               </View>
-
             </ShowcaseSection>
           )}
           {artist.biography && artist.biography.length && (

@@ -1,6 +1,7 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button } from '@kitten/ui';
-import { CreditCardIconFill, FileTextIconFill } from '@src/assets/icons';
+// import { CreditCardIconFill, FileTextIconFill } from '@src/assets/icons';
+import { FileTextIconFill } from '@src/assets/icons';
 import React from 'react';
 import { View } from 'react-native';
 
@@ -63,9 +64,9 @@ class PaymentMethodComponent extends React.Component<Props, State, Context> {
     this.context.setPaymentMethod('boleto');
   };
 
-  private selectCreditCard = () => {
-    this.context.setPaymentMethod('credit_card');
-  };
+  // private selectCreditCard = () => {
+  //   this.context.setPaymentMethod('credit_card');
+  // };
 }
 
 export const PaymentMethod = withStyles<ComponentProps>(PaymentMethodComponent, (theme: ThemeType) => ({
