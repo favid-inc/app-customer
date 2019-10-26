@@ -77,17 +77,11 @@ class ArtistReviewComponent extends React.Component<Props, State, Context> {
   private onSend = async () => {
     try {
       this.setState({ sending: true });
-      const response = await rateArtist(this.state);
-      Alert.alert('Avaliação criada com sucesso.');
-
+      await rateArtist(this.state);
+      this.props.navigation.goBack();
     } catch (error) {
-      if (error.code === 403) {
-        Alert.alert('Ops!', 'Parece que você ja criou uma avaliação para este artista..');
-        this.props.navigation.goBack();
-      } else {
-        Alert.alert('Ops!', 'Estamos tendo problemas, tente novamente mais tarde.');
-        this.setState({ sending: false });
-      }
+      Alert.alert('Ops!', 'Estamos tendo problemas, tente novamente mais tarde.');
+      this.setState({ sending: false });
     }
   };
 
