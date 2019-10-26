@@ -15,7 +15,7 @@
     "android": {
       "package": "br.com.favid.appcustomer",
       "versionCode": 24,
-      "playStoreUrl": "https://play.google.com/store/apps/details?id=br.com.favid.customer"
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=br.com.favid.appcustomer"
     },
     "androidStatusBar": {
       "backgroundColor": "#FFFFFF"
