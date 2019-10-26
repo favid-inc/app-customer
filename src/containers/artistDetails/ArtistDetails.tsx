@@ -58,28 +58,25 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
 
     return (
       <ContainerView style={themedStyle.container}>
-        <ImageOverlay style={themedStyle.profileInfoContainer} source={this.backgroundImage.imageSource}>
-          <ProfileInfo
-            location={artist.location}
-            mainCategory={artist.mainCategory}
-            name={artist.artisticName}
-            photo={artistImage}
-          />
-          <View style={themedStyle.actionContainer}>
-            <View style={themedStyle.price}>
-              <Text category='h6' style={themedStyle.priceText}>{`R$ ${artist.price}`}</Text>
-            </View>
-            <Button
-              appearance={artist.follower ? 'outline' : 'filled'}
-              disabled={this.props.sending}
-              onPress={this.onFollowPress}
-              size='large'
-              style={themedStyle.orderButton}
-            >
-              {artist.follower ? 'Seguindo' : 'Seguir'}
-            </Button>
+        {artist.videoUri && (
+          <View style={{ flex: 1, position: 'relative', height: height * 0.6 }}>
+            <VideoPlayer uri={artist.videoUri} shouldPlay={false} />
           </View>
-
+        )}
+        <View style={themedStyle.profileInfoContainer}>
+          <View style={themedStyle.subtitle}>
+            <Text category='h5' style={themedStyle.subtitleText}>{artist.artisticName}</Text>
+            <Text category='h6' style={themedStyle.subtitleText}>{artist.mainCategory}</Text>
+          </View>
+          <Button
+            appearance={artist.follower ? 'outline' : 'filled'}
+            disabled={this.props.sending}
+            onPress={this.onFollowPress}
+            size='large'
+            style={themedStyle.orderButton}
+          >
+            {artist.follower ? 'Seguindo' : 'Seguir'}
+          </Button>
           <ProfileSocials
             artist={artist}
             onFollowersPress={this.onFollowersPress}
@@ -88,14 +85,15 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
             style={themedStyle.profileSocials}
             textStyle={themedStyle.socialsLabel}
           />
-        </ImageOverlay>
+        </View>
+
         <Button
           size='giant'
           style={themedStyle.orderButton}
           status={this.props.cameoOrdered ? 'white' : 'success'}
           onPress={this.onOrderPress}
         >
-          {this.props.cameoOrdered ? 'Pendente' : 'Pedir'}
+          {this.props.cameoOrdered ? 'Pendente' : `Pedir por R$ ${artist.price}`}
         </Button>
 
         <View style={[themedStyle.profileSection, themedStyle.aboutSection]}>
@@ -110,6 +108,7 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
                   );
                 })}
               </View>
+
             </ShowcaseSection>
           )}
           {artist.biography && artist.biography.length && (
@@ -119,11 +118,6 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
           )}
         </View>
 
-        {artist.videoUri && (
-          <View style={{ flex: 1, position: 'relative', height: height * 0.6 }}>
-            <VideoPlayer uri={artist.videoUri} shouldPlay={false} />
-          </View>
-        )}
         <ArtistRates
           loading={loading}
           artist={artist}
@@ -211,6 +205,7 @@ export const ArtistDetails = withStyles<ComponentProps>(ArtistDetailsComponent, 
   profileInfoContainer: {
     paddingHorizontal: 24,
     paddingVertical: 24,
+    backgroundColor: theme['background-basic-color-2'],
   },
   profileSocials: {
     justifyContent: 'space-evenly',
@@ -229,30 +224,23 @@ export const ArtistDetails = withStyles<ComponentProps>(ArtistDetailsComponent, 
     marginTop: 8,
   },
   socialsLabel: {
-    color: 'white',
+    color: theme['color-primary-default'],
   },
   orderButton: {
     flex: 1,
     fontFamily: 'opensans-bold',
   },
-  price: {
+  subtitle: {
     flex: 1,
-    color: 'white',
     ...textStyle.subtitle,
     paddingVertical: 5,
     marginHorizontal: 5,
   },
-  priceText: {
+  subtitleText: {
     ...textStyle.subtitle,
     fontFamily: 'opensans-bold',
-    color: 'white',
-    textAlign: 'center',
-  },
-  priceDescription: {
-    ...textStyle.paragraph,
-    color: 'white',
-    textAlign: 'center',
-    lineHeight: 14,
+    textAlign: 'left',
+    color: theme['color-primary-default'],
   },
   profileSectionLabel: {
     marginHorizontal: 16,
