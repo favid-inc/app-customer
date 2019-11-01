@@ -1,1 +1,0 @@
-export { PaymentMethodContainer } from './PaymentMethodContainer';

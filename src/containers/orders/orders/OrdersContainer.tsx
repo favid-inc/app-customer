@@ -62,18 +62,10 @@ export class OrdersContainer extends Component<Props, State> {
       return;
     }
 
-    if (!order.pagarMeTransactionId) {
-      this.props.navigation.navigate('Pagamento', { order });
-    }
-
     const transaction = await readOrderTransaction({ orderId: order.id });
 
     if (transaction.status === OrderPaymentStatus.WAITING_PAYMENT && transaction.payment_method === 'boleto') {
       Linking.openURL(transaction.boleto_url);
-    }
-
-    if (transaction.status === OrderPaymentStatus.REFUSED) {
-      this.props.navigation.navigate('Pagamento', { order });
     }
   };
 }

@@ -90,12 +90,6 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
             <OrderPaymentStatus status={order.paymentStatus} />
           )}
         </OrderCardBottom>
-
-        {/* {[OrderPaymentStatusType.WAITING_PAYMENT, OrderPaymentStatusType.REFUSED].includes(order.paymentStatus) && (
-          <Button status='danger' style={{ borderRadius: 0 }} size='giant' onPress={this.onPress}>
-            Efetuar Pagamento
-          </Button>
-        )} */}
       </View>
     );
   }
