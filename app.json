@@ -2,7 +2,7 @@
   "expo": {
     "name": "Favid",
     "icon": "./src/assets/images/source/favid-logo.png",
-    "version": "2.0.7",
+    "version": "2.0.8",
     "slug": "favid-customer",
     "sdkVersion": "35.0.0",
     "privacy": "public",
