@@ -34,9 +34,6 @@ class ArtistCardComponent extends React.Component<ArtistCardProps> {
               {artist.mainCategory}
             </Text>
           </View>
-          <Chips style={themedStyle.chips}>
-            <Text style={themedStyle.chipsText}>{`R$ ${artist.price}`}</Text>
-          </Chips>
         </ImageOverlay>
       </TouchableOpacity>
     );

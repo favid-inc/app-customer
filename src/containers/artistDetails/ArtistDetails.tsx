@@ -66,9 +66,6 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
             photo={artistImage}
           />
           <View style={themedStyle.actionContainer}>
-            <View style={themedStyle.price}>
-              <Text category='h6' style={themedStyle.priceText}>{`R$ ${artist.price}`}</Text>
-            </View>
             <Button
               appearance={artist.follower ? 'outline' : 'filled'}
               disabled={this.props.sending}
