@@ -13,8 +13,25 @@ export const formatter = (value: string, regExp: RegExp, mapFormatter: (v: strin
     .map(mapFormatter)
     .join(' ');
 
-export const PhoneNumberFormatter = (phone: string): string =>
-  formatter(phone, PHONE_REGEX, (v, i) => (!i ? `(${v})` : v));
+export const PhoneNumberFormatter = (phone: string): string => {
+  const onlyNumbers = phone.replace(/\D/g, '').substr(0, 11);
+
+  const groups = [
+    onlyNumbers.substr(0, 2),
+    onlyNumbers.substr(2, onlyNumbers.length === 11 ? 5 : 4),
+    onlyNumbers.substr(onlyNumbers.length === 11 ? 7 : 6),
+  ];
+
+  if (onlyNumbers.length <= 2) {
+    return groups[0];
+  }
+
+  if (onlyNumbers.length <= 6) {
+    return `(${groups[0]}) ${groups[1]}`;
+  }
+
+  return `(${groups[0]}) ${groups[1]}-${groups[2]}`;
+};
 
 export const CepNumberFormatter = (cep: string): string => formatter(cep, CEP_REGEX);
 
