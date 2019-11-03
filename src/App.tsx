@@ -19,10 +19,7 @@ import { apiClient } from '@src/core/utils/apiClient';
 
 import { DynamicStatusBar } from '@src/components/common';
 
-const images: ImageRequireSource[] = [
-  require('./assets/images/source/favid-logo.png'),
-  require('./assets/images/source/google.png'),
-];
+const images: ImageRequireSource[] = [require('./assets/images/source/favid-logo.png')];
 
 const fonts: { [key: string]: number } = {
   'opensans-semibold': require('./assets/fonts/opensans-semibold.ttf'),
@@ -38,10 +35,15 @@ const assets: Assets = {
 };
 
 apiClient.interceptors.request.use(async (axiosRequestConfig) => {
-  const idToken = await firebase.auth().currentUser.getIdToken();
-  const headers = {};
-  Object.assign(headers, axiosRequestConfig.headers, { Authorization: `Bearer ${idToken}` });
-  axiosRequestConfig.headers = headers;
+  const headers = { Authorization: '' };
+
+  try {
+    const idToken = await firebase.auth().currentUser.getIdToken();
+    Object.assign(headers, axiosRequestConfig.headers, { Authorization: `Bearer ${idToken}` });
+  } finally {
+    axiosRequestConfig.headers = headers;
+  }
+
   return axiosRequestConfig;
 });
 

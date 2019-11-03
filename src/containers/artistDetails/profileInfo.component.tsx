@@ -7,25 +7,37 @@ import { ImageSourcePropType, View, ViewProps } from 'react-native';
 interface ComponentProps {
   photo: ImageSourcePropType;
   name: string;
-  location: string;
-  mainCategory: string;
+  email?: string;
+  location?: string;
+  mainCategory?: string;
 }
-
 export type ProfileInfoProps = ThemedComponentProps & ViewProps & ComponentProps;
 
 class ProfileInfoComponent extends React.Component<ProfileInfoProps> {
   public render() {
-    const { style, themedStyle, photo, name, location, mainCategory, ...restProps } = this.props;
-
+    const { style, themedStyle, photo, name, email, location, mainCategory, ...restProps } = this.props;
     return (
       <View style={[themedStyle.container, style]} {...restProps}>
-        <Avatar style={themedStyle.profileAvatar} source={photo} />
+        <Avatar style={themedStyle.profileAvatar} source={ photo } />
         <Text style={themedStyle.nameLabel} category='h6'>
           {name}
         </Text>
-        <Text style={themedStyle.category} appearance='hint'>
-          {mainCategory}
-        </Text>
+        {email ?
+          (
+            <Text style={themedStyle.nameLabel} category='h6'>
+              {email}
+            </Text>
+          )
+          : null
+        }
+        {mainCategory ?
+          (
+            <Text style={themedStyle.category} appearance='hint'>
+              {mainCategory}
+            </Text>
+          )
+          : null
+        }
       </View>
     );
   }
@@ -48,6 +60,7 @@ export const ProfileInfo = withStyles(ProfileInfoComponent, (theme: ThemeType) =
   profileAvatar: {
     width: 124,
     height: 124,
+    backgroundColor: theme['background-basic-color-1'],
   },
   category: {
     color: 'white',

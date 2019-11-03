@@ -5,6 +5,7 @@ import { Linking, View } from 'react-native';
 
 import { FileTextIconFill, LogOutIconFill, MenuIconMessaging } from '@src/assets/icons';
 import { AuthContext } from '@src/core/auth';
+import { ProfileInfo } from '@src/containers/artistDetails/profileInfo.component';
 
 interface Props {
   onNavigate: (pathName: string) => void;
@@ -18,6 +19,7 @@ class SettingsComponent extends React.Component<SettingsComponentProps> {
 
     return (
       <View style={themedStyle.container}>
+        <AccountInfo themedStyle={themedStyle} />
         <NeedHelpButton themedStyle={themedStyle} />
         <PoliciesButton themedStyle={themedStyle} onNavigate={this.handleNavigatePolicies} />
         <SigOutButton themedStyle={themedStyle} />
@@ -59,6 +61,25 @@ const PoliciesButton = ({ themedStyle, onNavigate }) => {
   );
 };
 
+const AccountInfo = ({themedStyle}) => {
+  const { user } = React.useContext(AuthContext);
+  const userImage =  {
+    height: 100,
+    width: 100,
+    uri: user.photoURL,
+  };
+
+  return (
+    <View style={themedStyle.profileInfo}>
+      <ProfileInfo
+        name={user.displayName}
+        email={user.email}
+        photo={userImage}
+      />
+    </View>
+  );
+};
+
 export const Settings = withStyles(SettingsComponent, (theme: ThemeType) => ({
   container: {
     paddingHorizontal: 10,
@@ -70,5 +91,10 @@ export const Settings = withStyles(SettingsComponent, (theme: ThemeType) => ({
   },
   button: {
     marginVertical: 10,
+  },
+  profileInfo: {
+    paddingVertical: 10,
+    borderRadius: 5,
+    backgroundColor: theme['color-primary-400'],
   },
 }));

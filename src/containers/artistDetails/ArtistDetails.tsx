@@ -5,14 +5,16 @@ import { Button, Text } from '@kitten/ui';
 import React from 'react';
 import { ActivityIndicator, Dimensions, View } from 'react-native';
 
-import { imageProfile7Bg, ImageSource } from '@src/assets/images';
-import { Chips, ContainerView, ImageOverlay, RateBar, textStyle } from '@src/components/common';
+// import { imageProfile7Bg, ImageSource } from '@src/assets/images';
+// import { Chips, ContainerView, ImageOverlay, RateBar, textStyle } from '@src/components/common';
+import { Chips, ContainerView, RateBar, textStyle } from '@src/components/common';
 import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
-import { VideoPlayer } from '@src/components/videoPlayer';
+// import { VideoPlayer } from '@src/components/videoPlayer';
 
 import { ArtistReviewsResume } from '../artists/review/ArtistReviewsResume';
-import { ProfileInfo } from './profileInfo.component';
+// import { ProfileInfo } from './profileInfo.component';
 import { ProfileSocials } from './profileSocials.component';
+import { Video } from 'expo-av';
 
 interface ComponentProps {
   artist: Artist;
@@ -46,40 +48,38 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
     showRates: 5,
   };
 
-  private backgroundImage: ImageSource = imageProfile7Bg;
-
   public render() {
     const { themedStyle, artist, artistRates, loading } = this.props;
-    const artistImage = {
-      uri: artist.photoUri,
-      height: 100,
-      width: 100,
-    };
 
     return (
       <ContainerView style={themedStyle.container}>
-        <ImageOverlay style={themedStyle.profileInfoContainer} source={this.backgroundImage.imageSource}>
-          <ProfileInfo
-            location={artist.location}
-            mainCategory={artist.mainCategory}
-            name={artist.artisticName}
-            photo={artistImage}
+        {artist.videoUri && (
+          <Video
+            style={{ flex: 1, position: 'relative', height: height * 0.6 }}
+            resizeMode={Video.RESIZE_MODE_COVER}
+            shouldPlay={true}
+            source={{ uri: artist.videoUri }}
+            useNativeControls={true}
           />
-          <View style={themedStyle.actionContainer}>
-            <View style={themedStyle.price}>
-              <Text category='h6' style={themedStyle.priceText}>{`R$ ${artist.price}`}</Text>
-            </View>
-            <Button
-              appearance={artist.follower ? 'outline' : 'filled'}
-              disabled={this.props.sending}
-              onPress={this.onFollowPress}
-              size='large'
-              style={themedStyle.orderButton}
-            >
-              {artist.follower ? 'Seguindo' : 'Seguir'}
-            </Button>
+        )}
+        <View style={themedStyle.profileInfoContainer}>
+          <View style={themedStyle.subtitle}>
+            <Text category='h5' style={themedStyle.subtitleText}>
+              {artist.artisticName}
+            </Text>
+            <Text category='h6' style={themedStyle.subtitleText}>
+              {artist.mainCategory}
+            </Text>
           </View>
-
+          <Button
+            appearance={artist.follower ? 'outline' : 'filled'}
+            disabled={this.props.sending}
+            onPress={this.onFollowPress}
+            size='large'
+            style={themedStyle.orderButton}
+          >
+            {artist.follower ? 'Seguindo' : 'Seguir'}
+          </Button>
           <ProfileSocials
             artist={artist}
             onFollowersPress={this.onFollowersPress}
@@ -88,14 +88,15 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
             style={themedStyle.profileSocials}
             textStyle={themedStyle.socialsLabel}
           />
-        </ImageOverlay>
+        </View>
+
         <Button
           size='giant'
           style={themedStyle.orderButton}
           status={this.props.cameoOrdered ? 'white' : 'success'}
           onPress={this.onOrderPress}
         >
-          {this.props.cameoOrdered ? 'Pendente' : 'Pedir'}
+          {this.props.cameoOrdered ? 'Pendente' : `Pedir por R$ ${artist.price}`}
         </Button>
 
         <View style={[themedStyle.profileSection, themedStyle.aboutSection]}>
@@ -119,11 +120,6 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
           )}
         </View>
 
-        {artist.videoUri && (
-          <View style={{ flex: 1, position: 'relative', height: height * 0.6 }}>
-            <VideoPlayer uri={artist.videoUri} shouldPlay={false} />
-          </View>
-        )}
         <ArtistRates
           loading={loading}
           artist={artist}
@@ -211,6 +207,7 @@ export const ArtistDetails = withStyles<ComponentProps>(ArtistDetailsComponent, 
   profileInfoContainer: {
     paddingHorizontal: 24,
     paddingVertical: 24,
+    backgroundColor: theme['background-basic-color-2'],
   },
   profileSocials: {
     justifyContent: 'space-evenly',
@@ -229,30 +226,23 @@ export const ArtistDetails = withStyles<ComponentProps>(ArtistDetailsComponent, 
     marginTop: 8,
   },
   socialsLabel: {
-    color: 'white',
+    color: theme['color-primary-default'],
   },
   orderButton: {
     flex: 1,
     fontFamily: 'opensans-bold',
   },
-  price: {
+  subtitle: {
     flex: 1,
-    color: 'white',
     ...textStyle.subtitle,
     paddingVertical: 5,
     marginHorizontal: 5,
   },
-  priceText: {
+  subtitleText: {
     ...textStyle.subtitle,
     fontFamily: 'opensans-bold',
-    color: 'white',
-    textAlign: 'center',
-  },
-  priceDescription: {
-    ...textStyle.paragraph,
-    color: 'white',
-    textAlign: 'center',
-    lineHeight: 14,
+    textAlign: 'left',
+    color: theme['color-primary-default'],
   },
   profileSectionLabel: {
     marginHorizontal: 16,

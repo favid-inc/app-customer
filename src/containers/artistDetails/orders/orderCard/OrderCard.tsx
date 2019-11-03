@@ -36,7 +36,6 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
   public render() {
     const { style, themedStyle, ...restProps } = this.props;
     const { order } = this.state;
-
     return (
       <View {...restProps} style={[themedStyle.container, style]}>
         {order.videoThumbnailUri && (
@@ -61,14 +60,15 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
                 {order.isGift ? order.receiverName : order.customerName}
               </Text>
             </View>
-            <SocialButtons
-              sending={this.state.sending}
-              order={order}
-              onLike={this.onLike}
-              onReport={this.onReport}
-              onShare={this.onShare}
-            />
           </View>
+          <SocialButtons
+            sending={this.state.sending}
+            order={order}
+            onLike={this.onLike}
+            onReport={this.onReport}
+            onShare={this.onShare}
+            style={themedStyle}
+          />
           <Text style={themedStyle.descriptionLabel} appearance='hint' category='s1'>
             {order.instructions}
           </Text>
@@ -116,7 +116,7 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
   };
 
   private onReport = () => {
-    Linking.openURL(`mailto:suporte.favid@gmail.com?subject=Reportar Pedido - ${this.state.order.id}`);
+    Linking.openURL('https://www.favid.com.br/suporte/');
   };
 
   private onPress = () => {
@@ -124,18 +124,38 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
   };
 }
 
-const SocialButtons = ({ order, onLike, onReport, onShare, sending }) => (
+const SocialButtons = ({ order, onLike, onReport, onShare, sending, style }) => (
   <View style={{ flexDirection: 'row' }}>
-    <Button onPress={onShare} size='small' status='info' icon={ShareIconOutline} appearance='ghost' />
-    <Button
-      onPress={onLike}
-      disabled={sending}
-      size='small'
-      status='danger'
-      icon={order.like ? HeartIconFill : HeartIconOutline}
-      appearance='ghost'
-    />
-    <Button onPress={onReport} size='small' status='warning' icon={FlagIconFill} appearance='ghost' />
+    <View style={style.socialButton}>
+      <Button onPress={onShare} size='small' status='info' icon={ShareIconOutline} appearance='ghost'/>
+      <Text category='p2' appearance='hint' style={style.buttonLabel}>
+        compartilhar
+      </Text>
+    </View>
+    <View style={style.socialButton}>
+      <Button
+        textStyle={{color: 'red'}}
+        onPress={onLike}
+        disabled={sending}
+        size='small'
+        status='danger'
+        icon={order.like ? HeartIconFill : HeartIconOutline}
+        appearance='ghost'
+      />
+      {
+        order.likes ? (
+          <Text category='p2' appearance='hint' style={style.buttonLabel}>
+            { `${order.likes} ${order.likes > 1 ? 'curtidas' : 'curtida'}`}
+          </Text>
+        ) : null
+      }
+    </View>
+    <View style={style.socialButton}>
+      <Button onPress={onReport} size='small' status='warning' icon={FlagIconFill} appearance='ghost'/>
+      <Text category='p2' appearance='hint' style={style.buttonLabel}>
+        reportar
+      </Text>
+    </View>
   </View>
 );
 
@@ -159,5 +179,11 @@ export const OrderCard = withStyles<ComponentProps>(OrderCardComponent, (theme: 
   descriptionLabel: {
     marginTop: 16,
     ...textStyle.subtitle,
+  },
+  socialLabel: {
+    textAlign: 'center',
+  },
+  socialButton: {
+    marginHorizontal: 10,
   },
 }));

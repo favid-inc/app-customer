@@ -65,14 +65,15 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
                 {order.isGift ? order.receiverName : order.customerName}
               </Text>
             </View>
+          </View>
             <SocialButtons
               sending={this.state.sending}
               order={order}
               onLike={this.onLike}
               onReport={this.onReport}
               onShare={this.onShare}
+              style={themedStyle}
             />
-          </View>
           <Text style={themedStyle.descriptionLabel} appearance='hint' category='s1'>
             {order.instructions}
           </Text>
@@ -147,22 +148,42 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
   };
 }
 
-const SocialButtons = ({ order, onLike, onReport, onShare, sending }) => (
+const SocialButtons = ({ order, onLike, onReport, onShare, sending, style }) => (
   <View style={{ flexDirection: 'row' }}>
     {order.status === OrderStatusType.FULFILLED && (
-      <Button onPress={onShare} size='small' status='info' icon={ShareIconOutline} appearance='ghost' />
+      <View style={style.socialButton}>
+        <Button onPress={onShare} size='small' status='info' icon={ShareIconOutline} appearance='ghost' />
+        <Text category='p2' appearance='hint' style={style.buttonLabel}>
+          compartilhar
+        </Text>
+      </View>
     )}
+
     {order.status === OrderStatusType.FULFILLED && (
-      <Button
-        disabled={sending}
-        onPress={onLike}
-        size='small'
-        status='danger'
-        icon={order.like ? HeartIconFill : HeartIconOutline}
-        appearance='ghost'
-      />
+      <View style={style.socialButton}>
+        <Button
+          disabled={sending}
+          onPress={onLike}
+          size='small'
+          status='danger'
+          icon={order.like ? HeartIconFill : HeartIconOutline}
+          appearance='ghost'
+        />
+        {
+          order.likes ? (
+            <Text category='p2' appearance='hint' style={style.buttonLabel}>
+              { `${order.likes} ${order.likes > 1 ? 'curtidas' : 'curtida'}`}
+            </Text>
+          ) : null
+        }
+      </View>
     )}
-    <Button onPress={onReport} size='small' status='warning' icon={FlagIconFill} appearance='ghost' />
+    <View style={style.socialButton}>
+      <Button onPress={onReport} size='small' status='warning' icon={FlagIconFill} appearance='ghost' />
+      <Text category='p2' appearance='hint' style={style.buttonLabel}>
+        reportar
+      </Text>
+    </View>
   </View>
 );
 
@@ -186,5 +207,11 @@ export const OrderCard = withStyles<ComponentProps>(OrderCardComponent, (theme: 
   descriptionLabel: {
     marginTop: 16,
     ...textStyle.subtitle,
+  },
+  socialLabel: {
+    textAlign: 'center',
+  },
+  socialButton: {
+    marginHorizontal: 10,
   },
 }));
