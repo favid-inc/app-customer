@@ -140,7 +140,7 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
   };
 
   private onReport = () => {
-    Linking.openURL(`mailto:suporte.favid@gmail.com?subject=Reportar Pedido - ${this.state.order.id}`);
+    Linking.openURL('https://www.favid.com.br/suporte/');
   };
 
   private onPress = () => {
