@@ -1,7 +1,6 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button } from '@kitten/ui';
-// import { CreditCardIconFill, FileTextIconFill } from '@src/assets/icons';
-import { FileTextIconFill } from '@src/assets/icons';
+import { CreditCardIconFill, FileTextIconFill } from '@src/assets/icons';
 import React from 'react';
 import { View } from 'react-native';
 
@@ -33,14 +32,14 @@ class PaymentMethodComponent extends React.Component<Props, State, Context> {
       <View style={themedStyle.container}>
         <ScrollableAvoidKeyboard>
           <View style={themedStyle.isCreditContainer}>
-            {/* <Button
+            <Button
               icon={CreditCardIconFill}
               style={{ flex: 1, borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
               status={this.context.payment_method !== 'credit_card' ? 'white' : ''}
               onPress={this.selectCreditCard}
             >
               Cartão
-            </Button> */}
+            </Button>
             <Button
               icon={FileTextIconFill}
               style={{ flex: 1, borderBottomLeftRadius: 0, borderTopLeftRadius: 0 }}
@@ -53,8 +52,8 @@ class PaymentMethodComponent extends React.Component<Props, State, Context> {
           {this.context.payment_method === 'credit_card' ? (
             <PaymentCardForm onSend={this.props.onSend} />
           ) : (
-            <PaymentBoletoForm onSend={this.props.onSend} />
-          )}
+              <PaymentBoletoForm onSend={this.props.onSend} />
+            )}
         </ScrollableAvoidKeyboard>
       </View>
     );
@@ -64,9 +63,9 @@ class PaymentMethodComponent extends React.Component<Props, State, Context> {
     this.context.setPaymentMethod('boleto');
   };
 
-  // private selectCreditCard = () => {
-  //   this.context.setPaymentMethod('credit_card');
-  // };
+  private selectCreditCard = () => {
+    this.context.setPaymentMethod('credit_card');
+  };
 }
 
 export const PaymentMethod = withStyles<ComponentProps>(PaymentMethodComponent, (theme: ThemeType) => ({
