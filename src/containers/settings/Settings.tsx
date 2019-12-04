@@ -1,11 +1,12 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { Button } from '@kitten/ui';
+import { Button, Text } from '@kitten/ui';
 import React from 'react';
 import { Linking, View } from 'react-native';
 
 import { FileTextIconFill, LogOutIconFill, MenuIconMessaging } from '@src/assets/icons';
 import { AuthContext } from '@src/core/auth';
 import { ProfileInfo } from '@src/containers/artistDetails/profileInfo.component';
+import pkg from '../../../package.json';
 
 interface Props {
   onNavigate: (pathName: string) => void;
@@ -23,6 +24,7 @@ class SettingsComponent extends React.Component<SettingsComponentProps> {
         <NeedHelpButton themedStyle={themedStyle} />
         <PoliciesButton themedStyle={themedStyle} onNavigate={this.handleNavigatePolicies} />
         <SigOutButton themedStyle={themedStyle} />
+        <Text category='p1' appearance='hint'>Versão: {pkg.version}</Text>
       </View>
     );
   }
@@ -61,9 +63,9 @@ const PoliciesButton = ({ themedStyle, onNavigate }) => {
   );
 };
 
-const AccountInfo = ({themedStyle}) => {
+const AccountInfo = ({ themedStyle }) => {
   const { user } = React.useContext(AuthContext);
-  const userImage =  {
+  const userImage = {
     height: 100,
     width: 100,
     uri: user.photoURL,
