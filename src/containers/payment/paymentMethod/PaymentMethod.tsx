@@ -35,7 +35,7 @@ class PaymentMethodComponent extends React.Component<Props, State, Context> {
             <Button
               icon={CreditCardIconFill}
               style={{ flex: 1, borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
-              status={this.context.payment_method !== 'credit_card' ? 'white' : ''}
+              status={this.context.payment_method !== 'credit_card' ? 'control' : ''}
               onPress={this.selectCreditCard}
             >
               Cartão
@@ -43,7 +43,7 @@ class PaymentMethodComponent extends React.Component<Props, State, Context> {
             <Button
               icon={FileTextIconFill}
               style={{ flex: 1, borderBottomLeftRadius: 0, borderTopLeftRadius: 0 }}
-              status={this.context.payment_method !== 'boleto' ? 'white' : ''}
+              status={this.context.payment_method !== 'boleto' ? 'control' : ''}
               onPress={this.selectBoleto}
             >
               Boleto
