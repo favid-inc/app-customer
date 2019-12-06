@@ -15,7 +15,7 @@
     },
     "android": {
       "package": "br.com.favid.appcustomer",
-      "versionCode": 28,
+      "versionCode": 29,
       "playStoreUrl": "https://play.google.com/store/apps/details?id=br.com.favid.appcustomer",
       "icon": "./src/assets/images/source/favid-logo.android.png"
     },
