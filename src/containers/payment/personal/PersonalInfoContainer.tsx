@@ -59,7 +59,7 @@ export class PersonalInfoContainer extends React.Component<Props, State> {
         },
       );
     } catch (error) {
-      Alert.alert('Erro ao processar pagamento', 'Verifique sua conexão e tente novamente');
+      Alert.alert('Erro ao processar pagamento', 'Verifique os dados inseridos e tente novamente');
     }
 
     this.setState({ submiting: false });
