@@ -1,4 +1,4 @@
-import { ArtistRate } from '@favid-inc/api';
+import { Artist, ArtistRate } from '@favid-inc/api';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button } from '@kitten/ui';
 import { AuthContext } from '@src/core/auth';
@@ -26,8 +26,18 @@ class ArtistReviewComponent extends React.Component<Props, State, Context> {
 
   public componentDidMount() {
     const { navigation } = this.props;
-    const artistId = navigation.getParam('artistId');
-    this.setState({ artistId });
+    const { user } = this.context;
+
+    const artist: Artist = navigation.getParam('artist');
+    const artistRates: ArtistRate[] = navigation.getParam('artistRates');
+
+    const artistRate = artistRates?.find((r) => r.customerUserUid === user.uid);
+
+    this.setState({
+      artistId: artist.id,
+      message: artistRate?.message ?? '',
+      value: artistRate?.value ?? 0,
+    });
   }
 
   public render() {

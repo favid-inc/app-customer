@@ -147,21 +147,23 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
   };
 
   private onReview = () => {
+
     this.props.navigation.navigate({
       routeName: 'Avaliar Artista',
       params: {
-        artistId: this.state.artist.id,
+        artist: this.state.artist,
+        artistRates: this.state.artistRates,
       },
     });
   };
 
-  private onFollowersPress = () => {};
+  private onFollowersPress = () => { };
 
-  private onFollowingPress = () => {};
+  private onFollowingPress = () => { };
 
-  private onOrdersPress = () => {};
+  private onOrdersPress = () => { };
 
-  private onFriendPress = (index: number) => {};
+  private onFriendPress = (index: number) => { };
 
-  private onPhotoPress = (index: number) => {};
+  private onPhotoPress = (index: number) => { };
 }
