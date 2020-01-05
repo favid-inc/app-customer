@@ -1,5 +1,7 @@
 import { createStackNavigator } from 'react-navigation';
 
+import { TopBarNavigationOptions } from '@src/core/navigation/options';
+
 import { connect } from './context';
 import { CheckoutContainer } from './checkout';
 import { PaymentMethodContainer } from './paymentMethod';
@@ -10,11 +12,11 @@ export const PaymentNavigator = connect(
     {
       'Método de pagamento': PaymentMethodContainer,
       'Dados Pessoais': PersonalInfoContainer,
-      'Checkout': CheckoutContainer,
+      'Concluir': CheckoutContainer,
     },
     {
       headerMode: 'screen',
-      defaultNavigationOptions: { header: null },
+      defaultNavigationOptions: TopBarNavigationOptions,
     },
   ),
 );
