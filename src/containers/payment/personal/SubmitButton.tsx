@@ -17,15 +17,14 @@ export function SubmitButton({ submiting, onSubmit }: SubmitButtonProps) {
     onSubmit();
   }, [onSubmit]);
 
-  console.log("customer.isValid()", customer.isValid())
-
   return (
     <Button
-      status='success'
-      textStyle={textStyle.button}
-      size='giant'
       disabled={submiting || !address.isValid() || !customer.isValid()}
       onPress={onPress}
+      size='giant'
+      status='success'
+      style={{ marginTop: 10 }}
+      textStyle={textStyle.button}
     >
       Continuar
     </Button>

@@ -18,11 +18,12 @@ export function SubmitButton({ submiting, onSubmit }: SubmitButtonProps) {
 
   return (
     <Button
-      status='success'
-      textStyle={textStyle.button}
-      size='giant'
       disabled={submiting || !paymentMethod.isValid()}
       onPress={onPress}
+      size='giant'
+      status='success'
+      style={{ marginTop: 10 }}
+      textStyle={textStyle.button}
     >
       {`Pagar com ${paymentMethod.payment_method === 'boleto' ? 'Boleto' : 'Cartão'}`}
     </Button>
