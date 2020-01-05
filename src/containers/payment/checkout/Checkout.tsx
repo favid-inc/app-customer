@@ -7,7 +7,7 @@ import { ScrollableAvoidKeyboard } from '@src/components/common';
 import { InfoItem } from './InfoItem';
 import { OrderContext } from '../context';
 import { SubmitButton } from './SubmitButton';
-import { formatAmount } from './formatAmount'
+import { formatAmount } from './formatAmount';
 
 interface ComponentProps {
   onSubmit: () => void;
