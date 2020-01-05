@@ -19,7 +19,9 @@ export class PaymentMethodContainer extends Component<Props, any, Context> {
 
     this.context.setId(order.id);
     this.context.setArtistId(order.artistId);
+    this.context.setArtistPrice(order.artistPrice);
     this.context.setBillingAmount(order.billingAmount);
+    this.context.setServiceTax(order.serviceTax);
   }
 
   public onSubmit = () => {

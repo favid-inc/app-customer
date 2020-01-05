@@ -19,6 +19,6 @@ export class PersonalInfoContainer extends React.Component<Props, State> {
   }
 
   public onSubmit = () => {
-    this.props.navigation.navigate('Checkout');
+    this.props.navigation.navigate('Concluir');
   };
 }

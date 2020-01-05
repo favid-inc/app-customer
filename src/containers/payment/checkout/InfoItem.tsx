@@ -39,7 +39,11 @@ export const InfoItem = withStyles<ComponentProps>(InfoItemComponent, (theme: Th
     borderBottomWidth: 1,
     borderBottomColor: theme['border-basic-color-2'],
   },
-  hintLabel: textStyle.caption2,
+  hintLabel: {
+    ...textStyle.caption2,
+    flex: 1,
+    alignSelf: 'stretch',
+  },
   valueLabel: {
     ...textStyle.caption2,
     color: theme['text-basic-color'],
