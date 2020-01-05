@@ -2,7 +2,7 @@ import { Button } from '@kitten/ui';
 import React from 'react';
 
 import { textStyle } from '@src/components/common';
-import { AddressContext, CustomerContext } from '../context';
+import { PaymentMethodContext } from '../context';
 
 export interface SubmitButtonProps {
   onSubmit: () => void;
@@ -10,24 +10,21 @@ export interface SubmitButtonProps {
 }
 
 export function SubmitButton({ submiting, onSubmit }: SubmitButtonProps) {
-  const address = React.useContext(AddressContext);
-  const customer = React.useContext(CustomerContext);
+  const paymentMethod = React.useContext(PaymentMethodContext);
 
   const onPress = React.useCallback(() => {
     onSubmit();
   }, [onSubmit]);
-
-  console.log("customer.isValid()", customer.isValid())
 
   return (
     <Button
       status='success'
       textStyle={textStyle.button}
       size='giant'
-      disabled={submiting || !address.isValid() || !customer.isValid()}
+      disabled={submiting || !paymentMethod.isValid()}
       onPress={onPress}
     >
-      Continuar
+      {`Pagar com ${paymentMethod.payment_method === 'boleto' ? 'Boleto' : 'Cartão'}`}
     </Button>
   );
 }

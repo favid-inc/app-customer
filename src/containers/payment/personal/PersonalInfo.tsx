@@ -6,9 +6,11 @@ import { ContainerView, ScrollableAvoidKeyboard } from '@src/components/common';
 
 import { AddressForm } from './AddressForm';
 import { CustomerForm } from './CustomerForm';
-import { SubmitButton, SubmitButtonProps } from './SubmitButton';
+import { SubmitButton } from './SubmitButton';
 
-type ComponentProps = SubmitButtonProps;
+interface ComponentProps {
+  onSubmit: () => void;
+}
 
 export type Props = ThemedComponentProps & ComponentProps;
 
@@ -19,14 +21,14 @@ class PersonalInfoComponent extends React.Component<Props> {
   });
 
   public render() {
-    const { themedStyle, submiting, onSubmit } = this.props;
+    const { themedStyle } = this.props;
 
     return (
       <ScrollableAvoidKeyboard style={[themedStyle.container]} extraScrollHeight={this.keyboardOffset}>
         <ContainerView style={themedStyle.container} contentContainerStyle={themedStyle.contentContainer}>
           <CustomerForm />
           <AddressForm />
-          <SubmitButton submiting={submiting} onSubmit={onSubmit} />
+          <SubmitButton onSubmit={this.props.onSubmit} />
         </ContainerView>
       </ScrollableAvoidKeyboard>
     );
@@ -42,7 +44,7 @@ export const PersonalInfo = withStyles<ComponentProps>(PersonalInfoComponent, (t
   contentContainer: {
     flex: 1,
   },
-  saveButton: {
+  continueButton: {
     marginVertical: 20,
   },
 }));

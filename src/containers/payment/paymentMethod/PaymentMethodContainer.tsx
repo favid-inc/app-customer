@@ -19,14 +19,14 @@ export class PaymentMethodContainer extends Component<Props, any, Context> {
 
     this.context.setId(order.id);
     this.context.setArtistId(order.artistId);
-    this.context.setPrice(order.price);
+    this.context.setBillingAmount(order.billingAmount);
   }
 
-  public onSend = () => {
+  public onSubmit = () => {
     this.props.navigation.navigate('Dados Pessoais');
   };
 
   public render() {
-    return <PaymentMethod onSend={this.onSend} />;
+    return <PaymentMethod onSubmit={this.onSubmit} />;
   }
 }

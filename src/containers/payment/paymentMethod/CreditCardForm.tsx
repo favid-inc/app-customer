@@ -1,5 +1,4 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { Button } from '@kitten/ui';
 import React from 'react';
 import { View, ViewProps } from 'react-native';
 
@@ -16,17 +15,15 @@ import {
 
 import { CardholderNameValidator, CvvValidator, ExpirationDateValidator, validation } from '@src/core/validators';
 
-interface ComponentProps {
-  onSend: () => void;
-}
+type Props = ThemedComponentProps & ViewProps;
 
-export type PaymentCardFormProps = ThemedComponentProps & ViewProps & ComponentProps;
+type Context = typeof PaymentMethodContext;
 
 const cardNumberValidator = validation(CARD_NUMBER_REGEX);
 
-class PaymentCardFormComponent extends React.Component<PaymentCardFormProps> {
+class PaymentCardFormComponent extends React.Component<Props, null, Context> {
   static contextType = PaymentMethodContext;
-  public context: React.ContextType<typeof PaymentMethodContext>;
+  public context: React.ContextType<Context>;
 
   public render() {
     const { style, themedStyle, ...restProps } = this.props;
@@ -85,25 +82,9 @@ class PaymentCardFormComponent extends React.Component<PaymentCardFormProps> {
           validator={CardholderNameValidator}
           value={this.context.card_holder_name}
         />
-
-        <Button
-          status='success'
-          style={themedStyle.saveButton}
-          textStyle={textStyle.button}
-          size='giant'
-          onPress={this.props.onSend}
-          disabled={!this.isValid()}
-        >
-          Pagar com Cartão de Crédito
-        </Button>
       </View>
     );
   }
-
-  private isValid = (): boolean => {
-    const { card_cvv, card_expiration_date, card_number, card_holder_name } = this.context;
-    return Boolean(card_cvv && card_expiration_date && card_number && card_holder_name);
-  };
 }
 
 export const PaymentCardForm = withStyles(PaymentCardFormComponent, (theme: ThemeType) => ({
@@ -127,8 +108,5 @@ export const PaymentCardForm = withStyles(PaymentCardFormComponent, (theme: Them
   },
   cardholderNameInput: {
     marginTop: 24,
-  },
-  saveButton: {
-    marginVertical: 10,
   },
 }));

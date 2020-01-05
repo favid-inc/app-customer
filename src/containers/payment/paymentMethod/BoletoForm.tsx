@@ -1,37 +1,25 @@
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { Button } from '@kitten/ui';
 import React from 'react';
 import { View, ViewProps } from 'react-native';
 
-import { textStyle } from '@src/components/common';
+import { PaymentMethodContext } from '../context';
 
-interface ComponentProps {
-  onSend: () => void;
-}
+type Props = ThemedComponentProps & ViewProps;
 
-export type AddPaymentCardFormProps = ThemedComponentProps & ViewProps & ComponentProps;
-class PaymentBoletoFormComponent extends React.Component<AddPaymentCardFormProps> {
+type Context = typeof PaymentMethodContext;
+
+class PaymentBoletoFormComponent extends React.Component<Props, null, Context> {
+  static contextType = PaymentMethodContext;
+  public context: React.ContextType<Context>;
+
   public render() {
     const { style, themedStyle, ...restProps } = this.props;
 
     return (
       <View style={themedStyle.container} {...restProps}>
-        <Button
-          status='success'
-          style={themedStyle.saveButton}
-          textStyle={textStyle.button}
-          size='giant'
-          onPress={this.handleSend}
-        >
-          Pagar com Boleto
-        </Button>
       </View>
     );
   }
-
-  private handleSend = () => {
-    this.props.onSend();
-  };
 }
 
 export const PaymentBoletoForm = withStyles(PaymentBoletoFormComponent, (theme: ThemeType) => ({
@@ -42,8 +30,5 @@ export const PaymentBoletoForm = withStyles(PaymentBoletoFormComponent, (theme: 
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 24,
-  },
-  saveButton: {
-    marginVertical: 10,
   },
 }));

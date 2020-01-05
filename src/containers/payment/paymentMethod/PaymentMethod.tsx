@@ -6,11 +6,12 @@ import { View } from 'react-native';
 
 import { ScrollableAvoidKeyboard } from '@src/components/common';
 import { PaymentMethodContext } from '../context';
+import { SubmitButton } from './SubmitButton';
 import { PaymentBoletoForm } from './BoletoForm';
 import { PaymentCardForm } from './CreditCardForm';
 
 interface ComponentProps {
-  onSend: () => void;
+  onSubmit: () => void;
 }
 
 export type Props = ThemedComponentProps & ComponentProps;
@@ -31,7 +32,7 @@ class PaymentMethodComponent extends React.Component<Props, State, Context> {
     return (
       <View style={themedStyle.container}>
         <ScrollableAvoidKeyboard>
-          <View style={themedStyle.isCreditContainer}>
+          <View style={themedStyle.formContainer}>
             <Button
               icon={CreditCardIconFill}
               style={{ flex: 1, borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
@@ -49,11 +50,8 @@ class PaymentMethodComponent extends React.Component<Props, State, Context> {
               Boleto
             </Button>
           </View>
-          {this.context.payment_method === 'credit_card' ? (
-            <PaymentCardForm onSend={this.props.onSend} />
-          ) : (
-              <PaymentBoletoForm onSend={this.props.onSend} />
-            )}
+          {this.context.payment_method === 'credit_card' ? <PaymentCardForm /> : <PaymentBoletoForm />}
+          <SubmitButton onSubmit={this.props.onSubmit} />
         </ScrollableAvoidKeyboard>
       </View>
     );
@@ -74,10 +72,7 @@ export const PaymentMethod = withStyles<ComponentProps>(PaymentMethodComponent, 
     flex: 1,
     backgroundColor: theme['background-basic-color-2'],
   },
-  creditCard: {
-    borderRadiusRightBottom: 100,
-  },
-  isCreditContainer: {
+  formContainer: {
     marginTop: 24,
     flexDirection: 'row',
     overflow: 'hidden',
