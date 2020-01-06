@@ -1,11 +1,10 @@
-import { Order, OrderPaymentStatus } from '@favid-inc/api';
+import { Order } from '@favid-inc/api';
 import React, { Component } from 'react';
-import { Alert, Linking, RefreshControl, ScrollView } from 'react-native';
+import { Alert, RefreshControl, ScrollView } from 'react-native';
 import { NavigationEventSubscription, NavigationScreenProps } from 'react-navigation';
 
 import { listOrders } from './listOrders';
 import { Orders } from './Orders';
-import { readOrderTransaction } from './readOrderTransaction';
 
 type Props = NavigationScreenProps;
 
@@ -60,20 +59,6 @@ export class OrdersContainer extends Component<Props, State> {
     if (order.videoUri) {
       this.props.navigation.navigate('Detalhes do Pedido', { order });
       return;
-    }
-
-    if (!order.pagarMeTransactionId) {
-      this.props.navigation.navigate('Pagamento', { order });
-    }
-
-    const transaction = await readOrderTransaction({ orderId: order.id });
-
-    if (transaction.status === OrderPaymentStatus.WAITING_PAYMENT && transaction.payment_method === 'boleto') {
-      Linking.openURL(transaction.boleto_url);
-    }
-
-    if (transaction.status === OrderPaymentStatus.REFUSED) {
-      this.props.navigation.navigate('Pagamento', { order });
     }
   };
 }
