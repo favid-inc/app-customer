@@ -22,15 +22,25 @@ interface State {
 }
 
 export class SocialButtonsComponent extends React.Component<Props, State> {
-  public componentDidMount() {
+  public state: State = {
+    order: {},
+    sending: false,
+  };
+
+  public componentWillMount() {
     this.setState({ order: this.props.order });
   }
 
   public render() {
-    const { order, themedStyle } = this.props;
+    const { themedStyle } = this.props;
+    const { order } = this.state;
 
     return (
       <View style={themedStyle.container}>
+        <SocialButton icon={FlagIconFill} status='warning' onPress={this.onReport}>
+          reportar
+        </SocialButton>
+
         {order.status === OrderStatus.FULFILLED && (
           <SocialButton icon={ShareIconOutline} status='info' onPress={this.onShare}>
             compartilhar
@@ -38,20 +48,16 @@ export class SocialButtonsComponent extends React.Component<Props, State> {
         )}
 
         {order.status === OrderStatus.FULFILLED && (
-          <SocialButton icon={order.like ? HeartIconFill : HeartIconOutline} status='danger' onPress={this.onLike}>
-            {order.likes ? `${order.likes} ${order.likes > 1 ? 'curtidas' : 'curtida'}` : ''}
+          <SocialButton icon={order.like ? HeartIconFill : HeartIconOutline} status='danger' disabled={this.state.sending} onPress={this.onLike}>
+            {`${order.likes} ${order.likes !== 1 ? 'curtidas' : 'curtida'}`}
           </SocialButton>
         )}
-
-        <SocialButton icon={FlagIconFill} status='warning' onPress={this.onReport}>
-          reportar
-        </SocialButton>
       </View>
     );
   }
 
   private onShare = async () => {
-    const { order: { id, artistArtisticName } } = this.props;
+    const { order: { id, artistArtisticName } } = this.state;
 
     const title = `Favid - Video exclusivo: ${artistArtisticName}`;
     const url = `https://app.favid.com.br/orders/${id}`;
@@ -66,18 +72,17 @@ export class SocialButtonsComponent extends React.Component<Props, State> {
   };
 
   private onLike = async () => {
-    const { id: orderId, like, likes } = this.state.order;
+    const order = this.state.order;
 
     this.setState({
       sending: true,
-      order: {
-        ...this.state.order,
-        like: !like,
-        likes: likes + (like ? -1 : +1),
-      },
+      order: { ...this.state.order, like: !order.like, likes: order.likes + (order.like ? -1 : +1) },
     });
     try {
-      const order = like ? await unlikeOrder({ orderId }) : await likeOrder({ orderId });
+      this.setState({
+        order: order.like ? await unlikeOrder({ orderId: order.id }) : await likeOrder({ orderId: order.id }),
+      });
+    } catch (e) {
       this.setState({ order });
     } finally {
       this.setState({ sending: false });

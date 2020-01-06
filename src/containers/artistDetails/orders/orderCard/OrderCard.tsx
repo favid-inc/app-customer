@@ -9,25 +9,24 @@ import { textStyle } from '@src/components/common';
 import { SocialButtons } from './social';
 
 interface ComponentProps {
-  order: Order;
   onPress: (order: Order) => void;
+  order: Order;
   style: StyleProp<ViewStyle>;
 }
 
 interface State {
   order: Order;
-  sending: boolean;
 }
 
 export type OrderCardProps = ThemedComponentProps & ComponentProps;
 
 class OrderCardComponent extends React.Component<OrderCardProps, State> {
+
   public state: State = {
     order: {},
-    sending: false,
   };
 
-  public componentDidMount() {
+  public componentWillMount() {
     this.setState({ order: this.props.order });
   }
 
