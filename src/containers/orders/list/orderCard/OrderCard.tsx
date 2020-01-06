@@ -2,18 +2,20 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { OrderPaymentStatus as OrderPaymentStatusType } from '@favid-inc/api';
 import { SocialOrder as Order } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { Button, Text } from '@kitten/ui';
+import { Text } from '@kitten/ui';
 import React from 'react';
 import { ImageBackground, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
 
 import { ActivityAuthoring, textStyle } from '@src/components/common';
+import { CancelOrderButton } from './cancel';
 import { OrderCardBottom } from './OrderCardBottom';
 import { OrderPaymentStatus } from './OrderPaymentStatus';
 import { OrderStatus } from './OrderStatus';
+import { PayOrderButton } from './pay';
 import { SocialButtons } from './social';
 
 interface ComponentProps {
-  onPress: (order: Order) => void;
+  onDetails: (order: Order) => void;
   order: Order;
   style: StyleProp<ViewStyle>;
 }
@@ -41,7 +43,7 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
     return (
       <View {...restProps} style={[themedStyle.container, style]}>
         {order.videoThumbnailUri && (
-          <TouchableOpacity onPress={this.onPress}>
+          <TouchableOpacity onPress={this.onDetails}>
             <ImageBackground style={themedStyle.thumbmnail} source={{ uri: order.videoThumbnailUri }}>
               <MaterialIcons name='play-arrow' size={100} color='#FFF' style={themedStyle.playIcon} />
             </ImageBackground>
@@ -74,17 +76,19 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
           }
         </OrderCardBottom>
 
+        {order.pagarMeTransactionId && (
+          <CancelOrderButton order={order} />
+        )}
+
         {[OrderPaymentStatusType.WAITING_PAYMENT, OrderPaymentStatusType.REFUSED].includes(order.paymentStatus) && (
-          <Button status='danger' style={{ borderRadius: 0 }} size='giant' onPress={this.onPress}>
-            Efetuar Pagamento
-          </Button>
+          <PayOrderButton order={order} />
         )}
       </View>
     );
   }
 
-  private onPress = () => {
-    this.props.onPress(this.state.order);
+  private onDetails = () => {
+    this.props.onDetails(this.state.order);
   };
 }
 

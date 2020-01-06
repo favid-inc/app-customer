@@ -70,7 +70,7 @@ class OrdersComponent extends Component<ThemedComponentProps & Props, State> {
 
   private renderItem = (info: ListRenderItemInfo<Order>): React.ReactElement<OrderCardProps> => {
     const { themedStyle } = this.props;
-    return <OrderCard key={info.item.id} style={themedStyle.item} order={info.item} onPress={this.onDetails} />;
+    return <OrderCard key={info.item.id} style={themedStyle.item} order={info.item} onDetails={this.onDetails} />;
   };
 }
 

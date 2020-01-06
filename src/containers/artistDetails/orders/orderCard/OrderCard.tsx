@@ -9,7 +9,7 @@ import { textStyle } from '@src/components/common';
 import { SocialButtons } from './social';
 
 interface ComponentProps {
-  onPress: (order: Order) => void;
+  onDetails: (order: Order) => void;
   order: Order;
   style: StyleProp<ViewStyle>;
 }
@@ -37,7 +37,7 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
     return (
       <View {...restProps} style={[themedStyle.container, style]}>
         {order.videoThumbnailUri && (
-          <TouchableOpacity onPress={this.onPress}>
+          <TouchableOpacity onPress={this.onDetails}>
             <ImageBackground style={themedStyle.thumbmnail} source={{ uri: order.videoThumbnailUri }}>
               <MaterialIcons name='play-arrow' size={100} color='#FFF' style={themedStyle.playIcon} />
             </ImageBackground>
@@ -60,8 +60,8 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
     );
   }
 
-  private onPress = () => {
-    this.props.onPress(this.state.order);
+  private onDetails = () => {
+    this.props.onDetails(this.state.order);
   };
 }
 
