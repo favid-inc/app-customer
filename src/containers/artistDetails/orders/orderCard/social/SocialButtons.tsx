@@ -33,18 +33,18 @@ export class SocialButtonsComponent extends React.Component<Props, State> {
     return (
       <View style={themedStyle.container}>
         {order.status === OrderStatus.FULFILLED && (
-          <SocialButton icon={ShareIconOutline} onPress={this.onShare}>
+          <SocialButton icon={ShareIconOutline} status='info' onPress={this.onShare}>
             compartilhar
           </SocialButton>
         )}
 
         {order.status === OrderStatus.FULFILLED && (
-          <SocialButton icon={order.like ? HeartIconFill : HeartIconOutline} onPress={this.onLike}>
+          <SocialButton icon={order.like ? HeartIconFill : HeartIconOutline} status='danger' onPress={this.onLike}>
             {order.likes ? `${order.likes} ${order.likes > 1 ? 'curtidas' : 'curtida'}` : ''}
           </SocialButton>
         )}
 
-        <SocialButton icon={FlagIconFill} onPress={this.onReport}>
+        <SocialButton icon={FlagIconFill} status='warning' onPress={this.onReport}>
           reportar
         </SocialButton>
       </View>

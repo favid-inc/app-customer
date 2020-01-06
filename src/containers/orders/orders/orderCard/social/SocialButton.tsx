@@ -1,13 +1,14 @@
 import React from 'react';
-import { Button, Text, IconProps, TextProps } from '@kitten/ui';
+import { Button, ButtonProps, TextProps, Text } from '@kitten/ui';
 import { View } from 'react-native';
 
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 
 type ComponentProps = React.PropsWithChildren<{
-  onPress: () => void;
-  icon: IconProps;
   children: TextProps['children'];
+  icon: ButtonProps['icon'];
+  onPress: ButtonProps['onPress'];
+  status: ButtonProps['status'];
 }>;
 
 export type Props = ThemedComponentProps & ComponentProps;
@@ -15,11 +16,17 @@ export type Props = ThemedComponentProps & ComponentProps;
 export class SocialButtonComponent extends React.Component<Props> {
 
   public render() {
-    const { onPress, icon, children, themedStyle } = this.props;
+    const {
+      children,
+      icon,
+      onPress,
+      status,
+      themedStyle,
+    } = this.props;
 
     return (
       <View style={themedStyle.button}>
-        <Button onPress={onPress} size='small' status='warning' icon={icon} appearance='ghost' />
+        <Button onPress={onPress} size='small' status={status} icon={icon} appearance='ghost' />
         <Text category='p2' appearance='hint' style={themedStyle.label}>{children}</Text>
       </View>
     );
