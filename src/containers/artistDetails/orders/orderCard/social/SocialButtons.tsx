@@ -2,7 +2,6 @@ import React from 'react';
 import { Linking, Platform, Share, View } from 'react-native';
 import { OrderStatus } from '@favid-inc/api';
 import { SocialOrder } from '@favid-inc/api/lib/app-customer';
-
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 
 import { FlagIconFill, HeartIconFill, HeartIconOutline, ShareIconOutline } from '@src/assets/icons';
@@ -52,21 +51,16 @@ export class SocialButtonsComponent extends React.Component<Props, State> {
   }
 
   private onShare = async () => {
-    const { order: { artistArtisticName, videoUri } } = this.props;
+    const { order: { id, artistArtisticName } } = this.props;
+
+    const title = `Favid - Video exclusivo: ${artistArtisticName}`;
+    const url = `https://app.favid.com/orders/${id}`;
+    const message = `${title}, ${url}`;
 
     Share.share(
       Platform.select({
-        ios: {
-          title: `Favid - Video exclusivo: ${artistArtisticName}`,
-          url: videoUri,
-        },
-        android: {
-          title: `Favid - Video exclusivo: ${artistArtisticName}`,
-          message: `
-            Favid - Video exclusivo: ${artistArtisticName}
-            ${videoUri}
-          `,
-        },
+        ios: { title, url },
+        android: { title, message },
       }),
     );
   };
