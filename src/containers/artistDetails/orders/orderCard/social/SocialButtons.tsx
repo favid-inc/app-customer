@@ -54,7 +54,7 @@ export class SocialButtonsComponent extends React.Component<Props, State> {
     const { order: { id, artistArtisticName } } = this.props;
 
     const title = `Favid - Video exclusivo: ${artistArtisticName}`;
-    const url = `https://app.favid.com/orders/${id}`;
+    const url = `https://app.favid.com.br/orders/${id}`;
     const message = `${title}, ${url}`;
 
     Share.share(
