@@ -7,8 +7,7 @@ import React, { Component } from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
 import Modal from 'react-native-modal';
 
-import { OrderCard } from './orderCard';
-import { OrderCardProps } from './orderCard/OrderCard';
+import { OrderCard, OrderCardProps } from './orderCard';
 
 interface Props {
   orders: Order[];
@@ -51,8 +50,8 @@ class OrdersComponent extends Component<ThemedComponentProps & Props, State> {
               useNativeControls={true}
             />
           ) : (
-            <View style={{ height: '80%', backgroundColor: 'black' }} />
-          )}
+              <View style={{ height: '80%', backgroundColor: 'black' }} />
+            )}
           <Button appearance='filled' onPress={this.onModalRequestClose} size='giant' status='info'>
             Fechar
           </Button>
