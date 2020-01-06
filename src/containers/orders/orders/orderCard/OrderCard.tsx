@@ -1,18 +1,16 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { OrderPaymentStatus as OrderPaymentStatusType, OrderStatus as OrderStatusType } from '@favid-inc/api';
+import { OrderPaymentStatus as OrderPaymentStatusType } from '@favid-inc/api';
 import { SocialOrder as Order } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
 import React from 'react';
-import { ImageBackground, Linking, Platform, Share, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { ImageBackground, StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native';
 
-import { FlagIconFill, HeartIconFill, HeartIconOutline, ShareIconOutline } from '@src/assets/icons';
 import { ActivityAuthoring, textStyle } from '@src/components/common';
-import { likeOrder } from './likeOrder';
 import { OrderCardBottom } from './OrderCardBottom';
 import { OrderPaymentStatus } from './OrderPaymentStatus';
 import { OrderStatus } from './OrderStatus';
-import { unlikeOrder } from './unLikeOrder';
+import { SocialButtons } from './social';
 
 interface ComponentProps {
   order: Order;
@@ -44,17 +42,9 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
     return (
       <View {...restProps} style={[themedStyle.container, style]}>
         {order.videoThumbnailUri && (
-          <TouchableOpacity style={themedStyle.parameterContainer} onPress={this.onPress}>
-            <ImageBackground style={{ height: 220 }} source={{ uri: order.videoThumbnailUri }}>
-              <MaterialIcons
-                name='play-arrow'
-                size={100}
-                color='#FFF'
-                style={{
-                  textAlign: 'center',
-                  top: 60,
-                }}
-              />
+          <TouchableOpacity onPress={this.onPress}>
+            <ImageBackground style={themedStyle.thumbmnail} source={{ uri: order.videoThumbnailUri }}>
+              <MaterialIcons name='play-arrow' size={100} color='#FFF' style={themedStyle.playIcon} />
             </ImageBackground>
           </TouchableOpacity>
         )}
@@ -66,14 +56,7 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
               </Text>
             </View>
           </View>
-            <SocialButtons
-              sending={this.state.sending}
-              order={order}
-              onLike={this.onLike}
-              onReport={this.onReport}
-              onShare={this.onShare}
-              style={themedStyle}
-            />
+          <SocialButtons order={order} />
           <Text style={themedStyle.descriptionLabel} appearance='hint' category='s1'>
             {order.instructions}
           </Text>
@@ -85,11 +68,11 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
             date={new Date(order.statusPlacedDate).toLocaleDateString()}
           />
 
-          {[OrderPaymentStatusType.PAID, OrderPaymentStatusType.AUTHORIZED].includes(order.paymentStatus) ? (
-            <OrderStatus status={order.status} />
-          ) : (
-            <OrderPaymentStatus status={order.paymentStatus} />
-          )}
+          {
+            [OrderPaymentStatusType.PAID, OrderPaymentStatusType.AUTHORIZED].includes(order.paymentStatus)
+              ? <OrderStatus status={order.status} />
+              : <OrderPaymentStatus status={order.paymentStatus} />
+          }
         </OrderCardBottom>
 
         {[OrderPaymentStatusType.WAITING_PAYMENT, OrderPaymentStatusType.REFUSED].includes(order.paymentStatus) && (
@@ -101,91 +84,10 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
     );
   }
 
-  private onShare = async () => {
-    const { artistArtisticName, videoUri } = this.state.order;
-    Share.share(
-      Platform.select({
-        ios: {
-          title: `Favid - Video exclusivo: ${artistArtisticName}`,
-          url: videoUri,
-        },
-        android: {
-          title: `Favid - Video exclusivo: ${artistArtisticName}`,
-          message: `
-            Favid - Video exclusivo: ${artistArtisticName}
-            ${videoUri}
-          `,
-        },
-      }),
-    );
-  };
-
-  private onLike = async () => {
-    const { id: orderId, like, likes } = this.state.order;
-
-    this.setState({
-      sending: true,
-      order: {
-        ...this.state.order,
-        like: !like,
-        likes: likes + (like ? -1 : +1),
-      },
-    });
-    try {
-      const order = like ? await unlikeOrder({ orderId }) : await likeOrder({ orderId });
-      this.setState({ order });
-    } finally {
-      this.setState({ sending: false });
-    }
-  };
-
-  private onReport = () => {
-    Linking.openURL('https://www.favid.com.br/suporte/');
-  };
-
   private onPress = () => {
     this.props.onPress(this.state.order);
   };
 }
-
-const SocialButtons = ({ order, onLike, onReport, onShare, sending, style }) => (
-  <View style={{ flexDirection: 'row' }}>
-    {order.status === OrderStatusType.FULFILLED && (
-      <View style={style.socialButton}>
-        <Button onPress={onShare} size='small' status='info' icon={ShareIconOutline} appearance='ghost' />
-        <Text category='p2' appearance='hint' style={style.buttonLabel}>
-          compartilhar
-        </Text>
-      </View>
-    )}
-
-    {order.status === OrderStatusType.FULFILLED && (
-      <View style={style.socialButton}>
-        <Button
-          disabled={sending}
-          onPress={onLike}
-          size='small'
-          status='danger'
-          icon={order.like ? HeartIconFill : HeartIconOutline}
-          appearance='ghost'
-        />
-        {
-          order.likes ? (
-            <Text category='p2' appearance='hint' style={style.buttonLabel}>
-              { `${order.likes} ${order.likes > 1 ? 'curtidas' : 'curtida'}`}
-            </Text>
-          ) : null
-        }
-      </View>
-    )}
-    <View style={style.socialButton}>
-      <Button onPress={onReport} size='small' status='warning' icon={FlagIconFill} appearance='ghost' />
-      <Text category='p2' appearance='hint' style={style.buttonLabel}>
-        reportar
-      </Text>
-    </View>
-  </View>
-);
 
 export const OrderCard = withStyles<ComponentProps>(OrderCardComponent, (theme: ThemeType) => ({
   container: {
@@ -208,10 +110,11 @@ export const OrderCard = withStyles<ComponentProps>(OrderCardComponent, (theme: 
     marginTop: 16,
     ...textStyle.subtitle,
   },
-  socialLabel: {
+  playIcon: {
     textAlign: 'center',
+    top: 60,
   },
-  socialButton: {
-    marginHorizontal: 10,
+  thumbmnail: {
+    height: 220,
   },
 }));
