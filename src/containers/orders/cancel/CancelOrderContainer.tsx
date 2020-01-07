@@ -1,20 +1,17 @@
-import { Order } from '@favid-inc/api';
-import React, { Component } from 'react';
-import { Alert } from 'react-native';
+import React from 'react';
 import { NavigationScreenProps } from 'react-navigation';
-import { Text } from '@kitten/ui';
+import { Order } from '@favid-inc/api';
 
-type Props = NavigationScreenProps;
+import { CancelOrder } from './CancelOrder';
 
-interface State {
-  order?: Order;
-}
+export type Props = NavigationScreenProps;
 
-export class CancelContainer extends Component<Props, State> {
-
+export class CancelOrderContainer extends React.Component<Props> {
   public render() {
+    const order: Order = this.props.navigation.getParam('order');
+
     return (
-      <Text>teste</Text>
+      <CancelOrder order={order} />
     );
   }
 }

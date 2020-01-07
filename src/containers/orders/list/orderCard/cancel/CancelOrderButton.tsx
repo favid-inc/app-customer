@@ -12,7 +12,7 @@ export const CancelOrderButton: React.FunctionComponent<Props> = ({ order }) => 
   const { navigate } = useNavigation();
 
   const onPress = React.useCallback(() => {
-    navigate('Cancelar', { order });
+    navigate('Cancelar Pedido', { order });
   }, [order, navigate]);
 
   return (

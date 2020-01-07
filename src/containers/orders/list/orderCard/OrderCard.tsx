@@ -66,7 +66,7 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
           <ActivityAuthoring
             photo={{ uri: order.artistPhotoUri }}
             name={order.artistArtisticName}
-            date={new Date(order.statusPlacedDate).toLocaleDateString()}
+            date={formatDate(new Date(order.statusPlacedDate))}
           />
 
           {
@@ -76,12 +76,11 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
           }
         </OrderCardBottom>
 
-        {order.pagarMeTransactionId && (
-          <CancelOrderButton order={order} />
-        )}
-
         {[OrderPaymentStatusType.WAITING_PAYMENT, OrderPaymentStatusType.REFUSED].includes(order.paymentStatus) && (
-          <PayOrderButton order={order} />
+          <>
+            <CancelOrderButton order={order} />
+            <PayOrderButton order={order} />
+          </>
         )}
       </View>
     );
@@ -90,6 +89,11 @@ class OrderCardComponent extends React.Component<OrderCardProps, State> {
   private onDetails = () => {
     this.props.onDetails(this.state.order);
   };
+}
+
+function formatDate(date: Date) {
+  const [, year, month, day] = date.toISOString().match(/(\d+)-(\d+)-(\d+)/);
+  return `${day}/${month}/${year}`;
 }
 
 export const OrderCard = withStyles<ComponentProps>(OrderCardComponent, (theme: ThemeType) => ({
