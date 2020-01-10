@@ -4,11 +4,11 @@ import { View } from 'react-native';
 
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 
-type ComponentProps = ButtonProps & {
+export type SocialButtonProps = ButtonProps & {
   children: TextProps['children'];
 };
 
-export type Props = ThemedComponentProps & ComponentProps;
+export type Props = ThemedComponentProps & SocialButtonProps;
 
 export class SocialButtonComponent extends React.Component<Props> {
 
@@ -28,7 +28,7 @@ export class SocialButtonComponent extends React.Component<Props> {
   }
 }
 
-export const SocialButton = withStyles<ComponentProps>(SocialButtonComponent, (theme: ThemeType) => ({
+export const SocialButton = withStyles<SocialButtonProps>(SocialButtonComponent, (theme: ThemeType) => ({
   label: {
     textAlign: 'center',
   },

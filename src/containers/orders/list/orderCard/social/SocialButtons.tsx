@@ -5,8 +5,8 @@ import { SocialOrder } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 
 import { FlagIconFill, HeartIconFill, HeartIconOutline, ShareIconOutline } from '@src/assets/icons';
+import { SocialButton } from '@src/components/common';
 
-import { SocialButton } from './SocialButton';
 import { likeOrder } from './likeOrder';
 import { unlikeOrder } from './unlikeOrder';
 
