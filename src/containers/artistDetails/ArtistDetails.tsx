@@ -1,18 +1,14 @@
 import { ArtistRate } from '@favid-inc/api';
 import { SocialArtist as Artist } from '@favid-inc/api/lib/app-customer';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { Button, Text } from '@kitten/ui';
+import { Button, Text, Avatar } from '@kitten/ui';
 import React from 'react';
 import { ActivityIndicator, Dimensions, View } from 'react-native';
 
-// import { imageProfile7Bg, ImageSource } from '@src/assets/images';
-// import { Chips, ContainerView, ImageOverlay, RateBar, textStyle } from '@src/components/common';
 import { Chips, ContainerView, RateBar, textStyle } from '@src/components/common';
 import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
-// import { VideoPlayer } from '@src/components/videoPlayer';
 
 import { ArtistReviewsResume } from '../artists/review/ArtistReviewsResume';
-// import { ProfileInfo } from './profileInfo.component';
 import { ProfileSocials } from './profileSocials.component';
 import { Video } from 'expo-av';
 
@@ -63,13 +59,16 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
           />
         )}
         <View style={themedStyle.profileInfoContainer}>
-          <View style={themedStyle.subtitle}>
-            <Text category='h5' style={themedStyle.subtitleText}>
-              {artist.artisticName}
-            </Text>
-            <Text category='h6' style={themedStyle.subtitleText}>
-              {artist.mainCategory}
-            </Text>
+          <View style={themedStyle.row}>
+            <Avatar size='giant' source={{ uri: artist.photoUri }} />
+            <View style={themedStyle.subtitle}>
+              <Text category='h5' style={themedStyle.subtitleText}>
+                {artist.artisticName}
+              </Text>
+              <Text category='h6' style={themedStyle.subtitleText}>
+                {artist.mainCategory}
+              </Text>
+            </View>
           </View>
           <Button
             appearance={artist.follower ? 'outline' : 'filled'}
@@ -99,7 +98,7 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
           {this.props.cameoOrdered ? 'Pendente' : `Pedir por R$ ${artist.price}`}
         </Button>
 
-        <View style={[themedStyle.profileSection, themedStyle.aboutSection]}>
+        <View style={themedStyle.aboutSection}>
           {artist.categories && artist.categories.length && (
             <ShowcaseSection title='Tags' style={themedStyle.section}>
               <View style={themedStyle.categories}>
@@ -171,19 +170,19 @@ const ArtistRates = (props) => {
   const reviewList = props.loading ? (
     <ActivityIndicator size='large' />
   ) : (
-    <View>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text category='h5' style={{ fontFamily: 'opensans-bold' }}>{`${props.artistRates.length} Avaliações`}</Text>
-        <Button onPress={props.onReview} size='giant' appearance='ghost'>
-          Avaliar
+      <View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text category='h5' style={{ fontFamily: 'opensans-bold' }}>{`${props.artistRates.length} Avaliações`}</Text>
+          <Button onPress={props.onReview} size='giant' appearance='ghost'>
+            Avaliar
         </Button>
+        </View>
+        {props.artistRates.slice(0, props.showRates).map((rate, i) => (
+          <ArtistReviewsResume key={i} {...rate} />
+        ))}
+        {showMore}
       </View>
-      {props.artistRates.slice(0, props.showRates).map((rate, i) => (
-        <ArtistReviewsResume key={i} {...rate} />
-      ))}
-      {showMore}
-    </View>
-  );
+    );
 
   return (
     <View style={{ paddingHorizontal: 20, paddingVertical: 30, backgroundColor: '#f9f9f9' }}>
@@ -204,6 +203,10 @@ const ArtistRates = (props) => {
 };
 
 export const ArtistDetails = withStyles<ComponentProps>(ArtistDetailsComponent, (theme: ThemeType) => ({
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+  },
   profileInfoContainer: {
     paddingHorizontal: 24,
     paddingVertical: 24,
@@ -213,15 +216,6 @@ export const ArtistDetails = withStyles<ComponentProps>(ArtistDetailsComponent, 
     justifyContent: 'space-evenly',
     paddingVertical: 15,
   },
-  actionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: 32,
-  },
-  profileSection: {
-    marginTop: 32,
-  },
   profileSectionContent: {
     marginTop: 8,
   },
@@ -229,24 +223,20 @@ export const ArtistDetails = withStyles<ComponentProps>(ArtistDetailsComponent, 
     color: theme['color-primary-default'],
   },
   orderButton: {
+    ...textStyle.label,
     flex: 1,
-    fontFamily: 'opensans-bold',
+    marginVertical: 10,
   },
   subtitle: {
     flex: 1,
     ...textStyle.subtitle,
-    paddingVertical: 5,
-    marginHorizontal: 5,
+    marginHorizontal: 10,
   },
   subtitleText: {
     ...textStyle.subtitle,
     fontFamily: 'opensans-bold',
     textAlign: 'left',
     color: theme['color-primary-default'],
-  },
-  profileSectionLabel: {
-    marginHorizontal: 16,
-    ...textStyle.subtitle,
   },
   aboutSection: {
     marginHorizontal: 20,
@@ -257,9 +247,6 @@ export const ArtistDetails = withStyles<ComponentProps>(ArtistDetailsComponent, 
   },
   shotsSection: {
     marginBottom: 22,
-  },
-  friendsList: {
-    paddingHorizontal: 12,
   },
   chipsText: {
     color: 'white',
