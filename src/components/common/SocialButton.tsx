@@ -16,11 +16,12 @@ export class SocialButtonComponent extends React.Component<Props> {
     const {
       children,
       themedStyle,
+      style,
       ...props
     } = this.props;
 
     return (
-      <View style={themedStyle.button}>
+      <View style={[themedStyle.button, style]}>
         <Button size='small' appearance='ghost' {...props} />
         <Text category='p2' appearance='hint' style={themedStyle.label}>{children}</Text>
       </View>

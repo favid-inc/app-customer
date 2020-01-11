@@ -5,12 +5,13 @@ import { Button, Text, Avatar } from '@kitten/ui';
 import React from 'react';
 import { ActivityIndicator, Dimensions, View } from 'react-native';
 
-import { Chips, ContainerView, RateBar, textStyle } from '@src/components/common';
+import { Chips, ContainerView, RateBar, textStyle, SocialButton } from '@src/components/common';
 import { ShowcaseSection } from '@src/components/common/showcaseSection.component';
 
 import { ArtistReviewsResume } from '../artists/review/ArtistReviewsResume';
 import { ProfileSocials } from './profileSocials.component';
 import { Video } from 'expo-av';
+import { FlagIconFill, ShareIconOutline, PlusIconFill } from '@src/assets/icons';
 
 interface ComponentProps {
   artist: Artist;
@@ -22,8 +23,8 @@ interface ComponentProps {
   onFollowersPress: () => void;
   onFollowingPress: () => void;
   onOrdersPress: () => void;
-  onFriendPress: (index: number) => void;
-  onPhotoPress: (index: number) => void;
+  onSharePress: () => void;
+  onReportPress: () => void;
   onReview: () => void;
   sending: boolean;
   loading: boolean;
@@ -70,20 +71,39 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
               </Text>
             </View>
           </View>
-          <Button
-            appearance={artist.follower ? 'outline' : 'filled'}
-            disabled={this.props.sending}
-            onPress={this.onFollowPress}
-            size='large'
-            style={themedStyle.orderButton}
-          >
-            {artist.follower ? 'Seguindo' : 'Seguir'}
-          </Button>
+          <View style={themedStyle.row}>
+            <SocialButton
+              appearance={artist.follower ? 'outline' : 'filled'}
+              disabled={this.props.sending}
+              icon={PlusIconFill}
+              onPress={this.props.onFollowPress}
+              status='primary'
+              style={themedStyle.socialsButton}
+            >
+              {artist.follower ? 'seguindo' : 'seguir'}
+            </SocialButton>
+            <SocialButton
+              icon={ShareIconOutline}
+              onPress={this.props.onSharePress}
+              status='info'
+              style={themedStyle.socialsButton}
+            >
+              compartilhar
+            </SocialButton>
+            <SocialButton
+              icon={FlagIconFill}
+              onPress={this.props.onReportPress}
+              status='warning'
+              style={themedStyle.socialsButton}
+            >
+              reportar
+            </SocialButton>
+          </View>
           <ProfileSocials
             artist={artist}
-            onFollowersPress={this.onFollowersPress}
-            onFollowingPress={this.onFollowingPress}
-            onOrdersPress={this.onOrdersPress}
+            onFollowersPress={this.props.onFollowersPress}
+            onFollowingPress={this.props.onFollowingPress}
+            onOrdersPress={this.props.onOrdersPress}
             style={themedStyle.profileSocials}
             textStyle={themedStyle.socialsLabel}
           />
@@ -93,7 +113,7 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
           size='giant'
           style={themedStyle.orderButton}
           status={this.props.cameoOrdered ? 'white' : 'success'}
-          onPress={this.onOrderPress}
+          onPress={this.props.onOrderPress}
         >
           {this.props.cameoOrdered ? 'Pendente' : `Pedir por R$ ${artist.price}`}
         </Button>
@@ -123,7 +143,7 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
           loading={loading}
           artist={artist}
           showRates={this.state.showRates}
-          onReview={this.onReview}
+          onReview={this.props.onReview}
           artistRates={artistRates}
           showMore={this.showMore}
           showLess={this.showLess}
@@ -135,28 +155,6 @@ class ArtistDetailsComponent extends React.Component<Props, State> {
   public showMore = () => this.setState({ showRates: this.state.showRates + 5 });
 
   public showLess = () => this.setState({ showRates: 5 });
-
-  private onReview = () => this.props.onReview();
-
-  private onFollowPress = () => {
-    this.props.onFollowPress();
-  };
-
-  private onOrderPress = () => {
-    this.props.onOrderPress();
-  };
-
-  private onFollowersPress = () => {
-    this.props.onFollowersPress();
-  };
-
-  private onFollowingPress = () => {
-    this.props.onFollowingPress();
-  };
-
-  private onOrdersPress = () => {
-    this.props.onOrdersPress();
-  };
 }
 
 const ArtistRates = (props) => {
@@ -206,6 +204,7 @@ export const ArtistDetails = withStyles<ComponentProps>(ArtistDetailsComponent, 
   row: {
     flex: 1,
     flexDirection: 'row',
+    marginVertical: 16,
   },
   profileInfoContainer: {
     paddingHorizontal: 24,
@@ -218,6 +217,9 @@ export const ArtistDetails = withStyles<ComponentProps>(ArtistDetailsComponent, 
   },
   profileSectionContent: {
     marginTop: 8,
+  },
+  socialsButton: {
+    flex: 1,
   },
   socialsLabel: {
     color: theme['color-primary-default'],

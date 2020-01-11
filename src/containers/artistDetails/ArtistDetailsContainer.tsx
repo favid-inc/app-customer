@@ -2,7 +2,7 @@ import { ArtistRate } from '@favid-inc/api';
 import { Order } from '@favid-inc/api';
 import { SocialArtist as Artist } from '@favid-inc/api/lib/app-customer';
 import React from 'react';
-import { Alert, RefreshControl } from 'react-native';
+import { Alert, RefreshControl, Share, Platform, Linking } from 'react-native';
 import { NavigationEventSubscription, NavigationScreenProps } from 'react-navigation';
 
 import { ContainerView } from '@src/components/common';
@@ -76,10 +76,10 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
           onFollowersPress={this.onFollowersPress}
           onFollowingPress={this.onFollowingPress}
           onFollowPress={this.onFollowPress}
-          onFriendPress={this.onFriendPress}
+          onSharePress={this.onSharePress}
           onOrderPress={this.onOrderPress}
           onOrdersPress={this.onOrdersPress}
-          onPhotoPress={this.onPhotoPress}
+          onReportPress={this.onReportPress}
           onReview={this.onReview}
           sending={this.state.sending}
         />
@@ -163,7 +163,22 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
 
   private onOrdersPress = () => { };
 
-  private onFriendPress = (index: number) => { };
+  private onSharePress = async () => {
+    const { artist: { slug, artisticName } } = this.state;
 
-  private onPhotoPress = (index: number) => { };
+    const title = `Confira ${artisticName} no Favid: `;
+    const url = `https://app.favid.com.br/artists/${slug}`;
+    const message = `${title}, ${url}`;
+
+    Share.share(
+      Platform.select({
+        ios: { title, url },
+        android: { title, message },
+      }),
+    );
+  };
+
+  private onReportPress = () => {
+    Linking.openURL('https://www.favid.com.br/suporte/');
+  };
 }
