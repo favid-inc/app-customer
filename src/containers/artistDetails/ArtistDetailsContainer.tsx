@@ -166,7 +166,7 @@ export class ArtistDetailsContainer extends React.Component<Props, State> {
   private onSharePress = async () => {
     const { artist: { slug, artisticName } } = this.state;
 
-    const title = `Confira ${artisticName} no Favid: `;
+    const title = `Confira ${artisticName} no Favid`;
     const url = `https://app.favid.com.br/artists/${slug}`;
     const message = `${title}, ${url}`;
 

@@ -59,7 +59,7 @@ export class SocialButtonsComponent extends React.Component<Props, State> {
   private onShare = async () => {
     const { order: { id, artistArtisticName } } = this.state;
 
-    const title = `Favid - Video exclusivo: ${artistArtisticName}`;
+    const title = `Video exclusivo de ${artistArtisticName} no Favid`;
     const url = `https://app.favid.com.br/orders/${id}`;
     const message = `${title}, ${url}`;
 
